@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Comment fonctionne l’IA ? – Hocine Korichi</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  
+  <style>
+    body {
+      margin: 0;
+      font-family: system-ui, sans-serif;
+      background: #020617;
+      color: #e5e7eb;
+    }
+
+    /* HEADER + MENU */
+    header {
+      padding: 16px 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #1f2937;
+      background: radial-gradient(circle at top left, #1f2937, #020617 60%);
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      box-shadow: 0 0 18px rgba(0,0,0,0.7);
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .logo-mark {
+      width: 32px;
+      height: 32px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #ef4444, #f97316);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #111827;
+      box-shadow: 0 0 10px rgba(248,113,113,0.6);
+    }
+    .logo-text {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.1;
+    }
+    .logo-text span:first-child {
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+    .logo-text span:last-child {
+      font-size: 0.78rem;
+      color: #9ca3af;
+    }
+
+    nav a {
+      margin-left: 18px;
+      text-decoration: none;
+      color: #e5e7eb;
+      font-size: 0.9rem;
+      transition: 0.2s ease;
+    }
+    nav a:hover {
+      color: #f97316;
+      text-shadow: 0 0 6px rgba(248,113,113,0.7);
+    }
+
+    main {
+      max-width: 1040px;
+      margin: 0 auto;
+      padding: 26px 16px 60px;
+    }
+
+    h1 {
+      font-size: 1.9rem;
+      margin: 0 0 10px;
+      color: #fee2e2;
+      text-shadow: 0 0 8px rgba(248,113,113,0.8);
+    }
+    h2 {
+      font-size: 1.35rem;
+      margin: 0 0 6px;
+      color: #e5e7eb;
+    }
+    h3 {
+      font-size: 1.05rem;
+      margin: 16px 0 4px;
+      color: #f9a8d4;
+    }
+    p, li {
+      font-size: 0.96rem;
+      line-height: 1.6;
+    }
+
+    .subtitle { color: #fecaca; }
+    .intro { font-size: 0.95rem; line-height: 1.65; color: #cbd5f5; margin-bottom: 22px; }
+
+    /* BLOC ROUGE (plan ou encadré) */
+    .red-box {
+      background: #1a0b0b;
+      border-radius: 16px;
+      border: 1px solid #b91c1c;
+      padding: 16px 18px;
+      margin-bottom: 26px;
+      box-shadow: 0 0 14px rgba(220, 38, 38, 0.4);
+      font-size: 0.95rem;
+    }
+    .red-box h2 {
+      margin: 0 0 8px;
+      font-size: 1.12rem;
+      color: #f87171;
+      text-shadow: 0 0 6px rgba(248,113,113,0.6);
+    }
+
+    .badge {
+      display: inline-block;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 3px 8px;
+      border-radius: 999px;
+      border: 1px solid #38bdf8;
+      color: #7dd3fc;
+      margin-bottom: 8px;
+    }
+
+    section {
+      margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid #1f2937;
+    }
+    section:last-of-type { border-bottom: none; }
+
+    .encadre {
+      background: #020617;
+      border-radius: 14px;
+      border: 1px solid #1e3a8a;
+      padding: 12px 14px;
+      margin-top: 10px;
+      font-size: 0.93rem;
+      box-shadow: 0 0 8px rgba(56,189,248,0.18);
+    }
+
+    .illustration {
+      width: 100%;
+      border-radius: 14px;
+      margin: 12px 0 16px;
+      box-shadow: 0 0 16px rgba(0,0,0,0.7);
+      border: 1px solid rgba(148,163,184,0.4);
+    }
+
+    footer {
+      margin-top: 20px;
+      padding: 18px 24px;
+      font-size: 0.8rem;
+      color: #94a3b8;
+      text-align: center;
+      border-top: 1px solid #1f2937;
+      background: #020617;
+    }
+
+    @media (max-width: 720px) {
+      header { flex-direction: column; align-items: flex-start; gap: 10px; }
+      nav { display: flex; flex-wrap: wrap; }
+      nav a { margin-left: 0; margin-right: 14px; margin-top: 4px; }
+    }
+  </style>
+
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <div class="logo-mark">HK</div>
+    <div class="logo-text">
+      <span>Hocine Korichi</span>
+      <span>IA pédagogique & sciences</span>
+    </div>
+  </div>
+ <nav>
+    <a href="index.html">Accueil</a>
+	<a href="ia-cest-quoi.html">C'est quoi IA ?</a>
+    <a href="applications-ia.html">Applications de l’IA</a>
+    <a href="cours-ia-generative-detaille.html">Cours ChatGPT & IA générative</a>
+    <a href="programme-modules-ia.html">Modules du cours</a>
+    <a href="quiz-ia-generative.html">Quiz IA</a>
+    <a href="ressources.html">Ressources</a>
+    <a href="a-propos.html">À propos</a>
+   </nav>
+</header>
+
+<main>
+  <h1>Comment fonctionne une IA&nbsp;?</h1>
+  <p class="subtitle">Du jeu de données au cerveau numérique qui prend des décisions.</p>
+
+  <img src="https://images.unsplash.com/photo-1518770660439-4636190af475"
+       alt="Schéma de fonctionnement IA"
+       class="illustration">
+
+  <div class="red-box">
+    <h2>Objectifs de cette page</h2>
+    <ul>
+      <li>Comprendre les grandes étapes du cycle de vie d’un système d’IA.</li>
+      <li>Visualiser le rôle des données, de l’entraînement et de l’évaluation.</li>
+      <li>Faire le lien avec l’idée de <strong>cerveau numérique</strong>.</li>
+    </ul>
+  </div>
+
+  <section>
+    <div class="badge">Étape 1</div>
+    <h2>Collecte des données</h2>
+    <p>
+      Toute IA commence par des <strong>données</strong> : textes, images, sons, mesures, capteurs,
+      historiques de transactions, etc. Plus les données sont variées et de qualité, meilleur
+      sera le modèle.
+    </p>
+    <div class="encadre">
+      Exemple : pour entraîner une IA de reconnaissance d’images médicales, il faut des milliers
+      d’images annotées par des spécialistes (radiologues, médecins).
+    </div>
+  </section>
+
+  <section>
+    <div class="badge">Étape 2</div>
+    <h2>Préparation et nettoyage</h2>
+    <p>
+      Les données réelles sont souvent imparfaites : erreurs, doublons, données manquantes,
+      formats différents. On doit donc les <strong>nettoyer</strong>, les <strong>mettre en forme</strong>
+      et parfois les <strong>anonymiser</strong> pour respecter la vie privée.
+    </p>
+  </section>
+
+  <section>
+    <div class="badge">Étape 3</div>
+    <h2>Entraînement du modèle</h2>
+    <p>
+      On choisit un type de modèle (réseau de neurones, arbre de décision, etc.) et on le
+      laisse « apprendre » à partir des données. C’est la phase d’<strong>entraînement</strong> :
+      le modèle ajuste des millions ou des milliards de paramètres pour réduire ses erreurs.
+    </p>
+    <div class="encadre">
+      Image mentale : le modèle essaie, se trompe, corrige, réessaie, des milliers de fois.
+      Comme un élève qui s’exerce en corrigeant ses devoirs.
+    </div>
+  </section>
+
+  <section>
+    <div class="badge">Étape 4</div>
+    <h2>Évaluation et validation</h2>
+    <p>
+      On teste ensuite le modèle sur des données qu’il n’a jamais vues. Objectif : vérifier
+      qu’il ne s’est pas contenté de mémoriser, mais qu’il <strong>généralise</strong> bien à
+      de nouveaux exemples.
+    </p>
+  </section>
+
+  <section>
+    <div class="badge">Étape 5</div>
+    <h2>Déploiement : mettre l’IA au travail</h2>
+    <p>
+      Une fois validé, le modèle est intégré dans une application réelle : site web, application
+      mobile, système embarqué, robot, etc. Il devient alors un « cerveau numérique » au service
+      d’une tâche précise.
+    </p>
+  </section>
+
+  <section>
+    <div class="badge">Cycle complet</div>
+    <h2>Un cycle qui se répète</h2>
+    <p>
+      Dans la pratique, ce processus est <strong>cyclique</strong>. On revient régulièrement en
+      arrière pour ajouter de nouvelles données, corriger des biais, améliorer le modèle,
+      adapter l’IA à de nouveaux contextes.
+    </p>
+    <div class="encadre">
+      <strong>Idée clé :</strong> une IA n’est jamais « terminée » une fois pour toutes. Elle doit
+      être surveillée, corrigée et améliorée, comme tout système vivant dans un environnement qui change.
+    </div>
+  </section>
+</main>
+<footer>
+  © <span id="year"></span> Hocine Korichi – Site pédagogique sur l’intelligence artificielle.
+</footer>
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>

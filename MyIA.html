@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Cours : ChatGPT et l'IA générative – Hocine Korichi</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #0a0f1a;
+      color: #e5e7eb;
+    }
+    header {
+      padding: 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #1f2937;
+      background: #0d1b2a;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      box-shadow: 0 0 12px rgba(0,0,0,0.5);
+    }
+    header .logo {
+      font-weight: 700;
+      font-size: 1.2rem;
+      color: #38bdf8;
+    }
+    nav a {
+      margin-left: 20px;
+      text-decoration: none;
+      color: #e5e7eb;
+      font-size: 0.95rem;
+      transition: 0.2s ease;
+    }
+    nav a:hover {
+      color: #38bdf8;
+      text-shadow: 0 0 6px #38bdf8;
+    }
+
+    main {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 40px 20px 60px;
+    }
+    h1 {
+      font-size: 2.1rem;
+      margin-bottom: 8px;
+      color: #7dd3fc;
+      text-shadow: 0 0 8px rgba(125,211,252,0.5);
+    }
+    .subtitle {
+      color: #9ca3af;
+      margin-bottom: 10px;
+    }
+    .author {
+      font-size: 0.95rem;
+      color: #a5f3fc;
+      margin-bottom: 24px;
+    }
+    .intro {
+      font-size: 0.95rem;
+      line-height: 1.6;
+      color: #cbd5f5;
+      margin-bottom: 24px;
+    }
+
+    /* ---------------------------------------------------------- */
+    /* ----------- PLAN DE COURS – THEME ROUGE CLAIR ------------ */
+    /* ---------------------------------------------------------- */
+    .toc {
+      background: #1a0b0b;
+      border-radius: 16px;
+      border: 1px solid #b91c1c;
+      padding: 18px 20px;
+      margin-bottom: 32px;
+      box-shadow: 0 0 14px rgba(220, 38, 38, 0.4);
+    }
+    .toc h2 {
+      margin-top: 0;
+      font-size: 1.15rem;
+      color: #f87171; /* rouge clair */
+      text-shadow: 0 0 6px rgba(248, 113, 113, 0.6);
+    }
+    .toc ul {
+      margin: 0;
+      padding-left: 20px;
+      font-size: 1rem;
+    }
+    .toc ul li {
+      margin: 8px 0;
+    }
+    .toc a {
+      color: #fecaca; /* rose clair */
+      font-weight: 600;
+      text-decoration: none;
+      transition: 0.25s ease;
+    }
+    .toc a:hover {
+      color: #fca5a5; /* rose pastel */
+      text-shadow: 0 0 8px rgba(252, 165, 165, 0.7);
+      padding-left: 4px;
+    }
+
+    /* ---------------------------------------------------------- */
+
+    section {
+      margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid #1f2937;
+    }
+    section:last-of-type { border-bottom: none; }
+
+    h2 {
+      font-size: 1.4rem;
+      margin-bottom: 8px;
+      margin-top: 0;
+      color: #7dd3fc;
+    }
+
+    h3 {
+      font-size: 1.15rem;
+      margin-bottom: 6px;
+      margin-top: 18px;
+      color: #a5f3fc;
+    }
+
+    p, li {
+      font-size: 0.96rem;
+      line-height: 1.6;
+    }
+
+    ul { padding-left: 20px; }
+
+    .badge {
+      display: inline-block;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 4px 8px;
+      border-radius: 999px;
+      border: 1px solid #38bdf8;
+      color: #38bdf8;
+      margin-bottom: 8px;
+    }
+
+    .encadre, .quiz, .activite, .objectif {
+      background: #0f172a;
+      border-radius: 14px;
+      border: 1px solid #1e3a8a;
+      padding: 14px 16px;
+      margin-top: 14px;
+      font-size: 0.95rem;
+      box-shadow: 0 0 8px rgba(56,189,248,0.2);
+    }
+    footer {
+      margin-top: 20px;
+      padding: 20px 40px;
+      font-size: 0.8rem;
+      color: #94a3b8;
+      text-align: center;
+      border-top: 1px solid #1f2937;
+      background: #0d1b2a;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">IA Pédagogique</div>
+    <nav>
+      <a href="index.html">Accueil</a>
+      <a href="ia-cest-quoi.html">C’est quoi l’IA ?</a>
+      <a href="fonctionnement-ia.html">Comment ça marche ?</a>
+      <a href="applications-ia.html">Applications</a>
+      <a href="cours-chatgpt-ia-generative.html">Cours IA générative</a>
+      <a href="a-propos.html">À propos</a>
+    </nav>
+  </header>
+
+  <main>
+    <h1>Cours : ChatGPT et l’IA générative</h1>
+    <p class="subtitle">
+      Un parcours structuré pour comprendre l’intelligence artificielle, les modèles de langage
+      et l’IA générative, du niveau débutant au niveau intermédiaire.
+    </p>
+    <p class="author">
+      Par <strong>Hocine Korichi</strong>, ingénieur physicien et informaticien.
+    </p>
+
+    <p class="intro">
+      Ce cours pédagogique présente l’IA de manière claire, accessible et moderne.  
+      Il est idéal pour les enseignants, les étudiants, les professionnels ou toute personne
+      souhaitant comprendre ce que l’IA peut… et ne peut pas faire.
+    </p>
+
+    <!-- TABLE DES MATIÈRES EN ROUGE -->
+    <aside class="toc">
+      <h2>Plan du cours</h2>
+      <ul>
+        <li><a href="#module1">Module 1 – Découvrir l’IA et ChatGPT</a></li>
+        <li><a href="#module2">Module 2 – Modèles génératifs et LLM</a></li>
+        <li><a href="#module3">Module 3 – Histoire de l’IA</a></li>
+        <li><a href="#module4">Module 4 – IA, limites et société</a></li>
+        <li><a href="#ressources">Ressources pour aller plus loin</a></li>
+      </ul>
+    </aside>
+
+    <!-- ------------------------------------------ -->
+    <!-- MODULE 1 -->
+    <!-- ------------------------------------------ -->
+
+    <section id="module1">
+      <div class="badge">Module 1</div>
+      <h2>Découvrir l’IA et ChatGPT</h2>
+
+      <div class="objectif">
+        <strong>Objectifs du module :</strong>
+        <ul>
+          <li>Comprendre ce qu’est une IA en termes simples.</li>
+          <li>Reconnaître les IA du quotidien.</li>
+          <li>Découvrir les forces et limites de ChatGPT.</li>
+        </ul>
+      </div>
+
+      <h3>C’est quoi l’intelligence artificielle ?</h3>
+      <p>
+        L’IA regroupe un ensemble de techniques permettant aux machines de réaliser des tâches
+        normalement réservées à l’humain : comprendre, reconnaître, analyser, prévoir.
+      </p>
+
+      <h3>Exemples d’IA autour de toi</h3>
+      <ul>
+        <li>Déverrouillage facial du téléphone</li>
+        <li>Recommandations YouTube, TikTok, Netflix</li>
+        <li>Traduction automatique</li>
+        <li>Assistants vocaux (Siri, Google Assistant)</li>
+        <li>Détection de fraude bancaire</li>
+      </ul>
+
+      <h3>ChatGPT : le modèle qui parle</h3>
+      <p>
+        ChatGPT est un modèle de langage capable de générer des réponses cohérentes,
+        d’expliquer des notions, de reformuler un texte et même de proposer des idées.
+      </p>
+
+      <div class="quiz">
+        <strong>Mini-quiz :</strong>
+        <ul>
+          <li>ChatGPT ressent-il des émotions ? → Non</li>
+          <li>ChatGPT peut-il inventer ? → Oui (c’est même sa force)</li>
+          <li>Peut-on lui faire confiance à 100 % ? → Non</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ------------------------------------------ -->
+    <!-- MODULE 2 -->
+    <!-- ------------------------------------------ -->
+    <section id="module2">
+      <div class="badge">Module 2</div>
+      <h2>Modèles génératifs et LLM</h2>
+
+      <h3>Qu’est-ce qu’un modèle génératif ?</h3>
+      <p>
+        C’est un modèle qui apprend à partir d’exemples pour créer ensuite du contenu nouveau :
+        texte, musique, images, code.
+      </p>
+
+      <h3>LLM : Large Language Model</h3>
+      <p>
+        Un LLM est un modèle de langage avec des milliards de paramètres, entraîné sur
+        d’immenses corpus de textes.  
+        Il ne comprend pas comme un humain : il prédit le mot le plus probable.
+      </p>
+
+      <h3>Importance du prompt</h3>
+      <p>
+        Le « prompt » est la consigne donnée à l’IA.  
+        Une IA bien guidée produit de meilleures réponses.
+      </p>
+    </section>
+
+    <!-- ------------------------------------------ -->
+    <!-- MODULE 3 -->
+    <!-- ------------------------------------------ -->
+    <section id="module3">
+      <div class="badge">Module 3</div>
+      <h2>Histoire de l’IA</h2>
+
+      <h3>Les débuts</h3>
+      <ul>
+        <li>1950 – Alan Turing : « Les machines peuvent-elles penser ? »</li>
+        <li>1956 – Naissance officielle du terme « intelligence artificielle »</li>
+      </ul>
+
+      <h3>Le perceptron (1958)</h3>
+      <p>
+        Premier modèle inspiré du neurone biologique, base des réseaux modernes.
+      </p>
+
+      <h3>Les hivers de l’IA</h3>
+      <p>
+        Périodes où l’IA a perdu en financement faute de résultats rapides.
+      </p>
+
+      <h3>Le renouveau (années 2010)</h3>
+      <p>
+        Explosion du deep learning → reconnaissance d’images, traduction, jeux (AlphaGo).
+      </p>
+    </section>
+
+    <!-- ------------------------------------------ -->
+    <!-- MODULE 4 -->
+    <!-- ------------------------------------------ -->
+    <section id="module4">
+      <div class="badge">Module 4</div>
+      <h2>IA, limites et société</h2>
+
+      <h3>Limites</h3>
+      <ul>
+        <li>Peut inventer des informations</li>
+        <li>Pas de conscience réelle</li>
+        <li>Dépend des données fournies</li>
+      </ul>
+
+      <h3>Risques</h3>
+      <ul>
+        <li>Biais</li>
+        <li>Désinformation</li>
+        <li>Dépendance à l’outil</li>
+      </ul>
+    </section>
+
+    <!-- ------------------------------------------ -->
+    <!-- RESSOURCES -->
+    <!-- ------------------------------------------ -->
+    <section id="ressources">
+      <div class="badge">Ressources</div>
+      <h2>Ressources externes</h2>
+
+      <ul>
+        <li>Machine Learning – Andrew Ng</li>
+        <li>Elements of AI</li>
+        <li>deeplearning.ai</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer>
+    © <span id="year"></span> Hocine Korichi – Cours « ChatGPT et l’IA générative ».
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>

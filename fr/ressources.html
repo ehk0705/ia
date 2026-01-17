@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Ressources & Références – IA</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    body { margin:0; font-family:system-ui,sans-serif; background:#020617; color:#e5e7eb; }
+    header {
+      padding:16px 28px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      border-bottom:1px solid #1f2937;
+      background:radial-gradient(circle at top left,#1f2937,#020617 60%);
+      position:sticky; top:0; z-index:20;
+      box-shadow:0 0 18px rgba(0,0,0,0.7);
+    }
+    .logo{display:flex;align-items:center;gap:10px;}
+    .logo-mark{
+      width:32px;height:32px;border-radius:999px;
+      background:linear-gradient(135deg,#ef4444,#f97316);
+      display:flex;align-items:center;justify-content:center;
+      font-size:0.8rem;font-weight:700;color:#111827;
+      box-shadow:0 0 10px rgba(248,113,113,0.6);
+    }
+    .logo-text{display:flex;flex-direction:column;line-height:1.1;}
+    .logo-text span:first-child{font-weight:700;font-size:0.95rem;}
+    .logo-text span:last-child{font-size:0.78rem;color:#9ca3af;}
+    nav a{
+      margin-left:18px;text-decoration:none;color:#e5e7eb;
+      font-size:0.9rem;transition:0.2s ease;
+    }
+    nav a:hover{color:#f97316;text-shadow:0 0 6px rgba(248,113,113,0.7);}
+    main{max-width:1040px;margin:0 auto;padding:26px 16px 60px;}
+    h1{font-size:1.9rem;margin:0 0 10px;color:#fee2e2;}
+    h2{color:#e5e7eb;}
+    h3{color:#e5e7eb;}
+    p{font-size:0.95rem;line-height:1.6;}
+    .intro{color:#cbd5f5;}
+    .badge{
+      display:inline-flex;align-items:center;gap:6px;
+      padding:4px 10px;border-radius:999px;
+      border:1px solid rgba(248,113,113,0.6);
+      font-size:0.75rem;text-transform:uppercase;
+      letter-spacing:0.08em;color:#fecaca;margin-bottom:10px;
+    }
+    .hero-banner{
+      display:flex;flex-wrap:wrap;gap:20px;
+      padding:20px 20px 24px;margin-bottom:26px;
+      border-radius:18px;
+      background:radial-gradient(circle at top left,#7f1d1d 0,#1e293b 40%,#020617 85%);
+      border:1px solid rgba(248,113,113,0.4);
+      box-shadow:0 0 22px rgba(127,29,29,0.65);
+    }
+    .hero-left{flex:1 1 260px;min-width:0;}
+    .hero-right{flex:1 1 240px;display:flex;align-items:center;justify-content:center;min-width:0;}
+    .hero-brain{
+      width:260px;max-width:100%;border-radius:18px;overflow:hidden;
+      border:2px solid rgba(248,113,113,0.8);
+      box-shadow:0 0 25px rgba(248,113,113,0.6),0 0 40px rgba(248,113,113,0.25);
+    }
+    .hero-brain img{width:100%;height:100%;object-fit:cover;display:block;}
+    .hero-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;}
+    .hero-tag{
+      font-size:0.75rem;padding:3px 8px;border-radius:999px;
+      border:1px solid rgba(248,113,113,0.4);color:#fee2e2;
+    }
+    .sections-grid{
+      display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+      gap:18px;margin-bottom:26px;
+    }
+    .card{
+      background:#020617;border-radius:16px;border:1px solid #1f2937;
+      padding:14px 16px 16px;box-shadow:0 0 10px rgba(15,23,42,0.8);
+    }
+    .card h2,.card h3{margin:0 0 6px;}
+    .card p{font-size:0.92rem;color:#cbd5f5;margin:0 0 10px;}
+    .btn{
+      display:inline-block;margin-top:6px;padding:6px 12px;
+      border-radius:999px;text-decoration:none;font-size:0.85rem;
+      border:1px solid #f97316;color:#fed7aa;
+      background:radial-gradient(circle at top left,#7f1d1d,#020617);
+    }
+    .btn:hover{background:#f97316;color:#111827;}
+    .plan-cours{
+      margin-top:10px;padding:16px 18px;border-radius:16px;
+      border:1px solid #1d4ed8;background:#020617;
+      box-shadow:0 0 12px rgba(37,99,235,0.3);
+    }
+    .plan-cours h2{font-size:1.35rem;margin:0 0 8px;}
+    .plan-cours p{font-size:0.95rem;color:#cbd5f5;margin:0 0 8px;}
+    .plan-cours ul{margin:6px 0 0 18px;padding:0;}
+    .plan-cours li{margin-bottom:4px;font-size:0.94rem;}
+    .plan-cours a{color:#93c5fd;text-decoration:none;}
+    .plan-cours a:hover{color:#f97316;text-decoration:underline;}
+    .highlight{
+      background:#020617;border-left:3px solid #f97316;
+      padding:6px 10px;margin:8px 0;font-size:0.94rem;color:#fecaca;
+    }
+    .two-cols{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:18px;}
+    .img-card{border-radius:14px;overflow:hidden;border:1px solid #1f2937;margin-bottom:10px;}
+    .img-card img{width:100%;display:block;}
+    .img-caption{font-size:0.8rem;color:#9ca3af;padding:6px 8px 10px;}
+    .small-nav{margin-top:8px;font-size:0.8rem;}
+    .small-nav a{color:#9ca3af;text-decoration:none;}
+    .small-nav a:hover{color:#f97316;text-decoration:underline;}
+    .book-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+      gap:14px;
+      margin-top:10px;
+    }
+    .book-card{
+      background:#020617;
+      border-radius:14px;
+      border:1px solid #1f2937;
+      padding:10px;
+      text-align:center;
+      box-shadow:0 0 10px rgba(15,23,42,0.8);
+      font-size:0.82rem;
+    }
+    .book-card img{
+      width:100%;
+      max-height:180px;
+      object-fit:contain;
+      display:block;
+      margin-bottom:6px;
+      border-radius:8px;
+    }
+    footer{
+      margin-top:20px;padding:18px 24px;font-size:0.8rem;color:#94a3b8;
+      text-align:center;border-top:1px solid #1f2937;background:#020617;
+    }
+    @media(max-width:720px){
+      header{flex-direction:column;align-items:flex-start;gap:10px;}
+      nav{display:flex;flex-wrap:wrap;}
+      nav a{margin-left:0;margin-right:14px;margin-top:4px;}
+      .two-cols{grid-template-columns:1fr;}
+    }
+  </style>
+</head>
+<body>
+<header>
+  <div class="logo">
+    <div class="logo-mark">HK</div>
+    <div class="logo-text">
+      <span>Hocine Korichi</span>
+      <span>IA pédagogique & sciences</span>
+    </div>
+ <nav>
+    <a href="index.html">Accueil</a>
+	<a href="ia-cest-quoi.html">C'est quoi IA ?</a>
+    <a href="applications-ia.html">Applications de l’IA</a>
+    <a href="cours-ia-generative-detaille.html">Cours ChatGPT & IA générative</a>
+    <a href="programme-modules-ia.html">Modules du cours</a>
+    <a href="quiz-ia-generative.html">Quiz IA</a>
+    <a href="ressources.html">Ressources</a>
+    <a href="a-propos.html">À propos</a>
+   </nav>
+</header>
+<main>
+
+  <section class="hero-banner">
+    <div class="hero-left">
+      <div class="badge">Ressources & Références</div>
+      <h1>Ressources pour aller plus loin en IA et IA générative</h1>
+      <p class="intro">
+        Une sélection de livres, liens, cours en ligne et outils pratiques pour approfondir
+        les thèmes du cours : IA, deep learning, modèles génératifs, éthique.
+      </p>
+    </div>
+    <div class="hero-right">
+      <div class="hero-brain">
+        <img src="584964478_1161926096147460_7573395902059090238_n.jpg" alt="Illustration modèle IA" />
+      </div>
+    </div>
+  </section>
+
+  <section class="two-cols">
+    <div>
+      <h2>Livres recommandés (généraux)</h2>
+      <ul>
+        <li><strong>Deep Learning</strong> – Ian Goodfellow, Yoshua Bengio, Aaron Courville.</li>
+        <li><strong>Artificial Intelligence: A Modern Approach</strong> – Stuart Russell, Peter Norvig.</li>
+        <li><strong>Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow</strong> – Aurélien Géron (O’Reilly).</li>
+        <li><strong>Grokking Deep Learning</strong> – Andrew Trask.</li>
+        <li><strong>Machine Learning Yearning</strong> – Andrew Ng (disponible gratuitement en ligne).</li>
+      </ul>
+    </div>
+    <div>
+      <h2>Articles & papiers fondateurs</h2>
+      <ul>
+        <li><em>Attention Is All You Need</em> – article à l’origine des Transformers.</li>
+        <li>Papiers originaux sur les GAN (Goodfellow et al.).</li>
+        <li>Articles de présentation des modèles GPT, LLaMA, Gemini, etc.</li>
+        <li>Travaux historiques sur le perceptron de Frank Rosenblatt.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section>
+    <h2>Livres illustrés (sélection O’Reilly & autres)</h2>
+    <p>
+      Quelques ouvrages très utiles pour passer de la théorie à la pratique ; plusieurs sont orientés
+      ingénierie de l’IA, deep learning appliqué ou applications industrielles.
+    </p>
+    <div class="book-grid">
+      <div class="book-card">
+        <img src="536276573_1090218999984837_5249454767375246231_n.jpg" alt="AI Engineering – O’Reilly" />
+        <div><strong>AI Engineering</strong><br/><span>Building Applications with Foundation Models</span></div>
+      </div>
+      <div class="book-card">
+        <img src="536648640_1089997710006966_3970935920710207788_n.jpg" alt="Programming PyTorch for Deep Learning" />
+        <div><strong>Programming PyTorch for Deep Learning</strong></div>
+      </div>
+      <div class="book-card">
+        <img src="537127427_1089997923340278_4576365979181602400_n.jpg" alt="Building ML Powered Applications" />
+        <div><strong>Building Machine Learning Powered Applications</strong></div>
+      </div>
+      <div class="book-card">
+        <img src="537128152_1089997543340316_8921903252273770962_n.jpg" alt="Deep Learning from Scratch" />
+        <div><strong>Deep Learning from Scratch</strong></div>
+      </div>
+      <div class="book-card">
+        <img src="537170644_1089997886673615_7384256471621480575_n.jpg" alt="Deep Learning Illustrated" />
+        <div><strong>Deep Learning Illustrated</strong></div>
+      </div>
+      <div class="book-card">
+        <img src="537264731_1089997670006970_3593859746773274010_n.jpg" alt="Hands-On Machine Learning" />
+        <div><strong>Hands-on Machine Learning</strong><br/><span>avec Scikit-Learn, Keras & TensorFlow</span></div>
+      </div>
+      <div class="book-card">
+        <img src="537413639_1089997420006995_5882949489095740552_n.jpg" alt="Fundamentals of Deep Learning" />
+        <div><strong>Fundamentals of Deep Learning</strong></div>
+      </div>
+      <div class="book-card">
+        <img src="538073355_1089997503340320_5514054439185683936_n.jpg" alt="Understanding Deep Learning" />
+        <div><strong>Understanding Deep Learning</strong></div>
+      </div>
+      <div class="book-card">
+        <img src="538226671_1090219036651500_1161478824739334518_n.jpg" alt="Machine Learning for Robotics" />
+        <div><strong>Machine Learning for Robotics</strong></div>
+      </div>
+      <div class="book-card">
+        <img src="538597004_1089997370007000_2571378218897415800_n.jpg" alt="Generative Deep Learning" />
+        <div><strong>Generative Deep Learning</strong></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="two-cols">
+    <div>
+      <h2>Cours et vidéos en ligne</h2>
+      <ul>
+        <li>Cours de <strong>DeepLearning.AI</strong> (Andrew Ng) sur l’IA et l’IA générative.</li>
+        <li>Cours <strong>MIT OpenCourseWare</strong> sur le machine learning et le deep learning.</li>
+        <li>Chaînes YouTube pédagogiques sur l’IA, la programmation et la science des données.</li>
+      </ul>
+    </div>
+    <div>
+      <h2>Plateformes et outils</h2>
+      <ul>
+        <li><strong>Hugging Face</strong> – hub de modèles, datasets, espaces de démo.</li>
+        <li>Plateformes de notebooks en ligne (Jupyter, Google Colab, etc.).</li>
+        <li>Bibliothèques Python : PyTorch, TensorFlow, Keras, scikit-learn.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section>
+    <h2>Visuels et schémas disponibles sur ce site</h2>
+    <div class="sections-grid">
+      <div class="card">
+        <h3>Comment entraîner une IA</h3>
+        <div class="img-card">
+          <img src="582765793_1161487689524634_2334162444323685167_n.jpg" alt="Comment entraîner une IA" />
+        </div>
+        <p>Schémas simples montrant données → modèle → entraînement → évaluation.</p>
+      </div>
+      <div class="card">
+        <h3>Modèle en intelligence artificielle</h3>
+        <div class="img-card">
+          <img src="583333855_1161496706190399_97727900334199707_n.jpg" alt="Qu’est-ce qu’un modèle en IA" />
+        </div>
+        <p>Affiche pédagogique expliquant ce qu’est un modèle en IA (réseau, formule, ensemble de modèles, etc.).</p>
+      </div>
+      <div class="card">
+        <h3>LLaMA, GPT & modèles libres</h3>
+        <div class="img-card">
+          <img src="584964478_1161926096147460_7573395902059090238_n.jpg" alt="LLaMA modèle libre" />
+        </div>
+        <p>Illustration présentant LLaMA comme cerveau libre de l’IA, complémentaire de GPT et Gemini.</p>
+      </div>
+      <div class="card">
+        <h3>Ordinateurs à base d’ADN</h3>
+        <div class="img-card">
+          <img src="588501638_1167467142260022_4564626956316676662_n.jpg" alt="Ordinateurs à base d'ADN" />
+        </div>
+        <p>Poster sur le DNA computing : calculs massifs avec des molécules d’ADN.</p>
+      </div>
+      <div class="card">
+        <h3>Cerveau numérique & réseaux</h3>
+        <div class="img-card">
+          <img src="589024568_1167904352216301_1708615495228574567_n.jpg" alt="Cerveau numérique" />
+        </div>
+        <p>Image illustrant le concept de cerveau numérique connecté à un réseau d’information.</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+<footer>
+  © <span id="year"></span> Hocine Korichi – Site pédagogique sur l’IA, les cerveaux numériques et les robots.
+</footer>
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>

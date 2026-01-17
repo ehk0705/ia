@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Cours : ChatGPT et l’IA générative – Hocine Korichi</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  
+  <style>
+    body {
+      margin: 0;
+      font-family: system-ui, sans-serif;
+      background: #020617;
+      color: #e5e7eb;
+    }
+
+    /* HEADER + MENU */
+    header {
+      padding: 16px 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #1f2937;
+      background: radial-gradient(circle at top left, #1f2937, #020617 60%);
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      box-shadow: 0 0 18px rgba(0,0,0,0.7);
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .logo-mark {
+      width: 32px;
+      height: 32px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #ef4444, #f97316);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #111827;
+      box-shadow: 0 0 10px rgba(248,113,113,0.6);
+    }
+    .logo-text {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.1;
+    }
+    .logo-text span:first-child {
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+    .logo-text span:last-child {
+      font-size: 0.78rem;
+      color: #9ca3af;
+    }
+
+    nav a {
+      margin-left: 18px;
+      text-decoration: none;
+      color: #e5e7eb;
+      font-size: 0.9rem;
+      transition: 0.2s ease;
+    }
+    nav a:hover {
+      color: #f97316;
+      text-shadow: 0 0 6px rgba(248,113,113,0.7);
+    }
+
+    main {
+      max-width: 1040px;
+      margin: 0 auto;
+      padding: 26px 16px 60px;
+    }
+
+    h1 {
+      font-size: 1.9rem;
+      margin: 0 0 10px;
+      color: #fee2e2;
+      text-shadow: 0 0 8px rgba(248,113,113,0.8);
+    }
+    h2 {
+      font-size: 1.35rem;
+      margin: 0 0 6px;
+      color: #e5e7eb;
+    }
+    h3 {
+      font-size: 1.05rem;
+      margin: 16px 0 4px;
+      color: #f9a8d4;
+    }
+    p, li {
+      font-size: 0.96rem;
+      line-height: 1.6;
+    }
+
+    .subtitle { color: #fecaca; }
+    .intro { font-size: 0.95rem; line-height: 1.65; color: #cbd5f5; margin-bottom: 22px; }
+
+    .red-box {
+      background: #1a0b0b;
+      border-radius: 16px;
+      border: 1px solid #b91c1c;
+      padding: 16px 18px;
+      margin-bottom: 26px;
+      box-shadow: 0 0 14px rgba(220, 38, 38, 0.4);
+      font-size: 0.95rem;
+    }
+    .red-box h2 {
+      margin: 0 0 8px;
+      font-size: 1.12rem;
+      color: #f87171;
+      text-shadow: 0 0 6px rgba(248,113,113,0.6);
+    }
+
+    .badge {
+      display: inline-block;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 3px 8px;
+      border-radius: 999px;
+      border: 1px solid #38bdf8;
+      color: #7dd3fc;
+      margin-bottom: 8px;
+    }
+
+    section {
+      margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid #1f2937;
+    }
+    section:last-of-type { border-bottom: none; }
+
+    .encadre {
+      background: #020617;
+      border-radius: 14px;
+      border: 1px solid #1e3a8a;
+      padding: 12px 14px;
+      margin-top: 10px;
+      font-size: 0.93rem;
+      box-shadow: 0 0 8px rgba(56,189,248,0.18);
+    }
+
+    .illustration {
+      width: 100%;
+      border-radius: 14px;
+      margin: 12px 0 16px;
+      box-shadow: 0 0 16px rgba(0,0,0,0.7);
+      border: 1px solid rgba(148,163,184,0.4);
+    }
+
+    footer {
+      margin-top: 20px;
+      padding: 18px 24px;
+      font-size: 0.8rem;
+      color: #94a3b8;
+      text-align: center;
+      border-top: 1px solid #1f2937;
+      background: #020617;
+    }
+
+    @media (max-width: 720px) {
+      header { flex-direction: column; align-items: flex-start; gap: 10px; }
+      nav { display: flex; flex-wrap: wrap; }
+      nav a { margin-left: 0; margin-right: 14px; margin-top: 4px; }
+    }
+  </style>
+
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <div class="logo-mark">HK</div>
+    <div class="logo-text">
+      <span>Hocine Korichi</span>
+      <span>IA pédagogique & sciences</span>
+    </div>
+  </div>
+  <nav>
+    <a href="index.html">Accueil</a>
+    <a href="ia-cest-quoi.html">C’est quoi l’IA ?</a>
+    <a href="fonctionnement-ia.html">Comment ça marche ?</a>
+    <a href="applications-ia.html">Applications</a>
+    <a href="cours-chatgpt-ia-generative.html">Cours IA générative</a>
+    <a href="a-propos.html">À propos</a>
+  </nav>
+</header>
+
+<main>
+  <h1>Cours : ChatGPT et l’IA générative</h1>
+  <p class="subtitle">Comprendre les cerveaux numériques, modèles de langage et robots intelligents.</p>
+
+  <img src="https://images.unsplash.com/photo-1581092919535-0b5f5d03f1b2"
+       alt="Cerveau numérique IA"
+       class="illustration">
+
+  <div class="red-box">
+    <h2>Plan du cours</h2>
+    <ul>
+      <li>Module 1 – Découvrir l’IA, le cerveau numérique et ChatGPT</li>
+      <li>Module 2 – Modèles génératifs, LLM et robots intelligents</li>
+      <li>Module 3 – Histoire de l’IA : de Turing aux grands modèles</li>
+      <li>Module 4 – Limites, risques et éthique de l’IA</li>
+    </ul>
+  </div>
+
+  <section>
+    <div class="badge">Module 1</div>
+    <h2>Découvrir l’IA, le cerveau numérique et ChatGPT</h2>
+    <p>
+      Introduction aux concepts de base : qu’est-ce que l’IA, qu’est-ce qu’un cerveau numérique,
+      en quoi ChatGPT est un modèle de langage particulier.
+    </p>
+  </section>
+
+  <section>
+    <div class="badge">Module 2</div>
+    <h2>Modèles génératifs, LLM et robots intelligents</h2>
+    <p>
+      Exploration des modèles génératifs (texte, image, musique) et des grands modèles de
+      langage (LLM), ainsi que de leur intégration dans des robots physiques.
+    </p>
+  </section>
+
+  <section>
+    <div class="badge">Module 3</div>
+    <h2>Histoire de l’IA : de Turing aux grands modèles</h2>
+    <p>
+      Retour historique sur les grandes étapes : Turing, perceptron, hivers de l’IA, deep
+      learning, IA générative.
+    </p>
+  </section>
+
+  <section>
+    <div class="badge">Module 4</div>
+    <h2>Limites, risques et éthique de l’IA</h2>
+    <p>
+      Discussion sur les biais, la désinformation, la vie privée, les impacts sur l’emploi
+      et la nécessité d’une régulation éthique.
+    </p>
+  </section>
+</main>
+<footer>
+  © <span id="year"></span> Hocine Korichi – Cours « ChatGPT et l’IA générative ».
+</footer>
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>

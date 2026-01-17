@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>C’est quoi l’IA ? – Hocine Korichi</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  
+  <style>
+    body {
+      margin: 0;
+      font-family: system-ui, sans-serif;
+      background: #020617;
+      color: #e5e7eb;
+    }
+
+    /* HEADER + MENU */
+    header {
+      padding: 16px 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #1f2937;
+      background: radial-gradient(circle at top left, #1f2937, #020617 60%);
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      box-shadow: 0 0 18px rgba(0,0,0,0.7);
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .logo-mark {
+      width: 32px;
+      height: 32px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #ef4444, #f97316);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #111827;
+      box-shadow: 0 0 10px rgba(248,113,113,0.6);
+    }
+    .logo-text {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.1;
+    }
+    .logo-text span:first-child {
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+    .logo-text span:last-child {
+      font-size: 0.78rem;
+      color: #9ca3af;
+    }
+
+    nav a {
+      margin-left: 18px;
+      text-decoration: none;
+      color: #e5e7eb;
+      font-size: 0.9rem;
+      transition: 0.2s ease;
+    }
+    nav a:hover {
+      color: #f97316;
+      text-shadow: 0 0 6px rgba(248,113,113,0.7);
+    }
+
+    main {
+      max-width: 1040px;
+      margin: 0 auto;
+      padding: 26px 16px 60px;
+    }
+
+    h1 {
+      font-size: 1.9rem;
+      margin: 0 0 10px;
+      color: #fee2e2;
+      text-shadow: 0 0 8px rgba(248,113,113,0.8);
+    }
+    h2 {
+      font-size: 1.35rem;
+      margin: 0 0 6px;
+      color: #e5e7eb;
+    }
+    h3 {
+      font-size: 1.05rem;
+      margin: 16px 0 4px;
+      color: #f9a8d4;
+    }
+    p, li {
+      font-size: 0.96rem;
+      line-height: 1.6;
+    }
+
+    .subtitle { color: #fecaca; }
+    .intro { font-size: 0.95rem; line-height: 1.65; color: #cbd5f5; margin-bottom: 22px; }
+
+    /* BLOC ROUGE (plan ou encadré) */
+    .red-box {
+      background: #1a0b0b;
+      border-radius: 16px;
+      border: 1px solid #b91c1c;
+      padding: 16px 18px;
+      margin-bottom: 26px;
+      box-shadow: 0 0 14px rgba(220, 38, 38, 0.4);
+      font-size: 0.95rem;
+    }
+    .red-box h2 {
+      margin: 0 0 8px;
+      font-size: 1.12rem;
+      color: #f87171;
+      text-shadow: 0 0 6px rgba(248,113,113,0.6);
+    }
+
+    .badge {
+      display: inline-block;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 3px 8px;
+      border-radius: 999px;
+      border: 1px solid #38bdf8;
+      color: #7dd3fc;
+      margin-bottom: 8px;
+    }
+
+    section {
+      margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid #1f2937;
+    }
+    section:last-of-type { border-bottom: none; }
+
+    .encadre {
+      background: #020617;
+      border-radius: 14px;
+      border: 1px solid #1e3a8a;
+      padding: 12px 14px;
+      margin-top: 10px;
+      font-size: 0.93rem;
+      box-shadow: 0 0 8px rgba(56,189,248,0.18);
+    }
+
+    .illustration {
+      width: 100%;
+      border-radius: 14px;
+      margin: 12px 0 16px;
+      box-shadow: 0 0 16px rgba(0,0,0,0.7);
+      border: 1px solid rgba(148,163,184,0.4);
+    }
+
+    footer {
+      margin-top: 20px;
+      padding: 18px 24px;
+      font-size: 0.8rem;
+      color: #94a3b8;
+      text-align: center;
+      border-top: 1px solid #1f2937;
+      background: #020617;
+    }
+
+    @media (max-width: 720px) {
+      header { flex-direction: column; align-items: flex-start; gap: 10px; }
+      nav { display: flex; flex-wrap: wrap; }
+      nav a { margin-left: 0; margin-right: 14px; margin-top: 4px; }
+    }
+  </style>
+
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <div class="logo-mark">HK</div>
+    <div class="logo-text">
+      <span>Hocine Korichi</span>
+      <span>IA pédagogique & sciences</span>
+    </div>
+  </div>
+ 
+ <nav>
+    <a href="index.html">Accueil</a>
+	<a href="ia-cest-quoi.html">C'est quoi IA ?</a>
+    <a href="applications-ia.html">Applications de l’IA</a>
+    <a href="cours-ia-generative-detaille.html">Cours ChatGPT & IA générative</a>
+    <a href="programme-modules-ia.html">Modules du cours</a>
+    <a href="quiz-ia-generative.html">Quiz IA</a>
+    <a href="ressources.html">Ressources</a>
+    <a href="a-propos.html">À propos</a>
+   </nav>
+</header>
+
+<main>
+  <h1>C’est quoi l’intelligence artificielle&nbsp;?</h1>
+  <p class="subtitle">Comprendre la notion d’IA en langage simple, sans jargon.</p>
+
+  <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d"
+       alt="Concept d'intelligence artificielle"
+       class="illustration">
+
+  <div class="red-box">
+    <h2>Objectifs de cette page</h2>
+    <ul>
+      <li>Donner une définition claire et accessible de l’IA.</li>
+      <li>Distinguer IA, machine learning et deep learning.</li>
+      <li>Montrer où l’IA est déjà présente dans la vie de tous les jours.</li>
+      <li>Répondre à deux questions essentielles :
+        <ul>
+          <li>« Est-ce que l’IA est un algorithme ? »</li>
+          <li>« Derrière l’entraînement de l’IA, y a-t-il un algorithme ? »</li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+
+  <section>
+    <div class="badge">Définition</div>
+    <h2>Définition simple de l’IA</h2>
+    <p>
+      L’intelligence artificielle (IA) désigne l’ensemble des méthodes qui permettent à une
+      machine de <strong>traiter des informations</strong>, de <strong>tirer des conclusions</strong>
+      et parfois de <strong>prendre des décisions simples</strong>, un peu comme un humain.
+    </p>
+    <p>
+      Concrètement, une IA ne « pense » pas comme nous : elle applique des <strong>algorithmes</strong>
+      à des <strong>données</strong>. Si les données sont bonnes et les algorithmes bien conçus,
+      le système devient capable de reconnaître des formes, de détecter des anomalies, de prévoir
+      des tendances, etc.
+    </p>
+
+    <div class="encadre">
+      <strong>Image mentale :</strong> imagine un assistant très rapide, qui lit des milliers
+      d’exemples et apprend à reconnaître des régularités pour t’aider à répondre à une question
+      précise.
+    </div>
+  </section>
+
+  <!-- SECTION QUESTION 1 -->
+  <section id="ia-algorithme">
+    <div class="badge">Question 1</div>
+    <h2>Est-ce que l’IA est un algorithme&nbsp;?</h2>
+    <p><strong>Réponse courte :</strong> <span style="color:#f97316;">non</span>.</p>
+    <p>
+      Une IA <strong>utilise</strong> des algorithmes, mais ce n’est pas un simple algorithme
+      écrit une fois pour toutes. C’est un <strong>système</strong> composé de milliers à des
+      milliards de paramètres, capables de s’ajuster en apprenant à partir de données.
+    </p>
+    <ul>
+      <li><strong>Un algorithme</strong> = une recette fixe, définie à l’avance.</li>
+      <li><strong>Une IA moderne</strong> = un système qui adapte ses « règles internes »
+        en fonction des exemples qu’on lui donne.</li>
+    </ul>
+    <div class="encadre">
+      <strong>À retenir :</strong> dire « l’IA est un algorithme » est réducteur.
+      Plus juste : <em>une IA est un système qui s’appuie sur des algorithmes pour apprendre.</em>
+    </div>
+  </section>
+
+  <!-- SECTION QUESTION 2 -->
+  <section id="entrainement-ia">
+    <div class="badge">Question 2</div>
+    <h2>Derrière l’entraînement de l’IA, y a-t-il un algorithme&nbsp;?</h2>
+    <p><strong>Réponse courte :</strong> <span style="color:#22c55e;">oui, absolument</span>.</p>
+    <p>
+      L’apprentissage d’une IA repose sur des <strong>algorithmes très précis</strong> qui
+      permettent d’ajuster les paramètres du modèle pour qu’il se comporte de mieux en mieux
+      sur les données d’exemple.
+    </p>
+    <ul>
+      <li><strong>Algorithme d’optimisation</strong> (ex. <em>gradient descent</em>) :
+        il cherche à minimiser l’erreur du modèle.</li>
+      <li><strong>Propagation du gradient</strong> (backpropagation) :
+        calcule comment chaque paramètre doit être ajusté.</li>
+      <li><strong>Mise à jour des poids</strong> :
+        les paramètres sont modifiés pas à pas pour améliorer les performances.</li>
+    </ul>
+    <div class="encadre">
+      <strong>Conclusion :</strong> l’IA <em>utilise</em> des algorithmes pour apprendre à partir
+      des données, et le résultat final est un modèle complexe capable de généraliser à de
+      nouveaux cas.
+    </div>
+  </section>
+
+  <section>
+    <div class="badge">Comparaison</div>
+    <h2>IA, machine learning et deep learning</h2>
+
+    <h3>IA (intelligence artificielle)</h3>
+    <p>
+      Terme large qui englobe toutes les méthodes permettant de simuler une forme d’intelligence :
+      systèmes à règles, algorithmes de recherche, machine learning, etc.
+    </p>
+
+    <h3>Machine Learning (apprentissage automatique)</h3>
+    <p>
+      Sous-domaine de l’IA où l’on ne programme pas chaque règle à la main. On fournit des
+      <strong>données</strong> et le système apprend automatiquement à partir de ces exemples.
+    </p>
+
+    <h3>Deep Learning (apprentissage profond)</h3>
+    <p>
+      Sous-domaine du machine learning basé sur des <strong>réseaux de neurones artificiels</strong>
+      avec de nombreuses couches. C’est cette approche qui a permis les grands progrès récents
+      en vision, en parole et en IA générative.
+    </p>
+
+    <div class="encadre">
+      <strong>Schéma logique :</strong><br>
+      IA ⟶ Machine Learning ⟶ Deep Learning ⟶ IA générative (comme ChatGPT, DALL·E, etc.)
+    </div>
+  </section>
+
+  <section>
+    <div class="badge">Exemples</div>
+    <h2>Où rencontre-t-on l’IA au quotidien&nbsp;?</h2>
+
+    <ul>
+      <li>
+        <strong>Sur ton téléphone</strong> : reconnaissance faciale, suggestions de mots,
+        correction automatique, tri des photos.
+      </li>
+      <li>
+        <strong>Sur Internet</strong> : recommandations de vidéos, de musique, de produits.
+      </li>
+      <li>
+        <strong>En voiture</strong> : aides à la conduite, régulateur adaptatif, stationnement assisté.
+      </li>
+      <li>
+        <strong>À la banque</strong> : détection de transactions suspectes, scoring de crédit.
+      </li>
+      <li>
+        <strong>En médecine</strong> : aide au diagnostic à partir d’images médicales.
+      </li>
+    </ul>
+
+    <div class="encadre">
+      <strong>À retenir :</strong> dans beaucoup de cas, l’IA est invisible : elle est intégrée
+      dans des services que tu utilises déjà, sans toujours le savoir.
+    </div>
+  </section>
+
+  <section>
+    <div class="badge">Réflexion</div>
+    <h2>Ce que l’IA n’est pas</h2>
+    <ul>
+      <li>Ce n’est pas une « magie » : c’est du calcul, de la statistique et beaucoup d’ingénierie.</li>
+      <li>Ce n’est pas une conscience : une IA ne ressent ni joie, ni peur, ni empathie.</li>
+      <li>Ce n’est pas infaillible : elle peut se tromper, amplifier des biais ou inventer des choses.</li>
+    </ul>
+  </section>
+</main>
+
+<footer>
+  © <span id="year"></span> Hocine Korichi – Site pédagogique sur l’intelligence artificielle.
+</footer>
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>

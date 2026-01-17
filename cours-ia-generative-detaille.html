@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Cours IA générative – Hocine Korichi</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    body { margin:0; font-family:system-ui,sans-serif; background:#020617; color:#e5e7eb; }
+    header {
+      padding:16px 28px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      border-bottom:1px solid #1f2937;
+      background:radial-gradient(circle at top left,#1f2937,#020617 60%);
+      position:sticky; top:0; z-index:20;
+      box-shadow:0 0 18px rgba(0,0,0,0.7);
+    }
+    .logo{display:flex;align-items:center;gap:10px;}
+    .logo-mark{
+      width:32px;height:32px;border-radius:999px;
+      background:linear-gradient(135deg,#ef4444,#f97316);
+      display:flex;align-items:center;justify-content:center;
+      font-size:0.8rem;font-weight:700;color:#111827;
+      box-shadow:0 0 10px rgba(248,113,113,0.6);
+    }
+    .logo-text{display:flex;flex-direction:column;line-height:1.1;}
+    .logo-text span:first-child{font-weight:700;font-size:0.95rem;}
+    .logo-text span:last-child{font-size:0.78rem;color:#9ca3af;}
+    nav a{
+      margin-left:18px;text-decoration:none;color:#e5e7eb;
+      font-size:0.9rem;transition:0.2s ease;
+    }
+    nav a:hover{color:#f97316;text-shadow:0 0 6px rgba(248,113,113,0.7);}
+    main{max-width:1040px;margin:0 auto;padding:26px 16px 60px;}
+    h1{font-size:1.9rem;margin:0 0 10px;color:#fee2e2;}
+    h2{color:#e5e7eb;}
+    h3{color:#e5e7eb;}
+    p{font-size:0.95rem;line-height:1.6;}
+    .intro{color:#cbd5f5;}
+    .badge{
+      display:inline-flex;align-items:center;gap:6px;
+      padding:4px 10px;border-radius:999px;
+      border:1px solid rgba(248,113,113,0.6);
+      font-size:0.75rem;text-transform:uppercase;
+      letter-spacing:0.08em;color:#fecaca;margin-bottom:10px;
+    }
+    .hero-banner{
+      display:flex;flex-wrap:wrap;gap:20px;
+      padding:20px 20px 24px;margin-bottom:26px;
+      border-radius:18px;
+      background:radial-gradient(circle at top left,#7f1d1d 0,#1e293b 40%,#020617 85%);
+      border:1px solid rgba(248,113,113,0.4);
+      box-shadow:0 0 22px rgba(127,29,29,0.65);
+    }
+    .hero-left{flex:1 1 260px;min-width:0;}
+    .hero-right{flex:1 1 240px;display:flex;align-items:center;justify-content:center;min-width:0;}
+    .hero-brain{
+      width:260px;max-width:100%;border-radius:18px;overflow:hidden;
+      border:2px solid rgba(248,113,113,0.8);
+      box-shadow:0 0 25px rgba(248,113,113,0.6),0 0 40px rgba(248,113,113,0.25);
+    }
+    .hero-brain img{width:100%;height:100%;object-fit:cover;display:block;}
+    .hero-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;}
+    .hero-tag{
+      font-size:0.75rem;padding:3px 8px;border-radius:999px;
+      border:1px solid rgba(248,113,113,0.4);color:#fee2e2;
+    }
+    .sections-grid{
+      display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+      gap:18px;margin-bottom:26px;
+    }
+    .card{
+      background:#020617;border-radius:16px;border:1px solid #1f2937;
+      padding:14px 16px 16px;box-shadow:0 0 10px rgba(15,23,42,0.8);
+    }
+    .card h2,.card h3{margin:0 0 6px;}
+    .card p{font-size:0.92rem;color:#cbd5f5;margin:0 0 10px;}
+    .btn{
+      display:inline-block;margin-top:6px;padding:6px 12px;
+      border-radius:999px;text-decoration:none;font-size:0.85rem;
+      border:1px solid #f97316;color:#fed7aa;
+      background:radial-gradient(circle at top left,#7f1d1d,#020617);
+    }
+    .btn:hover{background:#f97316;color:#111827;}
+    .plan-cours{
+      margin-top:10px;padding:16px 18px;border-radius:16px;
+      border:1px solid #1d4ed8;background:#020617;
+      box-shadow:0 0 12px rgba(37,99,235,0.3);
+    }
+    .plan-cours h2{font-size:1.35rem;margin:0 0 8px;}
+    .plan-cours p{font-size:0.95rem;color:#cbd5f5;margin:0 0 8px;}
+    .plan-cours ul{margin:6px 0 0 18px;padding:0;}
+    .plan-cours li{margin-bottom:4px;font-size:0.94rem;}
+    .plan-cours a{color:#93c5fd;text-decoration:none;}
+    .plan-cours a:hover{color:#f97316;text-decoration:underline;}
+    .highlight{
+      background:#020617;border-left:3px solid #f97316;
+      padding:6px 10px;margin:8px 0;font-size:0.94rem;color:#fecaca;
+    }
+    .two-cols{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:18px;}
+    .img-card{border-radius:14px;overflow:hidden;border:1px solid #1f2937;margin-bottom:10px;}
+    .img-card img{width:100%;display:block;}
+    .img-caption{font-size:0.8rem;color:#9ca3af;padding:6px 8px 10px;}
+    .small-nav{margin-top:8px;font-size:0.8rem;}
+    .small-nav a{color:#9ca3af;text-decoration:none;}
+    .small-nav a:hover{color:#f97316;text-decoration:underline;}
+    .book-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+      gap:14px;
+      margin-top:10px;
+    }
+    .book-card{
+      background:#020617;
+      border-radius:14px;
+      border:1px solid #1f2937;
+      padding:10px;
+      text-align:center;
+      box-shadow:0 0 10px rgba(15,23,42,0.8);
+      font-size:0.82rem;
+    }
+    .book-card img{
+      width:100%;
+      max-height:180px;
+      object-fit:contain;
+      display:block;
+      margin-bottom:6px;
+      border-radius:8px;
+    }
+    footer{
+      margin-top:20px;padding:18px 24px;font-size:0.8rem;color:#94a3b8;
+      text-align:center;border-top:1px solid #1f2937;background:#020617;
+    }
+    @media(max-width:720px){
+      header{flex-direction:column;align-items:flex-start;gap:10px;}
+      nav{display:flex;flex-wrap:wrap;}
+      nav a{margin-left:0;margin-right:14px;margin-top:4px;}
+      .two-cols{grid-template-columns:1fr;}
+    }
+  </style>
+</head>
+<body>
+<header>
+  <div class="logo">
+    <div class="logo-mark">HK</div>
+    <div class="logo-text">
+      <span>Hocine Korichi</span>
+      <span>IA pédagogique & sciences</span>
+    </div>
+  </div>
+ <nav>
+    <a href="index.html">Accueil</a>
+    <a href="applications-ia.html">Applications de l’IA</a>
+    <a href="cours-ia-generative-detaille.html">Cours ChatGPT & IA générative</a>
+    <a href="programme-modules-ia.html">Modules du cours</a>
+    <a href="quiz-ia-generative.html">Quiz IA</a>
+    <a href="ressources.html">Ressources</a>
+    <a href="a-propos.html">À propos</a>
+   </nav>
+</header>
+<main>
+
+  <section class="hero-banner">
+    <div class="hero-left">
+      <div class="badge">Cours complet</div>
+      <h1>Cours d’introduction à l’IA générative et aux modèles de langage</h1>
+      <p class="intro">
+        Ce cours accompagne les diapositives “Cours_ChatGPT_IA_Generative” en expliquant,
+        en langage simple, les grandes idées derrière les modèles génératifs, les LLM
+        et le fonctionnement de systèmes comme ChatGPT.
+      </p>
+    </div>
+    <div class="hero-right">
+      <div class="hero-brain">
+        <img src="583333855_1161496706190399_97727900334199707_n.jpg" alt="Schéma données, modèle, entraînement, évaluation" />
+      </div>
+    </div>
+  </section>
+
+  <section id="sommaire" class="plan-cours">
+    <h2>Sommaire du cours</h2>
+    <p>Clique sur une partie pour y accéder directement :</p>
+    <ul>
+      <li><a href="#sec1">1. Données, modèle, entraînement, évaluation</a></li>
+      <li><a href="#sec2">2. Spécificités de l’IA générative</a></li>
+      <li><a href="#sec3">3. ChatGPT comme exemple de LLM</a></li>
+      <li><a href="#sec4">4. Limites et bonnes pratiques</a></li>
+      <li><a href="#sec5">5. Références conseillées</a></li>
+      <li><a href="#sec6">6. Cours illustré : ChatGPT & IA générative (version enrichie)</a></li>
+      <li><a href="#sec7">7. Outils pédagogiques pour enseignants et élèves</a></li>
+    </ul>
+  </section>
+
+  <section id="sec1">
+    <h2>1. Données, modèle, entraînement, évaluation</h2>
+    <p>
+      Pour entraîner une IA, on a toujours la même logique :
+    </p>
+    <ul>
+      <li><strong>Données</strong> : textes, images, sons, mesures… bien préparées et nettoyées ;</li>
+      <li><strong>Modèle</strong> : un cerveau numérique avec des paramètres ajustables ;</li>
+      <li><strong>Entraînement</strong> : on montre au modèle des exemples, il se trompe,
+          on corrige les paramètres, et on recommence ;</li>
+      <li><strong>Évaluation</strong> : on teste le modèle sur des données qu’il n’a jamais vues.</li>
+    </ul>
+    <p class="small-nav"><a href="#sommaire">↑ Retour au sommaire</a></p>
+  </section>
+
+  <section id="sec2">
+    <h2>2. Spécificités de l’IA générative</h2>
+    <p>
+      L’IA générative ne se contente pas de choisir une classe (chat / chien, spam / pas spam).
+      Elle <strong>crée du contenu nouveau</strong> : texte, image, son, code, vidéo.
+    </p>
+    <p>
+      Un modèle de langage génératif prédit le mot suivant, puis le suivant, etc.
+      Enchaînés, ces mots produisent une réponse cohérente, une histoire, un résumé, un dialogue.
+    </p>
+    <p class="small-nav"><a href="#sommaire">↑ Retour au sommaire</a></p>
+  </section>
+
+  <section id="sec3">
+    <h2>3. ChatGPT comme exemple de LLM</h2>
+    <p>
+      ChatGPT est un grand modèle de langage entraîné sur un mélange de textes publics, de
+      données sous licence et de données générées. Il est ensuite affiné par des techniques
+      comme le <strong>RLHF</strong> (Reinforcement Learning from Human Feedback) pour mieux
+      respecter les consignes, refuser certains contenus et produire des réponses plus utiles.
+    </p>
+    <p class="small-nav"><a href="#sommaire">↑ Retour au sommaire</a></p>
+  </section>
+
+  <section id="sec4">
+    <h2>4. Limites et bonnes pratiques d’utilisation</h2>
+    <ul>
+      <li>Vérifier les informations importantes : l’IA peut halluciner.</li>
+      <li>Garder son esprit critique et sa propre créativité.</li>
+      <li>Protéger les données sensibles : ne pas coller d’informations privées inutiles.</li>
+      <li>Utiliser l’IA comme assistant, pas comme substitut à tout raisonnement.</li>
+    </ul>
+    <p class="small-nav"><a href="#sommaire">↑ Retour au sommaire</a></p>
+  </section>
+
+  <section id="sec5">
+    <h2>5. Références conseillées</h2>
+    <ul>
+      <li>“Attention Is All You Need” – article fondateur des Transformers.</li>
+      <li>Blogs techniques de grands acteurs de l’IA (OpenAI, DeepMind, Meta AI, Google Research).</li>
+      <li>Livres pratiques chez O’Reilly sur les LLM, le deep learning, MLOps.</li>
+    </ul>
+    <p class="small-nav"><a href="#sommaire">↑ Retour au sommaire</a></p>
+  </section>
+
+  <section id="sec6">
+    <h2>6. Cours illustré : ChatGPT et l’IA générative (version enrichie)</h2>
+    <p>
+      Cette section reprend et enrichit le contenu du document PDF
+      « Cours ChatGPT &amp; IA générative » de Hocine Korichi, en le présentant
+      sous une forme adaptée à la lecture sur le web.
+    </p>
+
+    <p>
+      📄 <a href="AAA-Cours_ChatGPT_IA_Generative_version_finale_references.pdf" target="_blank">
+      Télécharger la version PDF originale complète du cours</a>
+    </p>
+
+    <h3>6.1 Rappels : qu’est-ce que l’IA ?</h3>
+    <p>
+      L’intelligence artificielle (IA) regroupe les méthodes qui permettent à une machine
+      d’exécuter des tâches normalement réalisées par des humains&nbsp;: analyser, reconnaître,
+      classer, prédire, raisonner, dialoguer, etc. Elle ne copie pas l’intelligence humaine,
+      mais reproduit certaines capacités bien ciblées.
+    </p>
+
+    <h3>6.2 IA générative : créer du contenu</h3>
+    <p>
+      Une IA générative est un système capable de produire du contenu nouveau&nbsp;:
+      texte, images, musique, code, vidéo. Elle apprend à partir d’exemples, puis
+      « imagine » des variantes plausibles qui respectent les régularités apprises
+      dans les données.
+    </p>
+    <ul>
+      <li>modèles de texte (ChatGPT, autres LLM) ;</li>
+      <li>modèles d’images (DALL·E, Midjourney, Stable Diffusion) ;</li>
+      <li>modèles de musique ;</li>
+      <li>modèles de code (GitHub Copilot, etc.).</li>
+    </ul>
+
+    <h3>6.3 ChatGPT : assistant conversationnel</h3>
+    <p>
+      ChatGPT est un exemple de grand modèle de langage spécialisé dans le dialogue.
+      Il peut répondre à des questions, expliquer des notions, résumer des textes,
+      proposer des idées, générer des histoires ou du code, et même jouer des rôles
+      (par exemple&nbsp;: «&nbsp;Agis comme un professeur de sciences&nbsp;»).
+    </p>
+
+    <h3>6.4 D’où vient son savoir ?</h3>
+    <p>
+      Pendant l’entraînement, le modèle est exposé à d’immenses quantités de textes
+      (livres, pages web, articles, conversations publiques, etc.). Il apprend à prédire
+      le mot suivant à partir du contexte. Une fois entraîné, il ne va pas chercher sur
+      Internet en temps réel&nbsp;: il se base sur ce qu’il a appris et sur ses
+      paramètres internes pour générer des réponses.
+    </p>
+
+    <h3>6.5 Comment bien lui parler ?</h3>
+    <p>
+      La qualité des réponses dépend beaucoup de la manière de formuler la demande
+      (le <em>prompt</em>)&nbsp;:
+    </p>
+    <ul>
+      <li>être clair et précis sur la question ;</li>
+      <li>donner un rôle au modèle («&nbsp;Tu es professeur de mathématiques&nbsp;»,
+          «&nbsp;Tu es un vulgarisateur scientifique&nbsp;», etc.) ;</li>
+      <li>indiquer le format de la réponse (liste, tableau, résumé, explication courte) ;</li>
+      <li>fournir le contexte utile (niveau scolaire, langue, objectifs).</li>
+    </ul>
+
+    <h3>6.6 Ce que ChatGPT ne sait pas faire</h3>
+    <ul>
+      <li>comprendre réellement les émotions ou le monde comme un humain ;</li>
+      <li>accéder librement à Internet (sauf configuration spécifique) ;</li>
+      <li>connaître des informations privées à moins qu’on les lui donne ;</li>
+      <li>garantir que toutes ses réponses sont exactes ;</li>
+      <li>remplacer le jugement critique et l’expérience humaine.</li>
+    </ul>
+
+    <h3>6.7 Intérêt pédagogique</h3>
+    <p>
+      Utilisé correctement, ChatGPT peut être un formidable outil d’apprentissage&nbsp;:
+    </p>
+    <ul>
+      <li>expliquer une notion avec plusieurs niveaux de difficulté ;</li>
+      <li>proposer des exemples, analogies et contre-exemples ;</li>
+      <li>générer des exercices et des quiz ;</li>
+      <li>aider à structurer un devoir ou un rapport ;</li>
+      <li>servir de « sparring-partner » intellectuel.</li>
+    </ul>
+
+    <h3>6.8 Attention aux limites et aux biais</h3>
+    <p>
+      Comme rappelé dans le document PDF, il faut garder à l’esprit que&nbsp;:
+    </p>
+    <ul>
+      <li>le modèle peut <strong>halluciner</strong> des faits inexacts ;</li>
+      <li>les données d’entraînement peuvent contenir des biais (culturels, sociaux, politiques) ;</li>
+      <li>les réponses reflètent ces biais si l’on n’y prend pas garde ;</li>
+      <li>il est essentiel de vérifier les informations importantes par d’autres sources.</li>
+    </ul>
+
+    <h3>6.9 Vrai / Faux – rappel ludique</h3>
+    <ul>
+      <li><strong>ChatGPT est un humain.</strong> → Faux.</li>
+      <li><strong>ChatGPT peut m’aider à apprendre.</strong> → Vrai.</li>
+      <li><strong>Je dois toujours vérifier les informations importantes.</strong> → Vrai.</li>
+      <li><strong>Je peux lui donner sans problème mon adresse, mon NAS ou mes mots de passe.</strong> → Faux.</li>
+    </ul>
+
+    <h3>6.10 Pour aller plus loin</h3>
+    <p>
+      Pour approfondir, voir également la page
+      <a href="ressources.html">Ressources &amp; Références</a>
+      qui liste des livres (O’Reilly et autres), des cours en ligne et des outils pratiques
+      autour de l’IA générative et des grands modèles de langage.
+    </p>
+    <p class="small-nav"><a href="#sommaire">↑ Retour au sommaire</a></p>
+  </section>
+
+  <section id="sec7">
+    <h2>7. Outils pédagogiques pour enseignants et élèves</h2>
+    <p>
+      Cette section propose quelques idées concrètes pour utiliser ce cours, le site web et ChatGPT
+      dans un cadre pédagogique (collège, lycée, formation continue, auto-apprentissage).
+    </p>
+
+    <h3>7.1 Pour les enseignants</h3>
+    <ul>
+      <li>Utiliser le <strong>quiz IA générative</strong> du site comme activité de début ou de fin de séance.</li>
+      <li>Projeter certaines sections (cerveau numérique, perceptron, histoire de l’IA) et demander aux élèves
+          de reformuler avec leurs propres mots.</li>
+      <li>Donner un <strong>exercice de comparaison</strong> : « Que répond ChatGPT ? Que répond ton propre raisonnement ? ».</li>
+      <li>Proposer des mini-projets : créer une affiche, une courte vidéo ou un article expliquant un concept du cours.</li>
+    </ul>
+
+    <h3>7.2 Pour les élèves et étudiants</h3>
+    <ul>
+      <li>Relire le cours en parallèle d’une discussion avec ChatGPT pour vérifier la compréhension.</li>
+      <li>Demander au modèle de générer des <strong>quiz personnalisés</strong> sur les parties difficiles.</li>
+      <li>Utiliser l’IA comme aide à la rédaction, puis <strong>corriger soi-même</strong> le texte proposé.</li>
+      <li>Tenir un carnet de bord : noter ce que l’IA a bien expliqué, et ce qui doit être vérifié ou corrigé.</li>
+    </ul>
+
+    <h3>7.3 Diapositives et documents</h3>
+    <p>
+      Le cours est également disponible en version diaporama et en PDF :
+    </p>
+    <ul>
+      <li>présentation PowerPoint / PDF « Cours ChatGPT &amp; IA générative » ;</li>
+      <li>affiches pédagogiques sur les modèles, le cerveau numérique, l’ADN computing, LLaMA, etc.</li>
+    </ul>
+    <p class="small-nav"><a href="#sommaire">↑ Retour au sommaire</a></p>
+  </section>
+
+</main>
+<footer>
+  © <span id="year"></span> Hocine Korichi – Site pédagogique sur l’IA, les cerveaux numériques et les robots.
+</footer>
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>

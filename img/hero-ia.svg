@@ -1,0 +1,19 @@
+
+<svg width="900" height="260" viewBox="0 0 900 260" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1d4ed8"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+  </defs>
+  <rect width="900" height="260" fill="url(#g1)"/>
+  <circle cx="130" cy="70" r="36" fill="#22d3ee" opacity="0.85"/>
+  <circle cx="230" cy="160" r="22" fill="#a855f7" opacity="0.7"/>
+  <circle cx="420" cy="90" r="28" fill="#22c55e" opacity="0.75"/>
+  <text x="60" y="155" fill="#e5e7eb" font-size="32" font-family="system-ui, sans-serif" font-weight="600">
+    Formation en Intelligence Artificielle &amp; IA générative
+  </text>
+  <text x="60" y="190" fill="#cbd5f5" font-size="16" font-family="system-ui, sans-serif">
+    Comprendre, entraîner et déployer les modèles modernes d'IA, sans mystère.
+  </text>
+</svg>

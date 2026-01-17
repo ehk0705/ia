@@ -1,0 +1,32 @@
+tranduire toutes ces pages en anglais
+pour créer ces pages avec les noms sufficcés par -en.html
+a-propos.html
+about.html
+applications-ia.html
+cours-chatgpt-ia-generative.html
+cours-ia-generative-complet.html
+cours-ia-generative-detaille.html
+fonctionnement-ia.html
+ia-cest-quoi.html
+index.html
+
+outils-entrainement-ia.html
+programme-modules-ia.html
+quiz-ia-generative.html
+ressources.html
+telechargements.html
+index-en.html 
+a-propos-en.html
+about-en.html
+applications-ia-en.html
+cours-chatgpt-ia-generative-en.html
+cours-ia-generative-complet-en.html
+cours-ia-generative-detaille-en.html
+fonctionnement-ia-en.html
+ia-cest-quoi-en.html
+index-en.html
+outils-entrainement-ia-en.html
+programme-modules-ia-en.html
+quiz-ia-generative-en.html
+ressources-en.html
+telechargements-en.html

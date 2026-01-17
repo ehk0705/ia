@@ -1,0 +1,11 @@
+
+<svg width="160" height="160" viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg">
+  <rect width="160" height="160" rx="26" fill="#111827"/>
+  <rect x="30" y="40" width="44" height="80" rx="6" fill="#1d4ed8"/>
+  <rect x="86" y="40" width="44" height="80" rx="6" fill="#2563eb"/>
+  <line x1="52" y1="40" x2="52" y2="120" stroke="#bfdbfe" stroke-width="2"/>
+  <line x1="108" y1="40" x2="108" y2="120" stroke="#bfdbfe" stroke-width="2"/>
+  <text x="34" y="135" fill="#e5e7eb" font-size="13" font-family="system-ui, sans-serif">
+    IA &amp; Data
+  </text>
+</svg>

@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Quiz – Generative AI</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Educational quiz to test your understanding of AI and generative AI." />
+  <link rel="stylesheet" href="style.css" />
+
+  <style>
+    .quiz-question {
+      margin-bottom: 24px;
+      padding: 14px 16px;
+      border-radius: 10px;
+      background: #f9fafb;
+      border: 1px solid #e5e7eb;
+    }
+    .quiz-question.correct {
+      border-color: #16a34a;
+      background: #ecfdf3;
+    }
+    .quiz-question.incorrect {
+      border-color: #dc2626;
+      background: #fef2f2;
+    }
+    .quiz-options {
+      margin-top: 8px;
+      padding-left: 18px;
+    }
+    .quiz-options label {
+      display: block;
+      margin-bottom: 4px;
+      cursor: pointer;
+    }
+    .quiz-feedback {
+      margin-top: 12px;
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+    .quiz-feedback.ok {
+      color: #15803d;
+    }
+    .quiz-feedback.ko {
+      color: #b91c1c;
+    }
+    #answers-summary {
+      display: none;
+      margin-top: 24px;
+      padding: 16px 18px;
+      border-radius: 10px;
+      background: #eff6ff;
+      border-left: 4px solid #2563eb;
+      font-size: 0.95rem;
+    }
+    #check-answers {
+      display: inline-block;
+      margin-top: 20px;
+      cursor: pointer;
+      font-weight: 600;
+      text-decoration: underline;
+    }
+    #reset-quiz {
+      margin-left: 16px;
+      padding: 8px 18px;
+      border-radius: 999px;
+      border: 1px solid #d1d5db;
+      background: #ffffff;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+    #quiz-score {
+      margin-top: 16px;
+      font-weight: 600;
+    }
+  </style>
+</head>
+
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="logo">
+        <a href="index-en.html">🌐 AI Training</a>
+      </div>
+      <nav class="main-nav">
+        <ul>
+          <li><a href="index-en.html">Home</a></li>
+          <li><a href="programme-modules-ia-en.html">AI Program</a></li>
+          <li><a href="cours-ia-generative-detaille-en.html">Generative AI Course</a></li>
+          <li><a href="quiz-ia-generative-en.html" class="active">AI Quiz</a></li>
+          <li><a href="telechargements-en.html">Downloads</a></li>
+          <li><a href="ressources-en.html">Resources</a></li>
+          <li><a href="outils-entrainement-ia-en.html">AI Tools</a></li>
+          <li><a href="about-en.html">About</a></li>
+        </ul>
+      </nav>
+      <div class="lang-switch">
+        <a href="quiz-ia-generative.html">FR</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="page">
+
+    <section class="hero hero-small">
+      <div class="container">
+        <h1>Quiz – AI &amp; Generative AI</h1>
+        <p class="hero-subtitle">
+          A short quiz to test and reinforce your understanding.
+        </p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+
+        <p>Select one answer for each question, then click on <strong>“Check responses”</strong>.</p>
+
+        <form id="quiz-form">
+
+          <!-- Q1 -->
+          <div class="quiz-question" data-question="1" data-correct="b">
+            <p><strong>1) What is the main difference between predictive AI and generative AI?</strong></p>
+            <div class="quiz-options">
+              <label><input type="radio" name="q1" value="a" /> a) None, they are synonyms</label>
+              <label><input type="radio" name="q1" value="b" /> b) Predictive AI estimates an output, generative AI creates new content</label>
+              <label><input type="radio" name="q1" value="c" /> c) Predictive AI is always more accurate</label>
+            </div>
+            <div class="quiz-feedback" id="feedback-q1"></div>
+          </div>
+
+          <!-- Q2 -->
+          <div class="quiz-question" data-question="2" data-correct="c">
+            <p><strong>2) Which model family powers LLMs?</strong></p>
+            <div class="quiz-options">
+              <label><input type="radio" name="q2" value="a" /> a) CNNs</label>
+              <label><input type="radio" name="q2" value="b" /> b) RNNs</label>
+              <label><input type="radio" name="q2" value="c" /> c) Transformers</label>
+            </div>
+            <div class="quiz-feedback" id="feedback-q2"></div>
+          </div>
+
+          <!-- Q3 -->
+          <div class="quiz-question" data-question="3" data-correct="b">
+            <p><strong>3) What does “hallucination” mean for an LLM?</strong></p>
+            <div class="quiz-options">
+              <label><input type="radio" name="q3" value="a" /> a) The model refuses to answer</label>
+              <label><input type="radio" name="q3" value="b" /> b) The model invents a plausible but false answer</label>
+              <label><input type="radio" name="q3" value="c" /> c) The model stops suddenly</label>
+            </div>
+            <div class="quiz-feedback" id="feedback-q3"></div>
+          </div>
+
+          <!-- Q4 -->
+          <div class="quiz-question" data-question="4" data-correct="a">
+            <p><strong>4) Which tool is suited for classical machine learning?</strong></p>
+            <div class="quiz-options">
+              <label><input type="radio" name="q4" value="a" /> a) Scikit-Learn</label>
+              <label><input type="radio" name="q4" value="b" /> b) JAX</label>
+              <label><input type="radio" name="q4" value="c" /> c) LangChain</label>
+            </div>
+            <div class="quiz-feedback" id="feedback-q4"></div>
+          </div>
+
+          <!-- Q5 -->
+          <div class="quiz-question" data-question="5" data-correct="b">
+            <p><strong>5) Which framework specializes in LLM-based applications?</strong></p>
+            <div class="quiz-options">
+              <label><input type="radio" name="q5" value="a" /> a) ONNX</label>
+              <label><input type="radio" name="q5" value="b" /> b) LangChain</label>
+              <label><input type="radio" name="q5" value="c" /> c) Fast.ai</label>
+            </div>
+            <div class="quiz-feedback" id="feedback-q5"></div>
+          </div>
+
+        </form>
+
+        <p id="quiz-score"></p>
+
+        <a href="#answers-summary" id="check-answers">Check responses</a>
+        <button type="button" id="reset-quiz">Reset quiz</button>
+
+        <div id="answers-summary">
+          <h3>Correct answers</h3>
+          <ul>
+            <li><strong>Q1:</strong> b) Predictive vs generative</li>
+            <li><strong>Q2:</strong> c) Transformers</li>
+            <li><strong>Q3:</strong> b) False plausible answer</li>
+            <li><strong>Q4:</strong> a) Scikit-Learn</li>
+            <li><strong>Q5:</strong> b) LangChain</li>
+          </ul>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>© 2025 – AI Training. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    const checkBtn = document.getElementById("check-answers");
+    const resetBtn = document.getElementById("reset-quiz");
+
+    checkBtn.addEventListener("click", function (e) {
+      e.preventDefault();
+
+      const questions = document.querySelectorAll(".quiz-question");
+      let score = 0;
+
+      questions.forEach((q) => {
+        const num = q.dataset.question;
+        const correct = q.dataset.correct;
+        const selected = document.querySelector('input[name="q' + num + '"]:checked');
+        const feedback = document.getElementById("feedback-q" + num);
+
+        q.classList.remove("correct", "incorrect");
+        feedback.textContent = "";
+
+        if (!selected) {
+          feedback.textContent = "No option selected.";
+          feedback.classList.add("ko");
+          return;
+        }
+
+        if (selected.value === correct) {
+          score++;
+          feedback.textContent = "Correct ✔";
+          q.classList.add("correct");
+        } else {
+          feedback.textContent = "Incorrect ✖";
+          q.classList.add("incorrect");
+        }
+      });
+
+      document.getElementById("quiz-score").textContent =
+        "Your score: " + score + " / " + questions.length;
+
+      document.getElementById("answers-summary").style.display = "block";
+    });
+
+    resetBtn.addEventListener("click", function () {
+      document.querySelectorAll('input[name^="q"]').forEach((i) => (i.checked = false));
+      document.querySelectorAll(".quiz-question").forEach((q) => {
+        q.classList.remove("correct", "incorrect");
+      });
+      document.querySelectorAll(".quiz-feedback").forEach((f) => (f.textContent = ""));
+      document.getElementById("quiz-score").textContent = "";
+      document.getElementById("answers-summary").style.display = "none";
+    });
+  </script>
+
+</body>
+</html>

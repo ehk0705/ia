@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Programme des modules – IA</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    body { margin:0; font-family:system-ui,sans-serif; background:#020617; color:#e5e7eb; }
+    header {
+      padding:16px 28px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      border-bottom:1px solid #1f2937;
+      background:radial-gradient(circle at top left,#1f2937,#020617 60%);
+      position:sticky; top:0; z-index:20;
+      box-shadow:0 0 18px rgba(0,0,0,0.7);
+    }
+    .logo{display:flex;align-items:center;gap:10px;}
+    .logo-mark{
+      width:32px;height:32px;border-radius:999px;
+      background:linear-gradient(135deg,#ef4444,#f97316);
+      display:flex;align-items:center;justify-content:center;
+      font-size:0.8rem;font-weight:700;color:#111827;
+      box-shadow:0 0 10px rgba(248,113,113,0.6);
+    }
+    .logo-text{display:flex;flex-direction:column;line-height:1.1;}
+    .logo-text span:first-child{font-weight:700;font-size:0.95rem;}
+    .logo-text span:last-child{font-size:0.78rem;color:#9ca3af;}
+    nav a{
+      margin-left:18px;text-decoration:none;color:#e5e7eb;
+      font-size:0.9rem;transition:0.2s ease;
+    }
+    nav a:hover{color:#f97316;text-shadow:0 0 6px rgba(248,113,113,0.7);}
+    main{max-width:1040px;margin:0 auto;padding:26px 16px 60px;}
+    h1{font-size:1.9rem;margin:0 0 10px;color:#fee2e2;}
+    h2{color:#e5e7eb;}
+    h3{color:#e5e7eb;}
+    p{font-size:0.95rem;line-height:1.6;}
+    .intro{color:#cbd5f5;}
+    .badge{
+      display:inline-flex;align-items:center;gap:6px;
+      padding:4px 10px;border-radius:999px;
+      border:1px solid rgba(248,113,113,0.6);
+      font-size:0.75rem;text-transform:uppercase;
+      letter-spacing:0.08em;color:#fecaca;margin-bottom:10px;
+    }
+    .hero-banner{
+      display:flex;flex-wrap:wrap;gap:20px;
+      padding:20px 20px 24px;margin-bottom:26px;
+      border-radius:18px;
+      background:radial-gradient(circle at top left,#7f1d1d 0,#1e293b 40%,#020617 85%);
+      border:1px solid rgba(248,113,113,0.4);
+      box-shadow:0 0 22px rgba(127,29,29,0.65);
+    }
+    .hero-left{flex:1 1 260px;min-width:0;}
+    .hero-right{flex:1 1 240px;display:flex;align-items:center;justify-content:center;min-width:0;}
+    .hero-brain{
+      width:260px;max-width:100%;border-radius:18px;overflow:hidden;
+      border:2px solid rgba(248,113,113,0.8);
+      box-shadow:0 0 25px rgba(248,113,113,0.6),0 0 40px rgba(248,113,113,0.25);
+    }
+    .hero-brain img{width:100%;height:100%;object-fit:cover;display:block;}
+    .hero-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;}
+    .hero-tag{
+      font-size:0.75rem;padding:3px 8px;border-radius:999px;
+      border:1px solid rgba(248,113,113,0.4);color:#fee2e2;
+    }
+    .sections-grid{
+      display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+      gap:18px;margin-bottom:26px;
+    }
+    .card{
+      background:#020617;border-radius:16px;border:1px solid #1f2937;
+      padding:14px 16px 16px;box-shadow:0 0 10px rgba(15,23,42,0.8);
+    }
+    .card h2,.card h3{margin:0 0 6px;}
+    .card p{font-size:0.92rem;color:#cbd5f5;margin:0 0 10px;}
+    .btn{
+      display:inline-block;margin-top:6px;padding:6px 12px;
+      border-radius:999px;text-decoration:none;font-size:0.85rem;
+      border:1px solid #f97316;color:#fed7aa;
+      background:radial-gradient(circle at top left,#7f1d1d,#020617);
+    }
+    .btn:hover{background:#f97316;color:#111827;}
+    .plan-cours{
+      margin-top:10px;padding:16px 18px;border-radius:16px;
+      border:1px solid #1d4ed8;background:#020617;
+      box-shadow:0 0 12px rgba(37,99,235,0.3);
+    }
+    .plan-cours h2{font-size:1.35rem;margin:0 0 8px;}
+    .plan-cours p{font-size:0.95rem;color:#cbd5f5;margin:0 0 8px;}
+    .plan-cours ul{margin:6px 0 0 18px;padding:0;}
+    .plan-cours li{margin-bottom:4px;font-size:0.94rem;}
+    .plan-cours a{color:#93c5fd;text-decoration:none;}
+    .plan-cours a:hover{color:#f97316;text-decoration:underline;}
+    .highlight{
+      background:#020617;border-left:3px solid #f97316;
+      padding:6px 10px;margin:8px 0;font-size:0.94rem;color:#fecaca;
+    }
+    .two-cols{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:18px;}
+    .img-card{border-radius:14px;overflow:hidden;border:1px solid #1f2937;margin-bottom:10px;}
+    .img-card img{width:100%;display:block;}
+    .img-caption{font-size:0.8rem;color:#9ca3af;padding:6px 8px 10px;}
+    .small-nav{margin-top:8px;font-size:0.8rem;}
+    .small-nav a{color:#9ca3af;text-decoration:none;}
+    .small-nav a:hover{color:#f97316;text-decoration:underline;}
+    .book-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+      gap:14px;
+      margin-top:10px;
+    }
+    .book-card{
+      background:#020617;
+      border-radius:14px;
+      border:1px solid #1f2937;
+      padding:10px;
+      text-align:center;
+      box-shadow:0 0 10px rgba(15,23,42,0.8);
+      font-size:0.82rem;
+    }
+    .book-card img{
+      width:100%;
+      max-height:180px;
+      object-fit:contain;
+      display:block;
+      margin-bottom:6px;
+      border-radius:8px;
+    }
+    footer{
+      margin-top:20px;padding:18px 24px;font-size:0.8rem;color:#94a3b8;
+      text-align:center;border-top:1px solid #1f2937;background:#020617;
+    }
+    @media(max-width:720px){
+      header{flex-direction:column;align-items:flex-start;gap:10px;}
+      nav{display:flex;flex-wrap:wrap;}
+      nav a{margin-left:0;margin-right:14px;margin-top:4px;}
+      .two-cols{grid-template-columns:1fr;}
+    }
+  </style>
+</head>
+<body>
+<header>
+  <div class="logo">
+    <div class="logo-mark">HK</div>
+    <div class="logo-text">
+      <span>Hocine Korichi</span>
+      <span>IA pédagogique & sciences</span>
+    </div>
+  </div>
+ <nav>
+    <a href="index.html">Accueil</a>
+	<a href="ia-cest-quoi.html">C'est quoi IA ?</a>
+    <a href="applications-ia.html">Applications de l’IA</a>
+    <a href="cours-ia-generative-detaille.html">Cours ChatGPT & IA générative</a>
+    <a href="programme-modules-ia.html">Modules du cours</a>
+    <a href="quiz-ia-generative.html">Quiz IA</a>
+    <a href="ressources.html">Ressources</a>
+    <a href="a-propos.html">À propos</a>
+   </nav>
+</header>
+<main>
+
+  <section class="hero-banner">
+    <div class="hero-left">
+      <div class="badge">Programme du cours</div>
+      <h1>Programme des 4 modules – IA, cerveaux numériques et éthique</h1>
+      <p class="intro">
+        Ce programme présente une progression logique : d’abord comprendre ce qu’est l’IA,
+        puis découvrir les modèles génératifs et les LLM, replacer tout cela dans l’histoire,
+        et enfin réfléchir aux limites et aux risques.
+      </p>
+    </div>
+    <div class="hero-right">
+      <div class="hero-brain">
+        <img src="582765793_1161487689524634_2334162444323685167_n.jpg" alt="Schéma entraînement d'une IA" />
+      </div>
+    </div>
+  </section>
+
+  <section class="plan-cours">
+    <h2>Plan du cours – navigation rapide</h2>
+    <p>Clique sur un module pour y accéder directement :</p>
+    <ul>
+      <li><a href="#module1">Module 1 – Découvrir l’IA, le cerveau numérique et ChatGPT</a></li>
+      <li><a href="#module2">Module 2 – Modèles génératifs, LLM, perceptron de Frank Rosenblatt et robots</a></li>
+      <li><a href="#module3">Module 3 – Histoire de l’IA : de Turing aux grands modèles</a></li>
+      <li><a href="#module4">Module 4 – Limites, risques et éthique de l’IA</a></li>
+      <li><a href="#references">Références – Livres, articles, ressources en ligne</a></li>
+    </ul>
+  </section>
+
+  <section id="module1">
+    <h2>Module 1 – Découvrir l’IA, le cerveau numérique et ChatGPT</h2>
+    <h3>1.1 Qu’est-ce que l’intelligence artificielle ?</h3>
+    <p>
+      L’intelligence artificielle (IA) désigne l’ensemble des techniques qui permettent à une machine
+      d’imiter certaines fonctions de l’intelligence humaine : reconnaître des images,
+      comprendre ou générer du langage, prendre des décisions, recommander des contenus, etc.
+    </p>
+
+    <h3>Le cerveau numérique</h3>
+    <p>
+      Un <strong>cerveau numérique</strong> est une version logicielle du cerveau humain :
+      un système capable d’apprendre, raisonner, mémoriser, prédire et prendre des décisions
+      grâce aux techniques d’intelligence artificielle. C’est la base des IA avancées,
+      des robots intelligents et des jumeaux numériques humains.
+    </p>
+    <p class="highlight">
+      <strong>CERVEAU NUMÉRIQUE EN IA — le modèle qui apprend, raisonne et prédit sans fatigue.</strong>
+    </p>
+    <h4>Un modèle IA… mais plus complet qu’un simple modèle</h4>
+    <p>
+      Oui, un cerveau numérique est bien un <strong>modèle d’intelligence artificielle</strong>, mais sa portée
+      dépasse largement celle d’un modèle classique qui se contente de classifier une image ou prédire un chiffre.
+    </p>
+    <p>Il utilise notamment :</p>
+    <ul>
+      <li>des réseaux neuronaux artificiels ;</li>
+      <li>du machine learning ;</li>
+      <li>parfois du deep learning (IA profonde) ;</li>
+      <li>des architectures avancées comme les transformers et modèles génératifs.</li>
+    </ul>
+    <p>
+      Il ne se contente pas d’exécuter une tâche technique. Il peut simuler plusieurs mécanismes
+      cognitifs : mémoire structurée, prise de décision, planification, adaptation.
+    </p>
+
+    <h4>Différence avec un simple modèle IA</h4>
+    <p>
+      Un modèle IA classique résout une <strong>tâche précise</strong> : prédire un prix, reconnaître un visage,
+      générer un court texte.
+    </p>
+    <p>Un cerveau numérique, lui :</p>
+    <ul>
+      <li>apprend de manière continue ;</li>
+      <li>raisonne en plusieurs étapes ;</li>
+      <li>mémorise des informations structurées ;</li>
+      <li>prend des décisions dans un contexte donné ;</li>
+      <li>peut représenter un expert ou un humain sous forme de jumeau numérique cognitif.</li>
+    </ul>
+    <p>
+      C’est une <strong>réplique logicielle du fonctionnement cognitif</strong> : mémoire, raisonnement,
+      reconnaissance, génération, adaptation.
+    </p>
+    <p class="highlight"><strong>
+      ⚡ En résumé : un cerveau numérique est bien un modèle IA, mais surtout une simulation
+      dynamique et évolutive du fonctionnement cognitif humain — beaucoup plus riche qu’un simple réseau de neurones isolé.
+    </strong></p>
+
+    <h3>1.3 ChatGPT et les assistants IA</h3>
+    <p>
+      ChatGPT est un exemple concret de cerveau numérique spécialisé dans le langage.
+      Il analyse la suite des mots, prédit le mot suivant et construit ainsi des textes cohérents,
+      à partir d’un modèle entraîné sur une grande quantité de données textuelles.
+    </p>
+  </section>
+
+  <section id="module2">
+    <h2>Module 2 – Modèles génératifs, LLM, perceptron de Rosenblatt et robots intelligents</h2>
+    <h3>2.1 Qu’est-ce qu’un modèle génératif ?</h3>
+    <p>
+      Un modèle génératif apprend la distribution des données pour pouvoir ensuite produire
+      de nouveaux exemples plausibles : texte, images, sons, code, etc. L’IA générative
+      regroupe ces techniques qui « inventent » du contenu nouveau à partir de ce qu’elles ont appris.
+    </p>
+
+    <h3>2.2 Les LLM (Large Language Models)</h3>
+    <p>
+      Les LLM comme GPT, LLaMA ou Gemini sont de grands modèles de langage entraînés sur d’immenses corpus
+      de textes. Ils apprennent à prédire le mot suivant dans une phrase et deviennent capables de
+      rédiger, traduire, résumer, expliquer, raisonner sur du texte.
+    </p>
+
+    <h3>2.3 Le perceptron de Frank Rosenblatt</h3>
+    <p>
+      Dans les années 1950–1960, le psychologue américain <strong>Frank Rosenblatt</strong> propose
+      le <strong>perceptron</strong>, l’un des premiers modèles de neurone artificiel capable d’apprendre.
+      C’est un modèle simple mais historique, qui a posé les bases des réseaux de neurones modernes.
+    </p>
+    <p>Le perceptron :</p>
+    <ul>
+      <li>reçoit plusieurs entrées (features) pondérées par des poids ;</li>
+      <li>calcule une somme pondérée ;</li>
+      <li>applique une fonction de seuil pour décider entre deux classes (0 ou 1, par exemple).</li>
+    </ul>
+    <p>
+      Rosenblatt avait même construit un prototype matériel, le <em>Mark I Perceptron</em>, capable
+      de reconnaître des formes simples sur des cartes perforées.
+    </p>
+    <p class="highlight">
+      Limite importante : un perceptron simple ne peut pas résoudre certains problèmes
+      non linéairement séparables, comme le fameux problème XOR. C’est l’une des raisons qui
+      ont conduit ensuite au développement des <strong>réseaux de neurones à plusieurs couches</strong> (multi-layer perceptron).
+    </p>
+
+    <h3>2.4 Des perceptrons aux réseaux profonds</h3>
+    <p>
+      En empilant plusieurs couches de neurones (perceptrons), on obtient des
+      <strong>réseaux de neurones profonds</strong> capables de modéliser des relations complexes
+      et non linéaires. C’est le cœur du <strong>Deep Learning</strong> moderne.
+    </p>
+
+    <h3>2.5 Robots intelligents & jumeaux numériques</h3>
+    <p>
+      Les robots modernes peuvent embarquer des cerveaux numériques spécialisés : vision par ordinateur,
+      planification de trajectoires, dialogue, prise de décision. On peut aussi utiliser des modèles IA
+      comme « jumeaux numériques » d’un système industriel ou d’un expert humain, pour simuler des scénarios
+      et optimiser le fonctionnement réel.
+    </p>
+  </section>
+
+  <section id="module3">
+    <h2>Module 3 – Histoire de l’IA : de Turing aux grands modèles modernes</h2>
+    <h3>3.1 Alan Turing et la question “Les machines peuvent-elles penser ?”</h3>
+    <p>
+      Dans les années 1950, Alan Turing propose un test (le « test de Turing ») : une machine est considérée
+      comme intelligente si un humain, dialoguant à l’aveugle, ne peut pas distinguer ses réponses de celles
+      d’un autre humain. Cette idée a fortement influencé la vision de l’IA centrée sur le langage.
+    </p>
+
+    <h3>3.2 Les premiers programmes symboliques</h3>
+    <p>
+      Dans les années 1950–1970, l’IA est essentiellement « symbolique » : on manipule
+      des règles logiques, des arbres de recherche, des systèmes experts.
+    </p>
+
+    <h3>3.3 Hivers de l’IA et renaissance par le machine learning</h3>
+    <p>
+      Après des périodes d’enthousiasme excessif suivies de désillusions (les <em>hivers de l’IA</em>),
+      l’IA redémarre grâce au <strong>machine learning</strong> : plutôt que de programmer
+      toutes les règles à la main, on laisse le système <em>apprendre</em> à partir des données.
+    </p>
+
+    <h3>3.4 Explosion du Deep Learning</h3>
+    <p>
+      À partir des années 2010, la combinaison de trois facteurs – données massives, puissance de calcul
+      (GPU) et nouveaux algorithmes – permet l’essor spectaculaire des réseaux de neurones profonds : vision,
+      traduction automatique, jeu de Go, modèles de langage géants.
+    </p>
+  </section>
+
+  <section id="module4">
+    <h2>Module 4 – Limites, risques et éthique de l’IA</h2>
+    <h3>4.1 Limites techniques</h3>
+    <ul>
+      <li>dépendance aux données d’entraînement (biais, erreurs, trous de connaissance) ;</li>
+      <li>hallucinations des modèles de langage : réponses fausses mais formulées avec assurance ;</li>
+      <li>manque de compréhension réelle du monde (pas de “conscience”, pas d’intention propre).</li>
+    </ul>
+
+    <h3>4.2 Risques sociaux et économiques</h3>
+    <ul>
+      <li>automatisation de tâches avec impacts sur certains métiers ;</li>
+      <li>surveillance de masse et atteintes possibles aux libertés ;</li>
+      <li>désinformation à grande échelle (textes, images, vidéos générées).</li>
+    </ul>
+
+    <h3>4.3 Éthique et régulation</h3>
+    <p>
+      Développer et utiliser l’IA de façon responsable implique :
+    </p>
+    <ul>
+      <li>transparence sur les usages ;</li>
+      <li>protection des données personnelles ;</li>
+      <li>réduction des biais ;</li>
+      <li>régulation démocratique et débat public.</li>
+    </ul>
+  </section>
+
+  <section id="references">
+    <h2>Références principales du cours</h2>
+    <h3>Livres</h3>
+    <ul>
+      <li><em>Deep Learning</em> – Ian Goodfellow, Yoshua Bengio, Aaron Courville (MIT Press).</li>
+      <li><em>Artificial Intelligence: A Modern Approach</em> – Stuart Russell, Peter Norvig.</li>
+      <li><em>Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow</em> – Aurélien Géron (O’Reilly).</li>
+      <li><em>Grokking Deep Learning</em> – Andrew Trask.</li>
+      <li><em>Machine Learning Yearning</em> – Andrew Ng (version PDF en ligne).</li>
+    </ul>
+    <h3>Ressources en ligne</h3>
+    <ul>
+      <li>Cours et articles de DeepLearning.AI.</li>
+      <li>MIT OpenCourseWare – cours de Deep Learning.</li>
+      <li>Blog et documentation d’OpenAI, DeepMind et Hugging Face.</li>
+    </ul>
+  </section>
+
+</main>
+<footer>
+  © <span id="year"></span> Hocine Korichi – Site pédagogique sur l’IA, les cerveaux numériques et les robots.
+</footer>
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>

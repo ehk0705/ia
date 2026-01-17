@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Cours complet : ChatGPT et l’IA générative – Hocine Korichi</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    body {
+      margin: 0;
+      font-family: system-ui, sans-serif;
+      background: #020617;
+      color: #e5e7eb;
+    }
+
+    /* HEADER + MENU */
+    header {
+      padding: 16px 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #1f2937;
+      background: radial-gradient(circle at top left, #1f2937, #020617 60%);
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      box-shadow: 0 0 18px rgba(0,0,0,0.7);
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .logo-mark {
+      width: 32px;
+      height: 32px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #ef4444, #f97316);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #111827;
+      box-shadow: 0 0 10px rgba(248,113,113,0.6);
+    }
+    .logo-text {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.1;
+    }
+    .logo-text span:first-child {
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+    .logo-text span:last-child {
+      font-size: 0.78rem;
+      color: #9ca3af;
+    }
+
+    nav a {
+      margin-left: 18px;
+      text-decoration: none;
+      color: #e5e7eb;
+      font-size: 0.9rem;
+      transition: 0.2s ease;
+    }
+    nav a:hover {
+      color: #f97316;
+      text-shadow: 0 0 6px rgba(248,113,113,0.7);
+    }
+
+    main {
+      max-width: 1040px;
+      margin: 0 auto;
+      padding: 26px 16px 60px;
+    }
+
+    /* HERO / BANNIÈRE */
+    .hero-banner {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      padding: 20px 20px 24px;
+      margin-bottom: 26px;
+      border-radius: 18px;
+      background: radial-gradient(circle at top left, #7f1d1d 0, #1e293b 40%, #020617 85%);
+      border: 1px solid rgba(248,113,113,0.4);
+      box-shadow: 0 0 22px rgba(127,29,29,0.65);
+    }
+    .hero-left {
+      flex: 1 1 260px;
+      min-width: 0;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(248,113,113,0.6);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #fecaca;
+      margin-bottom: 10px;
+    }
+    .hero-badge-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: #f97316;
+      box-shadow: 0 0 6px rgba(248,113,113,0.8);
+    }
+    h1 {
+      font-size: 1.9rem;
+      margin: 0 0 6px;
+      color: #fee2e2;
+      text-shadow: 0 0 8px rgba(248,113,113,0.8);
+    }
+    .hero-subtitle {
+      font-size: 0.97rem;
+      color: #fecaca;
+      margin: 0 0 10px;
+    }
+    .hero-author {
+      font-size: 0.9rem;
+      color: #e5e7eb;
+      margin: 0 0 12px;
+    }
+    .hero-author strong {
+      color: #f97316;
+    }
+    .hero-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 8px;
+    }
+    .hero-tag {
+      font-size: 0.75rem;
+      padding: 3px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(248,113,113,0.4);
+      color: #fee2e2;
+    }
+
+    .hero-right {
+      flex: 1 1 240px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 0;
+    }
+    .hero-brain {
+      width: 260px;
+      max-width: 100%;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 2px solid rgba(248,113,113,0.8);
+      box-shadow:
+        0 0 25px rgba(248,113,113,0.6),
+        0 0 40px rgba(248,113,113,0.25);
+    }
+    .hero-brain img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .intro {
+      font-size: 0.95rem;
+      line-height: 1.65;
+      color: #cbd5f5;
+      margin-bottom: 22px;
+    }
+
+    /* BADGE / BLOCS */
+    .badge {
+      display: inline-block;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 3px 8px;
+      border-radius: 999px;
+      border: 1px solid #38bdf8;
+      color: #7dd3fc;
+      margin-bottom: 8px;
+    }
+
+    .encadre {
+      background: #020617;
+      border-radius: 14px;
+      border: 1px solid #1e3a8a;
+      padding: 12px 14px;
+      margin-top: 10px;
+      margin-bottom: 14px;
+      font-size: 0.93rem;
+      box-shadow: 0 0 8px rgba(56,189,248,0.18);
+    }
+
+    section {
+      margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid #1f2937;
+    }
+    section:last-of-type { border-bottom: none; }
+
+    h2 {
+      font-size: 1.35rem;
+      margin: 0 0 6px;
+      color: #e5e7eb;
+    }
+    h3 {
+      font-size: 1.05rem;
+      margin: 16px 0 4px;
+      color: #f9a8d4;
+    }
+    h4 {
+      font-size: 0.98rem;
+      margin: 10px 0 4px;
+      color: #e5e7eb;
+    }
+    p, li {
+      font-size: 0.96rem;
+      line-height: 1.6;
+    }
+
+    .illustration {
+      width: 100%;
+      border-radius: 14px;
+      margin: 12px 0 16px;
+      box-shadow: 0 0 16px rgba(0,0,0,0.7);
+      border: 1px solid rgba(148,163,184,0.4);
+    }
+
+    footer {
+      margin-top: 20px;
+      padding: 18px 24px;
+      font-size: 0.8rem;
+      color: #94a3b8;
+      text-align: center;
+      border-top: 1px solid #1f2937;
+      background: #020617;
+    }
+
+    @media (max-width: 720px) {
+      header { flex-direction: column; align-items: flex-start; gap: 10px; }
+      nav { display: flex; flex-wrap: wrap; }
+      nav a { margin-left: 0; margin-right: 14px; margin-top: 4px; }
+    }
+  </style>
+</head>
+<body>
+<header>
+  <div class="logo">
+    <div class="logo-mark">HK</div>
+    <div class="logo-text">
+      <span>Hocine Korichi</span>
+      <span>IA pédagogique & sciences</span>
+    </div>
+  </div>
+  <nav>
+    <a href="index.html">Accueil</a>
+    <a href="ia-cest-quoi.html">C’est quoi l’IA ?</a>
+    <a href="fonctionnement-ia.html">Comment ça marche ?</a>
+    <a href="applications-ia.html">Applications</a>
+    <a href="cours-chatgpt-ia-generative.html">Cours IA générative</a>
+    <a href="a-propos.html">À propos</a>
+  </nav>
+</header>
+
+<main>
+  <!-- HERO / BANNIÈRE -->
+  <section class="hero-banner">
+    <div class="hero-left">
+      <div class="hero-badge">
+        <span class="hero-badge-dot"></span>
+        <span>Cours complet · IA générative</span>
+      </div>
+      <h1>Cours complet : ChatGPT et l’IA générative</h1>
+      <p class="hero-subtitle">
+        Un parcours structuré pour comprendre l’IA moderne, les cerveaux numériques et les modèles de langage.
+      </p>
+      <p class="hero-author">
+        Par <strong>Hocine Korichi</strong> – ingénieur physicien & informaticien.
+      </p>
+      <div class="hero-tags">
+        <span class="hero-tag">Cerveau numérique</span>
+        <span class="hero-tag">LLM & Transformers</span>
+        <span class="hero-tag">IA responsable</span>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="hero-brain">
+        <img src="589024568_1167904352216301_1708615495228574567_n.jpg"
+             alt="Cerveau numérique et réseaux de neurones" />
+      </div>
+    </div>
+  </section>
+
+  <p class="intro">
+    Ce cours reprend et développe le document <strong>« Cours ChatGPT & IA générative – version finale avec références »</strong>,
+    adapté pour le web avec un langage clair et pédagogique. Il peut servir de support pour des élèves, des enseignants,
+    des professionnels ou tout curieux de l’intelligence artificielle.
+  </p>
+
+  <section id="cours-ia-generative">
+    <div class="badge">Cours complet</div>
+    <h2>Cours : ChatGPT et l’IA générative</h2>
+    <p><strong>Auteur : Hocine Korichi – Ingénieur physicien et informaticien</strong></p>
+
+    <div class="encadre">
+      <strong>Objectifs du cours :</strong>
+      <ul>
+        <li>Comprendre ce qu’est l’intelligence artificielle et l’IA générative.</li>
+        <li>Saisir le fonctionnement d’un modèle comme ChatGPT.</li>
+        <li>Découvrir les principaux types de modèles génératifs (texte, image, etc.).</li>
+        <li>Identifier les limites, risques et enjeux éthiques.</li>
+      </ul>
+    </div>
+
+    <h3>1. Qu’est-ce que l’intelligence artificielle ?</h3>
+    <p>
+      L’intelligence artificielle (IA) désigne la capacité d’une machine à accomplir des tâches qui, normalement,
+      nécessitent une forme d’intelligence humaine : comprendre le langage, reconnaître des images, analyser des données,
+      prendre des décisions, résoudre des problèmes, créer du contenu.
+    </p>
+
+    <img src="582765793_1161487689524634_2334162444323685167_n.jpg"
+         alt="Schémas Comment entraîner une IA"
+         class="illustration" />
+
+    <h3>2. Exemples d’IA dans la vie quotidienne</h3>
+    <ul>
+      <li><strong>Sur les téléphones</strong> : reconnaissance faciale, prédiction de mots, filtres photos.</li>
+      <li><strong>Sur Internet</strong> : recommandations de vidéos, de musique, de produits.</li>
+      <li><strong>Dans les voitures</strong> : aides à la conduite, régulateur adaptatif, park assist.</li>
+      <li><strong>En santé</strong> : aide à l’analyse d’images médicales, détection de signaux faibles.</li>
+      <li><strong>Dans les banques</strong> : détection de fraude, scoring de crédit.</li>
+    </ul>
+
+    <h3>3. IA générative : définition simple</h3>
+    <p>
+      Une <strong>IA générative</strong> est une IA capable de créer du contenu nouveau – texte, image, son, code,
+      vidéo – à partir de ce qu’elle a appris. Elle agit comme un <strong>cerveau numérique créatif</strong> :
+      elle ne copie pas mot à mot ses données d’entraînement, mais combine et réorganise ce qu’elle a vu pour produire
+      des réponses inédites.
+    </p>
+
+    <h3>4. ChatGPT : un modèle de langage génératif</h3>
+    <p>
+      <strong>ChatGPT</strong> est un modèle de langage basé sur une architecture de réseau de neurones appelée
+      <strong>Transformer</strong>. Il est entraîné sur un très grand volume de textes pour apprendre à prédire
+      le prochain mot dans une phrase. En enchaînant ces prédictions, il est capable de :
+    </p>
+    <ul>
+      <li>répondre à des questions et tenir une conversation,</li>
+      <li>expliquer des notions simples ou avancées,</li>
+      <li>résumer, traduire, corriger ou restructurer un texte,</li>
+      <li>générer des histoires, des dialogues, du code, des exercices pédagogiques, etc.</li>
+    </ul>
+
+    <h3>5. D’où vient son « savoir » ?</h3>
+    <p>
+      ChatGPT n’est pas un moteur de recherche classique et ne « lit » pas Internet en temps réel. Il a été entraîné
+      à partir d’un <strong>corpus massif de textes</strong> (livres, articles, documentations, pages web publiques, etc.).
+      Pendant l’entraînement, il apprend les structures du langage, les liens logiques, les faits présents dans ces données.
+      Ensuite, il génère des réponses à partir de ces connaissances internes.
+    </p>
+
+    <h3>6. Comment lui parler efficacement ?</h3>
+    <p>La qualité du résultat dépend beaucoup de la qualité de la consigne, le <strong>prompt</strong>.</p>
+    <ul>
+      <li>Donner un <strong>contexte</strong> : public visé, niveau (débutant, avancé, enfant…).</li>
+      <li>Définir un <strong>rôle</strong> : « Tu es professeur de physique », « Tu es traducteur ».</li>
+      <li>Préciser le <strong>format</strong> : liste à puces, tableau, résumé en 5 points, etc.</li>
+      <li>Fournir un <strong>exemple</strong> de réponse attendue si nécessaire.</li>
+    </ul>
+
+    <h3>7. Les types de modèles génératifs</h3>
+    <p>On distingue plusieurs grandes familles de modèles&nbsp;:</p>
+    <ul>
+      <li><strong>Modèles de langage (LLM)</strong> : GPT, LLaMA, Gemini, Claude…</li>
+      <li><strong>Générateurs d’images</strong> : DALL·E, Midjourney, Stable Diffusion.</li>
+      <li><strong>Générateurs de musique</strong> : Suno, AIVA, etc.</li>
+      <li><strong>Générateurs de code</strong> : GitHub Copilot, CodeWhisperer, etc.</li>
+      <li><strong>Modèles multimodaux</strong> : capables de traiter texte + image + audio.</li>
+    </ul>
+
+    <img src="584964478_1161926096147460_7573395902059090238_n.jpg"
+         alt="LLaMA, cerveau libre de l’IA"
+         class="illustration" />
+
+    <h3>8. Comment entraîne-t-on un modèle génératif ?</h3>
+    <p>Le processus suit généralement quatre grandes étapes&nbsp;:</p>
+    <ol>
+      <li><strong>Collecte de données</strong> : rassembler de grands volumes de textes, images, sons.</li>
+      <li><strong>Prétraitement</strong> : nettoyer, filtrer, anonymiser, mettre en forme les données.</li>
+      <li><strong>Entraînement</strong> : le modèle ajuste ses paramètres pour minimiser ses erreurs de prédiction.</li>
+      <li><strong>Ajustement fin</strong> : on améliore le modèle avec du retour humain et des données spécialisées.</li>
+    </ol>
+
+    <h3>9. Apprentissage supervisé, non supervisé et par renforcement</h3>
+    <ul>
+      <li>
+        <strong>Supervisé</strong> : on fournit des exemples d’entrée <em>et</em> de sortie (question → bonne réponse).
+        Le modèle apprend à reproduire le lien entre les deux.
+      </li>
+      <li>
+        <strong>Non supervisé</strong> : le modèle explore les données sans étiquette et découvre des structures cachées
+        (regroupements, thèmes…).
+      </li>
+      <li>
+        <strong>Par renforcement</strong> : l’agent agit dans un environnement, reçoit des récompenses ou pénalités,
+        et apprend à maximiser la récompense totale.
+      </li>
+    </ul>
+
+    <h3>10. RLHF : l’ajustement par retour humain</h3>
+    <p>
+      Pour rendre un modèle plus utile et plus sûr, on utilise souvent le <strong>RLHF</strong>
+      (<em>Reinforcement Learning from Human Feedback</em>) :
+    </p>
+    <ul>
+      <li>des annotateurs humains comparent plusieurs réponses de l’IA ;</li>
+      <li>un modèle apprend ce que les humains préfèrent ;</li>
+      <li>on ajuste le modèle principal pour qu’il produise plus souvent ce type de réponses.</li>
+    </ul>
+
+    <h3>11. RAG : connecter l’IA à des documents</h3>
+    <p>
+      Le <strong>RAG</strong> (<em>Retrieval-Augmented Generation</em>) combine l’IA générative avec un moteur de recherche&nbsp;:
+    </p>
+    <ol>
+      <li>On cherche dans une base de documents (PDF, base interne, site web).</li>
+      <li>On insère les passages pertinents dans le prompt.</li>
+      <li>L’IA génère une réponse en s’appuyant sur ces passages.</li>
+    </ol>
+    <p>
+      Résultat : des réponses plus <strong>factuelles</strong>, mieux ancrées dans des sources contrôlées
+      (documents d’entreprise, cours, rapports techniques, etc.).
+    </p>
+
+    <h3>12. Limites et risques de l’IA générative</h3>
+    <ul>
+      <li><strong>Hallucinations</strong> : l’IA peut inventer des faits inexacts mais formulés avec assurance.</li>
+      <li><strong>Biais</strong> : si les données d’entraînement sont biaisées, les réponses le seront aussi.</li>
+      <li><strong>Dépendance</strong> : risque de s’en remettre à l’IA pour tout, sans esprit critique.</li>
+      <li><strong>Usages malveillants</strong> : spams, deepfakes, désinformation.</li>
+    </ul>
+
+    <img src="588501638_1167467142260022_4564626956316676662_n.jpg"
+         alt="Ordinateurs biologiques à base d’ADN"
+         class="illustration" />
+
+    <h3>13. Sécurité, éthique et responsabilité</h3>
+    <p>
+      Le développement de l’IA nécessite des garde-fous&nbsp;:
+    </p>
+    <ul>
+      <li>cadres légaux (régulation, chartes d’IA responsable),</li>
+      <li>contrôles humains sur les décisions sensibles (santé, justice, finance),</li>
+      <li>transparence sur les données et les limites du système,</li>
+      <li>éducation du public à l’esprit critique face aux contenus générés.</li>
+    </ul>
+
+    <h3>14. L’histoire de l’IA (en résumé)</h3>
+    <ul>
+      <li><strong>1950</strong> – Alan Turing pose la question « Les machines peuvent-elles penser ? ».</li>
+      <li><strong>1956</strong> – Conférence de Dartmouth : naissance officielle du terme « intelligence artificielle ».</li>
+      <li><strong>Années 1960–1970</strong> – Premiers systèmes experts et robots simples.</li>
+      <li><strong>Années 1980–1990</strong> – Hivers de l’IA : attentes trop élevées, financements en baisse.</li>
+      <li><strong>Années 2010</strong> – Explosion du deep learning : reconnaissance d’image, traduction, jeux (AlphaGo).</li>
+      <li><strong>Années 2020</strong> – IA générative grand public (GPT, Midjourney, etc.).</li>
+    </ul>
+
+    <h3>15. IA faible et IA forte</h3>
+    <p>
+      L’IA actuelle est une <strong>IA faible</strong> : très performante dans des tâches ciblées, mais sans conscience.
+      L’<strong>IA forte</strong>, dotée d’une vraie compréhension générale comparable à celle de l’humain,
+      est encore un concept théorique et un sujet de débat scientifique.
+    </p>
+
+    <h3>16. L’avenir de l’IA générative</h3>
+    <p>
+      On peut s’attendre à des modèles plus efficaces, plus multimodaux, mieux intégrés dans des outils du quotidien
+      (bureautique, santé, industrie, éducation). Mais cela ira de pair avec des enjeux forts de :
+    </p>
+    <ul>
+      <li>protection des données,</li>
+      <li>régulation des usages,</li>
+      <li>cohabitation avec les métiers existants,</li>
+      <li>formation continue des citoyens et des professionnels.</li>
+    </ul>
+
+    <h3>17. Ressources recommandées pour aller plus loin</h3>
+    <ul>
+      <li>Stuart Russell – <em>Artificial Intelligence: A Modern Approach</em></li>
+      <li>Melanie Mitchell – <em>Artificial Intelligence: A Guide for Thinking Humans</em></li>
+      <li>Cours en ligne : <em>Machine Learning</em> (Andrew Ng), <em>DeepLearning.AI</em>, <em>Elements of AI</em></li>
+      <li>Plateformes d’articles scientifiques : <em>arXiv.org</em>, conférences NeurIPS, ICML, ICLR.</li>
+    </ul>
+
+  </section>
+</main>
+
+<footer>
+  © <span id="year"></span> Hocine Korichi – Site pédagogique sur l’IA, les cerveaux numériques et les robots.
+</footer>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>

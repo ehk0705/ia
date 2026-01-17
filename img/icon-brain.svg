@@ -1,0 +1,14 @@
+
+<svg width="160" height="160" viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg">
+  <rect width="160" height="160" rx="28" fill="#0f172a"/>
+  <path d="M50 120 C30 100 30 60 50 40 C65 25 80 30 90 40 C100 30 120 30 130 50 C140 70 135 95 118 110"
+        fill="none" stroke="#38bdf8" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="60" cy="55" r="4" fill="#38bdf8"/>
+  <circle cx="78" cy="70" r="4" fill="#38bdf8"/>
+  <circle cx="96" cy="52" r="4" fill="#38bdf8"/>
+  <circle cx="112" cy="78" r="4" fill="#38bdf8"/>
+  <circle cx="86" cy="96" r="4" fill="#38bdf8"/>
+  <text x="24" y="145" fill="#e5e7eb" font-size="14" font-family="system-ui, sans-serif">
+    Cerveau numérique
+  </text>
+</svg>
