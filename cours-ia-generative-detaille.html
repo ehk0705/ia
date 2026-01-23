@@ -132,6 +132,21 @@
       margin-top:20px;padding:18px 24px;font-size:0.8rem;color:#94a3b8;
       text-align:center;border-top:1px solid #1f2937;background:#020617;
     }
+
+    /* AJOUT : encadré spécifique pour la partie "détection IA" */
+    .warning-box{
+      margin-top:10px;
+      padding:12px 14px;
+      border-radius:14px;
+      border:1px solid rgba(248,113,113,0.5);
+      background:radial-gradient(circle at top left,#7f1d1d 0,#1e293b 45%,#020617 95%);
+      box-shadow:0 0 18px rgba(127,29,29,0.35);
+      color:#fee2e2;
+    }
+    .warning-box strong{color:#fff;}
+    .warning-box ul{margin:8px 0 0 18px;}
+    .warning-box li{margin-bottom:4px;}
+
     @media(max-width:720px){
       header{flex-direction:column;align-items:flex-start;gap:10px;}
       nav{display:flex;flex-wrap:wrap;}
@@ -189,6 +204,7 @@
       <li><a href="#sec5">5. Références conseillées</a></li>
       <li><a href="#sec6">6. Cours illustré : ChatGPT & IA générative (version enrichie)</a></li>
       <li><a href="#sec7">7. Outils pédagogiques pour enseignants et élèves</a></li>
+      <li><a href="#sec7-4">7.4 Vérifier si un devoir a été fait avec l’IA</a></li>
     </ul>
   </section>
 
@@ -399,6 +415,41 @@
       <li>présentation PowerPoint / PDF « Cours ChatGPT &amp; IA générative » ;</li>
       <li>affiches pédagogiques sur les modèles, le cerveau numérique, l’ADN computing, LLaMA, etc.</li>
     </ul>
+
+    <!-- AJOUT : paragraphe enrichi demandé -->
+    <h3 id="sec7-4">7.4 Peut-on vérifier si un étudiant a fait son devoir en utilisant l’IA ?</h3>
+    <p>
+      C’est une question fréquente : <strong>peut-on prouver</strong> qu’un étudiant a utilisé une IA
+      pour faire un devoir ou un travail&nbsp;? En pratique, la réponse est simple :
+      <strong>non, on ne peut pas le prouver de façon fiable</strong> à partir du texte seul.
+    </p>
+
+    <div class="warning-box">
+      <p>
+        <strong>Point important :</strong> les « détecteurs d’IA » donnent des résultats
+        <strong>probabilistes</strong>. Ils peuvent se tromper et produire des <strong>faux positifs</strong>
+        (un texte humain accusé à tort d’être généré par une IA).
+      </p>
+      <ul>
+        <li>Un bon niveau de français, un style régulier ou une écriture très structurée peuvent être mal interprétés.</li>
+        <li>Des textes courts sont encore plus difficiles à analyser correctement.</li>
+        <li>Les modèles évoluent vite : un détecteur peut devenir obsolète et perdre en fiabilité.</li>
+      </ul>
+    </div>
+
+    <p>
+      Quand une accusation vise un élève (par exemple&nbsp;: « on a accusé ma fille »),
+      une approche raisonnable consiste à s’appuyer sur des éléments <strong>vérifiables</strong> :
+      brouillons, historique de versions, plan de travail, sources utilisées, et surtout
+      <strong>un échange oral</strong> pour vérifier la compréhension (capacité à expliquer ses choix,
+      à répondre à des questions, à refaire une partie du raisonnement).
+    </p>
+
+    <p class="highlight">
+      Bonne pratique : définir une règle claire dès le départ (IA autorisée ou non, et dans quelles limites),
+      et demander une transparence minimale (ex. : indiquer si l’IA a été utilisée pour reformuler, corriger ou structurer).
+    </p>
+
     <p class="small-nav"><a href="#sommaire">↑ Retour au sommaire</a></p>
   </section>
 
