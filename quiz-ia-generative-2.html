@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Quiz IA générative</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    body { margin:0; font-family:system-ui,sans-serif; background:#020617; color:#e5e7eb; }
+    header {
+      padding:16px 28px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      border-bottom:1px solid #1f2937;
+      background:radial-gradient(circle at top left,#1f2937,#020617 60%);
+      position:sticky; top:0; z-index:20;
+      box-shadow:0 0 18px rgba(0,0,0,0.7);
+    }
+    .logo{display:flex;align-items:center;gap:10px;}
+    .logo-mark{
+      width:32px;height:32px;border-radius:999px;
+      background:linear-gradient(135deg,#ef4444,#f97316);
+      display:flex;align-items:center;justify-content:center;
+      font-size:0.8rem;font-weight:700;color:#111827;
+      box-shadow:0 0 10px rgba(248,113,113,0.6);
+    }
+    .logo-text{display:flex;flex-direction:column;line-height:1.1;}
+    .logo-text span:first-child{font-weight:700;font-size:0.95rem;}
+    .logo-text span:last-child{font-size:0.78rem;color:#9ca3af;}
+    nav a{
+      margin-left:18px;text-decoration:none;color:#e5e7eb;
+      font-size:0.9rem;transition:0.2s ease;
+    }
+    nav a:hover{color:#f97316;text-shadow:0 0 6px rgba(248,113,113,0.7);}
+    main{max-width:1040px;margin:0 auto;padding:26px 16px 60px;}
+    h1{font-size:1.9rem;margin:0 0 10px;color:#fee2e2;}
+    h2,h3{color:#e5e7eb;}
+    p{font-size:0.95rem;line-height:1.6;}
+    .intro{color:#cbd5f5;}
+    .badge{
+      display:inline-flex;align-items:center;gap:6px;
+      padding:4px 10px;border-radius:999px;
+      border:1px solid rgba(248,113,113,0.6);
+      font-size:0.75rem;text-transform:uppercase;
+      letter-spacing:0.08em;color:#fecaca;margin-bottom:10px;
+    }
+    .hero-banner{
+      display:flex;flex-wrap:wrap;gap:20px;
+      padding:20px 20px 24px;margin-bottom:26px;
+      border-radius:18px;
+      background:radial-gradient(circle at top left,#7f1d1d 0,#1e293b 40%,#020617 85%);
+      border:1px solid rgba(248,113,113,0.4);
+      box-shadow:0 0 22px rgba(127,29,29,0.65);
+    }
+    .hero-left{flex:1 1 260px;min-width:0;}
+    .hero-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;}
+    .hero-tag{
+      font-size:0.75rem;padding:3px 8px;border-radius:999px;
+      border:1px solid rgba(248,113,113,0.4);color:#fee2e2;
+    }
+    .card{
+      background:#020617;border-radius:16px;border:1px solid #1f2937;
+      padding:14px 16px 16px;box-shadow:0 0 10px rgba(15,23,42,0.8);
+      margin-bottom:14px;
+    }
+    .card h2{margin:0 0 6px;}
+    .card p{font-size:0.92rem;color:#cbd5f5;margin:0 0 10px;}
+    label{display:block;margin:6px 0;color:#cbd5f5;}
+    input[type="radio"]{transform:translateY(1px);}
+    .btn{
+      display:inline-block;margin-top:6px;padding:6px 12px;
+      border-radius:999px;text-decoration:none;font-size:0.85rem;
+      border:1px solid #f97316;color:#fed7aa;
+      background:radial-gradient(circle at top left,#7f1d1d,#020617);
+      cursor:pointer;
+    }
+    .btn:hover{background:#f97316;color:#111827;}
+    .highlight{
+      background:#020617;border-left:3px solid #f97316;
+      padding:6px 10px;margin:8px 0;font-size:0.94rem;color:#fecaca;
+    }
+    .meta{color:#9ca3af;font-size:0.85rem;margin-top:8px;}
+    footer{
+      margin-top:20px;padding:18px 24px;font-size:0.8rem;color:#94a3b8;
+      text-align:center;border-top:1px solid #1f2937;background:#020617;
+    }
+    @media(max-width:720px){
+      header{flex-direction:column;align-items:flex-start;gap:10px;}
+      nav{display:flex;flex-wrap:wrap;}
+      nav a{margin-left:0;margin-right:14px;margin-top:4px;}
+    }
+  </style>
+</head>
+
+<body>
+<header>
+  <div class="logo">
+    <div class="logo-mark">HK</div>
+    <div class="logo-text">
+      <span>Hocine Korichi</span>
+      <span>IA pédagogique & sciences</span>
+    </div>
+  </div>
+  <nav>
+    <a href="index.html">Accueil</a>
+    <a href="ia-cest-quoi.html">C'est quoi IA ?</a>
+    <a href="applications-ia.html">Applications de l’IA</a>
+    <a href="cours-ia-generative-detaille.html">Cours ChatGPT & IA générative</a>
+    <a href="programme-modules-ia.html">Modules du cours</a>
+    <a href="quiz-ia-generative.html">Quiz IA</a>
+    <a href="ressources.html">Ressources</a>
+    <a href="a-propos.html">À propos</a>
+  </nav>
+</header>
+
+<main>
+  <section class="hero-banner">
+    <div class="hero-left">
+      <div class="badge">Quiz</div>
+      <h1 id="quizTitle">Quiz – IA générative</h1>
+      <p class="intro" id="quizIntro">
+        Quiz du jour : modèles de langage, hallucinations, prompts, données, biais, limites et bonnes pratiques.
+      </p>
+      <div class="hero-tags">
+        <span class="hero-tag" id="dayTag">Jour</span>
+        <span class="hero-tag" id="setTag">Quiz</span>
+        <span class="hero-tag" id="nextTag">Prochaine mise à jour</span>
+      </div>
+      <div class="meta" id="metaInfo"></div>
+    </div>
+  </section>
+
+  <form id="quizForm">
+    <div id="questionsContainer"></div>
+
+    <button type="button" class="btn" id="btnCorriger">Corriger mes réponses</button>
+    <button type="button" class="btn" id="btnReinit" style="margin-left:8px;">Réinitialiser</button>
+
+    <div id="scoreGlobal" style="margin-top:10px;color:#e5e7eb;"></div>
+  </form>
+
+  <script>
+    // --- 8 quiz, sujets IA générative uniquement (rotation quotidienne) ---
+    const quizSets = [
+      {
+        titre: "LLM : principes",
+        questions: [
+          { q:"Un modèle de langage (LLM) produit du texte en :", choix:[
+              ["a","Cherchant toujours sur Internet"],
+              ["b","Prédissant le prochain mot/jeton le plus probable"],
+              ["c","Copiant mot à mot une base secrète"]
+            ], bonne:"b", exp:"Un LLM prédit une suite probable à partir du contexte et de ce qu’il a appris."
+          },
+          { q:"Une “hallucination” correspond à :", choix:[
+              ["a","Une réponse fausse mais plausible"],
+              ["b","Une panne de serveur"],
+              ["c","Un virus informatique"]
+            ], bonne:"a", exp:"Le modèle peut donner une information incorrecte avec un ton assuré."
+          },
+          { q:"Quel est le meilleur réflexe quand la réponse est critique ?", choix:[
+              ["a","La croire si elle semble convaincante"],
+              ["b","Vérifier avec des sources fiables"],
+              ["c","Ne jamais vérifier"]
+            ], bonne:"b", exp:"La formulation ne garantit pas la vérité : il faut recouper."
+          },
+          { q:"Le modèle “comprend” comme un humain ?", choix:[
+              ["a","Oui"],
+              ["b","Non, il calcule des probabilités sur des séquences"],
+              ["c","Seulement la nuit"]
+            ], bonne:"b", exp:"Il n’a pas d’intention ni de conscience, il calcule des sorties probables."
+          },
+          { q:"Le contexte fourni dans le prompt sert à :", choix:[
+              ["a","Augmenter la pertinence de la réponse"],
+              ["b","Rendre le modèle infaillible"],
+              ["c","Supprimer les biais automatiquement"]
+            ], bonne:"a", exp:"Un contexte clair réduit les ambiguïtés et améliore l’utilité."
+          }
+        ]
+      },
+
+      {
+        titre: "Prompts : bonnes pratiques",
+        questions: [
+          { q:"Un bon prompt doit être :", choix:[
+              ["a","Vague"],
+              ["b","Précis (objectif, contraintes, format)"],
+              ["c","Sans contexte"]
+            ], bonne:"b", exp:"Objectif + contraintes + format = meilleure réponse."
+          },
+          { q:"Demander “donne-moi des sources” sert à :", choix:[
+              ["a","Rendre la réponse automatiquement vraie"],
+              ["b","Pouvoir vérifier et recouper"],
+              ["c","Allonger le texte inutilement"]
+            ], bonne:"b", exp:"Les sources aident à contrôler, même si elles doivent aussi être vérifiées."
+          },
+          { q:"Une bonne méthode pour tester un modèle :", choix:[
+              ["a","Essayer des contre-exemples"],
+              ["b","Ne jamais contester"],
+              ["c","Changer de sujet"]
+            ], bonne:"a", exp:"Les contre-exemples révèlent vite les limites."
+          },
+          { q:"Si le modèle se trompe, une action utile est :", choix:[
+              ["a","Préciser les contraintes et corriger le contexte"],
+              ["b","Abandonner toute vérification"],
+              ["c","Réutiliser la même question à l’identique"]
+            ], bonne:"a", exp:"Plus de précision et des exemples corrigent souvent la dérive."
+          },
+          { q:"Le format de sortie (liste, tableau, plan) :", choix:[
+              ["a","Ne sert à rien"],
+              ["b","Aide à obtenir une réponse structurée"],
+              ["c","Rend l’IA plus consciente"]
+            ], bonne:"b", exp:"Le format demandé guide la génération."
+          }
+        ]
+      },
+
+      {
+        titre: "Données, biais, fiabilité",
+        questions: [
+          { q:"Un biais dans les données peut :", choix:[
+              ["a","Être reproduit par le modèle"],
+              ["b","Disparaître toujours automatiquement"],
+              ["c","Rendre le modèle neutre par magie"]
+            ], bonne:"a", exp:"Le modèle apprend des régularités, y compris les biais."
+          },
+          { q:"Pourquoi le modèle peut inventer une référence ?", choix:[
+              ["a","Parce qu’il veut tromper"],
+              ["b","Parce qu’il optimise la plausibilité du texte"],
+              ["c","Parce qu’il lit les livres en direct"]
+            ], bonne:"b", exp:"Il cherche une sortie plausible, pas la vérité garantie."
+          },
+          { q:"Une réponse “assurée” est :", choix:[
+              ["a","Toujours vraie"],
+              ["b","Parfois fausse"],
+              ["c","Une preuve scientifique"]
+            ], bonne:"b", exp:"Le style ne valide pas le contenu."
+          },
+          { q:"Quand éviter de partager des informations personnelles ?", choix:[
+              ["a","Jamais"],
+              ["b","Quand elles ne sont pas nécessaires à la question"],
+              ["c","Uniquement le dimanche"]
+            ], bonne:"b", exp:"Principe de prudence : minimiser les données partagées."
+          },
+          { q:"Pour une décision importante :", choix:[
+              ["a","Valider avec des sources fiables / professionnels"],
+              ["b","Suivre l’IA sans recul"],
+              ["c","Choisir au hasard"]
+            ], bonne:"a", exp:"L’IA aide, mais la validation sérieuse reste indispensable."
+          }
+        ]
+      },
+
+      {
+        titre: "Génération d’images : notions",
+        questions: [
+          { q:"Un modèle génératif d’images produit :", choix:[
+              ["a","Une image à partir d’une description et d’un apprentissage préalable"],
+              ["b","Une photo en temps réel de ta caméra"],
+              ["c","Une image toujours exacte du monde réel"]
+            ], bonne:"a", exp:"Il synthétise une image plausible selon un texte, pas une “preuve” du réel."
+          },
+          { q:"Risque fréquent :", choix:[
+              ["a","Confondre une image générée avec une source fiable"],
+              ["b","Aucune erreur possible"],
+              ["c","Toujours une vérité documentaire"]
+            ], bonne:"a", exp:"Une image réaliste n’est pas une preuve."
+          },
+          { q:"Pour un meilleur rendu, le prompt image doit :", choix:[
+              ["a","Préciser sujet, style, lumière, cadrage"],
+              ["b","Être un seul mot"],
+              ["c","Ne rien indiquer"]
+            ], bonne:"a", exp:"Plus de détails visuels = résultat plus proche de l’intention."
+          },
+          { q:"Une limitation courante :", choix:[
+              ["a","Erreurs de texte écrit dans l’image"],
+              ["b","Compréhension parfaite des faits"],
+              ["c","Lecture de pensées"]
+            ], bonne:"a", exp:"Le texte dans l’image peut être déformé ou incohérent."
+          },
+          { q:"Bonne pratique :", choix:[
+              ["a","Indiquer ce qu’on ne veut pas (contraintes négatives)"],
+              ["b","Refuser toute contrainte"],
+              ["c","Ne jamais itérer"]
+            ], bonne:"a", exp:"Spécifier ce qui doit être évité aide souvent."
+          }
+        ]
+      },
+
+      {
+        titre: "Raisonnement et erreurs",
+        questions: [
+          { q:"Pourquoi l’IA peut “raisonner mal” ?", choix:[
+              ["a","Parce qu’elle optimise la forme plausible, pas une preuve"],
+              ["b","Parce qu’elle déteste les mathématiques"],
+              ["c","Parce qu’elle cherche Internet en secret"]
+            ], bonne:"a", exp:"Sans vérification externe, elle peut enchaîner des erreurs plausibles."
+          },
+          { q:"Une bonne demande pour réduire les erreurs :", choix:[
+              ["a","“Donne les étapes et vérifie les hypothèses”"],
+              ["b","“Réponds vite, peu importe”"],
+              ["c","“Ne précise rien”"]
+            ], bonne:"a", exp:"Forcer l’explicitation et la vérification améliore souvent la qualité."
+          },
+          { q:"Le modèle peut se contredire car :", choix:[
+              ["a","Il vise une cohérence globale parfaite"],
+              ["b","Le contexte peut être incomplet ou ambigu"],
+              ["c","Il a une mémoire humaine fiable"]
+            ], bonne:"b", exp:"Ambiguïtés + limites de contexte peuvent mener à des contradictions."
+          },
+          { q:"Une solution pratique :", choix:[
+              ["a","Demander une synthèse courte + points à vérifier"],
+              ["b","Ne jamais relire"],
+              ["c","Ignorer les incohérences"]
+            ], bonne:"a", exp:"Une liste de points vérifiables est plus contrôlable."
+          },
+          { q:"Quand une réponse contient des chiffres :", choix:[
+              ["a","Toujours les accepter"],
+              ["b","Les vérifier (sources, calculs, cohérence)"],
+              ["c","Les supprimer systématiquement"]
+            ], bonne:"b", exp:"Les chiffres sont souvent un point fragile."
+          }
+        ]
+      },
+
+      {
+        titre: "Usages : rédaction et code",
+        questions: [
+          { q:"Pour rédiger un texte :", choix:[
+              ["a","Copier-coller sans relire"],
+              ["b","Utiliser comme brouillon puis corriger"],
+              ["c","Ne jamais vérifier la grammaire"]
+            ], bonne:"b", exp:"L’IA aide, mais la relecture reste obligatoire."
+          },
+          { q:"Pour du code :", choix:[
+              ["a","Exécuter sans comprendre"],
+              ["b","Tester, relire, vérifier la sécurité"],
+              ["c","Publier directement en production"]
+            ], bonne:"b", exp:"Toujours tester et comprendre avant d’utiliser."
+          },
+          { q:"Demander un exemple minimal sert à :", choix:[
+              ["a","Simplifier la vérification"],
+              ["b","Rendre le modèle plus lent"],
+              ["c","Supprimer le besoin de tests"]
+            ], bonne:"a", exp:"Un exemple minimal permet de contrôler rapidement."
+          },
+          { q:"Une bonne demande de code :", choix:[
+              ["a","Contexte + contraintes + version/outil"],
+              ["b","“Fais-moi un site” sans précision"],
+              ["c","Aucune information"]
+            ], bonne:"a", exp:"Plus tu précises, plus la réponse colle à ton besoin."
+          },
+          { q:"Pour éviter les erreurs :", choix:[
+              ["a","Demander des tests simples"],
+              ["b","Ne pas tester"],
+              ["c","Ignorer les warnings"]
+            ], bonne:"a", exp:"Des tests rapides attrapent beaucoup d’erreurs."
+          }
+        ]
+      },
+
+      {
+        titre: "Sécurité et confidentialité",
+        questions: [
+          { q:"Une bonne règle avec des données sensibles :", choix:[
+              ["a","Partager le maximum"],
+              ["b","Éviter ou anonymiser"],
+              ["c","Publier sur le site"]
+            ], bonne:"b", exp:"Minimiser les données partagées est une règle simple."
+          },
+          { q:"Le modèle peut inventer une “politique” ou un “fait” :", choix:[
+              ["a","Oui"],
+              ["b","Non, jamais"],
+              ["c","Uniquement le lundi"]
+            ], bonne:"a", exp:"Il faut vérifier les infos importantes."
+          },
+          { q:"Pour un conseil médical :", choix:[
+              ["a","Suivre l’IA sans vérifier"],
+              ["b","Consulter des sources médicales fiables / professionnels"],
+              ["c","Ignorer toute source"]
+            ], bonne:"b", exp:"La santé demande une validation sérieuse."
+          },
+          { q:"Une bonne pratique de navigation :", choix:[
+              ["a","Demander une réponse et ses limites"],
+              ["b","Exiger une certitude absolue"],
+              ["c","Refuser toute nuance"]
+            ], bonne:"a", exp:"Les limites aident à cadrer l’usage."
+          },
+          { q:"Quand une réponse est trop générale :", choix:[
+              ["a","Ajouter contraintes et exemples"],
+              ["b","Ne rien faire"],
+              ["c","Changer de sujet"]
+            ], bonne:"a", exp:"Les détails guident la génération."
+          }
+        ]
+      },
+
+      {
+        titre: "Évaluation et qualité",
+        questions: [
+          { q:"Un bon indicateur de qualité :", choix:[
+              ["a","Longueur du texte"],
+              ["b","Cohérence + vérifiabilité + sources"],
+              ["c","Ton très confiant"]
+            ], bonne:"b", exp:"La vérification et la cohérence comptent plus que le style."
+          },
+          { q:"Pourquoi recouper ?", choix:[
+              ["a","Pour perdre du temps"],
+              ["b","Pour éviter les erreurs plausibles"],
+              ["c","Parce que l’IA est infaillible"]
+            ], bonne:"b", exp:"Une réponse plausible peut être fausse."
+          },
+          { q:"Une réponse avec citations :", choix:[
+              ["a","Est toujours vraie"],
+              ["b","Est plus vérifiable, mais pas automatiquement vraie"],
+              ["c","Ne sert à rien"]
+            ], bonne:"b", exp:"Les citations aident, mais doivent être contrôlées."
+          },
+          { q:"Meilleure méthode pour progresser :", choix:[
+              ["a","Poser une question vague par mois"],
+              ["b","Itérer : préciser, tester, corriger"],
+              ["c","Ne jamais revenir sur une réponse"]
+            ], bonne:"b", exp:"L’itération améliore rapidement le résultat."
+          },
+          { q:"Quand la réponse semble incertaine :", choix:[
+              ["a","Demander ce qui manque et les hypothèses"],
+              ["b","Accepter quand même"],
+              ["c","Ignorer les doutes"]
+            ], bonne:"a", exp:"Clarifier hypothèses et manques est essentiel."
+          }
+        ]
+      }
+    ];
+
+    // --- Rotation quotidienne : index basé sur le numéro du jour ---
+    // On utilise le nombre de jours depuis une date fixe (UTC) pour être stable.
+    function dayIndexUTC(d){
+      const ms = Date.UTC(d.getFullYear(), d.getMonth(), d.getDate());
+      return Math.floor(ms / 86400000);
+    }
+
+    function tomorrowUTC(d){
+      const t = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+      t.setUTCDate(t.getUTCDate() + 1);
+      return t;
+    }
+
+    function fmtDateFR(d){
+      const dd = String(d.getUTCDate()).padStart(2,"0");
+      const mm = String(d.getUTCMonth()+1).padStart(2,"0");
+      const yy = d.getUTCFullYear();
+      return `${dd}/${mm}/${yy}`;
+    }
+
+    const now = new Date();
+    const dayIdx = dayIndexUTC(now);
+    const setIndex = dayIdx % quizSets.length;
+    const currentSet = quizSets[setIndex];
+    const nextDate = tomorrowUTC(now);
+
+    document.getElementById("dayTag").textContent = `Jour ${dayIdx}`;
+    document.getElementById("setTag").textContent = `Quiz ${setIndex + 1} / ${quizSets.length}`;
+    document.getElementById("nextTag").textContent = `Mise à jour : ${fmtDateFR(nextDate)}`;
+    document.getElementById("metaInfo").textContent =
+      `Ce quiz change automatiquement chaque jour (rotation sur ${quizSets.length} quiz).`;
+
+    // --- Rendu du quiz ---
+    const container = document.getElementById("questionsContainer");
+    const bonnes = {};
+
+    function renderQuestions(){
+      container.innerHTML = "";
+      document.getElementById("quizTitle").textContent = `Quiz – ${currentSet.titre}`;
+
+      currentSet.questions.forEach((qq, idx) => {
+        const qName = "q" + (idx+1);
+        bonnes[qName] = qq.bonne;
+
+        const card = document.createElement("div");
+        card.className = "card";
+
+        const h2 = document.createElement("h2");
+        h2.textContent = `Question ${idx+1}`;
+        card.appendChild(h2);
+
+        const p = document.createElement("p");
+        p.textContent = qq.q;
+        card.appendChild(p);
+
+        qq.choix.forEach(([val, txt]) => {
+          const lab = document.createElement("label");
+          lab.innerHTML = `<input type="radio" name="${qName}" value="${val}"> ${txt}`;
+          card.appendChild(lab);
+        });
+
+        const zone = document.createElement("div");
+        zone.id = "r" + (idx+1);
+        zone.className = "highlight";
+        zone.style.display = "none";
+        card.appendChild(zone);
+
+        container.appendChild(card);
+      });
+    }
+
+    function corrigerQuiz(){
+      let score = 0;
+      const total = currentSet.questions.length;
+
+      for(let i=1;i<=total;i++){
+        const q = "q"+i;
+        const rep = document.querySelector(`input[name="${q}"]:checked`);
+        const zone = document.getElementById("r"+i);
+        const exp = currentSet.questions[i-1].exp;
+
+        zone.style.display = "block";
+
+        if(!rep){
+          zone.textContent = "Aucune réponse sélectionnée.";
+          continue;
+        }
+        if(rep.value === bonnes[q]){
+          score++;
+          zone.textContent = "Bonne réponse ✔  " + exp;
+        }else{
+          zone.textContent = "Mauvaise réponse ✘  " + exp;
+        }
+      }
+
+      document.getElementById("scoreGlobal").textContent = `Score : ${score} / ${total}`;
+      window.scrollTo({top:0, behavior:"smooth"});
+    }
+
+    function reinitQuiz(){
+      const inputs = document.querySelectorAll('#quizForm input[type="radio"]');
+      inputs.forEach(i => i.checked = false);
+
+      const total = currentSet.questions.length;
+      for(let i=1;i<=total;i++){
+        const zone = document.getElementById("r"+i);
+        if(zone){ zone.style.display = "none"; zone.textContent = ""; }
+      }
+      document.getElementById("scoreGlobal").textContent = "";
+    }
+
+    document.getElementById("btnCorriger").addEventListener("click", corrigerQuiz);
+    document.getElementById("btnReinit").addEventListener("click", reinitQuiz);
+
+    renderQuestions();
+  </script>
+
+</main>
+
+<footer>
+  © <span id="year"></span> Hocine Korichi – Quiz IA générative
+</footer>
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>

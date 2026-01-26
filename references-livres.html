@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Références & livres – Intelligence artificielle</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Livres, auteurs et références majeures pour comprendre l’intelligence artificielle, des fondements aux modèles modernes." />
+
+  <style>
+    body { margin:0; font-family:system-ui,sans-serif; background:#020617; color:#e5e7eb; }
+    header {
+      padding:16px 28px; display:flex; justify-content:space-between; align-items:center;
+      border-bottom:1px solid #1f2937;
+      background:radial-gradient(circle at top left,#1f2937,#020617 60%);
+      position:sticky; top:0; z-index:20; box-shadow:0 0 18px rgba(0,0,0,0.7);
+    }
+    .logo{display:flex;align-items:center;gap:10px;}
+    .logo-mark{
+      width:32px;height:32px;border-radius:999px;
+      background:linear-gradient(135deg,#ef4444,#f97316);
+      display:flex;align-items:center;justify-content:center;
+      font-size:0.8rem;font-weight:700;color:#111827;
+      box-shadow:0 0 10px rgba(248,113,113,0.6);
+    }
+    .logo-text{display:flex;flex-direction:column;line-height:1.1;}
+    .logo-text span:first-child{font-weight:700;font-size:0.95rem;}
+    .logo-text span:last-child{font-size:0.78rem;color:#9ca3af;}
+    nav a{ margin-left:18px; text-decoration:none; color:#e5e7eb; font-size:0.9rem; }
+    nav a:hover{ color:#f97316; text-shadow:0 0 6px rgba(248,113,113,0.7); }
+
+    main{max-width:1040px;margin:0 auto;padding:26px 16px 60px;}
+    h1{font-size:1.85rem;margin:0 0 10px;color:#fee2e2;}
+    h2{margin:0 0 10px;color:#e5e7eb;}
+    h3{margin:12px 0 6px;color:#e5e7eb;}
+    p{font-size:0.95rem;line-height:1.7;color:#cbd5f5;margin:0 0 10px;}
+
+    .badge{
+      display:inline-flex;align-items:center;
+      padding:4px 10px;border-radius:999px;
+      border:1px solid rgba(248,113,113,0.6);
+      font-size:0.75rem;text-transform:uppercase;
+      color:#fecaca;margin-bottom:10px;
+    }
+
+    .hero{
+      display:flex;flex-wrap:wrap;gap:20px;
+      padding:20px;margin-bottom:18px;border-radius:18px;
+      background:radial-gradient(circle at top left,#7f1d1d 0,#1e293b 40%,#020617 85%);
+      border:1px solid rgba(248,113,113,0.4);
+      box-shadow:0 0 22px rgba(127,29,29,0.65);
+    }
+    .hero-left{flex:1 1 320px;}
+    .hero-right{flex:1 1 280px;display:flex;justify-content:center;}
+    .hero-img{
+      width:360px;max-width:100%;border-radius:18px;overflow:hidden;
+      border:2px solid rgba(248,113,113,0.8);
+    }
+    .hero-img img{width:100%;display:block;}
+
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;margin-top:14px;}
+    .card{
+      background:#020617;border-radius:16px;border:1px solid #1f2937;
+      padding:14px 16px;box-shadow:0 0 10px rgba(15,23,42,0.8);
+    }
+    .card ul{margin:8px 0 0 18px;padding:0;}
+    .card li{margin-bottom:6px;color:#cbd5f5;font-size:0.95rem;line-height:1.55;}
+
+    .book{
+      display:grid;
+      grid-template-columns:120px 1fr;
+      gap:14px;
+      align-items:start;
+    }
+    .book img{
+      width:120px;height:160px;object-fit:cover;
+      border-radius:12px;border:1px solid rgba(248,113,113,0.4);
+    }
+    .book p{font-size:0.92rem;}
+
+    .note{
+      margin-top:12px;padding:10px 12px;border-radius:14px;
+      border:1px solid rgba(29,78,216,0.45);
+      background:rgba(37,99,235,0.10);
+      color:#e5e7eb;
+    }
+
+    footer{
+      margin-top:20px;padding:18px 24px;font-size:0.8rem;color:#94a3b8;
+      text-align:center;border-top:1px solid #1f2937;background:#020617;
+    }
+
+    @media(max-width:720px){
+      header{flex-direction:column;align-items:flex-start;gap:10px;}
+      nav{display:flex;flex-wrap:wrap;}
+      nav a{margin-left:0;margin-right:14px;margin-top:4px;}
+      .book{grid-template-columns:1fr;}
+    }
+  </style>
+</head>
+
+<body>
+<header>
+  <div class="logo">
+    <div class="logo-mark">HK</div>
+    <div class="logo-text">
+      <span>Hocine Korichi</span>
+      <span>IA pédagogique & sciences</span>
+    </div>
+  </div>
+  <nav>
+    <a href="index.html">Accueil</a>
+    <a href="cerveau-numerique.html">Cerveau numérique</a>
+    <a href="ia-generative.html">IA générative</a>
+    <a href="perceptron-rosenblatt.html">Perceptron & Rosenblatt</a>
+    <a href="references-livres.html">Références & livres</a>
+    <a href="ressources.html">Ressources</a>
+    <a href="a-propos.html">À propos</a>
+  </nav>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="hero-left">
+      <div class="badge">Culture scientifique</div>
+      <h1>Références & livres sur l’IA</h1>
+      <p>
+        Cette page regroupe des ouvrages et références majeures pour comprendre
+        l’intelligence artificielle : ses origines, ses bases mathématiques,
+        ses limites et ses développements récents.
+      </p>
+      <div class="note">
+        Objectif : distinguer les fondements scientifiques des discours marketing
+        et garder une vision critique.
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="hero-img">
+        <img src="img/img-livres-ia.jfif" alt="Livres et références en intelligence artificielle" />
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>1) Ouvrages fondateurs</h2>
+    <div class="grid">
+      <article class="card book">
+        <img src="img/img-turing.jfif" alt="Alan Turing" />
+        <div>
+          <h3>Alan Turing – Computing Machinery and Intelligence</h3>
+          <p>
+            Texte fondateur (1950). Turing pose la question « une machine peut-elle penser ? »
+            et propose le test qui porte son nom. Base philosophique et conceptuelle de l’IA.
+          </p>
+        </div>
+      </article>
+
+      <article class="card book">
+        <img src="img/img-rosenblatt.jfif" alt="Frank Rosenblatt" />
+        <div>
+          <h3>Frank Rosenblatt – Principles of Neurodynamics</h3>
+          <p>
+            Introduction formelle du perceptron. Lien direct entre neurone biologique,
+            mathématiques et apprentissage automatique.
+          </p>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section>
+    <h2>2) Références académiques majeures</h2>
+    <div class="grid">
+      <article class="card book">
+        <img src="img/img-hinton.jfif" alt="Geoffrey Hinton" />
+        <div>
+          <h3>Rumelhart, Hinton, Williams – Learning Representations</h3>
+          <p>
+            Travaux sur la rétropropagation du gradient. Base des réseaux de neurones profonds
+            modernes et du deep learning.
+          </p>
+        </div>
+      </article>
+
+      <article class="card book">
+        <img src="img/img-goodfellow.jfif" alt="Ian Goodfellow" />
+        <div>
+          <h3>Goodfellow, Bengio, Courville – Deep Learning</h3>
+          <p>
+            Ouvrage de référence universitaire. Mathématiques, architectures,
+            entraînement, limites et biais des réseaux profonds.
+          </p>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section>
+    <h2>3) IA moderne et IA générative</h2>
+    <div class="grid">
+      <article class="card">
+        <h3>Transformers et modèles de langage</h3>
+        <ul>
+          <li>Attention, auto-attention, embeddings.</li>
+          <li>Modèles auto-régressifs.</li>
+          <li>Apprentissage sur corpus massifs.</li>
+        </ul>
+      </article>
+
+      <article class="card">
+        <h3>Génération de contenu</h3>
+        <ul>
+          <li>Texte, images, audio, code.</li>
+          <li>Pas de compréhension consciente.</li>
+          <li>Production probabiliste de séquences.</li>
+        </ul>
+      </article>
+
+      <article class="card">
+        <h3>Limites structurelles</h3>
+        <ul>
+          <li>Hallucinations.</li>
+          <li>Biais des données.</li>
+          <li>Dépendance au contexte fourni.</li>
+        </ul>
+      </article>
+    </div>
+  </section>
+
+  <section>
+    <h2>4) Ouvrages de réflexion critique</h2>
+    <div class="grid">
+      <article class="card">
+        <h3>Hubert Dreyfus – What Computers Can’t Do</h3>
+        <p>
+          Analyse critique des promesses excessives de l’IA forte.
+          Met en évidence les limites conceptuelles des approches symboliques.
+        </p>
+      </article>
+
+      <article class="card">
+        <h3>Joseph Weizenbaum – Computer Power and Human Reason</h3>
+        <p>
+          Réflexion éthique et humaine sur l’automatisation et le rôle de l’ordinateur
+          dans la prise de décision.
+        </p>
+      </article>
+
+      <article class="card">
+        <h3>Livres contemporains</h3>
+        <p>
+          Nombreux ouvrages récents abordent l’IA générative, souvent de façon
+          vulgarisée. Leur qualité est inégale. Prudence recommandée.
+        </p>
+      </article>
+    </div>
+  </section>
+
+  <section>
+    <h2>5) Conseils de lecture</h2>
+    <div class="grid">
+      <article class="card">
+        <h3>Débuter</h3>
+        <p>
+          Comprendre les bases : perceptron, réseaux simples, séparation linéaire,
+          limites fondamentales.
+        </p>
+      </article>
+
+      <article class="card">
+        <h3>Approfondir</h3>
+        <p>
+          Étudier les réseaux profonds, les fonctions de perte,
+          la rétropropagation et les données.
+        </p>
+      </article>
+
+      <article class="card">
+        <h3>Garder un esprit critique</h3>
+        <p>
+          L’IA ne pense pas. Elle calcule. Les livres sérieux rappellent toujours
+          cette distinction.
+        </p>
+      </article>
+    </div>
+
+    <div class="note">
+      Une bonne compréhension de l’IA passe par les mathématiques, la logique
+      et l’histoire, pas par les slogans.
+    </div>
+  </section>
+</main>
+
+<footer>
+  © <span id="year"></span> Hocine Korichi – Références IA
+</footer>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+<script data-goatcounter="https://ehk0705.goatcounter.com/count" src="https://gc.zgo.at/count.js"></script>
+</body>
+</html>
