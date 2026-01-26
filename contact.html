@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Contact | YourHealth</title>
+
+  <link rel="stylesheet" href="assets/css/style.css">
+
+  <style>
+    :root{
+      --bg:#0b1220;
+      --card:#121b2e;
+      --txt:#eef2ff;
+      --muted:#b9c2d6;
+      --accent:#7dd3fc;
+      --border:rgba(255,255,255,.12);
+      --ok:#34d399;
+      --bad:#fb7185;
+      --shadow:0 18px 40px rgba(0,0,0,.35);
+    }
+
+    *{box-sizing:border-box}
+
+    body{
+      margin:0;
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      background:linear-gradient(180deg,#070b14,var(--bg));
+      color:var(--txt);
+    }
+
+    /* 🔴 COLLÉ SOUS LE MENU */
+    main{
+      padding:0 16px 20px;
+      margin-top:0;
+    }
+
+    .wrap{
+      max-width:1400px;
+      margin:0 auto;
+      padding-top:6px; /* micro-espacement contrôlé */
+    }
+
+    .page-head{
+      margin:0 0 8px;
+    }
+    .page-head h1{
+      font-size:26px;
+      margin:0 0 2px;
+    }
+    .page-head p{
+      margin:0;
+      color:var(--muted);
+    }
+
+    .card{
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:18px;
+      padding:14px 24px;
+      box-shadow:var(--shadow);
+    }
+
+    .form-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:14px;
+      margin-top:8px;
+    }
+
+    label{
+      display:block;
+      margin-bottom:6px;
+      font-size:14px;
+    }
+
+    .field{
+      width:100%;
+      padding:10px 14px;
+      border-radius:14px;
+      border:1px solid var(--border);
+      background:#0b1220;
+      color:var(--txt);
+      outline:none;
+    }
+    .field::placeholder{color:rgba(185,194,214,.65)}
+    .field:focus{border-color:var(--accent)}
+
+    .full-width{grid-column:1 / -1}
+
+    textarea.field{
+      min-height:170px;
+      resize:vertical;
+      line-height:1.45;
+      font-size:15px;
+    }
+
+    .micro{
+      font-size:13px;
+      color:var(--muted);
+      margin-top:4px;
+    }
+
+    .actions-inline{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      margin-top:6px;
+    }
+
+    button{
+      padding:9px 18px;
+      border-radius:14px;
+      border:1px solid rgba(125,211,252,.45);
+      background:transparent;
+      color:var(--txt);
+      cursor:pointer;
+      font-weight:600;
+    }
+    button:disabled{opacity:.6;cursor:not-allowed}
+
+    .thanks{
+      display:none;
+      margin-top:8px;
+      padding:10px;
+      border-radius:14px;
+      background:rgba(52,211,153,.12);
+      border:1px solid rgba(52,211,153,.4);
+    }
+
+    #statusBad{
+      display:none;
+      margin-top:8px;
+      padding:10px;
+      border-radius:14px;
+      background:rgba(251,113,133,.12);
+      border:1px solid rgba(251,113,133,.4);
+      color:var(--bad);
+    }
+
+    .hp{position:absolute;left:-9999px}
+  </style>
+</head>
+
+<body>
+
+<!-- MENU -->
+<div id="site-header"></div>
+
+<main>
+  <div class="wrap">
+
+    <header class="page-head">
+      <h1>Contact</h1>
+      <p>Un retour, une correction, une suggestion : écrivez ici.</p>
+    </header>
+
+    <section class="card">
+      <form id="contactForm" action="https://formspree.io/f/xojjgkqe" method="POST" novalidate>
+
+        <div class="form-grid">
+
+          <div>
+            <label for="email">Courriel (facultatif)</label>
+            <input class="field" id="email" name="email" type="email"
+                   placeholder="exemple@domaine.com" autocomplete="email">
+          </div>
+
+          <div></div>
+
+          <div class="full-width">
+            <label for="commentaire">Commentaire</label>
+            <textarea class="field" id="commentaire" name="commentaire" required
+              placeholder="Écrivez votre message ici…"></textarea>
+            <p class="micro">Merci de rester concis et clair.</p>
+
+            <div class="actions-inline">
+              <button id="btnSend" type="submit">Envoyer</button>
+              <span id="sendingNote" class="micro" style="display:none;">Envoi en cours…</span>
+            </div>
+
+            <div id="thanks" class="thanks">
+              <strong>Merci pour votre commentaire.</strong> Il a bien été transmis.
+            </div>
+
+            <div id="statusBad"></div>
+          </div>
+
+          <div class="hp">
+            <input type="text" name="_gotcha">
+          </div>
+
+        </div>
+      </form>
+    </section>
+
+  </div>
+</main>
+
+<!-- FOOTER -->
+<div id="site-footer"></div>
+
+<script>
+  fetch("includes/header.html")
+    .then(r => r.ok ? r.text() : "")
+    .then(html => { if(html) document.getElementById("site-header").innerHTML = html; });
+
+  fetch("includes/footer.html")
+    .then(r => r.ok ? r.text() : "")
+    .then(html => { if(html) document.getElementById("site-footer").innerHTML = html; });
+
+  (function(){
+    const form = document.getElementById("contactForm");
+    const btn = document.getElementById("btnSend");
+    const thanks = document.getElementById("thanks");
+    const bad = document.getElementById("statusBad");
+    const note = document.getElementById("sendingNote");
+    const textarea = document.getElementById("commentaire");
+
+    function resetUI(){
+      thanks.style.display="none";
+      bad.style.display="none";
+      bad.textContent="";
+      note.style.display="none";
+    }
+
+    form.addEventListener("submit", async e=>{
+      e.preventDefault();
+      resetUI();
+
+      if(!textarea.value.trim()){
+        bad.textContent="Veuillez écrire un commentaire avant d’envoyer.";
+        bad.style.display="block";
+        return;
+      }
+
+      btn.disabled=true;
+      note.style.display="inline";
+
+      try{
+        const res = await fetch(form.action,{
+          method:"POST",
+          body:new FormData(form),
+          headers:{Accept:"application/json"}
+        });
+
+        if(res.ok){
+          form.reset();
+          thanks.style.display="block";
+        }else{
+          bad.textContent="Échec de l’envoi. Veuillez réessayer plus tard.";
+          bad.style.display="block";
+        }
+      }catch{
+        bad.textContent="Erreur réseau. Veuillez réessayer.";
+        bad.style.display="block";
+      }finally{
+        btn.disabled=false;
+        note.style.display="none";
+      }
+    });
+  })();
+</script>
+
+</body>
+</html>
