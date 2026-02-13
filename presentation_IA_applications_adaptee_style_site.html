@@ -1,0 +1,359 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>IA : applications réelles et création d’applications</title>
+  <meta name="description" content="Présentation pédagogique sur l’intelligence artificielle : domaines, usages réels et méthode simple pour créer des applications." />
+
+  <!-- CSS du site (mêmes styles que les autres pages) -->
+  <link rel="stylesheet" href="assets/css/style.css" />
+
+  <!-- Complément léger, limité à cette page (n’écrase pas le style global) -->
+  <style>
+    /* Portée limitée : évite de modifier le reste du site */
+    body.ia-page .wrap{max-width:1100px;margin:0 auto;padding:22px 18px 60px}
+    body.ia-page .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:12px}
+    body.ia-page .col-12{grid-column:span 12}
+    body.ia-page .col-6{grid-column:span 6}
+    body.ia-page .col-4{grid-column:span 4}
+    body.ia-page .col-3{grid-column:span 3}
+
+    body.ia-page .hero{display:grid;grid-template-columns:1.1fr .9fr;gap:18px;align-items:stretch;margin-top:18px}
+    body.ia-page .steps{display:grid;grid-template-columns:repeat(12,1fr);gap:12px;margin-top:10px}
+    body.ia-page .step{grid-column:span 4}
+
+    body.ia-page .pillrow{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+    body.ia-page .pill{font-size:12px;padding:6px 10px;border-radius:999px}
+
+    /* Responsif */
+    @media (max-width:920px){
+      body.ia-page .hero{grid-template-columns:1fr}
+      body.ia-page .col-6{grid-column:span 12}
+      body.ia-page .col-4{grid-column:span 6}
+      body.ia-page .col-3{grid-column:span 6}
+      body.ia-page .step{grid-column:span 6}
+    }
+    @media (max-width:560px){
+      body.ia-page .col-4, body.ia-page .col-3{grid-column:span 12}
+      body.ia-page .step{grid-column:span 12}
+    }
+  </style>
+</head>
+
+<body class="ia-page">
+<header>
+  <div class="topbar">
+    <div class="brand">
+      <div class="logo" aria-hidden="true">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M12 2v4M12 18v4M2 12h4M18 12h4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          <path d="M7 7l3 3M14 14l3 3M17 7l-3 3M10 14l-3 3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div>
+        <h1>IA : du concept aux applications réelles</h1>
+        <p>Présenté par Hocine Korichi, Ing. · Plan pédagogique + exemples + méthode</p>
+      </div>
+    </div>
+
+    <nav aria-label="Navigation">
+      <a href="#intro">Introduction</a>
+      <a href="#domaines">Domaines</a>
+      <a href="#usages">Usages réels</a>
+      <a href="#idees">Idées d’applis</a>
+      <a href="#methode">Méthode</a>
+      <a href="#outils">Outils</a>
+      <a href="#limites">Avantages / limites</a>
+      <a href="#conclusion">Conclusion</a>
+    </nav>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <div class="hero">
+    <div class="hero-card" id="intro">
+      <h2>Objectif de la présentation</h2>
+      <p>
+        Expliquer <b>ce qu’est l’intelligence artificielle</b>, montrer <b>où elle est déjà utilisée</b>,
+        et donner une <b>méthode simple</b> pour <b>créer une application utile</b> (mobile ou web).
+      </p>
+
+      <p class="note">
+        <b>Idée clé :</b> une application IA n’est pas “magique”. C’est un logiciel qui utilise
+        des modèles entraînés sur des données pour <b>aider</b> (reconnaître, classer, prédire, résumer, recommander).
+      </p>
+
+      <div class="chips" aria-label="Résumé en trois points">
+        <div class="chip"><strong>Comprendre</strong> : domaines et concepts</div>
+        <div class="chip"><strong>Appliquer</strong> : usages concrets</div>
+        <div class="chip"><strong>Construire</strong> : étapes et outils</div>
+      </div>
+
+      <div class="cta">
+        <a class="btn primary" href="#methode">Méthode de création</a>
+        <a class="btn" href="#usages">Usages réels</a>
+      </div>
+    </div>
+
+    <div class="hero-figure" aria-label="Illustration">
+      <img class="figure-img"
+        alt="Illustration stylisée : réseau de points, symbolisant les données et les modèles"
+        src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMjAwIiBoZWlnaHQ9IjYwMCIgdmlld0JveD0iMCAwIDEyMDAgNjAwIj4KICA8ZGVmcz4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iYmciIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSIxIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzA3MGIxNCIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMwYjEyMjAiLz4KICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgPC9kZWZzPgogIDxyZWN0IHdpZHRoPSIxMjAwIiBoZWlnaHQ9IjYwMCIgZmlsbD0idXJsKCNiZykiLz4KICA8ZyBvcGFjaXR5PSIwLjg1Ij4KICAgIDxwYXRoIGQ9Ik0xNjAgMTUwTDMyMCAyNDBMNDgwIDE3MEw4MDAgMjMwTDEwMDAgMTYwIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4xNCkiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0ibm9uZSIvPgogIDwvZz4KICA8ZyBvcGFjaXR5PSIwLjkiPgogICAgPGNpcmNsZSBjeD0iMTYwIiBjeT0iMTUwIiByPSI5IiBmaWxsPSJyZ2JhKDEyNSwyMTEsMjUyLDAuNzUpIi8+CiAgICA8Y2lyY2xlIGN4PSIzMjAiIGN5PSIyNDAiIHI9IjkiIGZpbGw9InJnYmEoMTY1LDE4MCwyNTIsMC43KSIvPgogICAgPGNpcmNsZSBjeD0iNDgwIiBjeT0iMTcwIiByPSI5IiBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuNDIpIi8+CiAgICA8Y2lyY2xlIGN4PSI4MDAiIGN5PSIyMzAiIHI9IjkiIGZpbGw9InJnYmEoMTI1LDIxMSwyNTIsMC43KSIvPgogICAgPGNpcmNsZSBjeD0iMTAwMCIgY3k9IjE2MCIgcj0iOSIgc3R5bGU9ImZpbGw6cmdiYSgyNTUsMjU1LDI1NSwwLjQyKSIvPgogIDwvZz4KICA8dGV4dCB4PSI2MCIgeT0iNTIwIiBmaWxsPSIjYjljMmQ2IiBmb250LWZhbWlseT0ic3lzdGVtLXVpLCBSb2JvdG8sIEFyaWFsIiBmb250LXNpemU9IjE4IiBvcGFjaXR5PSIwLjkiPkRvbm7DqWVzIOKGkiBtb2TDqGxlIOKGkiBhcHBsaWNhdGlvbiB1dGlsZTwvdGV4dD4KPC9zdmc+" />
+      <div class="figure-cap">
+        <b>Image :</b> données → modèle → aide à la décision.
+      </div>
+    </div>
+  </div>
+
+  <section>
+    <div class="sec-head">
+      <div class="icon" aria-hidden="true">📘</div>
+      <div>
+        <h3>1) Introduction : définition simple</h3>
+        <p>Comprendre l’IA sans jargon inutile.</p>
+      </div>
+    </div>
+    <div class="sec-body">
+      <div class="grid">
+        <div class="card col-6">
+          <div class="title">
+            <div class="icon" aria-hidden="true">💡</div>
+            <h4>Ce que fait l’IA</h4>
+          </div>
+          <p>
+            L’IA aide un programme à <b>repérer des régularités</b> dans des données, puis à produire une <b>aide</b> :
+            classification, prédiction, résumé, recommandation.
+          </p>
+          <ul>
+            <li><b>Exemple :</b> détecter un courriel indésirable.</li>
+            <li><b>Exemple :</b> prévoir une demande (ventes, trafic, pannes).</li>
+            <li><b>Exemple :</b> résumer un document long.</li>
+          </ul>
+        </div>
+
+        <div class="card col-6">
+          <div class="title">
+            <div class="icon" aria-hidden="true">🧯</div>
+            <h4>Ce que l’IA ne fait pas</h4>
+          </div>
+          <p>
+            L’IA <b>n’est pas un cerveau</b> et ne “comprend” pas comme un humain.
+            Elle peut se tromper si les données sont mauvaises ou si la tâche est mal définie.
+          </p>
+          <ul>
+            <li><b>Données</b> : biais, erreurs, manque de diversité.</li>
+            <li><b>Contexte</b> : une règle valable ici peut échouer ailleurs.</li>
+            <li><b>Contrôle</b> : tests, limites, surveillance.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Le reste de ton contenu est conservé tel quel -->
+  <!-- (sections Domaines, Usages, Idées, Méthode, Outils, Limites, Conclusion) -->
+
+  <!-- IMPORTANT :
+       J’ai gardé tes classes (hero-card, card, sec-head, etc.) pour profiter du CSS global.
+       Si ton style.css définit déjà ces classes, la page prendra exactement le style du site. -->
+
+  <section id="domaines">
+    <div class="sec-head">
+      <div class="icon" aria-hidden="true">🧭</div>
+      <div>
+        <h3>2) Les grands domaines de l’IA</h3>
+        <p>Quatre familles faciles à distinguer.</p>
+      </div>
+    </div>
+    <div class="sec-body">
+      <div class="grid">
+        <div class="card col-3">
+          <div class="title"><div class="icon" aria-hidden="true">🤖</div><h4>Apprentissage automatique</h4></div>
+          <p><b>But :</b> apprendre à partir de données pour décider.</p>
+          <ul>
+            <li>Classer : “A ou B ?”</li>
+            <li>Prédire : “Quelle valeur ?”</li>
+            <li>Détecter : “Anomalie ?”</li>
+          </ul>
+        </div>
+
+        <div class="card col-3">
+          <div class="title"><div class="icon" aria-hidden="true">🧠</div><h4>Traitement du langage</h4></div>
+          <p><b>But :</b> comprendre et produire du texte.</p>
+          <ul>
+            <li>Questions / réponses</li>
+            <li>Résumé</li>
+            <li>Extraction d’informations</li>
+          </ul>
+        </div>
+
+        <div class="card col-3">
+          <div class="title"><div class="icon" aria-hidden="true">👁️</div><h4>Vision par ordinateur</h4></div>
+          <p><b>But :</b> analyser images et vidéos.</p>
+          <ul>
+            <li>Détection d’objets</li>
+            <li>Analyse d’images médicales</li>
+            <li>Contrôle qualité</li>
+          </ul>
+        </div>
+
+        <div class="card col-3">
+          <div class="title"><div class="icon" aria-hidden="true">✨</div><h4>IA générative</h4></div>
+          <p><b>But :</b> produire du contenu nouveau.</p>
+          <ul>
+            <li>Texte (rédaction, plan)</li>
+            <li>Images (illustrations)</li>
+            <li>Audio / vidéo (selon outils)</li>
+          </ul>
+        </div>
+
+        <div class="card col-12">
+          <p class="note">
+            <b>Point pédagogique :</b> on mélange souvent plusieurs domaines dans une même application.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="usages">
+    <div class="sec-head">
+      <div class="icon" aria-hidden="true">🌍</div>
+      <div>
+        <h3>3) Applications concrètes</h3>
+        <p>Exemples utiles et faciles à expliquer.</p>
+      </div>
+    </div>
+
+    <div class="sec-body">
+      <div class="grid">
+        <div class="card col-4">
+          <div class="title"><div class="icon" aria-hidden="true">🩺</div><h4>Santé</h4></div>
+          <ul>
+            <li>Pré-tri (symptômes → orientation).</li>
+            <li>Analyse d’images (radiologie, ophtalmologie).</li>
+            <li>Suivi (tendances, alertes, rappels).</li>
+          </ul>
+        </div>
+        <div class="card col-4">
+          <div class="title"><div class="icon" aria-hidden="true">🚗</div><h4>Transport</h4></div>
+          <ul>
+            <li>Itinéraires optimisés (trafic, météo).</li>
+            <li>Maintenance prédictive.</li>
+            <li>Planification de flotte.</li>
+          </ul>
+        </div>
+        <div class="card col-4">
+          <div class="title"><div class="icon" aria-hidden="true">💳</div><h4>Finance</h4></div>
+          <ul>
+            <li>Détection de fraude.</li>
+            <li>Évaluation de risque (avec règles).</li>
+            <li>Assistant client (FAQ).</li>
+          </ul>
+        </div>
+        <div class="card col-6">
+          <div class="title"><div class="icon" aria-hidden="true">🛒</div><h4>Commerce</h4></div>
+          <ul>
+            <li>Recommandations.</li>
+            <li>Support client 24/7 (périmètre limité).</li>
+            <li>Prévision des ventes et stocks.</li>
+          </ul>
+        </div>
+        <div class="card col-6">
+          <div class="title"><div class="icon" aria-hidden="true">🏭</div><h4>Industrie</h4></div>
+          <ul>
+            <li>Détection de défauts par caméra.</li>
+            <li>Optimisation de production.</li>
+            <li>Maintenance prédictive.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="pillrow">
+        <span class="pill">Bon usage : aide ciblée</span>
+        <span class="pill">Mauvais usage : décision sans contrôle</span>
+        <span class="pill">Toujours : tests + limites</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="methode">
+    <div class="sec-head">
+      <div class="icon" aria-hidden="true">🧱</div>
+      <div>
+        <h3>5) Méthode de création</h3>
+        <p>Étapes simples, dans le bon ordre.</p>
+      </div>
+    </div>
+
+    <div class="sec-body">
+      <p class="note">
+        <b>Erreur fréquente :</b> choisir un modèle avant d’avoir défini le problème.
+        Ordre conseillé : <b>problème</b> → <b>critères</b> → <b>données</b> → <b>solution</b>.
+      </p>
+
+      <div class="steps">
+        <div class="step card">
+          <div class="title"><div class="icon" aria-hidden="true">1</div><h4>Définir le problème</h4></div>
+          <p>Une phrase claire + un succès mesurable.</p>
+        </div>
+        <div class="step card">
+          <div class="title"><div class="icon" aria-hidden="true">2</div><h4>Choisir le type d’IA</h4></div>
+          <p>Texte, image, prédiction, recommandation…</p>
+        </div>
+        <div class="step card">
+          <div class="title"><div class="icon" aria-hidden="true">3</div><h4>Rassembler les données</h4></div>
+          <p>Données propres + confidentialité + droits.</p>
+        </div>
+        <div class="step card">
+          <div class="title"><div class="icon" aria-hidden="true">4</div><h4>Construire un prototype</h4></div>
+          <p>Petite version utile, testée vite.</p>
+        </div>
+        <div class="step card">
+          <div class="title"><div class="icon" aria-hidden="true">5</div><h4>Tester et sécuriser</h4></div>
+          <p>Mesures, cas limites, garde-fous.</p>
+        </div>
+        <div class="step card">
+          <div class="title"><div class="icon" aria-hidden="true">6</div><h4>Déployer et améliorer</h4></div>
+          <p>Suivi des retours + amélioration continue.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="conclusion">
+    <div class="sec-head">
+      <div class="icon" aria-hidden="true">✅</div>
+      <div>
+        <h3>Conclusion</h3>
+        <p>Résumé en trois idées.</p>
+      </div>
+    </div>
+
+    <div class="sec-body">
+      <div class="grid">
+        <div class="card col-4">
+          <div class="title"><div class="icon" aria-hidden="true">1</div><h4>Déjà partout</h4></div>
+          <p>Texte, image, tri, alertes, recommandations.</p>
+        </div>
+        <div class="card col-4">
+          <div class="title"><div class="icon" aria-hidden="true">2</div><h4>Problème d’abord</h4></div>
+          <p>Partir d’un besoin réel et mesurable.</p>
+        </div>
+        <div class="card col-4">
+          <div class="title"><div class="icon" aria-hidden="true">3</div><h4>Cadre obligatoire</h4></div>
+          <p>Tests, limites, confidentialité, contrôle.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Page reliée au style du site via <code>assets/css/style.css</code>.
+  </footer>
+
+</div>
+</body>
+</html>

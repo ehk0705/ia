@@ -1,0 +1,479 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Outils pour construire et entraîner des modèles IA</title>
+  <meta name="description" content="Liste d’outils gratuits et payants pour construire et entraîner des modèles d’IA avec des données : AutoML, frameworks, cloud, LLM, pipelines." />
+
+  <style>
+    :root{
+      --bg:#0b1220;
+      --panel:#111a2e;
+      --panel2:#0f1730;
+      --text:#e9eefc;
+      --muted:#b8c3e6;
+      --line:rgba(255,255,255,.10);
+      --accent:#45d6c8;
+      --accent2:#ff7a66;
+      --shadow: 0 14px 40px rgba(0,0,0,.35);
+      --radius:18px;
+      --max:1100px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+      color:var(--text);
+      background: radial-gradient(1200px 700px at 20% 0%, rgba(69,214,200,.18), transparent 55%),
+                  radial-gradient(900px 650px at 85% 10%, rgba(255,122,102,.16), transparent 50%),
+                  linear-gradient(180deg, var(--bg), #070b14 70%);
+    }
+    a{color:inherit; text-decoration:none}
+    .wrap{max-width:var(--max); margin:0 auto; padding:18px}
+
+    /* NAV */
+    .nav{
+      position:sticky; top:0; z-index:10;
+      backdrop-filter: blur(10px);
+      background: rgba(11,18,32,.72);
+      border-bottom:1px solid var(--line);
+    }
+    .nav-inner{
+      display:flex; align-items:center; justify-content:space-between;
+      max-width:var(--max); margin:0 auto; padding:12px 18px;
+      gap:12px;
+    }
+    .brand{
+      display:flex; align-items:center; gap:10px; font-weight:800; letter-spacing:.2px;
+    }
+    .mark{
+      width:34px; height:34px; border-radius:12px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      box-shadow: 0 10px 24px rgba(0,0,0,.25);
+    }
+    .nav-links{display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end}
+    .nav-links a{
+      padding:9px 12px; border-radius:12px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.04);
+    }
+    .nav-links a:hover{transform: translateY(-1px); transition:.15s ease}
+
+    /* HERO */
+    .hero{padding:22px 0 10px}
+    .hero-grid{
+      display:grid; grid-template-columns: 1.15fr .85fr; gap:16px;
+      align-items:stretch;
+    }
+    .hero-left, .hero-right{
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .hero-left{padding:18px}
+    h1{margin:0 0 10px; font-size:1.55rem; line-height:1.2}
+    .lead{margin:0; color:var(--muted); line-height:1.55}
+    .chips{display:flex; gap:8px; flex-wrap:wrap; margin-top:12px}
+    .chip{
+      font-size:.92rem;
+      padding:7px 10px; border-radius:999px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.04);
+      color: var(--text);
+    }
+    .chip strong{color:var(--accent)}
+    .hero-right{
+      position:relative;
+      min-height:220px;
+    }
+    .hero-img{
+      position:absolute; inset:0;
+      background:
+        linear-gradient(180deg, rgba(0,0,0,.15), rgba(0,0,0,.55)),
+        url("/ia/assets/img/ia-outils-entrainement.jfif") center/cover no-repeat;
+    }
+    .hero-caption{
+      position:absolute; left:14px; right:14px; bottom:14px;
+      padding:10px 12px;
+      border-radius:14px;
+      border:1px solid var(--line);
+      background: rgba(17,26,46,.72);
+      color: var(--muted);
+    }
+
+    /* SECTIONS */
+    .section{padding:10px 0 0}
+    .section h2{
+      margin:18px 0 10px;
+      font-size:1.2rem;
+    }
+    .note{
+      margin:0 0 10px;
+      color: var(--muted);
+      line-height:1.55;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:12px;
+    }
+    .card{
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      box-shadow: var(--shadow);
+      padding:14px;
+      display:flex; flex-direction:column; gap:10px;
+    }
+    .card h3{margin:0; font-size:1.05rem}
+    .meta{display:flex; gap:8px; flex-wrap:wrap}
+    .tag{
+      font-size:.85rem;
+      padding:5px 9px;
+      border-radius:999px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.04);
+      color: var(--muted);
+    }
+    .tag.free{color:#b9ffe8; border-color: rgba(69,214,200,.35)}
+    .tag.paid{color:#ffd1ca; border-color: rgba(255,122,102,.35)}
+    .tag.code{color:#d8e2ff; border-color: rgba(184,195,230,.25)}
+    .desc{margin:0; color:var(--muted); line-height:1.5}
+    .hint{
+      margin-top:auto;
+      padding-top:10px;
+      border-top:1px dashed rgba(255,255,255,.14);
+      color: rgba(233,238,252,.92);
+      font-size:.92rem;
+    }
+
+    /* FOOTER */
+    footer{
+      margin-top:22px;
+      border-top:1px solid var(--line);
+      color: var(--muted);
+      padding:16px 0 26px;
+      font-size:.95rem;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 980px){
+      .grid{grid-template-columns: repeat(2, 1fr)}
+      .hero-grid{grid-template-columns: 1fr}
+      .hero-right{min-height:240px}
+    }
+    @media (max-width: 560px){
+      .grid{grid-template-columns: 1fr}
+      .nav-links{justify-content:flex-start}
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAV -->
+  <div class="nav">
+    <div class="nav-inner">
+      <div class="brand">
+        <span class="mark" aria-hidden="true"></span>
+        <span>IA • Entraînement de modèles</span>
+      </div>
+      <div class="nav-links">
+        <a href="/ia/index.html">Accueil</a>
+        <a href="/ia/ia/index.html">IA</a>
+        <a href="#autouml">AutoML</a>
+        <a href="#frameworks">Frameworks</a>
+        <a href="#llm">Modèles de langage</a>
+      </div>
+    </div>
+  </div>
+
+  <main class="wrap">
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-grid">
+        <div class="hero-left">
+          <h1>Outils gratuits et payants pour construire et entraîner des modèles IA</h1>
+          <p class="lead">
+            Cette page regroupe les outils les plus utilisés pour entraîner des modèles sur des données :
+            plateformes AutoML, bibliothèques de code, environnements cloud, et outils pour adapter des modèles de langage.
+          </p>
+          <div class="chips" aria-label="Repères">
+            <span class="chip"><strong>Gratuit</strong> : open source ou service sans coût</span>
+            <span class="chip"><strong>Payant</strong> : facturation à l’usage ou licence</span>
+            <span class="chip"><strong>Code</strong> : nécessite du Python ou équivalent</span>
+          </div>
+        </div>
+
+        <div class="hero-right" aria-label="Illustration">
+          <div class="hero-img" role="img" aria-label="Illustration IA et entraînement de modèles"></div>
+          <div class="hero-caption">
+            Image : <strong>/ia/assets/img/ia-outils-entrainement.jfif</strong><br />
+            Remplace-la par une image de ton dossier si besoin.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- AUTOUML -->
+    <section class="section" id="autouml">
+      <h2>Plateformes complètes (AutoML / faible code)</h2>
+      <p class="note">Utile si l’objectif est d’entraîner vite, avec peu de programmation, puis déployer.</p>
+
+      <div class="grid">
+        <article class="card">
+          <h3>Google Cloud AutoML / Vertex AI</h3>
+          <div class="meta">
+            <span class="tag paid">Payant</span><span class="tag">Forfait d’essai selon offre</span>
+          </div>
+          <p class="desc">Création, entraînement, évaluation et déploiement sur Google Cloud.</p>
+          <div class="hint">Idéal : vision, texte, tabulaire, déploiement géré.</div>
+        </article>
+
+        <article class="card">
+          <h3>Microsoft Azure Machine Learning</h3>
+          <div class="meta">
+            <span class="tag paid">Payant</span><span class="tag">Forfait d’essai selon offre</span>
+          </div>
+          <p class="desc">Studio, pipelines, suivi d’expériences, déploiement et MLOps.</p>
+          <div class="hint">Idéal : entreprises, gouvernance, intégration Azure.</div>
+        </article>
+
+        <article class="card">
+          <h3>Amazon SageMaker</h3>
+          <div class="meta">
+            <span class="tag paid">Payant</span><span class="tag">Forfait d’essai selon offre</span>
+          </div>
+          <p class="desc">Entraînement et déploiement à grande échelle, notebooks et MLOps.</p>
+          <div class="hint">Idéal : production AWS, pipelines robustes.</div>
+        </article>
+
+        <article class="card">
+          <h3>IBM Watson Studio</h3>
+          <div class="meta">
+            <span class="tag paid">Payant</span><span class="tag">Forfait d’essai selon offre</span>
+          </div>
+          <p class="desc">Outils data science, notebooks, modèles et collaboration.</p>
+          <div class="hint">Idéal : environnements gouvernés.</div>
+        </article>
+
+        <article class="card">
+          <h3>DataRobot</h3>
+          <div class="meta">
+            <span class="tag paid">Payant</span>
+          </div>
+          <p class="desc">AutoML orienté entreprises, essais rapides, explications, déploiement.</p>
+          <div class="hint">Idéal : tabulaire et industrialisation.</div>
+        </article>
+
+        <article class="card">
+          <h3>Driverless AI (H2O.ai)</h3>
+          <div class="meta">
+            <span class="tag paid">Payant</span>
+          </div>
+          <p class="desc">AutoML avancé : sélection de variables, modèles, optimisation.</p>
+          <div class="hint">Idéal : performance sur données tabulaires.</div>
+        </article>
+      </div>
+    </section>
+
+    <!-- FRAMEWORKS -->
+    <section class="section" id="frameworks">
+      <h2>Bibliothèques de code (apprentissage automatique et profond)</h2>
+      <p class="note">Ici, il faut coder (souvent en Python) et préparer soi-même les données.</p>
+
+      <div class="grid">
+        <article class="card">
+          <h3>PyTorch</h3>
+          <div class="meta"><span class="tag free">Gratuit</span><span class="tag code">Code</span></div>
+          <p class="desc">Très utilisé pour l’apprentissage profond et l’expérimentation.</p>
+          <div class="hint">Idéal : modèles sur mesure, recherche et production.</div>
+        </article>
+
+        <article class="card">
+          <h3>TensorFlow</h3>
+          <div class="meta"><span class="tag free">Gratuit</span><span class="tag code">Code</span></div>
+          <p class="desc">Écosystème complet pour entraîner et déployer des réseaux de neurones.</p>
+          <div class="hint">Idéal : production, outils autour du modèle.</div>
+        </article>
+
+        <article class="card">
+          <h3>Keras</h3>
+          <div class="meta"><span class="tag free">Gratuit</span><span class="tag code">Code</span></div>
+          <p class="desc">Interface plus simple pour construire des réseaux neuronaux (souvent avec TensorFlow).</p>
+          <div class="hint">Idéal : démarrer vite en apprentissage profond.</div>
+        </article>
+
+        <article class="card">
+          <h3>JAX</h3>
+          <div class="meta"><span class="tag free">Gratuit</span><span class="tag code">Code</span></div>
+          <p class="desc">Calcul numérique accéléré et différentiation automatique.</p>
+          <div class="hint">Idéal : calcul haute performance.</div>
+        </article>
+
+        <article class="card">
+          <h3>Scikit-learn</h3>
+          <div class="meta"><span class="tag free">Gratuit</span><span class="tag code">Code</span></div>
+          <p class="desc">Apprentissage automatique “classique” : régressions, arbres, forêts, clustering.</p>
+          <div class="hint">Idéal : données tabulaires et modèles rapides.</div>
+        </article>
+      </div>
+    </section>
+
+    <!-- CLOUD -->
+    <section class="section" id="cloud">
+      <h2>Environnements cloud pour entraîner (notebooks, GPU)</h2>
+      <p class="note">Pratique pour s’entraîner sans installer localement et accéder à des GPU.</p>
+
+      <div class="grid">
+        <article class="card">
+          <h3>Google Colab</h3>
+          <div class="meta"><span class="tag free">Gratuit</span><span class="tag paid">Payant (options)</span></div>
+          <p class="desc">Notebooks en ligne avec accès GPU selon disponibilité et formule.</p>
+          <div class="hint">Idéal : prototypes et essais rapides.</div>
+        </article>
+
+        <article class="card">
+          <h3>Kaggle Notebooks</h3>
+          <div class="meta"><span class="tag free">Gratuit</span></div>
+          <p class="desc">Notebooks avec jeux de données, concours et accès GPU.</p>
+          <div class="hint">Idéal : apprentissage, partage, expériences.</div>
+        </article>
+
+        <article class="card">
+          <h3>Paperspace / Gradient</h3>
+          <div class="meta"><span class="tag paid">Payant</span></div>
+          <p class="desc">Machines GPU à la demande pour entraînement et expériences.</p>
+          <div class="hint">Idéal : calcul GPU régulier.</div>
+        </article>
+      </div>
+    </section>
+
+    <!-- AUTOUML OSS -->
+    <section class="section" id="autouml-oss">
+      <h2>AutoML open source</h2>
+      <p class="note">Bon compromis : automatisation, tout en restant sur des outils gratuits.</p>
+
+      <div class="grid">
+        <article class="card">
+          <h3>AutoGluon</h3>
+          <div class="meta"><span class="tag free">Gratuit</span><span class="tag code">Code</span></div>
+          <p class="desc">AutoML pour tabulaire, texte et vision, avec de bons résultats en pratique.</p>
+          <div class="hint">Idéal : tabulaire (prédictions) et pipelines rapides.</div>
+        </article>
+
+        <article class="card">
+          <h3>TPOT</h3>
+          <div class="meta"><span class="tag free">Gratuit</span><span class="tag code">Code</span></div>
+          <p class="desc">Recherche automatique de pipelines de modèles (optimisation).</p>
+          <div class="hint">Idéal : exploration automatique sur tabulaire.</div>
+        </article>
+
+        <article class="card">
+          <h3>H2O-3 (AutoML)</h3>
+          <div class="meta"><span class="tag free">Gratuit</span><span class="tag code">Code</span></div>
+          <p class="desc">Plateforme open source avec AutoML, centrée sur le tabulaire.</p>
+          <div class="hint">Idéal : modèles robustes sur données structurées.</div>
+        </article>
+      </div>
+    </section>
+
+    <!-- LLM -->
+    <section class="section" id="llm">
+      <h2>Adapter des modèles de langage (affinage, LoRA)</h2>
+      <p class="note">Attention : l’entraînement de grands modèles demande des GPU et peut coûter cher.</p>
+
+      <div class="grid">
+        <article class="card">
+          <h3>Affinage via OpenAI</h3>
+          <div class="meta"><span class="tag paid">Payant</span></div>
+          <p class="desc">Ajuster un modèle sur des exemples pour un style ou des tâches spécifiques.</p>
+          <div class="hint">Idéal : personnaliser un assistant sur des données propres.</div>
+        </article>
+
+        <article class="card">
+          <h3>Transformers et Datasets (Hugging Face)</h3>
+          <div class="meta"><span class="tag free">Gratuit</span><span class="tag code">Code</span></div>
+          <p class="desc">Outils standards pour entraîner et adapter des modèles de langage, vision et audio.</p>
+          <div class="hint">Idéal : entraînement local ou sur cloud, large écosystème.</div>
+        </article>
+
+        <article class="card">
+          <h3>Outils LoRA (adaptation légère)</h3>
+          <div class="meta"><span class="tag free">Gratuit</span><span class="tag code">Code</span></div>
+          <p class="desc">Méthodes pour adapter un modèle sans réentraîner tout le modèle.</p>
+          <div class="hint">Idéal : réduire coût et temps d’adaptation.</div>
+        </article>
+      </div>
+    </section>
+
+    <!-- DATA -->
+    <section class="section" id="data">
+      <h2>Préparation des données et suivi d’expériences</h2>
+      <p class="note">Souvent, c’est là que se joue 80 % du travail : nettoyer, versionner, reproduire.</p>
+
+      <div class="grid">
+        <article class="card">
+          <h3>Pandas</h3>
+          <div class="meta"><span class="tag free">Gratuit</span><span class="tag code">Code</span></div>
+          <p class="desc">Nettoyage et transformation de données en Python.</p>
+          <div class="hint">Indispensable : tabulaire et préparation.</div>
+        </article>
+
+        <article class="card">
+          <h3>DVC</h3>
+          <div class="meta"><span class="tag free">Gratuit</span><span class="tag code">Code</span></div>
+          <p class="desc">Versionnement des données et des expériences (reproductibilité).</p>
+          <div class="hint">Utile : garder la trace des jeux de données et modèles.</div>
+        </article>
+
+        <article class="card">
+          <h3>Apache Airflow / dbt</h3>
+          <div class="meta"><span class="tag free">Gratuit</span><span class="tag paid">Payant (options)</span></div>
+          <p class="desc">Orchestration de pipelines (Airflow) et transformations SQL (dbt).</p>
+          <div class="hint">Utile : automatiser ingestion + transformation + entraînement.</div>
+        </article>
+      </div>
+    </section>
+
+    <!-- DEV -->
+    <section class="section" id="dev">
+      <h2>Outils de travail (environnement de développement)</h2>
+
+      <div class="grid">
+        <article class="card">
+          <h3>Jupyter Notebook</h3>
+          <div class="meta"><span class="tag free">Gratuit</span></div>
+          <p class="desc">Expérimentation interactive (code + résultats + notes).</p>
+          <div class="hint">Idéal : apprendre, tester, itérer.</div>
+        </article>
+
+        <article class="card">
+          <h3>Visual Studio Code</h3>
+          <div class="meta"><span class="tag free">Gratuit</span></div>
+          <p class="desc">Éditeur complet, extensions Python, notebooks, débogage.</p>
+          <div class="hint">Idéal : projets structurés et versionnés.</div>
+        </article>
+
+        <article class="card">
+          <h3>PyCharm</h3>
+          <div class="meta"><span class="tag free">Gratuit (édition de base)</span><span class="tag paid">Payant (édition avancée)</span></div>
+          <p class="desc">Environnement de développement Python puissant.</p>
+          <div class="hint">Idéal : gros projets Python.</div>
+        </article>
+      </div>
+    </section>
+
+    <footer>
+      <strong>Conseil simple :</strong> si le besoin est tabulaire (données “table”), commencer par <em>Scikit-learn</em> ou <em>AutoML</em>.
+      Si le besoin est texte/vision, aller vers <em>PyTorch</em>/<em>TensorFlow</em> et, pour les modèles de langage, privilégier l’adaptation légère (LoRA).
+    </footer>
+
+  </main>
+</body>
+</html>
