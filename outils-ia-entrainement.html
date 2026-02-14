@@ -8,35 +8,42 @@
 
   <style>
     :root{
-      --bg:#0b1220;
-      --panel:#111a2e;
-      --panel2:#0f1730;
-      --text:#e9eefc;
-      --muted:#b8c3e6;
-      --line:rgba(255,255,255,.10);
-      --accent:#45d6c8;
-      --accent2:#ff7a66;
-      --shadow: 0 14px 40px rgba(0,0,0,.35);
+      /* Thème clair (demandé) */
+      --bg:#eef2f7;
+      --panel:#f6f8fb;
+      --panel2:#ffffff;
+
+      --text:#1e293b;
+      --muted:#475569;
+      --line:rgba(0,0,0,.08);
+
+      --accent:#2fb7a6;
+      --accent2:#ff6b57;
+
+      --shadow:0 10px 28px rgba(0,0,0,.08);
       --radius:18px;
       --max:1100px;
     }
+
     *{box-sizing:border-box}
     body{
       margin:0;
       font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
       color:var(--text);
-      background: radial-gradient(1200px 700px at 20% 0%, rgba(69,214,200,.18), transparent 55%),
-                  radial-gradient(900px 650px at 85% 10%, rgba(255,122,102,.16), transparent 50%),
-                  linear-gradient(180deg, var(--bg), #070b14 70%);
+      background:
+        radial-gradient(1000px 600px at 20% 0%, rgba(47,183,166,.18), transparent 60%),
+        radial-gradient(900px 600px at 85% 10%, rgba(255,107,87,.18), transparent 60%),
+        linear-gradient(180deg, #f8fafc, #eaeff5);
     }
+
     a{color:inherit; text-decoration:none}
     .wrap{max-width:var(--max); margin:0 auto; padding:18px}
 
     /* NAV */
     .nav{
       position:sticky; top:0; z-index:10;
-      backdrop-filter: blur(10px);
-      background: rgba(11,18,32,.72);
+      backdrop-filter: blur(8px);
+      background: rgba(255,255,255,.78);
       border-bottom:1px solid var(--line);
     }
     .nav-inner{
@@ -50,13 +57,13 @@
     .mark{
       width:34px; height:34px; border-radius:12px;
       background: linear-gradient(135deg, var(--accent), var(--accent2));
-      box-shadow: 0 10px 24px rgba(0,0,0,.25);
+      box-shadow: 0 10px 22px rgba(0,0,0,.10);
     }
     .nav-links{display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end}
     .nav-links a{
       padding:9px 12px; border-radius:12px;
       border:1px solid var(--line);
-      background: rgba(255,255,255,.04);
+      background: rgba(255,255,255,.9);
     }
     .nav-links a:hover{transform: translateY(-1px); transition:.15s ease}
 
@@ -69,7 +76,7 @@
     .hero-left, .hero-right{
       border:1px solid var(--line);
       border-radius:var(--radius);
-      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      background: var(--panel);
       box-shadow: var(--shadow);
       overflow:hidden;
     }
@@ -81,7 +88,7 @@
       font-size:.92rem;
       padding:7px 10px; border-radius:999px;
       border:1px solid var(--line);
-      background: rgba(255,255,255,.04);
+      background: rgba(255,255,255,.85);
       color: var(--text);
     }
     .chip strong{color:var(--accent)}
@@ -92,7 +99,7 @@
     .hero-img{
       position:absolute; inset:0;
       background:
-        linear-gradient(180deg, rgba(0,0,0,.15), rgba(0,0,0,.55)),
+        linear-gradient(180deg, rgba(255,255,255,.20), rgba(0,0,0,.18)),
         url("/ia/img/ia-outils-entrainement.jfif") center/cover no-repeat;
     }
     .hero-caption{
@@ -100,7 +107,7 @@
       padding:10px 12px;
       border-radius:14px;
       border:1px solid var(--line);
-      background: rgba(17,26,46,.72);
+      background: rgba(255,255,255,.88);
       color: var(--muted);
     }
 
@@ -124,31 +131,110 @@
     .card{
       border:1px solid var(--line);
       border-radius:var(--radius);
-      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      background: var(--panel2);
       box-shadow: var(--shadow);
       padding:14px;
       display:flex; flex-direction:column; gap:10px;
     }
     .card h3{margin:0; font-size:1.05rem}
     .meta{display:flex; gap:8px; flex-wrap:wrap}
+
     .tag{
       font-size:.85rem;
       padding:5px 9px;
       border-radius:999px;
       border:1px solid var(--line);
-      background: rgba(255,255,255,.04);
+      background: rgba(255,255,255,.9);
       color: var(--muted);
     }
-    .tag.free{color:#b9ffe8; border-color: rgba(69,214,200,.35)}
-    .tag.paid{color:#ffd1ca; border-color: rgba(255,122,102,.35)}
-    .tag.code{color:#d8e2ff; border-color: rgba(184,195,230,.25)}
+    .tag.free{color:#0b6b5e; border-color: rgba(47,183,166,.35)}
+    .tag.paid{color:#a43a2c; border-color: rgba(255,107,87,.35)}
+    .tag.code{color:#334155; border-color: rgba(71,85,105,.25)}
+
     .desc{margin:0; color:var(--muted); line-height:1.5}
     .hint{
       margin-top:auto;
       padding-top:10px;
-      border-top:1px dashed rgba(255,255,255,.14);
-      color: rgba(233,238,252,.92);
+      border-top:1px dashed rgba(0,0,0,.12);
+      color: rgba(30,41,59,.92);
       font-size:.92rem;
+    }
+
+    /* PYTHON / TF / PT */
+    .mini-grid{
+      display:grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap:12px;
+      margin-top:10px;
+    }
+    .mini{
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      background: var(--panel2);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      display:flex;
+      flex-direction:column;
+    }
+    .mini-head{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      padding:14px;
+      border-bottom:1px solid rgba(0,0,0,.08);
+      background: var(--panel);
+    }
+    .logo{
+      width:54px;
+      height:54px;
+      border-radius:14px;
+      border:1px solid rgba(0,0,0,.10);
+      object-fit:cover;
+      background: rgba(0,0,0,.04);
+      box-shadow: 0 10px 18px rgba(0,0,0,.10);
+      flex:0 0 auto;
+    }
+    .mini-title{display:flex; flex-direction:column; gap:6px}
+    .mini-title h3{margin:0; font-size:1.05rem}
+    .mini-body{padding:14px; display:flex; flex-direction:column; gap:10px; height:100%}
+    .mini-body ul{
+      margin:0;
+      padding-left:18px;
+      color:var(--muted);
+      line-height:1.5;
+    }
+    .mini-body li{margin:6px 0}
+
+    .compare{
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      background: var(--panel2);
+      box-shadow: var(--shadow);
+      padding:14px;
+      margin-top:12px;
+    }
+    .compare h3{margin:0 0 10px; font-size:1.05rem}
+    .compare h4{
+      margin:14px 0 8px;
+      font-size:1rem;
+    }
+    .compare p{
+      margin:0 0 10px;
+      color:var(--muted);
+      line-height:1.55;
+    }
+    .compare ul{
+      margin:0 0 10px;
+      padding-left:18px;
+      color:var(--muted);
+      line-height:1.55;
+    }
+    .callout{
+      border:1px dashed rgba(0,0,0,.14);
+      background: rgba(47,183,166,.08);
+      border-radius:14px;
+      padding:10px 12px;
+      color: rgba(30,41,59,.95);
     }
 
     /* FOOTER */
@@ -165,10 +251,12 @@
       .grid{grid-template-columns: repeat(2, 1fr)}
       .hero-grid{grid-template-columns: 1fr}
       .hero-right{min-height:240px}
+      .mini-grid{grid-template-columns: 1fr}
     }
     @media (max-width: 560px){
       .grid{grid-template-columns: 1fr}
       .nav-links{justify-content:flex-start}
+      .mini-grid{grid-template-columns: 1fr}
     }
   </style>
 </head>
@@ -188,6 +276,7 @@
         <a href="#autouml">AutoML</a>
         <a href="#frameworks">Frameworks</a>
         <a href="#llm">Modèles de langage</a>
+        <a href="#python-tf-pt">Python / TensorFlow / PyTorch</a>
       </div>
     </div>
   </div>
@@ -212,8 +301,146 @@
 
         <div class="hero-right" aria-label="Illustration">
           <div class="hero-img" role="img" aria-label="Illustration IA et entraînement de modèles"></div>
-
+          <div class="hero-caption">
+            Repère simple : Python = langage. TensorFlow/PyTorch = bibliothèques pour créer et entraîner des modèles.
+          </div>
         </div>
+      </div>
+    </section>
+
+    <!-- PYTHON / TF / PT (AVEC IMAGES + TEXTE COMPLET) -->
+    <section class="section" id="python-tf-pt">
+      <h2>Python, TensorFlow et PyTorch : à quoi servent-ils ?</h2>
+      <p class="note">
+        Python est le langage de base. TensorFlow et PyTorch sont des bibliothèques d’IA qui s’utilisent principalement avec Python
+        pour entraîner et déployer des modèles.
+      </p>
+
+      <div class="mini-grid">
+        <article class="mini">
+          <div class="mini-head">
+            <img class="logo" src="/ia/img/phyton.jfif" alt="Logo Python">
+            <div class="mini-title">
+              <h3>Python</h3>
+              <div class="meta"><span class="tag free">Gratuit</span><span class="tag code">Code</span></div>
+            </div>
+          </div>
+          <div class="mini-body">
+            <ul>
+              <li>Langage polyvalent, simple à lire et à écrire.</li>
+              <li>Sert à l’automatisation, au web, à l’analyse de données, aux scripts système.</li>
+              <li>Base de travail pour l’IA et le calcul scientifique.</li>
+            </ul>
+            <div class="hint">Concrètement : analyse de données, automatisation, applications, préparation des données.</div>
+          </div>
+        </article>
+
+        <article class="mini">
+          <div class="mini-head">
+            <img class="logo" src="/ia/img/tensorflow.jfiff" alt="Logo TensorFlow">
+            <div class="mini-title">
+              <h3>TensorFlow</h3>
+              <div class="meta"><span class="tag free">Gratuit</span><span class="tag code">Code</span></div>
+            </div>
+          </div>
+          <div class="mini-body">
+            <ul>
+              <li>Bibliothèque spécialisée en intelligence artificielle.</li>
+              <li>Permet de créer, entraîner et déployer des modèles de machine learning et de deep learning.</li>
+              <li>S’utilise principalement avec Python.</li>
+            </ul>
+            <div class="hint">Concrètement : vision/texte, prédiction, recommandation, déploiement serveur ou local.</div>
+          </div>
+        </article>
+
+        <article class="mini">
+          <div class="mini-head">
+            <img class="logo" src="/ia/img/phytorch.jfiff" alt="Logo PyTorch">
+            <div class="mini-title">
+              <h3>PyTorch</h3>
+              <div class="meta"><span class="tag free">Gratuit</span><span class="tag code">Code</span></div>
+            </div>
+          </div>
+          <div class="mini-body">
+            <ul>
+              <li>Bibliothèque d’intelligence artificielle orientée machine learning et deep learning.</li>
+              <li>Utilisée surtout avec Python.</li>
+              <li>Très répandue en recherche et de plus en plus en production.</li>
+            </ul>
+            <div class="hint">Concrètement : réseaux de neurones, image/texte/son, prédiction, expérimentation rapide.</div>
+          </div>
+        </article>
+      </div>
+
+      <div class="compare">
+        <h3>Explications détaillées</h3>
+
+        <h4>À quoi sert Python</h4>
+        <p>
+          Langage polyvalent, simple à lire et à écrire. Il sert à l’automatisation, au web, à l’analyse de données
+          et aux scripts système. C’est la base de travail pour l’intelligence artificielle et le calcul scientifique.
+        </p>
+        <p><strong>Concrètement, avec Python, on peut :</strong></p>
+        <ul>
+          <li>Analyser des données (statistiques, graphiques).</li>
+          <li>Automatiser des tâches répétitives.</li>
+          <li>Créer des applications et des services.</li>
+          <li>Préparer des données pour l’IA.</li>
+        </ul>
+
+        <h4>À quoi sert TensorFlow</h4>
+        <p>
+          Bibliothèque spécialisée en intelligence artificielle. Elle permet de créer, entraîner et déployer des modèles
+          de machine learning et de deep learning. Elle s’utilise principalement avec Python.
+        </p>
+        <p><strong>Concrètement, avec TensorFlow, on peut :</strong></p>
+        <ul>
+          <li>Faire de la reconnaissance d’images ou de texte.</li>
+          <li>Créer des systèmes de prédiction (santé, finance, météo).</li>
+          <li>Construire des modèles de recommandation.</li>
+          <li>Déployer des modèles sur serveur ou appareil local.</li>
+        </ul>
+
+        <h4>Relation entre les deux</h4>
+        <ul>
+          <li><strong>Python</strong> est l’outil général.</li>
+          <li><strong>TensorFlow</strong> est un outil spécialisé qui fonctionne dans Python.</li>
+        </ul>
+        <div class="callout">
+          👉 Python sans TensorFlow = programmation classique.<br>
+          👉 Python avec TensorFlow = intelligence artificielle.
+        </div>
+
+        <h4>À quoi sert PyTorch</h4>
+        <p>
+          Bibliothèque d’intelligence artificielle orientée machine learning et deep learning. Utilisée surtout avec Python.
+          Très répandue en recherche et de plus en plus en production.
+        </p>
+        <p><strong>Concrètement, avec PyTorch, on peut :</strong></p>
+        <ul>
+          <li>Créer et entraîner des réseaux de neurones.</li>
+          <li>Faire de la reconnaissance d’images, de texte ou de sons.</li>
+          <li>Construire des modèles de prédiction (santé, risques, séries temporelles).</li>
+          <li>Expérimenter rapidement des idées complexes.</li>
+        </ul>
+
+        <h4>Différence essentielle avec TensorFlow</h4>
+        <ul>
+          <li><strong>PyTorch</strong> : plus souple, plus intuitif, proche du raisonnement humain.</li>
+          <li><strong>TensorFlow</strong> : plus structuré, plus industriel, plus orienté déploiement massif.</li>
+        </ul>
+        <p><strong>En pratique :</strong></p>
+        <ul>
+          <li>Recherche, prototypage, compréhension fine → <strong>PyTorch</strong></li>
+          <li>Production à grande échelle, intégration industrielle → <strong>TensorFlow</strong></li>
+        </ul>
+
+        <h4>Résumé clair</h4>
+        <ul>
+          <li><strong>Python</strong> : le langage de base.</li>
+          <li><strong>PyTorch</strong> : créer et comprendre des modèles d’IA facilement.</li>
+          <li><strong>TensorFlow</strong> : entraîner et déployer des modèles robustes à grande échelle.</li>
+        </ul>
       </div>
     </section>
 
@@ -469,6 +696,9 @@
     <footer>
       <strong>Conseil simple :</strong> si le besoin est tabulaire (données “table”), commencer par <em>Scikit-learn</em> ou <em>AutoML</em>.
       Si le besoin est texte/vision, aller vers <em>PyTorch</em>/<em>TensorFlow</em> et, pour les modèles de langage, privilégier l’adaptation légère (LoRA).
+      <br><br>
+      <strong>Images utilisées :</strong>
+      <em>/ia/img/phyton.jfif</em>, <em>/ia/img/tensorflow.jfiff</em>, <em>/ia/img/phytorch.jfiff</em>.
     </footer>
 
   </main>
