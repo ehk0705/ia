@@ -1,0 +1,564 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Exemple d’application IA — Gestion de voyages (recherche → réservation → paiement)</title>
+  <meta name="description" content="Exemple de MVP d’application IA pour gérer un voyage : expression du besoin, recherche d’offres, sélection, paiement et confirmation, via API de voyage et paiement sécurisé." />
+
+  <style>
+    :root{
+      --bg:#0b1220;
+      --panel:#111a2e;
+      --panel2: rgba(255,255,255,0.04);
+      --text:#e9eef8;
+      --muted:#b6c1d6;
+      --accent:#4dd3ff;
+      --accent2:#7cffc1;
+      --accent3:#ff6b57;
+      --border: rgba(255,255,255,0.10);
+      --shadow: 0 12px 30px rgba(0,0,0,0.35);
+      --radius: 18px;
+      --max: 1100px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background:
+        radial-gradient(1000px 600px at 10% 0%, rgba(77,211,255,0.15), transparent 60%),
+        radial-gradient(900px 500px at 90% 10%, rgba(124,255,193,0.12), transparent 60%),
+        var(--bg);
+      color: var(--text);
+      line-height: 1.55;
+    }
+    a{color:inherit}
+    .topbar{
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: rgba(11,18,32,0.75);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+    }
+    .topbar-inner{
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 14px 18px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 14px;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap: 10px;
+      text-decoration:none;
+      font-weight: 800;
+      letter-spacing: 0.2px;
+    }
+    .logo{
+      width: 34px;
+      height: 34px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      box-shadow: var(--shadow);
+      display:inline-block;
+    }
+    nav ul{
+      list-style:none;
+      margin:0;
+      padding:0;
+      display:flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content:flex-end;
+    }
+    nav a{
+      text-decoration:none;
+      padding: 10px 12px;
+      border: 1px solid transparent;
+      border-radius: 999px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+    nav a:hover{
+      color: var(--text);
+      border-color: var(--border);
+      background: rgba(255,255,255,0.05);
+    }
+
+    .wrap{max-width:var(--max); margin:0 auto; padding: 18px 18px 64px}
+    .hero{
+      margin-top: 16px;
+      padding: 22px;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
+      box-shadow: var(--shadow);
+      display:grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 18px;
+      align-items: center;
+    }
+    .hero h1{
+      margin:0 0 8px 0;
+      font-size: 26px;
+      line-height: 1.2;
+    }
+    .hero p{margin:0; color: var(--muted); font-size: 15px}
+    .hero .badge-row{
+      margin-top: 14px;
+      display:flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .badge{
+      font-size: 12px;
+      color: var(--text);
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.05);
+    }
+
+    /* Image à droite (9631.jpg) */
+    .hero-photo{
+      width:100%;
+      height:220px;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      overflow:hidden;
+      position: relative;
+      margin:0;
+      box-shadow: 0 10px 24px rgba(0,0,0,0.25);
+      background: rgba(255,255,255,0.03);
+    }
+    .hero-photo img{
+      width:100%;
+      height:100%;
+      object-fit: cover;
+      display:block;
+    }
+    .hero-photo .label{
+      position:absolute;
+      left: 14px;
+      bottom: 14px;
+      right: 14px;
+      padding: 10px 12px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: rgba(11,18,32,0.65);
+      color: var(--muted);
+      font-size: 13px;
+      backdrop-filter: blur(6px);
+    }
+
+    .grid{
+      margin-top: 16px;
+      display:grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 14px;
+      align-items: stretch;
+    }
+    .card{
+      padding: 16px;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      background: var(--panel2);
+      box-shadow: 0 10px 24px rgba(0,0,0,0.25);
+    }
+    .card h2{margin:0 0 8px 0; font-size: 16px}
+    .card p, .card li{color: var(--muted); font-size: 14px; margin: 0}
+    .card ul{margin: 10px 0 0 18px; padding:0}
+    .card li{margin: 6px 0}
+    .span-4{grid-column: span 4}
+    .span-6{grid-column: span 6}
+    .span-8{grid-column: span 8}
+    .span-12{grid-column: span 12}
+
+    .section{
+      margin-top: 18px;
+      padding: 18px;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+    }
+    .section h2{margin:0 0 10px 0; font-size: 18px}
+    .section p{margin:0; color:var(--muted); font-size:14px}
+
+    .callout{
+      border-radius: var(--radius);
+      border: 1px solid rgba(255,107,87,0.35);
+      background: rgba(255,107,87,0.08);
+      padding: 14px 16px;
+      color: var(--text);
+    }
+    .callout b{color: var(--accent3)}
+
+    .steps{
+      counter-reset: step;
+      list-style:none;
+      padding:0;
+      margin: 10px 0 0 0;
+      display:grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+    .steps li{
+      padding: 12px 12px 12px 44px;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      position: relative;
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .steps li::before{
+      counter-increment: step;
+      content: counter(step);
+      position:absolute;
+      left: 12px;
+      top: 12px;
+      width: 22px;
+      height: 22px;
+      border-radius: 999px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-weight: 800;
+      color: #0b1220;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+    }
+
+    .mono{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      background: rgba(0,0,0,0.22);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 12px 14px;
+      overflow:auto;
+      color: var(--text);
+      white-space: pre-wrap;
+    }
+
+    .footer{
+      margin-top: 22px;
+      color: var(--muted);
+      font-size: 13px;
+      opacity: 0.95;
+      border-top: 1px solid var(--border);
+      padding-top: 14px;
+      display:flex;
+      flex-wrap: wrap;
+      gap: 8px 16px;
+      justify-content: space-between;
+    }
+    .small{font-size: 12px; color: var(--muted)}
+    .pill{
+      display:inline-block;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      color: var(--muted);
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    @media (max-width: 980px){
+      .hero{grid-template-columns: 1fr}
+      .steps{grid-template-columns: 1fr}
+      .span-4, .span-6, .span-8{grid-column: span 12}
+    }
+
+    /* Smartphones et petits écrans */
+    @media (max-width: 700px){
+      .topbar-inner{
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+      }
+      nav ul{
+        width: 100%;
+        justify-content: flex-start;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        padding-bottom: 6px;
+      }
+      nav ul::-webkit-scrollbar{height:6px}
+      nav ul::-webkit-scrollbar-thumb{background: rgba(255,255,255,0.12); border-radius:999px}
+
+      .wrap{padding: 14px 14px 56px}
+      .hero{padding: 16px}
+      .hero h1{font-size: 22px}
+      .hero p{font-size: 14px}
+      .hero-photo{height: 170px}
+    }
+
+    @media (max-width: 520px){
+      .brand{gap: 8px}
+      .logo{width: 30px; height: 30px; border-radius: 11px}
+
+      nav a{font-size: 13px; padding: 10px 10px}
+
+      .wrap{padding: 12px 12px 52px}
+      .hero{gap: 14px}
+      .badge-row{gap: 6px}
+      .badge{font-size: 11px; padding: 6px 9px}
+
+      .section{padding: 14px}
+      .card{padding: 14px}
+      .steps li{padding: 12px 12px 12px 42px}
+
+      .hero-photo{height: 150px}
+      .mono{font-size: 12px}
+      .footer{gap: 10px; justify-content: flex-start}
+      .pill{font-size: 11px}
+    }
+  </style>
+</head>
+
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="#top" aria-label="Accueil">
+        <span class="logo" aria-hidden="true"></span>
+        <span>Voyage IA — MVP</span>
+      </a>
+
+      <nav aria-label="Navigation">
+        <ul>
+          <li><a href="#resume">Résumé</a></li>
+          <li><a href="#flux">Flux</a></li>
+          <li><a href="#architecture">Architecture</a></li>
+          <li><a href="#donnees">Données</a></li>
+          <li><a href="#securite">Sécurité</a></li>
+          <li><a href="#mvp">Backlog MVP</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top" class="wrap">
+    <section class="hero" aria-label="Présentation">
+      <div>
+        <h1>Exemple d’application IA, pour gérer des voyages, de la recherche à la réservation, jusqu’au paiement</h1>
+        <p>
+          L’IA sert principalement d’interface conversationnelle : comprendre la demande, clarifier les critères,
+          expliquer les options et guider la décision. La recherche et la réservation effectives s’appuient sur des
+          API de voyage, et le paiement sur un prestataire sécurisé.
+        </p>
+
+        <div class="badge-row" aria-label="Mots-clés">
+          <span class="badge">Dialogue et critères</span>
+          <span class="badge">Comparaison d’offres</span>
+          <span class="badge">Paiement sécurisé</span>
+          <span class="badge">Réservation traçable</span>
+          <span class="badge">Backend léger</span>
+        </div>
+      </div>
+
+      <!-- Image demandée -->
+      <figure class="hero-photo" aria-label="Illustration : application IA de gestion de voyage">
+        <img src="/ia/img/9631.jpg" alt="Illustration : gestion de voyages, recherche, réservation et paiement">
+        <figcaption class="label">Image : /ia/img/9631.jpg</figcaption>
+      </figure>
+    </section>
+
+    <section id="resume" class="section" aria-labelledby="h-resume">
+      <h2 id="h-resume">Résumé</h2>
+      <p>
+        Une MVP réaliste combine : (1) une interface web ou mobile, (2) un backend simple (Node.js ou Python/FastAPI)
+        qui orchestre une API d’IA et des API de voyage, (3) une base de données (PostgreSQL) pour profils, paniers,
+        historiques, et (4) un module de paiement (Stripe ou PayPal). L’objectif est de livrer rapidement un parcours
+        complet et fiable, avant d’ajouter des raffinements.
+      </p>
+    </section>
+
+    <section class="grid" aria-label="Blocs principaux">
+      <article id="flux" class="card span-12" aria-labelledby="h-flux">
+        <h2 id="h-flux">Flux utilisateur (parcours minimal)</h2>
+        <ol class="steps" aria-label="Étapes">
+          <li>Demande en langage naturel (destination, dates, budget, contraintes).</li>
+          <li>Clarification : questions courtes, reformulation, critères confirmés.</li>
+          <li>Recherche d’offres via API (vols, hôtels, trains, location, packs).</li>
+          <li>Affichage et filtres (prix, durée, escales, notes, politiques).</li>
+          <li>Sélection : panier, récapitulatif, conditions, frais et taxes.</li>
+          <li>Paiement : création de session + confirmation.</li>
+          <li>Réservation : émission/confirmation + référence + reçu.</li>
+          <li>Suivi : statut, notifications, assistance et modifications.</li>
+        </ol>
+      </article>
+
+      <article class="card span-6" aria-labelledby="h-archi">
+        <h2 id="h-archi">Architecture MVP</h2>
+        <ul>
+          <li>Frontend : web (React/Next, Vue, ou HTML) ou mobile.</li>
+          <li>Backend : Node.js ou Python (FastAPI) — orchestration.</li>
+          <li>IA : extraction de critères + dialogue + explications.</li>
+          <li>API voyage : recherche + disponibilité + réservation.</li>
+          <li>Paiement : Stripe ou PayPal, redirection sécurisée.</li>
+          <li>Base : PostgreSQL (profils, paniers, historiques, logs).</li>
+        </ul>
+      </article>
+
+      <article class="card span-6" aria-labelledby="h-perim">
+        <h2 id="h-perim">Périmètre MVP raisonnable</h2>
+        <ul>
+          <li>Un seul type de parcours prioritaire (ex. vol + hôtel).</li>
+          <li>Filtres essentiels, pas de “tout” dès le début.</li>
+          <li>Gestion d’erreurs propre (API indisponible, prix changé).</li>
+          <li>Traçabilité : logs et identifiants de demandes.</li>
+          <li>Support minimal : annulation/modification selon règles.</li>
+        </ul>
+      </article>
+    </section>
+
+    <section id="architecture" class="section" aria-labelledby="h-impl">
+      <h2 id="h-impl">Implémentation simple (vue d’ensemble)</h2>
+      <div class="grid" aria-label="Composants">
+        <div class="card span-4">
+          <h2>1) Frontend</h2>
+          <p>Écran de chat + écran de résultats + écran panier/paiement.</p>
+          <ul>
+            <li>Recherche guidée (questions courtes)</li>
+            <li>Résultats comparables (tri + filtres)</li>
+            <li>Récapitulatif clair avant paiement</li>
+          </ul>
+        </div>
+
+        <div class="card span-4">
+          <h2>2) Backend</h2>
+          <p>Point unique qui coordonne IA, API voyage, paiement, base de données.</p>
+          <ul>
+            <li>Validation des critères</li>
+            <li>Normalisation des données d’offres</li>
+            <li>Création panier + session paiement</li>
+          </ul>
+        </div>
+
+        <div class="card span-4">
+          <h2>3) Services externes</h2>
+          <p>Les actions “réelles” (disponibilité, réservation, paiement) passent par des services tiers.</p>
+          <ul>
+            <li>API voyage (inventaire, prix, ticketing)</li>
+            <li>Paiement (3DS/validation, reçu)</li>
+            <li>Messagerie (courriel/SMS) optionnel</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="callout" style="margin-top:14px">
+        <b>Point important :</b> l’IA ne doit pas “inventer” des prix ou des disponibilités.
+        Les chiffres (prix, taxes, horaires, conditions) viennent des API et sont affichés tels quels.
+      </div>
+    </section>
+
+    <section id="donnees" class="section" aria-labelledby="h-data">
+      <h2 id="h-data">Données minimales à stocker (PostgreSQL)</h2>
+      <p>Conserver le strict nécessaire, utile au suivi et au support.</p>
+      <div class="mono" aria-label="Exemple de tables (conceptuel)">
+Utilisateur : id, email, préférences, consentements
+Conversation : id, user_id, résumé_criteres, horodatage
+Panier : id, user_id, items, total_estime, devise, statut
+Réservation : id, panier_id, ref_fournisseur, statut, reçu_url
+Paiement : id, réservation_id, provider, intent_id, statut
+Logs : id, corr_id, type, payload_minimal, horodatage
+      </div>
+    </section>
+
+    <section id="securite" class="section" aria-labelledby="h-sec">
+      <h2 id="h-sec">Sécurité et fiabilité (à ne pas négliger)</h2>
+      <div class="grid" aria-label="Sécurité">
+        <div class="card span-6">
+          <h2>Paiement</h2>
+          <ul>
+            <li>Ne jamais stocker de carte bancaire dans la base.</li>
+            <li>Utiliser la redirection/iframe du prestataire (Stripe/PayPal).</li>
+            <li>Gérer les retours et webhooks (succès, échec, remboursement).</li>
+          </ul>
+        </div>
+        <div class="card span-6">
+          <h2>Réservation</h2>
+          <ul>
+            <li>Verrouiller le prix : revalidation avant paiement si nécessaire.</li>
+            <li>Idempotence : éviter les doubles réservations (clé unique).</li>
+            <li>Journaliser les événements (corrélation par identifiant).</li>
+          </ul>
+        </div>
+        <div class="card span-12">
+          <h2>IA (usage sûr)</h2>
+          <ul>
+            <li>Limiter l’IA au dialogue, à la synthèse et à la sélection de critères.</li>
+            <li>Vérifier/valider côté backend les dates, devises, nombres, formats.</li>
+            <li>Afficher clairement ce qui est “information API” vs “explication IA”.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="mvp" class="section" aria-labelledby="h-mvp">
+      <h2 id="h-mvp">Backlog MVP (ordre conseillé)</h2>
+      <div class="grid" aria-label="Priorités MVP">
+        <div class="card span-4">
+          <h2>Priorité 1</h2>
+          <ul>
+            <li>Collecte critères + validation</li>
+            <li>Recherche via une API</li>
+            <li>Affichage + filtres simples</li>
+          </ul>
+        </div>
+        <div class="card span-4">
+          <h2>Priorité 2</h2>
+          <ul>
+            <li>Panier + récapitulatif</li>
+            <li>Paiement (session + retour)</li>
+            <li>Logs et erreurs propres</li>
+          </ul>
+        </div>
+        <div class="card span-4">
+          <h2>Priorité 3</h2>
+          <ul>
+            <li>Réservation + confirmation</li>
+            <li>Courriel de confirmation</li>
+            <li>Historique utilisateur</li>
+          </ul>
+        </div>
+
+        <div class="card span-12">
+          <h2>Améliorations après MVP</h2>
+          <ul>
+            <li>Recommandations personnalisées (préférences réelles, pas supposées).</li>
+            <li>Alertes de prix et suivi de disponibilité.</li>
+            <li>Multi-segments, multi-fournisseurs, comparaisons avancées.</li>
+            <li>Support “modification/annulation” avec règles des fournisseurs.</li>
+            <li>Optimisation latence (cache, pagination, pré-sélection).</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-label="Conclusion">
+      <h2>Conclusion</h2>
+      <p>
+        Une bonne MVP n’essaie pas de tout faire. Elle fournit un parcours complet, fiable et traçable.
+        L’IA améliore l’expérience (dialogue, clarification, explication), mais les actions critiques
+        (prix, disponibilité, paiement, réservation) doivent rester pilotées par des API et des règles
+        strictes côté backend.
+      </p>
+    </section>
+
+    <div class="footer" aria-label="Pied de page">
+      <div>
+        <span class="pill">Auteur : Hocine Korichi</span>
+        <span class="pill">Version : v4</span>
+      </div>
+      <div class="small">
+        Note : cette page est un exemple de cadrage (pas un produit fini).
+      </div>
+    </div>
+  </main>
+</body>
+</html>
