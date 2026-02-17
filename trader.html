@@ -1,0 +1,1451 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MVP IA — Alertes Bourse & Bitcoin + Recommandations (prototype)</title>
+  <meta name="description" content="MVP IA : alertes sur actions et Bitcoin, recommandations d’achat/vente, inscription email/SMS, tableau de bord et règles de risque (prototype)." />
+
+  <style>
+    :root{
+      --bg:#0b1220;
+      --panel:#111a2e;
+      --panel2: rgba(255,255,255,0.05);
+      --text:#e9eef8;
+      --muted:#b6c1d6;
+      --accent:#4dd3ff;
+      --accent2:#7cffc1;
+      --accent3:#ff6b57;
+      --warning:#ffd166;
+      --border: rgba(255,255,255,0.12);
+      --shadow: 0 16px 50px rgba(0,0,0,0.45);
+      --shadow2: 0 10px 26px rgba(0,0,0,0.35);
+      --radius: 18px;
+      --radius2: 26px;
+      --max: 1120px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, "Noto Sans", Arial, "Apple Color Emoji", "Segoe UI Emoji";
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: var(--sans);
+      background:
+        radial-gradient(1200px 700px at 20% 5%, rgba(77,211,255,0.18), transparent 60%),
+        radial-gradient(1000px 650px at 85% 10%, rgba(124,255,193,0.14), transparent 55%),
+        radial-gradient(900px 650px at 55% 95%, rgba(255,107,87,0.12), transparent 55%),
+        linear-gradient(180deg, #070c16, #0b1220 40%, #070c16);
+      color: var(--text);
+      line-height: 1.45;
+    }
+
+    a{color:inherit; text-decoration:none}
+    .container{max-width: var(--max); margin:0 auto; padding: 0 18px;}
+
+    /* Topbar */
+    .topbar{
+      position: sticky; top:0; z-index: 50;
+      background: rgba(11,18,32,0.72);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+    }
+    .topbar-inner{
+      display:flex; align-items:center; justify-content:space-between;
+      padding: 12px 0;
+      gap: 12px;
+    }
+    .brand{
+      display:flex; align-items:center; gap:10px;
+      font-weight: 800;
+      letter-spacing: .2px;
+      white-space: nowrap;
+    }
+    .logo{
+      width: 38px; height: 38px; border-radius: 12px;
+      background:
+        radial-gradient(circle at 30% 30%, rgba(77,211,255,.95), rgba(77,211,255,0) 55%),
+        radial-gradient(circle at 70% 70%, rgba(124,255,193,.9), rgba(124,255,193,0) 55%),
+        linear-gradient(135deg, rgba(255,107,87,.65), rgba(17,26,46,.9));
+      border: 1px solid rgba(255,255,255,.18);
+      box-shadow: var(--shadow2);
+      position:relative;
+      overflow:hidden;
+    }
+    .logo:after{
+      content:"";
+      position:absolute; inset:-40%;
+      background: linear-gradient(45deg, transparent, rgba(255,255,255,.10), transparent);
+      transform: rotate(25deg);
+      animation: sheen 4.5s infinite linear;
+    }
+    @keyframes sheen{ from{ transform: translateX(-40%) rotate(25deg);} to{ transform: translateX(40%) rotate(25deg);} }
+
+    nav{
+      display:flex; align-items:center; gap: 14px;
+      flex-wrap: wrap;
+      justify-content:flex-end;
+    }
+    nav a{
+      padding: 8px 10px;
+      border-radius: 12px;
+      color: var(--muted);
+      border: 1px solid transparent;
+      transition: .2s ease;
+      font-weight: 600;
+      font-size: 14px;
+    }
+    nav a:hover{
+      color: var(--text);
+      border-color: rgba(255,255,255,.14);
+      background: rgba(255,255,255,.04);
+    }
+    .cta{
+      display:flex; align-items:center; gap:10px;
+    }
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center;
+      padding: 10px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.04);
+      color: var(--text);
+      font-weight: 700;
+      cursor:pointer;
+      transition:.18s ease;
+      box-shadow: none;
+      user-select:none;
+    }
+    .btn:hover{ transform: translateY(-1px); background: rgba(255,255,255,.06); }
+    .btn.primary{
+      border-color: rgba(77,211,255,.35);
+      background: linear-gradient(135deg, rgba(77,211,255,.20), rgba(124,255,193,.14));
+      box-shadow: 0 12px 40px rgba(77,211,255,0.12);
+    }
+    .btn.danger{
+      border-color: rgba(255,107,87,.35);
+      background: linear-gradient(135deg, rgba(255,107,87,.18), rgba(255,255,255,.03));
+    }
+
+    /* Hero */
+    .hero{
+      padding: 26px 0 10px;
+    }
+    .hero-grid{
+      display:grid;
+      grid-template-columns: 1.15fr .85fr;
+      gap: 18px;
+      align-items: stretch;
+    }
+    .hero-card{
+      background: rgba(17,26,46,0.78);
+      border: 1px solid var(--border);
+      border-radius: var(--radius2);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      position:relative;
+    }
+    .hero-card .inner{
+      padding: 18px;
+    }
+    .kicker{
+      display:flex; gap:8px; flex-wrap:wrap; align-items:center;
+      margin-bottom: 10px;
+    }
+    .pill{
+      display:inline-flex; align-items:center; gap:8px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.04);
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .pill .dot{
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 18px rgba(77,211,255,.6);
+    }
+    h1{
+      margin: 8px 0 10px;
+      font-size: clamp(24px, 3.2vw, 40px);
+      line-height: 1.08;
+      letter-spacing: -0.2px;
+    }
+    .lead{
+      margin:0;
+      color: var(--muted);
+      font-size: 15px;
+      max-width: 70ch;
+    }
+    .hero-actions{
+      margin-top: 14px;
+      display:flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items:center;
+    }
+    .note{
+      margin-top: 12px;
+      padding: 10px 12px;
+      border-radius: 14px;
+      border: 1px dashed rgba(255,255,255,.18);
+      background: rgba(255,255,255,.03);
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .note strong{ color: var(--warning); }
+
+    .side{
+      display:flex; flex-direction:column; gap: 14px;
+    }
+    .mini{
+      border-radius: var(--radius2);
+      border: 1px solid var(--border);
+      background: rgba(17,26,46,0.65);
+      box-shadow: var(--shadow2);
+      overflow:hidden;
+    }
+    .mini .inner{ padding: 14px; }
+    .mini h3{
+      margin: 0 0 8px;
+      font-size: 14px;
+      letter-spacing: .2px;
+    }
+    .mini p{ margin:0; color: var(--muted); font-size: 13px; }
+    .mini .badge{
+      display:inline-flex;
+      margin-top: 10px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-family: var(--mono);
+      font-size: 12px;
+      color: rgba(233,238,248,.95);
+      border: 1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.04);
+    }
+
+    /* Sections */
+    section{ padding: 16px 0; }
+    .section-title{
+      display:flex; align-items:flex-end; justify-content:space-between;
+      gap: 12px;
+      margin: 8px 0 12px;
+    }
+    .section-title h2{
+      margin:0;
+      font-size: 20px;
+      letter-spacing: -.2px;
+    }
+    .section-title .sub{
+      margin:0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .grid-3{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+    .card{
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      background: rgba(17,26,46,0.65);
+      box-shadow: var(--shadow2);
+      overflow:hidden;
+      position:relative;
+    }
+    .card .inner{ padding: 14px; }
+    .card h3{ margin: 0 0 8px; font-size: 15px; }
+    .card p{ margin:0; color: var(--muted); font-size: 13px; }
+    .icon{
+      width: 42px; height: 42px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.05);
+      display:flex; align-items:center; justify-content:center;
+      margin-bottom: 10px;
+    }
+    .icon svg{ width: 22px; height: 22px; opacity: .95; }
+
+    .split{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    /* Form */
+    form{
+      display:grid;
+      gap: 10px;
+    }
+    .field{
+      display:grid;
+      gap: 6px;
+    }
+    label{
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 700;
+    }
+    input, select, textarea{
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.04);
+      color: var(--text);
+      outline: none;
+    }
+    input::placeholder, textarea::placeholder{ color: rgba(182,193,214,.65); }
+    textarea{ min-height: 92px; resize: vertical; }
+    .row{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .hint{
+      color: rgba(182,193,214,.85);
+      font-size: 12px;
+      margin-top: 2px;
+    }
+    .warn{
+      border-left: 3px solid rgba(255,209,102,.9);
+      padding: 10px 12px;
+      border-radius: 14px;
+      background: rgba(255,209,102,.08);
+      border: 1px solid rgba(255,209,102,.18);
+      color: rgba(233,238,248,.92);
+      font-size: 13px;
+    }
+
+    /* Table-ish */
+    .list{
+      display:grid;
+      gap: 10px;
+    }
+    .item{
+      padding: 12px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.03);
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap: 10px;
+    }
+    .item .left{ display:grid; gap: 4px; }
+    .item .title{ font-weight: 800; font-size: 13px; }
+    .item .meta{ font-family: var(--mono); font-size: 12px; color: rgba(182,193,214,.9); }
+    .tag{
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.04);
+      font-size: 12px;
+      color: rgba(233,238,248,.92);
+      white-space: nowrap;
+      height: fit-content;
+    }
+
+    /* Footer */
+    footer{
+      padding: 20px 0 26px;
+      border-top: 1px solid rgba(255,255,255,.10);
+      color: var(--muted);
+      font-size: 12px;
+    }
+    .foot{
+      display:flex; justify-content:space-between; gap: 12px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+    .small-links{
+      display:flex; gap: 10px; flex-wrap:wrap;
+    }
+    .small-links a{
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.03);
+    }
+
+    /* Responsive */
+    @media (max-width: 980px){
+      .hero-grid{ grid-template-columns: 1fr; }
+      .grid-3{ grid-template-columns: 1fr; }
+      .split{ grid-template-columns: 1fr; }
+      .row{ grid-template-columns: 1fr; }
+      nav{ display:none; }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="topbar">
+    <div class="container">
+      <div class="topbar-inner">
+        <div class="brand">
+          <div class="logo" aria-hidden="true"></div>
+          <div>
+            <div style="font-size:14px; line-height:1; opacity:.95;">MVP IA — Alertes & Conseils</div>
+            <div style="font-size:12px; color:var(--muted); font-weight:700;">Bourse • Bitcoin • Recommandations</div>
+          </div>
+        </div>
+
+        <nav aria-label="Navigation">
+          <a href="#fonctionnalites">Fonctionnalités</a>
+          <a href="#parcours">Parcours utilisateur</a>
+          <a href="#moteur">Moteur IA</a>
+          <a href="#architecture">Architecture</a>
+          <a href="#securite">Sécurité</a>
+          <a href="#prototype">Prototype</a>
+        </nav>
+
+        <div class="cta">
+          <a class="btn" href="#prototype">Essayer le prototype</a>
+          <a class="btn primary" href="#architecture">Voir l’architecture</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero" id="haut">
+      <div class="hero-grid">
+        <div class="hero-card">
+          <div class="inner">
+            <div class="kicker">
+              <span class="pill"><span class="dot"></span> MVP IA (prototype) — alertes + recommandations</span>
+              <span class="pill" title="Prototype : rien n’est exécuté en bourse">Mode démonstration</span>
+            </div>
+
+            <h1>
+              Une MVP IA qui envoie des alertes (actions, Bitcoin) et produit des recommandations d’achat/vente.
+            </h1>
+
+            <p class="lead">
+              Objectif : capter les préférences, surveiller des seuils (prix, variation, volatilité), générer des “idées” et notifier par
+              courriel ou SMS. Ce prototype décrit une architecture réaliste, mais ne doit pas être considéré comme un conseil financier.
+            </p>
+
+            <div class="hero-actions">
+              <a class="btn primary" href="#prototype">Configurer des alertes</a>
+              <a class="btn" href="#moteur">Comprendre le moteur IA</a>
+              <a class="btn danger" href="#securite">Points critiques (risques)</a>
+            </div>
+
+            <div class="note">
+              <strong>Important :</strong> une MVP doit d’abord être “utile et sûre”.
+              Pour éviter une mauvaise idée : ne pas promettre de gains, ne pas donner d’ordres d’achat/vente automatiques, et imposer des limites (profil de risque, tailles de position, stop, etc.).
+            </div>
+          </div>
+        </div>
+
+        <div class="side">
+          <div class="mini">
+            <div class="inner">
+              <h3>Image (intégrée)</h3>
+              <p>Icônes et illustration en SVG (pas de fichiers externes). Compatible GitHub Pages.</p>
+              <div class="badge">assets : intégrés (SVG)</div>
+            </div>
+          </div>
+
+          <div class="mini">
+            <div class="inner">
+              <h3>Ce que fait la MVP</h3>
+              <p>Surveille, résume, propose des scénarios, et notifie. Rien n’est exécuté automatiquement.</p>
+              <div class="badge">alerte → analyse → message</div>
+            </div>
+          </div>
+
+          <div class="mini">
+            <div class="inner">
+              <h3>Canaux d’alerte</h3>
+              <p>Courriel (simple) + SMS (option). Double opt-in recommandé.</p>
+              <div class="badge">email / SMS</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="fonctionnalites">
+      <div class="section-title">
+        <h2>Fonctionnalités MVP</h2>
+        <p class="sub">Petit périmètre, valeur immédiate, risques maîtrisés</p>
+      </div>
+
+      <div class="grid-3">
+        <div class="card">
+          <div class="inner">
+            <div class="icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M4 19V5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                <path d="M4 17l6-6 4 4 6-8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M20 7V5h-2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <h3>Alertes actions</h3>
+            <p>
+              Alertes sur seuils (prix, variation en %, volume, “tendance” simple), par symbole.
+              Exemples : “+3% en 1h”, “cassure d’un niveau”, “écart anormal”.
+            </p>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="inner">
+            <div class="icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M12 2v20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                <path d="M17 7c0-2-2-3-5-3S7 5 7 7s2 3 5 3 5 1 5 3-2 3-5 3-5-1-5-3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <h3>Alertes Bitcoin</h3>
+            <p>
+              Prix BTC, variations, volatilité (approx.), seuils techniques simples.
+              Possibilité d’alertes “calmes” (résumé quotidien) ou “urgentes” (seuils).
+            </p>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="inner">
+            <div class="icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M8 21h8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                <path d="M12 17v4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                <path d="M7 10a5 5 0 0110 0c0 2-1 3-2 4s-1 2-1 3H10c0-1 0-2-1-3s-2-2-2-4z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <h3>Recommandations (encadrées)</h3>
+            <p>
+              “Idées” basées sur règles + scores : pas d’ordres, pas de promesse.
+              Toujours afficher : incertitude, scénario, risque, et alternative “ne rien faire”.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="parcours">
+      <div class="section-title">
+        <h2>Parcours utilisateur</h2>
+        <p class="sub">Simple : profil → watchlist → alertes → messages</p>
+      </div>
+
+      <div class="split">
+        <div class="card">
+          <div class="inner">
+            <h3>1) Onboarding (2 minutes)</h3>
+            <div class="list">
+              <div class="item">
+                <div class="left">
+                  <div class="title">Canal de réception</div>
+                  <div class="meta">courriel ou SMS, avec validation (double opt-in)</div>
+                </div>
+                <span class="tag">contact</span>
+              </div>
+              <div class="item">
+                <div class="left">
+                  <div class="title">Profil de risque</div>
+                  <div class="meta">prudent / équilibré / dynamique (valeurs par défaut)</div>
+                </div>
+                <span class="tag">risque</span>
+              </div>
+              <div class="item">
+                <div class="left">
+                  <div class="title">Univers surveillé</div>
+                  <div class="meta">liste d’actions + Bitcoin (watchlist)</div>
+                </div>
+                <span class="tag">watchlist</span>
+              </div>
+              <div class="item">
+                <div class="left">
+                  <div class="title">Règles d’alerte</div>
+                  <div class="meta">seuils, fréquence, heures de notification</div>
+                </div>
+                <span class="tag">alertes</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="inner">
+            <h3>2) Messages envoyés (format MVP)</h3>
+            <div class="list">
+              <div class="item">
+                <div class="left">
+                  <div class="title">Alerte seuil</div>
+                  <div class="meta">“BTC : -2,8% sur 2h — seuil atteint”</div>
+                </div>
+                <span class="tag">instantané</span>
+              </div>
+              <div class="item">
+                <div class="left">
+                  <div class="title">Résumé quotidien</div>
+                  <div class="meta">3 points + 1 graphique simple + éléments à surveiller</div>
+                </div>
+                <span class="tag">quotidien</span>
+              </div>
+              <div class="item">
+                <div class="left">
+                  <div class="title">Idée encadrée</div>
+                  <div class="meta">scénario, risque, invalidation, “ne rien faire”</div>
+                </div>
+                <span class="tag">prudence</span>
+              </div>
+              <div class="item">
+                <div class="left">
+                  <div class="title">Conseil de vente</div>
+                  <div class="meta">uniquement si règles “sortie” + gestion du risque</div>
+                </div>
+                <span class="tag">sortie</span>
+              </div>
+            </div>
+
+            <div class="warn" style="margin-top:10px;">
+              Cette partie est sensible : “quoi acheter” et “quand vendre” ressemble à du conseil financier.
+              Dans une MVP, limite-toi à des scénarios et des règles explicites, avec avertissements et paramètres de risque.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="moteur">
+      <div class="section-title">
+        <h2>Moteur IA (version MVP, réaliste)</h2>
+        <p class="sub">D’abord des règles + scoring, ensuite (peut-être) du modèle</p>
+      </div>
+
+      <div class="grid-3">
+        <div class="card">
+          <div class="inner">
+            <h3>Ingestion de données</h3>
+            <p>
+              Flux de prix (actions + BTC), volumes, variations, et éventuellement nouvelles (plus tard).
+              En MVP : prix + variation suffisent.
+            </p>
+            <p style="margin-top:8px; color: rgba(182,193,214,.92); font-size:12px;">
+              Note : éviter de dépendre d’une source unique, et conserver les données (historique minimal).
+            </p>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="inner">
+            <h3>Détection d’événements</h3>
+            <p>
+              Règles simples : seuils %, cassure d’un niveau, volatilité approximative, “tendance” via moyennes mobiles.
+              Cela marche et s’explique.
+            </p>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="inner">
+            <h3>Génération de message</h3>
+            <p>
+              Un modèle de langage peut reformuler un message, résumer, et proposer 2–3 scénarios.
+              Il ne doit pas inventer de faits : tout chiffre doit venir des données.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="architecture">
+      <div class="section-title">
+        <h2>Architecture technique (MVP)</h2>
+        <p class="sub">Découpage clair : collecte → règles → notification</p>
+      </div>
+
+      <div class="split">
+        <div class="card">
+          <div class="inner">
+            <h3>Composants</h3>
+            <div class="list">
+              <div class="item">
+                <div class="left">
+                  <div class="title">Frontend (page web)</div>
+                  <div class="meta">inscription, préférences, historique des alertes</div>
+                </div>
+                <span class="tag">web</span>
+              </div>
+              <div class="item">
+                <div class="left">
+                  <div class="title">API backend</div>
+                  <div class="meta">auth, profils, watchlists, règles d’alertes</div>
+                </div>
+                <span class="tag">API</span>
+              </div>
+              <div class="item">
+                <div class="left">
+                  <div class="title">Scheduler</div>
+                  <div class="meta">tâches toutes les X minutes + résumé quotidien</div>
+                </div>
+                <span class="tag">jobs</span>
+              </div>
+              <div class="item">
+                <div class="left">
+                  <div class="title">Service de notification</div>
+                  <div class="meta">courriel (simple) + SMS (option)</div>
+                </div>
+                <span class="tag">envoi</span>
+              </div>
+              <div class="item">
+                <div class="left">
+                  <div class="title">Base de données</div>
+                  <div class="meta">utilisateurs, contacts, règles, logs d’envoi</div>
+                </div>
+                <span class="tag">données</span>
+              </div>
+            </div>
+
+            <div style="margin-top:10px; font-family: var(--mono); font-size: 12px; color: rgba(182,193,214,.95);">
+              flux : données → règles → message → envoi → journalisation
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="inner">
+            <h3>Roadmap (3 étapes)</h3>
+            <div class="list">
+              <div class="item">
+                <div class="left">
+                  <div class="title">Étape 1 — Alertes seuil (MVP)</div>
+                  <div class="meta">prix/variation + email, sans IA “décisionnelle”</div>
+                </div>
+                <span class="tag">1–2 semaines</span>
+              </div>
+              <div class="item">
+                <div class="left">
+                  <div class="title">Étape 2 — Résumés + explications</div>
+                  <div class="meta">modèle de langage pour résumé, chiffres stricts</div>
+                </div>
+                <span class="tag">+2 semaines</span>
+              </div>
+              <div class="item">
+                <div class="left">
+                  <div class="title">Étape 3 — Scoring “idées” encadrées</div>
+                  <div class="meta">règles de risque, paramètres, tests, audit</div>
+                </div>
+                <span class="tag">+3–6 semaines</span>
+              </div>
+            </div>
+
+            <div class="warn" style="margin-top:10px;">
+              Mauvaise idée : “acheter/vendre automatiquement” dès la MVP. Commence par notifier et expliquer.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="securite">
+      <div class="section-title">
+        <h2>Sécurité, conformité, et limites (à ne pas négliger)</h2>
+        <p class="sub">Sans cela, le projet peut devenir risqué</p>
+      </div>
+
+      <div class="grid-3">
+        <div class="card">
+          <div class="inner">
+            <h3>Vie privée</h3>
+            <p>
+              Contact (courriel/téléphone) = donnée sensible. Chiffrement en base, accès minimal, logs limités.
+              Consentement explicite et désinscription simple.
+            </p>
+          </div>
+        </div>
+        <div class="card">
+          <div class="inner">
+            <h3>Anti-hallucination</h3>
+            <p>
+              Le texte “IA” ne doit jamais inventer de prix, de dates, ou d’événements.
+              Tout chiffre provient de la source de données et est cité dans le message.
+            </p>
+          </div>
+        </div>
+        <div class="card">
+          <div class="inner">
+            <h3>Risque de “conseil”</h3>
+            <p>
+              “Quoi acheter” et “quand vendre” peut être interprété comme du conseil financier.
+              En MVP : scénarios + règles + avertissements + option “ne rien faire”.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="prototype">
+      <div class="section-title">
+        <h2>Prototype de page (inscription + préférences)</h2>
+        <p class="sub">Formulaire statique (démonstration). À connecter à une API ensuite.</p>
+      </div>
+
+      <div class="split">
+        <div class="card">
+          <div class="inner">
+            <h3>Configurer tes alertes</h3>
+
+            <form onsubmit="return demoSubmit(event)">
+              <div class="row">
+                <div class="field">
+                  <label for="canal">Canal</label>
+                  <select id="canal" name="canal" onchange="toggleContactFields()">
+                    <option value="email" selected>Courriel</option>
+                    <option value="sms">SMS</option>
+                  </select>
+                  <div class="hint">En production : validation (double opt-in) obligatoire.</div>
+                </div>
+                <div class="field">
+                  <label for="frequence">Fréquence</label>
+                  <select id="frequence" name="frequence">
+                    <option value="urgent">Urgent (seuils)</option>
+                    <option value="mixte" selected>Mixte (seuils + résumé)</option>
+                    <option value="quotidien">Quotidien (résumé uniquement)</option>
+                  </select>
+                  <div class="hint">Évite le spam : limite par défaut (ex. 5 alertes/jour).</div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="field" id="emailField">
+                  <label for="email">Adresse courriel</label>
+                  <input id="email" name="email" type="email" placeholder="ex. nom@domaine.com" autocomplete="email" />
+                </div>
+                <div class="field" id="phoneField" style="display:none;">
+                  <label for="phone">Numéro de téléphone</label>
+                  <input id="phone" name="phone" type="tel" placeholder="ex. +1 514 000 0000" autocomplete="tel" />
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="field">
+                  <label for="risque">Profil de risque</label>
+                  <select id="risque" name="risque">
+                    <option value="prudent" selected>Prudent</option>
+                    <option value="equilibre">Équilibré</option>
+                    <option value="dynamique">Dynamique</option>
+                  </select>
+                  <div class="hint">En MVP : ce choix modifie seulement les seuils et le ton des messages.</div>
+                </div>
+
+                <div class="field">
+                  <label for="watchlist">Watchlist (symboles)</label>
+                  <input id="watchlist" name="watchlist" type="text" placeholder="ex. AAPL, MSFT, NVDA" />
+                  <div class="hint">Bitcoin est surveillé séparément.</div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="field">
+                  <label for="btcSeuil">Alerte Bitcoin : variation (%)</label>
+                  <input id="btcSeuil" name="btcSeuil" type="number" step="0.1" value="2.5" />
+                  <div class="hint">Ex. 2,5 = alerte si BTC bouge de ±2,5% sur une fenêtre.</div>
+                </div>
+                <div class="field">
+                  <label for="actionSeuil">Alerte actions : variation (%)</label>
+                  <input id="actionSeuil" name="actionSeuil" type="number" step="0.1" value="3.0" />
+                  <div class="hint">Ex. 3,0 = alerte si une action bouge de ±3,0%.</div>
+                </div>
+              </div>
+
+              <div class="field">
+                <label for="objectif">Objectif (optionnel)</label>
+                <textarea id="objectif" name="objectif" placeholder="ex. Je veux surtout des alertes calmes et un résumé quotidien, sans recommandations agressives."></textarea>
+                <div class="hint">En production : ce texte sert à personnaliser la forme, pas à inventer des faits.</div>
+              </div>
+
+              <button class="btn primary" type="submit">Enregistrer (démo)</button>
+
+              <div class="warn">
+                Rappel : ce prototype ne donne pas de conseils personnalisés. Une version “réelle” doit inclure des avertissements, des limites, et une gouvernance des risques.
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="inner">
+            <h3>Exemples de messages (format MVP)</h3>
+
+            <div class="list" id="examples">
+              <div class="item">
+                <div class="left">
+                  <div class="title">Alerte — BTC (seuil atteint)</div>
+                  <div class="meta">BTC : variation -2,8% (fenêtre 2h) — seuil 2,5% atteint. Scénario : rebond / poursuite. Option : ne rien faire.</div>
+                </div>
+                <span class="tag">urgent</span>
+              </div>
+
+              <div class="item">
+                <div class="left">
+                  <div class="title">Alerte — Action (mouvement rapide)</div>
+                  <div class="meta">NVDA : +3,2% (fenêtre 1h) — seuil 3,0% atteint. Risque : volatilité élevée. Action : surveiller.</div>
+                </div>
+                <span class="tag">urgent</span>
+              </div>
+
+              <div class="item">
+                <div class="left">
+                  <div class="title">Résumé quotidien (calme)</div>
+                  <div class="meta">3 variations clés, 3 actifs à surveiller, 1 rappel de risque. Aucun ordre. Liens vers le tableau de bord.</div>
+                </div>
+                <span class="tag">quotidien</span>
+              </div>
+
+              <div class="item">
+                <div class="left">
+                  <div class="title">“Idée” encadrée (scoring)</div>
+                  <div class="meta">Idée : scénario haussier conditionnel si X reste au-dessus de Y. Invalidation : sous Y. Taille : petite. Alternative : attendre.</div>
+                </div>
+                <span class="tag">prudence</span>
+              </div>
+            </div>
+
+            <div style="margin-top:12px; font-family: var(--mono); font-size:12px; color: rgba(182,193,214,.92);">
+              Astuce MVP : chaque message doit inclure (1) données, (2) raison, (3) risque, (4) option “ne rien faire”.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="faq">
+      <div class="section-title">
+        <h2>FAQ (rapide)</h2>
+        <p class="sub">Questions fréquentes au démarrage</p>
+      </div>
+
+      <div class="grid-3">
+        <div class="card">
+          <div class="inner">
+            <h3>Quelle “IA” choisir en MVP ?</h3>
+            <p>
+              Pour une MVP, l’important est la fiabilité : règles + scoring + messages cadrés.
+              Un modèle de langage sert surtout à mieux expliquer, pas à “décider”.
+            </p>
+          </div>
+        </div>
+        <div class="card">
+          <div class="inner">
+            <h3>SMS ou courriel ?</h3>
+            <p>
+              Courriel pour démarrer (moins coûteux, plus détaillé). SMS ensuite pour les alertes urgentes.
+              Toujours proposer la désinscription.
+            </p>
+          </div>
+        </div>
+        <div class="card">
+          <div class="inner">
+            <h3>“Me dire quoi acheter” : bonne idée ?</h3>
+            <p>
+              Risqué. Une MVP sérieuse propose des scénarios, des conditions et des limites de risque.
+              Sinon tu crées une promesse implicite et une exposition inutile.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         AJOUT À LA FIN DE LA PAGE : ARCHITECTURE + ANALYSE FONCTIONNELLE
+         (tout ce bloc est ajouté sans modifier le contenu existant)
+         ========================================================= -->
+
+    <section id="analyse-fonctionnelle">
+      <div class="section-title">
+        <h2>Analyse fonctionnelle (MVP)</h2>
+        <p class="sub">Périmètre, acteurs, parcours, fonctions, exigences</p>
+      </div>
+
+      <div class="split">
+        <div class="card">
+          <div class="inner">
+            <h3>Objectif</h3>
+            <div class="list">
+              <div class="item">
+                <div class="left">
+                  <div class="title">Surveiller</div>
+                  <div class="meta">actions + Bitcoin (watchlist, seuils, fenêtres temporelles)</div>
+                </div>
+                <span class="tag">monitoring</span>
+              </div>
+              <div class="item">
+                <div class="left">
+                  <div class="title">Déclencher</div>
+                  <div class="meta">alertes sur règles explicites (prix, variation %, volatilité simple)</div>
+                </div>
+                <span class="tag">règles</span>
+              </div>
+              <div class="item">
+                <div class="left">
+                  <div class="title">Informer</div>
+                  <div class="meta">message structuré : données → raison → risque → options</div>
+                </div>
+                <span class="tag">message</span>
+              </div>
+              <div class="item">
+                <div class="left">
+                  <div class="title">Notifier</div>
+                  <div class="meta">courriel et/ou SMS, avec désinscription et quotas</div>
+                </div>
+                <span class="tag">alertes</span>
+              </div>
+            </div>
+
+            <div class="warn" style="margin-top:10px;">
+              Une MVP sérieuse évite les “ordres” d’achat/vente. Elle propose des scénarios conditionnels et gère le risque.
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="inner">
+            <h3>Acteurs et responsabilités</h3>
+            <div class="list">
+              <div class="item">
+                <div class="left">
+                  <div class="title">Utilisateur</div>
+                  <div class="meta">inscription, consentement, préférences, watchlist, règles, désinscription</div>
+                </div>
+                <span class="tag">client</span>
+              </div>
+              <div class="item">
+                <div class="left">
+                  <div class="title">Système</div>
+                  <div class="meta">collecte prix, évaluation règles, génération message, envoi, journalisation</div>
+                </div>
+                <span class="tag">moteur</span>
+              </div>
+              <div class="item">
+                <div class="left">
+                  <div class="title">Administrateur (minimum)</div>
+                  <div class="meta">clés API, quotas, supervision incidents, conformité, rapports d’envoi</div>
+                </div>
+                <span class="tag">admin</span>
+              </div>
+            </div>
+
+            <div style="margin-top:10px; color: var(--muted); font-size: 13px;">
+              Parcours type : inscription → validation contact → configuration → alertes → historique → ajustements.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid-3" style="margin-top:14px;">
+        <div class="card">
+          <div class="inner">
+            <h3>Fonctions (liste minimale)</h3>
+            <p>
+              Utilisateurs (CRUD), consentement, watchlist (CRUD), règles (CRUD), moteur d’alertes, anti-spam,
+              historique, désinscription, tableau de bord admin.
+            </p>
+          </div>
+        </div>
+        <div class="card">
+          <div class="inner">
+            <h3>Exigences non fonctionnelles</h3>
+            <p>
+              Sécurité (chiffrement, clés), fiabilité (retries, reprise), traçabilité (logs),
+              performance (cache), disponibilité, tests, audit.
+            </p>
+          </div>
+        </div>
+        <div class="card">
+          <div class="inner">
+            <h3>Limites (volontaires)</h3>
+            <p>
+              Pas d’exécution automatique en bourse en MVP. Pas de promesse de performance.
+              Messages basés sur données vérifiables, pas sur “intuition” du modèle.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="architecture-detaillee">
+      <div class="section-title">
+        <h2>Architecture (technique) — détail</h2>
+        <p class="sub">Découpage des services et flux bout en bout</p>
+      </div>
+
+      <div class="split">
+        <div class="card">
+          <div class="inner">
+            <h3>Composants</h3>
+            <div class="list">
+              <div class="item">
+                <div class="left">
+                  <div class="title">Frontend (Web)</div>
+                  <div class="meta">inscription, préférences, historique alertes, gestion désinscription</div>
+                </div>
+                <span class="tag">UI</span>
+              </div>
+              <div class="item">
+                <div class="left">
+                  <div class="title">Backend API</div>
+                  <div class="meta">auth, profils, watchlists, règles, alertes, endpoints admin</div>
+                </div>
+                <span class="tag">API</span>
+              </div>
+              <div class="item">
+                <div class="left">
+                  <div class="title">Base de données</div>
+                  <div class="meta">utilisateurs, consentements, règles, alertes, logs, tokens</div>
+                </div>
+                <span class="tag">DB</span>
+              </div>
+              <div class="item">
+                <div class="left">
+                  <div class="title">Collecte de données</div>
+                  <div class="meta">prix actions + prix crypto, normalisation, cache</div>
+                </div>
+                <span class="tag">data</span>
+              </div>
+              <div class="item">
+                <div class="left">
+                  <div class="title">Moteur d’alertes</div>
+                  <div class="meta">évaluation règles, déduplication, quotas, priorités</div>
+                </div>
+                <span class="tag">rules</span>
+              </div>
+              <div class="item">
+                <div class="left">
+                  <div class="title">Générateur de messages</div>
+                  <div class="meta">gabarits + (option) reformulation IA, sans chiffres inventés</div>
+                </div>
+                <span class="tag">NLG</span>
+              </div>
+              <div class="item">
+                <div class="left">
+                  <div class="title">Service de notification</div>
+                  <div class="meta">courriel/SMS, retries limités, gestion erreurs fournisseur</div>
+                </div>
+                <span class="tag">send</span>
+              </div>
+              <div class="item">
+                <div class="left">
+                  <div class="title">Scheduler / Jobs</div>
+                  <div class="meta">toutes les X minutes + résumé quotidien + nettoyage</div>
+                </div>
+                <span class="tag">jobs</span>
+              </div>
+            </div>
+
+            <div style="margin-top:10px; font-family: var(--mono); font-size: 12px; color: rgba(182,193,214,.95);">
+              flux : scheduler → collecte → cache/DB → moteur règles → alerte → message → envoi → logs
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="inner">
+            <h3>Tables minimales (idées)</h3>
+            <div class="list">
+              <div class="item">
+                <div class="left">
+                  <div class="title">users</div>
+                  <div class="meta">email/téléphone, statut validation, profil risque, timezone, créé_le</div>
+                </div>
+                <span class="tag">core</span>
+              </div>
+              <div class="item">
+                <div class="left">
+                  <div class="title">consents</div>
+                  <div class="meta">type (alertes), date, preuve (ip/agent), révocation</div>
+                </div>
+                <span class="tag">RGPD</span>
+              </div>
+              <div class="item">
+                <div class="left">
+                  <div class="title">watchlists</div>
+                  <div class="meta">user_id, symbole, type (action/crypto), actif</div>
+                </div>
+                <span class="tag">list</span>
+              </div>
+              <div class="item">
+                <div class="left">
+                  <div class="title">rules</div>
+                  <div class="meta">user_id, symbole, règle, seuil, fenêtre, cooldown, horaires</div>
+                </div>
+                <span class="tag">rules</span>
+              </div>
+              <div class="item">
+                <div class="left">
+                  <div class="title">prices (option MVP)</div>
+                  <div class="meta">timestamp, symbole, prix, source (pour audit)</div>
+                </div>
+                <span class="tag">data</span>
+              </div>
+              <div class="item">
+                <div class="left">
+                  <div class="title">alerts</div>
+                  <div class="meta">user_id, symbole, déclencheur, valeurs, statut, envoyé_le</div>
+                </div>
+                <span class="tag">event</span>
+              </div>
+              <div class="item">
+                <div class="left">
+                  <div class="title">message_log</div>
+                  <div class="meta">canal, fournisseur, succès/échec, code erreur, payload minimal</div>
+                </div>
+                <span class="tag">logs</span>
+              </div>
+            </div>
+
+            <div class="warn" style="margin-top:10px;">
+              Stocker un historique court des prix aide à expliquer les alertes. Sans historique, tu perds la traçabilité.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="apis">
+      <div class="section-title">
+        <h2>API nécessaires et informations pertinentes</h2>
+        <p class="sub">Sources de prix, envoi de messages, IA, sécurité</p>
+      </div>
+
+      <div class="grid-3">
+        <div class="card">
+          <div class="inner">
+            <h3>Données de marché (prix)</h3>
+            <p>
+              Il faut une source pour les actions et une source pour le Bitcoin.
+              Critères : fiabilité, limites de requêtes, latence, coût, historique.
+            </p>
+            <p style="margin-top:8px; color: var(--muted); font-size:13px;">
+              Bonne pratique : abstraire la source derrière un “provider” interchangeable.
+            </p>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="inner">
+            <h3>Notifications (courriel/SMS)</h3>
+            <p>
+              Un fournisseur de courriel transactionnel (envoi fiable + désinscription) et un fournisseur SMS.
+              À prévoir : quotas, gestion des échecs, retries limités, logs.
+            </p>
+            <p style="margin-top:8px; color: var(--muted); font-size:13px;">
+              Recommandé : double validation du contact (clic email / code SMS).
+            </p>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="inner">
+            <h3>IA (option MVP)</h3>
+            <p>
+              Si tu ajoutes un modèle de langage : il sert à reformuler et résumer.
+              Interdiction pratique : inventer des chiffres ou des événements.
+            </p>
+            <p style="margin-top:8px; color: var(--muted); font-size:13px;">
+              Solution : fournir au modèle un “paquet de données” déjà calculé (prix, variations) et le contraindre au texte.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="split" style="margin-top:14px;">
+        <div class="card">
+          <div class="inner">
+            <h3>Endpoints API (minimum recommandé)</h3>
+            <div class="list">
+              <div class="item">
+                <div class="left">
+                  <div class="title">POST /auth/register</div>
+                  <div class="meta">création compte (email/téléphone), création consentement</div>
+                </div>
+                <span class="tag">auth</span>
+              </div>
+              <div class="item">
+                <div class="left">
+                  <div class="title">POST /auth/verify</div>
+                  <div class="meta">validation (lien email / code SMS)</div>
+                </div>
+                <span class="tag">verify</span>
+              </div>
+              <div class="item">
+                <div class="left">
+                  <div class="title">GET/PUT /me</div>
+                  <div class="meta">profil, canal, profil risque, préférences</div>
+                </div>
+                <span class="tag">user</span>
+              </div>
+              <div class="item">
+                <div class="left">
+                  <div class="title">GET/POST/DELETE /watchlist</div>
+                  <div class="meta">gérer symboles surveillés</div>
+                </div>
+                <span class="tag">list</span>
+              </div>
+              <div class="item">
+                <div class="left">
+                  <div class="title">GET/POST/PUT/DELETE /rules</div>
+                  <div class="meta">gérer règles d’alerte (seuils, fenêtres, quotas)</div>
+                </div>
+                <span class="tag">rules</span>
+              </div>
+              <div class="item">
+                <div class="left">
+                  <div class="title">GET /alerts</div>
+                  <div class="meta">historique des alertes (avec filtre date/symbole)</div>
+                </div>
+                <span class="tag">history</span>
+              </div>
+              <div class="item">
+                <div class="left">
+                  <div class="title">POST /unsubscribe</div>
+                  <div class="meta">désinscription simple (token unique)</div>
+                </div>
+                <span class="tag">stop</span>
+              </div>
+            </div>
+
+            <div style="margin-top:10px; color: var(--muted); font-size:13px;">
+              Astuce : sépare “API publique” et “jobs internes” (collecte/évaluation) pour éviter d’exposer des endpoints sensibles.
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="inner">
+            <h3>Règles d’alerte (logique MVP)</h3>
+            <div class="list">
+              <div class="item">
+                <div class="left">
+                  <div class="title">Seuil variation</div>
+                  <div class="meta">déclenche si |Δ%| ≥ seuil sur une fenêtre (ex. 1h, 2h)</div>
+                </div>
+                <span class="tag">%</span>
+              </div>
+              <div class="item">
+                <div class="left">
+                  <div class="title">Cooldown / anti-spam</div>
+                  <div class="meta">pas plus d’une alerte par symbole toutes les N minutes</div>
+                </div>
+                <span class="tag">quota</span>
+              </div>
+              <div class="item">
+                <div class="left">
+                  <div class="title">Déduplication</div>
+                  <div class="meta">si même alerte déjà envoyée avec valeurs proches, ne pas répéter</div>
+                </div>
+                <span class="tag">dedup</span>
+              </div>
+              <div class="item">
+                <div class="left">
+                  <div class="title">Plage horaire</div>
+                  <div class="meta">autoriser l’envoi uniquement sur certaines heures</div>
+                </div>
+                <span class="tag">time</span>
+              </div>
+              <div class="item">
+                <div class="left">
+                  <div class="title">Résumé quotidien</div>
+                  <div class="meta">1 message/jour : variations clés + éléments à surveiller + rappel risque</div>
+                </div>
+                <span class="tag">daily</span>
+              </div>
+            </div>
+
+            <div class="warn" style="margin-top:10px;">
+              Mauvaise idée : “acheter/vendre” sans règles explicites de risque. Mets au minimum : taille max, invalidation, et option “ne rien faire”.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FIN DU BLOC AJOUTÉ -->
+
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="foot">
+        <div>
+          <strong style="color: rgba(233,238,248,.92);">MVP IA — Alertes & Conseils</strong><br />
+          <span>Prototype de page HTML (statique). À relier à une API et à une source de données ensuite.</span>
+        </div>
+        <div class="small-links">
+          <a href="#haut">Haut</a>
+          <a href="#securite">Sécurité</a>
+          <a href="#architecture">Architecture</a>
+          <a href="#prototype">Prototype</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function toggleContactFields(){
+      const canal = document.getElementById('canal').value;
+      const emailField = document.getElementById('emailField');
+      const phoneField = document.getElementById('phoneField');
+      const email = document.getElementById('email');
+      const phone = document.getElementById('phone');
+
+      if(canal === 'sms'){
+        emailField.style.display = 'none';
+        phoneField.style.display = 'grid';
+        email.value = '';
+      }else{
+        phoneField.style.display = 'none';
+        emailField.style.display = 'grid';
+        phone.value = '';
+      }
+    }
+
+    function demoSubmit(e){
+      e.preventDefault();
+
+      const canal = document.getElementById('canal').value;
+      const frequence = document.getElementById('frequence').value;
+      const risque = document.getElementById('risque').value;
+      const watchlist = (document.getElementById('watchlist').value || '').trim();
+      const btcSeuil = Number(document.getElementById('btcSeuil').value || 0);
+      const actionSeuil = Number(document.getElementById('actionSeuil').value || 0);
+
+      const contact = (canal === 'sms')
+        ? (document.getElementById('phone').value || '').trim()
+        : (document.getElementById('email').value || '').trim();
+
+      if(!contact){
+        alert("Renseigne un contact (courriel ou téléphone) pour la démonstration.");
+        return false;
+      }
+
+      const msg =
+        "Démo enregistrée.\n\n" +
+        "- Canal : " + (canal === 'sms' ? "SMS" : "Courriel") + "\n" +
+        "- Fréquence : " + frequence + "\n" +
+        "- Risque : " + risque + "\n" +
+        "- Watchlist : " + (watchlist || "(vide)") + "\n" +
+        "- Seuil BTC (%) : " + btcSeuil + "\n" +
+        "- Seuil actions (%) : " + actionSeuil + "\n\n" +
+        "Rappel : aucun ordre d’achat/vente n’est exécuté. Prototype statique.";
+
+      alert(msg);
+      return false;
+    }
+
+    // init
+    toggleContactFields();
+  </script>
+</body>
+</html>
