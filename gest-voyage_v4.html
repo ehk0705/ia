@@ -455,6 +455,67 @@
       </div>
     </section>
 
+    <!-- ✅ AJOUT : informations sur les API de voyage -->
+    <section id="apis" class="section" aria-labelledby="h-apis">
+      <h2 id="h-apis">API de voyage à intégrer (exemples concrets)</h2>
+      <p>
+        L’objectif est d’obtenir un inventaire (offres), de revalider la disponibilité et, si besoin,
+        de réserver auprès d’un fournisseur. Beaucoup d’API sont accessibles uniquement sur dossier (partenariat, volume, usage commercial).
+      </p>
+
+      <div class="grid" aria-label="API par catégorie">
+        <article class="card span-6" aria-labelledby="h-apis-vols">
+          <h2 id="h-apis-vols">Vols</h2>
+          <ul>
+            <li><b>Amadeus</b> : recherche, disponibilité, réservation (API complète).</li>
+            <li><b>Skyscanner</b> : comparateur, accès souvent soumis à validation.</li>
+            <li><b>Kiwi.com</b> : utile pour itinéraires complexes et multi-segments.</li>
+            <li><b>Aviationstack</b> : données et statuts de vols (plutôt “information” que “réservation”).</li>
+          </ul>
+        </article>
+
+        <article class="card span-6" aria-labelledby="h-apis-hotels">
+          <h2 id="h-apis-hotels">Hôtels</h2>
+          <ul>
+            <li><b>Booking.com (partenaires)</b> : large inventaire, accès généralement restreint.</li>
+            <li><b>Expedia Group</b> : recherche et réservation, intéressant aussi pour les packs.</li>
+            <li><b>Hotelbeds</b> : grossiste B2B, très utilisé par des agences, accès strict.</li>
+          </ul>
+        </article>
+
+        <article class="card span-6" aria-labelledby="h-apis-trains">
+          <h2 id="h-apis-trains">Trains</h2>
+          <ul>
+            <li><b>API SNCF</b> : données ferroviaires (France et certaines liaisons).</li>
+            <li><b>Trainline (partenaires)</b> : couverture européenne, accès commercial.</li>
+            <li><b>Deutsche Bahn</b> : données ferroviaires, utile pour l’Europe centrale.</li>
+          </ul>
+        </article>
+
+        <article class="card span-6" aria-labelledby="h-apis-voitures">
+          <h2 id="h-apis-voitures">Location de voitures</h2>
+          <ul>
+            <li><b>CarTrawler</b> : agrégateur spécialisé location.</li>
+            <li><b>Rentalcars (partenaires)</b> : inventaire large, souvent via partenariat.</li>
+            <li><b>Amadeus</b> : option possible aussi pour la location.</li>
+          </ul>
+        </article>
+
+        <article class="card span-12" aria-labelledby="h-apis-packs">
+          <h2 id="h-apis-packs">Packs (vol + hôtel)</h2>
+          <ul>
+            <li><b>Expedia Group</b> : souvent le plus simple si le besoin principal est “forfait”.</li>
+            <li><b>Amadeus</b> : permet une orchestration plus flexible, mais demande plus d’intégration.</li>
+          </ul>
+          <div class="callout" style="margin-top:12px">
+            <b>Conseil MVP :</b> commencer par <b>un seul parcours</b> (par exemple vol + hôtel) et <b>un seul fournisseur principal</b>.
+            Ajouter les autres ensuite, quand le suivi, les erreurs et la traçabilité sont solides.
+          </div>
+        </article>
+      </div>
+    </section>
+    <!-- ✅ FIN AJOUT -->
+
     <section id="donnees" class="section" aria-labelledby="h-data">
       <h2 id="h-data">Données minimales à stocker (PostgreSQL)</h2>
       <p>Conserver le strict nécessaire, utile au suivi et au support.</p>
