@@ -1,0 +1,1455 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Cours d'introduction à TensorFlow pour débutants : bases du deep learning, notions utiles pour comprendre les LLM, exemples simples et guide pratique." />
+  <title>Cours : Introduction à TensorFlow</title>
+  <style>
+    :root {
+      --bg: #0b1020;
+      --bg-soft: #121933;
+      --panel: rgba(255, 255, 255, 0.08);
+      --card: #ffffff;
+      --text: #eef2ff;
+      --muted: #c8d1f0;
+      --dark: #18213f;
+      --primary: #6d8cff;
+      --primary-2: #8c6bff;
+      --accent: #18c7b8;
+      --accent-2: #ffd166;
+      --danger: #ff7b7b;
+      --success: #27c589;
+      --shadow: 0 18px 50px rgba(0, 0, 0, 0.28);
+      --radius: 22px;
+      --max: 1180px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      line-height: 1.65;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(109, 140, 255, 0.24), transparent 28%),
+        radial-gradient(circle at top right, rgba(24, 199, 184, 0.18), transparent 24%),
+        linear-gradient(180deg, #09101d 0%, #0d1530 55%, #111a36 100%);
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img, svg {
+      max-width: 100%;
+      display: block;
+    }
+
+    .container {
+      width: min(var(--max), calc(100% - 2rem));
+      margin: 0 auto;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      backdrop-filter: blur(12px);
+      background: rgba(7, 12, 24, 0.72);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 0.9rem 0;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+    }
+
+    .brand-badge {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      color: white;
+      box-shadow: var(--shadow);
+      font-size: 1.2rem;
+    }
+
+    .nav-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.55rem;
+      justify-content: flex-end;
+    }
+
+    .nav-links a {
+      padding: 0.65rem 0.95rem;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.08);
+      font-size: 0.95rem;
+      color: var(--muted);
+      transition: 0.25s ease;
+    }
+
+    .nav-links a:hover {
+      transform: translateY(-1px);
+      color: white;
+      background: rgba(255,255,255,0.12);
+    }
+
+    .hero {
+      padding: 4rem 0 2.5rem;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 1.5rem;
+      align-items: center;
+    }
+
+    .hero-card,
+    .glass,
+    .timeline,
+    .footer-card {
+      background: var(--panel);
+      border: 1px solid rgba(255,255,255,0.08);
+      backdrop-filter: blur(10px);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .hero-card {
+      padding: 2rem;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      padding: 0.45rem 0.8rem;
+      border-radius: 999px;
+      background: rgba(24, 199, 184, 0.14);
+      color: #cffffa;
+      border: 1px solid rgba(24, 199, 184, 0.35);
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+    }
+
+    h1, h2, h3, h4 {
+      line-height: 1.2;
+      margin-top: 0;
+    }
+
+    h1 {
+      font-size: clamp(2rem, 4vw, 3.4rem);
+      margin-bottom: 1rem;
+    }
+
+    .lead {
+      font-size: 1.08rem;
+      color: var(--muted);
+      max-width: 65ch;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      margin-top: 1.25rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.9rem 1.15rem;
+      border-radius: 14px;
+      font-weight: 700;
+      transition: 0.25s ease;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), var(--primary-2));
+      color: white;
+    }
+
+    .btn-secondary {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: var(--text);
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .hero-visual {
+      padding: 1rem;
+    }
+
+    .hero-figure {
+      overflow: hidden;
+      border-radius: 26px;
+      border: 1px solid rgba(255,255,255,0.1);
+      background: linear-gradient(160deg, rgba(109,140,255,0.18), rgba(24,199,184,0.16));
+      padding: 1rem;
+    }
+
+    section {
+      padding: 1.2rem 0 2.3rem;
+    }
+
+    .section-title {
+      margin-bottom: 1rem;
+    }
+
+    .section-title p {
+      color: var(--muted);
+      max-width: 74ch;
+    }
+
+    .grid-2,
+    .grid-3,
+    .grid-4 {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .grid-2 {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .grid-3 {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .grid-4 {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .card {
+      background: var(--card);
+      color: #172033;
+      border-radius: 22px;
+      padding: 1.25rem;
+      box-shadow: 0 18px 35px rgba(1, 10, 31, 0.18);
+      border: 1px solid rgba(16,24,40,0.06);
+    }
+
+    .card h3,
+    .card h4 {
+      color: #11192d;
+      margin-bottom: 0.7rem;
+    }
+
+    .card p,
+    .card li {
+      color: #44506a;
+    }
+
+    .icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 16px;
+      display: grid;
+      place-items: center;
+      margin-bottom: 0.9rem;
+      font-size: 1.4rem;
+      background: linear-gradient(135deg, rgba(109,140,255,0.14), rgba(24,199,184,0.14));
+    }
+
+    .highlight {
+      background: linear-gradient(135deg, rgba(109, 140, 255, 0.16), rgba(140, 107, 255, 0.14));
+      border: 1px solid rgba(255,255,255,0.1);
+      padding: 1.1rem;
+      border-radius: 18px;
+      color: var(--text);
+    }
+
+    .highlight p,
+    .highlight li {
+      color: #e6ebff;
+    }
+
+    .definition-list {
+      display: grid;
+      gap: 0.9rem;
+    }
+
+    .definition {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 18px;
+      padding: 1rem;
+    }
+
+    .definition strong {
+      color: white;
+      display: inline-block;
+      margin-bottom: 0.35rem;
+    }
+
+    .definition p {
+      color: var(--muted);
+      margin: 0;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      border-radius: 22px;
+      box-shadow: var(--shadow);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      color: #16213b;
+      min-width: 760px;
+    }
+
+    thead {
+      background: linear-gradient(135deg, #6d8cff, #18c7b8);
+      color: white;
+    }
+
+    th, td {
+      padding: 1rem;
+      text-align: left;
+      border-bottom: 1px solid #e7edf8;
+      vertical-align: top;
+    }
+
+    tbody tr:hover {
+      background: #f7f9ff;
+    }
+
+    .code {
+      font-family: "Courier New", monospace;
+      background: #0f1730;
+      color: #dffbff;
+      border-radius: 18px;
+      padding: 1rem;
+      overflow-x: auto;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      box-shadow: var(--shadow);
+      white-space: pre-wrap;
+    }
+
+    .timeline {
+      padding: 1.25rem;
+    }
+
+    .timeline-item {
+      display: grid;
+      grid-template-columns: 60px 1fr;
+      gap: 1rem;
+      align-items: start;
+      padding: 0.85rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .timeline-item:last-child {
+      border-bottom: none;
+    }
+
+    .step {
+      width: 46px;
+      height: 46px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--accent), var(--primary));
+      color: white;
+    }
+
+    .timeline-item p {
+      margin: 0.35rem 0 0;
+      color: var(--muted);
+    }
+
+    .image-card {
+      overflow: hidden;
+      padding: 0;
+    }
+
+    .image-card .image {
+      aspect-ratio: 16 / 9;
+      background: linear-gradient(135deg, #203562, #173c49);
+    }
+
+    .image-card .content {
+      padding: 1.1rem 1.2rem 1.25rem;
+    }
+
+    .mini-tag {
+      display: inline-block;
+      margin-bottom: 0.7rem;
+      padding: 0.35rem 0.7rem;
+      border-radius: 999px;
+      background: rgba(109,140,255,0.14);
+      color: #2640b2;
+      font-size: 0.82rem;
+      font-weight: 700;
+    }
+
+    ul.checks {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    ul.checks li {
+      padding-left: 1.6rem;
+      position: relative;
+      margin-bottom: 0.65rem;
+    }
+
+    ul.checks li::before {
+      content: "✔";
+      position: absolute;
+      left: 0;
+      color: var(--success);
+      font-weight: 700;
+    }
+
+    .footer {
+      padding: 1rem 0 3rem;
+    }
+
+    .footer-card {
+      padding: 1.5rem;
+    }
+
+    .footer-card p {
+      color: var(--muted);
+    }
+
+    .small {
+      font-size: 0.94rem;
+    }
+
+    @media (max-width: 980px) {
+      .hero-grid,
+      .grid-4,
+      .grid-3,
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
+
+      .nav {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .nav-links {
+        justify-content: flex-start;
+      }
+    }
+    .book-cover{
+      max-height: 260px;
+      width: auto;
+      object-fit: contain;
+      border-radius: 12px;
+      box-shadow: 0 12px 24px rgba(0,0,0,0.18);
+    }	
+  </style>
+</head>
+<body>
+
+  <header class="topbar">
+    <div class="container nav">
+      <div class="brand">
+        <div class="brand-badge">TF</div>
+        <div>Introduction à TensorFlow</div>
+      </div>
+<nav class="nav-links">
+  <a href="../index.html">Accueil</a>
+  <a href="#tensorflow">TensorFlow</a>
+  <a href="#deep-learning">Deep Learning</a>
+  <a href="#llm">LLM</a>
+  <a href="#concepts">Concepts</a>
+  <a href="#workflow">Méthode</a>
+  <a href="#exemples">Exemples</a>
+  <a href="#resume">Résumé</a>
+  <a href="#livres">Livres</a>
+  <a href="tensorflow-avance.html">Exemple concret</a>  
+  <a href="tensorflow-transformers.html">Transformers</a>  
+  <a href="tensorflow-installation.html">Installation TensorFlow</a>
+  <a href="tensorflow-imdb-projet.html">Projet NLP IMDB</a>  
+</nav>
+    </div>
+  </header>
+
+  <main>
+
+    <section class="hero" id="intro">
+      <div class="container hero-grid">
+        <div class="hero-card">
+          <span class="eyebrow">Cours complet pour débutants</span>
+		  <span class="eyebrow">Auteur : Hocine Korichi, MSc en sciences (génie informatique et génie physique)</span>
+          <h1>Introduction à TensorFlow, au deep learning et aux notions utiles pour comprendre les LLM</h1>
+          <p class="lead">
+            Ce cours présente les bases de TensorFlow de manière simple. Il explique les mots essentiels,
+            le rôle des réseaux de neurones, les liens avec les grands modèles de langage, puis montre
+            des exemples concrets d'utilisation.
+          </p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#tensorflow">Commencer le cours</a>
+            <a class="btn btn-secondary" href="#exemples">Voir les exemples</a>
+          </div>
+          <div class="highlight" style="margin-top:1.2rem;">
+            <strong>Pour qui ?</strong>
+            <p>
+              Débutants, étudiants, curieux, développeurs web ou toute personne qui veut comprendre
+              ce qu'est TensorFlow sans entrer tout de suite dans les mathématiques avancées.
+            </p>
+          </div>
+        </div>
+
+        <div class="hero-visual glass">
+          <div class="hero-figure">
+            <svg viewBox="0 0 700 500" xmlns="http://www.w3.org/2000/svg" aria-label="Illustration TensorFlow et apprentissage profond">
+              <defs>
+                <linearGradient id="g1" x1="0" x2="1">
+                  <stop offset="0%" stop-color="#6d8cff"/>
+                  <stop offset="100%" stop-color="#18c7b8"/>
+                </linearGradient>
+                <linearGradient id="g2" x1="0" x2="1">
+                  <stop offset="0%" stop-color="#ffd166"/>
+                  <stop offset="100%" stop-color="#ff8a5b"/>
+                </linearGradient>
+              </defs>
+              <rect x="0" y="0" width="700" height="500" rx="28" fill="#0f1730"/>
+              <circle cx="110" cy="90" r="26" fill="url(#g1)"/>
+              <circle cx="110" cy="250" r="26" fill="url(#g1)"/>
+              <circle cx="110" cy="410" r="26" fill="url(#g1)"/>
+
+              <circle cx="300" cy="60" r="24" fill="url(#g2)"/>
+              <circle cx="300" cy="150" r="24" fill="url(#g2)"/>
+              <circle cx="300" cy="250" r="24" fill="url(#g2)"/>
+              <circle cx="300" cy="350" r="24" fill="url(#g2)"/>
+              <circle cx="300" cy="440" r="24" fill="url(#g2)"/>
+
+              <circle cx="500" cy="120" r="24" fill="#8c6bff"/>
+              <circle cx="500" cy="250" r="24" fill="#8c6bff"/>
+              <circle cx="500" cy="380" r="24" fill="#8c6bff"/>
+
+              <circle cx="620" cy="250" r="28" fill="#18c7b8"/>
+
+              <g stroke="rgba(255,255,255,0.45)" stroke-width="3">
+                <line x1="136" y1="90" x2="276" y2="60"/>
+                <line x1="136" y1="90" x2="276" y2="150"/>
+                <line x1="136" y1="250" x2="276" y2="150"/>
+                <line x1="136" y1="250" x2="276" y2="250"/>
+                <line x1="136" y1="250" x2="276" y2="350"/>
+                <line x1="136" y1="410" x2="276" y2="350"/>
+                <line x1="136" y1="410" x2="276" y2="440"/>
+
+                <line x1="324" y1="60" x2="476" y2="120"/>
+                <line x1="324" y1="150" x2="476" y2="120"/>
+                <line x1="324" y1="150" x2="476" y2="250"/>
+                <line x1="324" y1="250" x2="476" y2="250"/>
+                <line x1="324" y1="350" x2="476" y2="250"/>
+                <line x1="324" y1="350" x2="476" y2="380"/>
+                <line x1="324" y1="440" x2="476" y2="380"/>
+
+                <line x1="524" y1="120" x2="592" y2="250"/>
+                <line x1="524" y1="250" x2="592" y2="250"/>
+                <line x1="524" y1="380" x2="592" y2="250"/>
+              </g>
+
+              <text x="60" y="40" fill="#dbe6ff" font-size="22" font-family="Arial">Entrées</text>
+              <text x="250" y="40" fill="#dbe6ff" font-size="22" font-family="Arial">Couches cachées</text>
+              <text x="462" y="75" fill="#dbe6ff" font-size="22" font-family="Arial">Représentation</text>
+              <text x="580" y="220" fill="#dbe6ff" font-size="22" font-family="Arial">Sortie</text>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="tensorflow">
+      <div class="container">
+        <div class="section-title">
+          <h2>1. Qu'est-ce que TensorFlow ?</h2>
+          <p>
+            TensorFlow est une bibliothèque logicielle de machine learning. Elle sert à créer,
+            entraîner, tester et déployer des modèles capables d'apprendre à partir de données.
+          </p>
+        </div>
+
+        <div class="grid-3">
+          <article class="card">
+            <div class="icon">🧠</div>
+            <h3>Son rôle</h3>
+            <p>
+              TensorFlow aide à construire des modèles de classification, de régression,
+              de vision par ordinateur, de traitement du langage et d'autres systèmes d'intelligence artificielle.
+            </p>
+          </article>
+
+          <article class="card">
+            <div class="icon">⚙</div>
+            <h3>Son intérêt</h3>
+            <p>
+              Il automatise beaucoup d'opérations lourdes : calcul matriciel, calcul du gradient,
+              entraînement sur processeur ou carte graphique et export du modèle.
+            </p>
+          </article>
+
+          <article class="card">
+            <div class="icon">📦</div>
+            <h3>Son écosystème</h3>
+            <p>
+              On y trouve notamment <strong>Keras</strong> pour créer des réseaux de neurones plus facilement,
+              ainsi que des outils pour les données, l'entraînement et le déploiement.
+            </p>
+          </article>
+        </div>
+
+        <div class="grid-2" style="margin-top:1rem;">
+          <div class="highlight">
+            <h3>En une phrase</h3>
+            <p>
+              TensorFlow est une boîte à outils qui permet d'apprendre à un ordinateur à reconnaître,
+              prédire ou générer des informations à partir d'exemples.
+            </p>
+          </div>
+          <div class="highlight">
+            <h3>Ce que TensorFlow n'est pas</h3>
+            <p>
+              Ce n'est pas un LLM en lui-même. Ce n'est pas non plus une base de données.
+              C'est un cadre logiciel pour construire et exécuter des modèles.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="deep-learning">
+      <div class="container">
+        <div class="section-title">
+          <h2>2. Machine learning et deep learning</h2>
+          <p>
+            Avant de comprendre TensorFlow, il faut distinguer quelques niveaux.
+          </p>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Notion</th>
+                <th>Définition simple</th>
+                <th>Exemple</th>
+                <th>Lien avec TensorFlow</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Intelligence artificielle</strong></td>
+                <td>Ensemble des méthodes qui permettent à une machine d'imiter certaines capacités humaines.</td>
+                <td>Reconnaître une image, traduire un texte, répondre à une question.</td>
+                <td>TensorFlow sert à construire une partie de ces systèmes.</td>
+              </tr>
+              <tr>
+                <td><strong>Machine learning</strong></td>
+                <td>Apprentissage à partir de données, sans programmer chaque règle à la main.</td>
+                <td>Prédire le prix d'une maison à partir de caractéristiques.</td>
+                <td>TensorFlow propose des outils pour entraîner ces modèles.</td>
+              </tr>
+              <tr>
+                <td><strong>Deep learning</strong></td>
+                <td>Sous-domaine du machine learning fondé sur des réseaux de neurones à plusieurs couches.</td>
+                <td>Reconnaissance d'images, voix, traduction, génération de texte.</td>
+                <td>TensorFlow est très utilisé pour cela.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="grid-2" style="margin-top:1rem;">
+          <article class="card image-card">
+            <div class="image">
+              <svg viewBox="0 0 800 450" xmlns="http://www.w3.org/2000/svg">
+                <rect width="800" height="450" fill="#0f1730"/>
+                <rect x="60" y="80" width="160" height="280" rx="20" fill="#223564"/>
+                <rect x="320" y="110" width="160" height="250" rx="20" fill="#6d8cff" opacity="0.95"/>
+                <rect x="580" y="150" width="160" height="210" rx="20" fill="#18c7b8" opacity="0.95"/>
+                <text x="92" y="225" fill="#e9eeff" font-size="28" font-family="Arial">Données</text>
+                <text x="350" y="235" fill="white" font-size="28" font-family="Arial">Modèle</text>
+                <text x="605" y="255" fill="white" font-size="26" font-family="Arial">Résultat</text>
+                <path d="M220 220 L320 220" stroke="#ffd166" stroke-width="10" stroke-linecap="round"/>
+                <path d="M480 235 L580 235" stroke="#ffd166" stroke-width="10" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div class="content">
+              <span class="mini-tag">Idée centrale</span>
+              <h3>Le modèle apprend à transformer des entrées en sorties</h3>
+              <p>
+                On lui montre des exemples. Il ajuste progressivement ses paramètres pour réduire ses erreurs.
+              </p>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="icon">📌</div>
+            <h3>Pourquoi le deep learning a pris autant de place</h3>
+            <ul class="checks">
+              <li>Il fonctionne bien sur de grandes quantités de données.</li>
+              <li>Il est efficace pour des tâches complexes comme l'image et le langage.</li>
+              <li>Le calcul moderne sur carte graphique a rendu son entraînement plus accessible.</li>
+              <li>Il apprend souvent lui-même des représentations utiles.</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="llm">
+      <div class="container">
+        <div class="section-title">
+          <h2>3. Quel lien avec les LLM ?</h2>
+          <p>
+            Les LLM, ou grands modèles de langage, sont des modèles de deep learning entraînés sur de très grands volumes de texte.
+            Leur but est de prédire le mot suivant, puis de produire des phrases, des réponses, des résumés ou du code.
+          </p>
+        </div>
+
+        <div class="grid-3">
+          <article class="card">
+            <div class="icon">🔤</div>
+            <h3>LLM</h3>
+            <p>
+              Un LLM apprend des régularités dans le langage : syntaxe, style, relations entre mots,
+              connaissances statistiques et structures de phrases.
+            </p>
+          </article>
+
+          <article class="card">
+            <div class="icon">🧩</div>
+            <h3>Transformer</h3>
+            <p>
+              C'est l'architecture dominante derrière les LLM modernes. Elle gère bien les longues séquences
+              et les relations entre éléments d'un texte.
+            </p>
+          </article>
+
+          <article class="card">
+            <div class="icon">📚</div>
+            <h3>Entraînement</h3>
+            <p>
+              Le modèle lit énormément de textes, calcule ses erreurs, puis ajuste ses poids pour mieux prédire.
+            </p>
+          </article>
+        </div>
+
+        <div class="grid-2" style="margin-top:1rem;">
+          <div class="glass" style="padding:1.25rem;">
+            <h3>TensorFlow et les LLM</h3>
+            <div class="definition-list">
+              <div class="definition">
+                <strong>TensorFlow peut servir à construire et entraîner des modèles de langage.</strong>
+                <p>Il propose les briques de base : tenseurs, couches, calcul automatique du gradient et boucles d'entraînement.</p>
+              </div>
+              <div class="definition">
+                <strong>Mais comprendre un LLM ne commence pas par la taille du modèle.</strong>
+                <p>Il faut d'abord comprendre les fondations : données, paramètres, perte, optimisation et représentation.</p>
+              </div>
+              <div class="definition">
+                <strong>Pour un débutant, commencer petit est la bonne méthode.</strong>
+                <p>On apprend d'abord avec des modèles simples, puis on progresse vers les architectures plus complexes.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="timeline">
+            <h3>Du texte au LLM : idée simplifiée</h3>
+
+            <div class="timeline-item">
+              <div class="step">1</div>
+              <div>
+                <strong>Découper le texte</strong>
+                <p>Le texte est converti en unités manipulables par le modèle, souvent appelées jetons.</p>
+              </div>
+            </div>
+
+            <div class="timeline-item">
+              <div class="step">2</div>
+              <div>
+                <strong>Transformer en nombres</strong>
+                <p>Chaque jeton devient une représentation numérique que le réseau peut traiter.</p>
+              </div>
+            </div>
+
+            <div class="timeline-item">
+              <div class="step">3</div>
+              <div>
+                <strong>Calculer une prédiction</strong>
+                <p>Le modèle estime quel mot ou quel jeton a le plus de chances de suivre.</p>
+              </div>
+            </div>
+
+            <div class="timeline-item">
+              <div class="step">4</div>
+              <div>
+                <strong>Corriger l'erreur</strong>
+                <p>Les paramètres sont modifiés pour réduire l'écart entre la prédiction et la bonne réponse.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="concepts">
+      <div class="container">
+        <div class="section-title">
+          <h2>4. Définitions essentielles</h2>
+          <p>
+            Voici le vocabulaire minimal à maîtriser pour suivre un cours sur TensorFlow et comprendre le deep learning.
+          </p>
+        </div>
+
+        <div class="grid-4">
+          <article class="card"><h4>Tenseur</h4><p>Objet de base dans TensorFlow. C'est une structure de données numérique, proche d'un tableau multidimensionnel.</p></article>
+          <article class="card"><h4>Variable</h4><p>Tenseur dont la valeur peut changer pendant l'entraînement. Les poids d'un modèle sont souvent stockés ainsi.</p></article>
+          <article class="card"><h4>Poids</h4><p>Paramètres appris par le réseau. Ce sont eux qui portent l'apprentissage du modèle.</p></article>
+          <article class="card"><h4>Biais</h4><p>Paramètre supplémentaire qui aide le neurone à mieux ajuster sa sortie.</p></article>
+          <article class="card"><h4>Neurone artificiel</h4><p>Unité de calcul simple qui reçoit des valeurs, les combine et produit une sortie.</p></article>
+          <article class="card"><h4>Couche</h4><p>Ensemble de neurones. Un réseau contient une couche d'entrée, parfois plusieurs couches cachées, puis une couche de sortie.</p></article>
+          <article class="card"><h4>Fonction d'activation</h4><p>Fonction qui introduit de la non-linéarité. Sans elle, le réseau serait trop limité.</p></article>
+          <article class="card"><h4>Inférence</h4><p>Moment où le modèle déjà entraîné produit une réponse sur de nouvelles données.</p></article>
+          <article class="card"><h4>Perte</h4><p>Mesure de l'erreur du modèle. Plus elle est faible, plus le modèle se rapproche du bon résultat.</p></article>
+          <article class="card"><h4>Optimiseur</h4><p>Méthode utilisée pour corriger les poids afin de réduire la perte.</p></article>
+          <article class="card"><h4>Époque</h4><p>Passage complet sur tout le jeu d'entraînement.</p></article>
+          <article class="card"><h4>Lot</h4><p>Petit groupe d'exemples traité en une fois pendant l'entraînement.</p></article>
+        </div>
+
+        <div class="grid-2" style="margin-top:1rem;">
+          <article class="card">
+            <h3>Concepts utiles pour les LLM</h3>
+            <ul class="checks">
+              <li><strong>Jeton</strong> : fragment de texte traité par le modèle.</li>
+              <li><strong>Embedding</strong> : représentation numérique dense d'un mot ou d'un jeton.</li>
+              <li><strong>Contexte</strong> : partie du texte déjà vue par le modèle pour produire la suite.</li>
+              <li><strong>Attention</strong> : mécanisme permettant au modèle de pondérer ce qui compte le plus dans la séquence.</li>
+              <li><strong>Paramètres</strong> : ensemble des poids appris, parfois très nombreux dans les grands modèles.</li>
+            </ul>
+          </article>
+
+          <article class="card">
+            <h3>À retenir</h3>
+            <p>
+              Un LLM n'est pas magique. C'est un grand réseau de neurones entraîné à prédire des suites de texte.
+              Sa force vient de trois éléments réunis : beaucoup de données, beaucoup de calcul et une architecture adaptée.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="workflow">
+      <div class="container">
+        <div class="section-title">
+          <h2>5. Comment travaille-t-on avec TensorFlow ?</h2>
+          <p>
+            En pratique, un projet suit souvent une chaîne assez simple.
+          </p>
+        </div>
+
+        <div class="timeline">
+          <div class="timeline-item">
+            <div class="step">1</div>
+            <div>
+              <strong>Préparer les données</strong>
+              <p>Nettoyer, transformer, normaliser et séparer les données en entraînement, validation et test.</p>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="step">2</div>
+            <div>
+              <strong>Construire le modèle</strong>
+              <p>Choisir les couches, la taille du réseau et le type de sortie attendu.</p>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="step">3</div>
+            <div>
+              <strong>Compiler le modèle</strong>
+              <p>Définir la fonction de perte, l'optimiseur et les métriques d'évaluation.</p>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="step">4</div>
+            <div>
+              <strong>Entraîner</strong>
+              <p>Lancer plusieurs époques d'apprentissage et observer l'évolution de la perte.</p>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="step">5</div>
+            <div>
+              <strong>Évaluer</strong>
+              <p>Vérifier si le modèle généralise bien sur des données qu'il n'a jamais vues.</p>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="step">6</div>
+            <div>
+              <strong>Utiliser et améliorer</strong>
+              <p>Déployer le modèle, mesurer son comportement réel, puis corriger ou enrichir les données.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <div class="section-title">
+          <h2>6. Exemple simple avec Keras</h2>
+          <p>
+            Keras est l'interface la plus simple pour débuter avec TensorFlow. Voici un exemple très court d'un réseau de neurones.
+          </p>
+        </div>
+
+<pre class="code">import tensorflow as tf
+from tensorflow import keras
+from tensorflow.keras import layers
+
+model = keras.Sequential([
+    layers.Dense(16, activation="relu", input_shape=(4,)),
+    layers.Dense(8, activation="relu"),
+    layers.Dense(1, activation="sigmoid")
+])
+
+model.compile(
+    optimizer="adam",
+    loss="binary_crossentropy",
+    metrics=["accuracy"]
+)
+
+# model.fit(x_train, y_train, epochs=10, batch_size=32)
+# model.evaluate(x_test, y_test)</pre>
+
+        <div class="grid-3" style="margin-top:1rem;">
+          <article class="card">
+            <div class="icon">1️⃣</div>
+            <h3>Entrée</h3>
+            <p>Ici, le modèle reçoit 4 valeurs numériques par exemple.</p>
+          </article>
+
+          <article class="card">
+            <div class="icon">2️⃣</div>
+            <h3>Traitement</h3>
+            <p>Deux couches cachées apprennent progressivement une représentation utile des données.</p>
+          </article>
+
+          <article class="card">
+            <div class="icon">3️⃣</div>
+            <h3>Sortie</h3>
+            <p>La dernière couche retourne une probabilité entre 0 et 1 pour une tâche binaire.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="exemples">
+      <div class="container">
+        <div class="section-title">
+          <h2>7. Exemples d'utilisation de TensorFlow</h2>
+          <p>
+            TensorFlow n'est pas réservé aux laboratoires. Il est utile dans beaucoup de cas concrets.
+          </p>
+        </div>
+
+        <div class="grid-3">
+          <article class="card image-card">
+            <div class="image">
+              <svg viewBox="0 0 800 450" xmlns="http://www.w3.org/2000/svg">
+                <rect width="800" height="450" fill="#142042"/>
+                <rect x="80" y="70" width="270" height="310" rx="26" fill="#ffffff"/>
+                <circle cx="215" cy="165" r="62" fill="#ffd166"/>
+                <circle cx="190" cy="150" r="10" fill="#17213b"/>
+                <circle cx="240" cy="150" r="10" fill="#17213b"/>
+                <path d="M180 210 Q215 240 250 210" fill="none" stroke="#17213b" stroke-width="8" stroke-linecap="round"/>
+                <rect x="450" y="95" width="230" height="40" rx="12" fill="#6d8cff"/>
+                <rect x="450" y="160" width="180" height="40" rx="12" fill="#18c7b8"/>
+                <rect x="450" y="225" width="210" height="40" rx="12" fill="#ffd166"/>
+                <rect x="450" y="290" width="160" height="40" rx="12" fill="#8c6bff"/>
+              </svg>
+            </div>
+            <div class="content">
+              <span class="mini-tag">Vision</span>
+              <h3>Reconnaissance d'images</h3>
+              <p>
+                Identifier un objet, un visage, une lésion sur une image médicale ou une pièce industrielle défectueuse.
+              </p>
+            </div>
+          </article>
+
+          <article class="card image-card">
+            <div class="image">
+              <svg viewBox="0 0 800 450" xmlns="http://www.w3.org/2000/svg">
+                <rect width="800" height="450" fill="#102036"/>
+                <rect x="80" y="90" width="640" height="260" rx="28" fill="#ffffff"/>
+                <rect x="110" y="130" width="170" height="40" rx="12" fill="#6d8cff"/>
+                <rect x="300" y="130" width="140" height="40" rx="12" fill="#18c7b8"/>
+                <rect x="460" y="130" width="210" height="40" rx="12" fill="#8c6bff"/>
+                <rect x="110" y="200" width="250" height="24" rx="10" fill="#d9e2ff"/>
+                <rect x="110" y="240" width="420" height="24" rx="10" fill="#d9e2ff"/>
+                <rect x="110" y="280" width="360" height="24" rx="10" fill="#d9e2ff"/>
+              </svg>
+            </div>
+            <div class="content">
+              <span class="mini-tag">Langage</span>
+              <h3>Traitement du texte</h3>
+              <p>
+                Classer des avis clients, détecter un message indésirable, résumer un document ou alimenter un assistant conversationnel.
+              </p>
+            </div>
+          </article>
+
+          <article class="card image-card">
+            <div class="image">
+              <svg viewBox="0 0 800 450" xmlns="http://www.w3.org/2000/svg">
+                <rect width="800" height="450" fill="#122443"/>
+                <polyline points="100,320 200,250 290,270 390,170 500,200 600,120 700,80" fill="none" stroke="#18c7b8" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+                <line x1="100" y1="360" x2="710" y2="360" stroke="#ffffff" stroke-width="4" opacity="0.6"/>
+                <line x1="100" y1="70" x2="100" y2="360" stroke="#ffffff" stroke-width="4" opacity="0.6"/>
+                <circle cx="600" cy="120" r="14" fill="#ffd166"/>
+                <circle cx="700" cy="80" r="14" fill="#ffd166"/>
+              </svg>
+            </div>
+            <div class="content">
+              <span class="mini-tag">Prédiction</span>
+              <h3>Analyse de séries</h3>
+              <p>
+                Prévoir une tendance, détecter une anomalie dans des capteurs ou suivre des indicateurs d'activité.
+              </p>
+            </div>
+          </article>
+        </div>
+
+        <div class="grid-2" style="margin-top:1rem;">
+          <article class="card">
+            <h3>Autres cas fréquents</h3>
+            <ul class="checks">
+              <li>Recommandation de contenus ou de produits</li>
+              <li>Analyse audio et reconnaissance vocale</li>
+              <li>Détection de fraude</li>
+              <li>Aide au diagnostic dans certains contextes</li>
+              <li>Robots, capteurs et systèmes embarqués</li>
+            </ul>
+          </article>
+
+          <article class="card">
+            <h3>Limites à connaître</h3>
+            <ul class="checks">
+              <li>Un modèle dépend de la qualité de ses données.</li>
+              <li>Un bon score de test ne garantit pas toujours un bon usage réel.</li>
+              <li>Les biais présents dans les données peuvent se retrouver dans les résultats.</li>
+              <li>Les grands modèles demandent beaucoup de calcul et de mémoire.</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <div class="section-title">
+          <h2>8. Bonnes pratiques pour débuter</h2>
+          <p>
+            Beaucoup de débutants veulent aller trop vite vers les LLM. C'est une mauvaise méthode.
+          </p>
+        </div>
+
+        <div class="grid-3">
+          <article class="card">
+            <div class="icon">🎯</div>
+            <h3>Commencer petit</h3>
+            <p>
+              Commence avec des données simples et des réseaux peu profonds. Comprendre un petit modèle vaut mieux qu'utiliser un gros sans le comprendre.
+            </p>
+          </article>
+
+          <article class="card">
+            <div class="icon">📊</div>
+            <h3>Observer les métriques</h3>
+            <p>
+              Surveille la perte, l'exactitude, la suradaptation et l'écart entre entraînement et validation.
+            </p>
+          </article>
+
+          <article class="card">
+            <div class="icon">🧪</div>
+            <h3>Tester souvent</h3>
+            <p>
+              Change un paramètre à la fois. Sinon, tu ne sauras pas ce qui améliore ou dégrade le modèle.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="resume">
+      <div class="container">
+        <div class="section-title">
+          <h2>9. Résumé du cours</h2>
+        </div>
+
+        <div class="grid-2">
+          <div class="highlight">
+            <h3>L'essentiel en quelques lignes</h3>
+            <p>
+              TensorFlow est une bibliothèque de machine learning. Son cœur repose sur la manipulation de tenseurs,
+              la construction de modèles et l'entraînement automatique par optimisation. Il est particulièrement adapté
+              au deep learning, donc aux réseaux de neurones. Les LLM sont une application avancée du deep learning,
+              souvent fondée sur l'architecture Transformer.
+            </p>
+          </div>
+
+          <div class="highlight">
+            <h3>Ordre conseillé pour apprendre</h3>
+            <p>
+              1. Comprendre les données et les tenseurs.<br>
+              2. Créer un petit modèle avec Keras.<br>
+              3. Comprendre perte, optimiseur et époques.<br>
+              4. Tester sur un exemple simple.<br>
+              5. Ensuite seulement, explorer les modèles de langage.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <div class="section-title">
+          <h2>10. Mini fiche de révision</h2>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Mot</th>
+                <th>Idée simple</th>
+                <th>À retenir</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Tenseur</td>
+                <td>Tableau de nombres</td>
+                <td>Base de TensorFlow</td>
+              </tr>
+              <tr>
+                <td>Réseau de neurones</td>
+                <td>Empilement de couches qui apprennent</td>
+                <td>Base du deep learning</td>
+              </tr>
+              <tr>
+                <td>Keras</td>
+                <td>Interface simple pour créer des modèles</td>
+                <td>Très utile pour débuter</td>
+              </tr>
+              <tr>
+                <td>Perte</td>
+                <td>Mesure de l'erreur</td>
+                <td>On cherche à la réduire</td>
+              </tr>
+              <tr>
+                <td>Optimiseur</td>
+                <td>Mécanisme d'ajustement des poids</td>
+                <td>Il améliore le modèle pas à pas</td>
+              </tr>
+              <tr>
+                <td>LLM</td>
+                <td>Grand modèle de langage</td>
+                <td>Application avancée du deep learning</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+    <section id="livres">
+      <div class="container">
+        <div class="section-title">
+          <h2>11. Livres de référence</h2>
+          <p>
+            Voici quelques ouvrages utiles pour aller plus loin sur TensorFlow, Keras,
+            le deep learning et les modèles de langage.
+          </p>
+        </div>
+
+        <div class="grid-3">
+          <article class="card">
+            <div class="icon">📘</div>
+            <h3>TensorFlow</h3>
+            <p><strong>Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow</strong></p>
+            <p><strong>Auteur :</strong> Aurélien Géron</p>
+            <p>
+              Un excellent livre pour apprendre de manière progressive. Très utile pour relier
+              théorie, code Python, Keras et TensorFlow dans des cas concrets.
+            </p>
+          </article>
+
+          <article class="card">
+            <div class="icon">📗</div>
+            <h3>Keras</h3>
+            <p><strong>Deep Learning with Python</strong></p>
+            <p><strong>Auteur :</strong> François Chollet</p>
+            <p>
+              Un ouvrage très important pour débuter sérieusement. Il explique le deep learning
+              avec clarté et s'appuie sur Keras, créé par François Chollet.
+            </p>
+          </article>
+
+          <article class="card">
+            <div class="icon">📙</div>
+            <h3>Approche pratique</h3>
+            <p><strong>Applied Deep Learning with Keras</strong></p>
+            <p><strong>Auteurs :</strong> Ritesh Bhagwat, Rishabh Anand, Prateek Joshi</p>
+            <p>
+              Utile pour voir des applications concrètes avec Keras : réseaux denses,
+              réseaux convolutifs, réseaux récurrents et bonnes pratiques.
+            </p>
+          </article>
+        </div>
+
+        <div class="grid-3" style="margin-top:1rem;">
+          <article class="card">
+            <div class="icon">📕</div>
+            <h3>Vision plus large</h3>
+            <p><strong>Deep Learning</strong></p>
+            <p><strong>Auteurs :</strong> Ian Goodfellow, Yoshua Bengio, Aaron Courville</p>
+            <p>
+              Un grand classique. Plus théorique que les autres, mais très utile pour comprendre
+              les fondements du deep learning en profondeur.
+            </p>
+          </article>
+
+          <article class="card">
+            <div class="icon">📒</div>
+            <h3>Pour les débutants</h3>
+            <p><strong>The Deep Learning with Keras Workshop</strong></p>
+            <p><strong>Éditeur :</strong> Packt</p>
+            <p>
+              Une ressource orientée exercices et pratique. Bien adaptée à ceux qui veulent
+              apprendre étape par étape avec des manipulations guidées.
+            </p>
+          </article>
+
+          <article class="card">
+            <div class="icon">🤖</div>
+            <h3>En lien avec les LLM</h3>
+            <p><strong>Natural Language Processing with Transformers</strong></p>
+            <p><strong>Auteurs :</strong> Lewis Tunstall, Leandro von Werra, Thomas Wolf</p>
+            <p>
+              Très utile pour comprendre les Transformers, qui sont au cœur des grands modèles
+              de langage modernes.
+            </p>
+          </article>
+        </div>
+
+        <div class="grid-2" style="margin-top:1rem;">
+          <div class="highlight">
+            <h3>Ordre conseillé de lecture</h3>
+            <p>
+              1. Deep Learning with Python<br>
+              2. Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow<br>
+              3. Applied Deep Learning with Keras<br>
+              4. Natural Language Processing with Transformers<br>
+              5. Deep Learning
+            </p>
+          </div>
+
+          <div class="highlight">
+            <h3>Conseil simple</h3>
+            <p>
+              Pour un débutant, il vaut mieux commencer par Keras et des exemples simples,
+              puis passer progressivement aux réseaux plus complexes, aux Transformers
+              et enfin aux grands modèles de langage.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+	
+	
+    <section id="livres-images">
+      <div class="container">
+        <div class="section-title">
+          <h2>10. Livres conseillés</h2>
+          <p>
+            Voici quelques ouvrages utiles pour approfondir TensorFlow, Keras,
+            le deep learning et les modèles de langage.
+          </p>
+        </div>
+
+        <div class="grid-3">
+          <article class="card image-card">
+            <div class="image" style="background:#ffffff; display:flex; align-items:center; justify-content:center; padding:1rem;">
+              <img src="/tensorflow/assets/img/livres/hands-on-machine-learning-geron.jfif" alt="Couverture du livre Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow de Aurélien Géron" class="book-cover">
+            </div>
+            <div class="content">
+              <span class="mini-tag">O’Reilly</span>
+              <h3>Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow</h3>
+              <p><strong>Auteur :</strong> Aurélien Géron</p>
+              <p>
+                Un excellent livre pratique pour comprendre les bases et progresser
+                vers des modèles plus avancés.
+              </p>
+            </div>
+          </article>
+
+          <article class="card image-card">
+            <div class="image" style="background:#ffffff; display:flex; align-items:center; justify-content:center; padding:1rem;">
+              <img src="/tensorflow/assets/img/livres/deep-learning-with-python-chollet.jfif" alt="Couverture du livre Deep Learning with Python de François Chollet" class="book-cover">
+            </div>
+            <div class="content">
+              <span class="mini-tag">Manning</span>
+              <h3>Deep Learning with Python</h3>
+              <p><strong>Auteur :</strong> François Chollet</p>
+              <p>
+                Très bon ouvrage pour débuter avec Keras et comprendre les bases
+                du deep learning de manière claire.
+              </p>
+            </div>
+          </article>
+
+          <article class="card image-card">
+            <div class="image" style="background:#ffffff; display:flex; align-items:center; justify-content:center; padding:1rem;">
+              <img src="/tensorflow/assets/img/livres/deep-learning-goodfellow.jfif" alt="Couverture du livre Deep Learning de Ian Goodfellow, Yoshua Bengio et Aaron Courville" class="book-cover">
+            </div>
+            <div class="content">
+              <span class="mini-tag">MIT Press</span>
+              <h3>Deep Learning</h3>
+              <p><strong>Auteurs :</strong> Ian Goodfellow, Yoshua Bengio, Aaron Courville</p>
+              <p>
+                Ouvrage de référence, plus théorique, très utile pour aller plus loin
+                sur les fondements du deep learning.
+              </p>
+            </div>
+          </article>
+        </div>
+
+        <div class="grid-3" style="margin-top:1rem;">
+          <article class="card image-card">
+            <div class="image" style="background:#ffffff; display:flex; align-items:center; justify-content:center; padding:1rem;">
+              <img src="/tensorflow/assets/img/livres/nlp-with-transformers.jfif" alt="Couverture du livre Natural Language Processing with Transformers" class="book-cover">
+            </div>
+            <div class="content">
+              <span class="mini-tag">O’Reilly</span>
+              <h3>Natural Language Processing with Transformers</h3>
+              <p><strong>Auteurs :</strong> Lewis Tunstall, Leandro von Werra, Thomas Wolf</p>
+              <p>
+                Très utile pour comprendre les Transformers, en lien direct avec
+                les grands modèles de langage.
+              </p>
+            </div>
+          </article>
+
+          <article class="card image-card">
+            <div class="image" style="background:#ffffff; display:flex; align-items:center; justify-content:center; padding:1rem;">
+              <img src="/tensorflow/assets/img/livres/applied-deep-learning-with-keras.jfif" alt="Couverture du livre Applied Deep Learning with Keras" class="book-cover">
+            </div>
+            <div class="content">
+              <span class="mini-tag">Packt</span>
+              <h3>Applied Deep Learning with Keras</h3>
+              <p><strong>Auteurs :</strong> Ritesh Bhagwat, Rishabh Anand, Prateek Joshi</p>
+              <p>
+                Livre orienté pratique avec des exemples concrets sur plusieurs types
+                de réseaux de neurones.
+              </p>
+            </div>
+          </article>
+
+          <article class="card image-card">
+            <div class="image" style="background:#ffffff; display:flex; align-items:center; justify-content:center; padding:1rem;">
+              <img src="/tensorflow/assets/img/livres/tensorflow-in-action.jfif" alt="Couverture du livre TensorFlow in Action" class="book-cover">
+            </div>
+            <div class="content">
+              <span class="mini-tag">Manning</span>
+              <h3>TensorFlow in Action</h3>
+              <p><strong>Auteurs :</strong> Thushan Ganegedara, et autres</p>
+              <p>
+                Ouvrage pratique centré sur l’utilisation concrète de TensorFlow
+                dans des projets variés.
+              </p>
+            </div>
+          </article>
+        </div>
+
+        <div class="grid-2" style="margin-top:1rem;">
+          <div class="highlight">
+            <h3>Conseil simple</h3>
+            <p>
+              Pour commencer, lis d’abord un livre pratique comme ceux de François Chollet
+              ou Aurélien Géron, puis passe ensuite à des ouvrages plus théoriques.
+            </p>
+          </div>
+
+          <div class="highlight">
+            <h3>Organisation des images</h3>
+            <p>
+              Place les fichiers des couvertures dans le dossier :
+              <br><strong>/tensorflow/assets/img/livres/</strong>
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>	
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-card">
+        <h3>Fin du cours</h3>
+        <p>
+          Ce document est volontairement pédagogique et progressif. Il peut servir de base pour une page de cours,
+          une publication web, ou un premier support d'apprentissage autonome sur TensorFlow.
+        </p>
+        <p class="small">
+          Sujet couvert : introduction à TensorFlow, deep learning, vocabulaire de base, lien avec les LLM, exemples d'utilisation et méthode pour débutants.
+        </p>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

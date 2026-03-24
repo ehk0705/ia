@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Mini projet NLP complet avec TensorFlow et IMDB : préparation des données, modèle, entraînement, évaluation et prédiction." />
+  <title>Mini projet NLP avec TensorFlow et IMDB</title>
+
+  <style>
+    :root{
+      --bg:#0b1226;
+      --bg2:#101a39;
+      --panel:rgba(255,255,255,0.08);
+      --card:#ffffff;
+      --text:#eef3ff;
+      --muted:#c9d4f4;
+      --dark:#16213b;
+      --primary:#5b8cff;
+      --secondary:#7a5cff;
+      --accent:#18c7b8;
+      --accent2:#ffd166;
+      --success:#21b26b;
+      --danger:#ff7b7b;
+      --border:rgba(255,255,255,0.10);
+      --shadow:0 18px 45px rgba(0,0,0,0.28);
+      --radius:22px;
+      --max:1220px;
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+
+    body{
+      margin:0;
+      font-family:Arial, Helvetica, sans-serif;
+      line-height:1.7;
+      color:var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(91,140,255,0.24), transparent 28%),
+        radial-gradient(circle at top right, rgba(24,199,184,0.18), transparent 24%),
+        linear-gradient(180deg, #09101f 0%, #0d1630 52%, #101c3d 100%);
+    }
+
+    a{color:inherit;text-decoration:none}
+    img,svg{max-width:100%;display:block}
+
+    .container{
+      width:min(var(--max), calc(100% - 2rem));
+      margin:0 auto;
+    }
+
+    .topbar{
+      position:sticky;
+      top:0;
+      z-index:1000;
+      background:rgba(6,10,22,0.78);
+      backdrop-filter:blur(12px);
+      border-bottom:1px solid var(--border);
+    }
+
+    .nav{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:1rem;
+      padding:0.9rem 0;
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:0.8rem;
+      font-weight:700;
+      letter-spacing:0.2px;
+    }
+
+    .brand-badge{
+      width:46px;
+      height:46px;
+      border-radius:14px;
+      display:grid;
+      place-items:center;
+      background:linear-gradient(135deg, var(--primary), var(--accent));
+      color:#fff;
+      box-shadow:var(--shadow);
+      font-weight:700;
+    }
+
+    .nav-links{
+      display:flex;
+      flex-wrap:wrap;
+      gap:0.55rem;
+      justify-content:flex-end;
+    }
+
+    .nav-links a{
+      padding:0.65rem 0.95rem;
+      border-radius:999px;
+      background:rgba(255,255,255,0.06);
+      border:1px solid rgba(255,255,255,0.08);
+      color:var(--muted);
+      font-size:0.95rem;
+      transition:0.25s ease;
+    }
+
+    .nav-links a:hover{
+      color:#fff;
+      background:rgba(255,255,255,0.13);
+      transform:translateY(-1px);
+    }
+
+    .hero{
+      padding:4rem 0 2.5rem;
+    }
+
+    .hero-grid{
+      display:grid;
+      grid-template-columns:1.1fr 0.9fr;
+      gap:1.5rem;
+      align-items:center;
+    }
+
+    .glass, .hero-card, .footer-card, .timeline{
+      background:var(--panel);
+      border:1px solid var(--border);
+      backdrop-filter:blur(10px);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+    }
+
+    .hero-card{ padding:2rem; }
+
+    .eyebrow{
+      display:inline-block;
+      padding:0.45rem 0.8rem;
+      border-radius:999px;
+      background:rgba(24,199,184,0.15);
+      border:1px solid rgba(24,199,184,0.35);
+      color:#d9fff9;
+      margin-bottom:1rem;
+      font-size:0.9rem;
+    }
+
+    h1,h2,h3,h4{ line-height:1.2; margin-top:0; }
+
+    h1{
+      font-size:clamp(2rem, 4vw, 3.2rem);
+      margin-bottom:1rem;
+    }
+
+    .lead{
+      font-size:1.08rem;
+      color:var(--muted);
+      max-width:68ch;
+    }
+
+    .hero-actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:0.8rem;
+      margin-top:1.2rem;
+    }
+
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:0.95rem 1.2rem;
+      border-radius:14px;
+      font-weight:700;
+      transition:0.25s ease;
+    }
+
+    .btn-primary{
+      background:linear-gradient(135deg, var(--primary), var(--secondary));
+      color:#fff;
+    }
+
+    .btn-secondary{
+      background:rgba(255,255,255,0.08);
+      border:1px solid rgba(255,255,255,0.1);
+      color:var(--text);
+    }
+
+    .btn:hover{ transform:translateY(-2px); }
+
+    .hero-figure{
+      overflow:hidden;
+      border-radius:26px;
+      padding:1rem;
+      border:1px solid rgba(255,255,255,0.1);
+      background:linear-gradient(160deg, rgba(91,140,255,0.18), rgba(24,199,184,0.16));
+    }
+
+    section{ padding:1rem 0 2.4rem; }
+
+    .section-title{ margin-bottom:1rem; }
+
+    .section-title p{
+      color:var(--muted);
+      max-width:76ch;
+    }
+
+    .grid-2,.grid-3,.grid-4{
+      display:grid;
+      gap:1rem;
+    }
+
+    .grid-2{grid-template-columns:repeat(2, minmax(0,1fr))}
+    .grid-3{grid-template-columns:repeat(3, minmax(0,1fr))}
+    .grid-4{grid-template-columns:repeat(4, minmax(0,1fr))}
+
+    .card{
+      background:var(--card);
+      color:#18233c;
+      border-radius:22px;
+      padding:1.25rem;
+      box-shadow:0 18px 35px rgba(1,10,31,0.18);
+      border:1px solid rgba(16,24,40,0.06);
+    }
+
+    .card h3,.card h4{
+      color:#0f1930;
+      margin-bottom:0.7rem;
+    }
+
+    .card p,.card li{
+      color:#46526c;
+    }
+
+    .icon{
+      width:54px;
+      height:54px;
+      border-radius:16px;
+      display:grid;
+      place-items:center;
+      margin-bottom:0.9rem;
+      font-size:1.4rem;
+      background:linear-gradient(135deg, rgba(91,140,255,0.14), rgba(24,199,184,0.14));
+    }
+
+    .highlight{
+      background:linear-gradient(135deg, rgba(91,140,255,0.16), rgba(122,92,255,0.15));
+      border:1px solid rgba(255,255,255,0.1);
+      border-radius:18px;
+      padding:1.15rem;
+      color:var(--text);
+    }
+
+    .highlight p,.highlight li{
+      color:#e6ecff;
+    }
+
+    .warning-box{
+      background:linear-gradient(135deg, rgba(255,209,102,0.14), rgba(255,123,123,0.12));
+      border:1px solid rgba(255,209,102,0.28);
+      border-radius:18px;
+      padding:1rem;
+      color:var(--text);
+    }
+
+    .warning-box p{
+      color:#f6f0d9;
+      margin:0;
+    }
+
+    .success-box{
+      background:linear-gradient(135deg, rgba(33,178,107,0.12), rgba(24,199,184,0.12));
+      border:1px solid rgba(33,178,107,0.28);
+      border-radius:18px;
+      padding:1rem;
+      color:var(--text);
+    }
+
+    .success-box p{
+      margin:0;
+      color:#e7fff3;
+    }
+
+    .table-wrap{
+      overflow-x:auto;
+      border-radius:22px;
+      box-shadow:var(--shadow);
+    }
+
+    table{
+      width:100%;
+      border-collapse:collapse;
+      background:#fff;
+      color:#16213b;
+      min-width:760px;
+    }
+
+    thead{
+      background:linear-gradient(135deg, #5b8cff, #18c7b8);
+      color:#fff;
+    }
+
+    th,td{
+      padding:1rem;
+      text-align:left;
+      border-bottom:1px solid #e8edf8;
+      vertical-align:top;
+    }
+
+    tbody tr:hover{
+      background:#f7f9ff;
+    }
+
+    .code{
+      font-family:"Courier New", monospace;
+      background:#0f1730;
+      color:#dffbff;
+      border-radius:18px;
+      padding:1rem;
+      overflow-x:auto;
+      font-size:0.95rem;
+      line-height:1.6;
+      box-shadow:var(--shadow);
+      white-space:pre-wrap;
+    }
+
+    .timeline{
+      padding:1.2rem;
+    }
+
+    .timeline-item{
+      display:grid;
+      grid-template-columns:60px 1fr;
+      gap:1rem;
+      align-items:start;
+      padding:0.9rem 0;
+      border-bottom:1px solid rgba(255,255,255,0.08);
+    }
+
+    .timeline-item:last-child{ border-bottom:none; }
+
+    .step{
+      width:46px;
+      height:46px;
+      border-radius:14px;
+      display:grid;
+      place-items:center;
+      font-weight:700;
+      background:linear-gradient(135deg, var(--accent), var(--primary));
+      color:#fff;
+    }
+
+    .timeline-item p{
+      margin:0.35rem 0 0;
+      color:var(--muted);
+    }
+
+    ul.checks{
+      list-style:none;
+      padding:0;
+      margin:0;
+    }
+
+    ul.checks li{
+      padding-left:1.6rem;
+      position:relative;
+      margin-bottom:0.65rem;
+    }
+
+    ul.checks li::before{
+      content:"✔";
+      position:absolute;
+      left:0;
+      color:var(--success);
+      font-weight:700;
+    }
+
+    .footer{
+      padding:1rem 0 3rem;
+    }
+
+    .footer-card{
+      padding:1.5rem;
+    }
+
+    .footer-card p{
+      color:var(--muted);
+    }
+
+    .small{font-size:0.94rem}
+
+    @media (max-width: 980px){
+      .hero-grid,.grid-4,.grid-3,.grid-2{
+        grid-template-columns:1fr;
+      }
+
+      .nav{
+        flex-direction:column;
+        align-items:stretch;
+      }
+
+      .nav-links{
+        justify-content:flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="topbar">
+    <div class="container nav">
+      <div class="brand">
+        <div class="brand-badge">IM</div>
+        <div>Projet NLP IMDB</div>
+      </div>
+      <nav class="nav-links">
+        <a href="#intro">Accueil</a>
+        <a href="index.html">Home</a>				
+        <a href="#objectif">Objectif</a>
+        <a href="#donnees">Données</a>
+        <a href="#preparation">Préparation</a>
+        <a href="#modele">Modèle</a>
+        <a href="#entrainement">Entraînement</a>
+        <a href="#evaluation">Évaluation</a>
+        <a href="#prediction">Prédiction</a>
+        <a href="#resume">Résumé</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+
+    <section class="hero" id="intro">
+      <div class="container hero-grid">
+        <div class="hero-card">
+          <span class="eyebrow">Mini projet complet prêt à exécuter</span>
+          <h1>Mini projet NLP avec TensorFlow et IMDB</h1>
+          <p class="lead">
+            Cette page montre un projet simple mais sérieux : classer des critiques de films
+            en <strong>positives</strong> ou <strong>négatives</strong> avec TensorFlow et Keras.
+          </p>
+
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#modele">Voir le code</a>
+            <a class="btn btn-secondary" href="#prediction">Voir la prédiction</a>
+          </div>
+
+          <div class="highlight" style="margin-top:1.2rem;">
+            <h3>Principe</h3>
+            <p>
+              Le jeu IMDB est un classique pour l’analyse de sentiments. Keras fournit ce jeu directement
+              via `keras.datasets.imdb`, avec des séquences d’entiers déjà préparées. Les exemples Keras
+              associés à IMDB limitent aussi souvent le vocabulaire et la longueur maximale des séquences. :contentReference[oaicite:1]{index=1}
+            </p>
+          </div>
+        </div>
+
+        <div class="glass" style="padding:1rem;">
+          <div class="hero-figure">
+            <svg viewBox="0 0 760 520" xmlns="http://www.w3.org/2000/svg" aria-label="Schéma projet IMDB">
+              <defs>
+                <linearGradient id="g1" x1="0" x2="1">
+                  <stop offset="0%" stop-color="#5b8cff"/>
+                  <stop offset="100%" stop-color="#18c7b8"/>
+                </linearGradient>
+                <linearGradient id="g2" x1="0" x2="1">
+                  <stop offset="0%" stop-color="#ffd166"/>
+                  <stop offset="100%" stop-color="#ff8a5b"/>
+                </linearGradient>
+              </defs>
+              <rect width="760" height="520" rx="28" fill="#0f1730"/>
+
+              <rect x="50" y="80" width="150" height="85" rx="20" fill="url(#g1)"/>
+              <rect x="230" y="80" width="150" height="85" rx="20" fill="url(#g2)"/>
+              <rect x="410" y="80" width="150" height="85" rx="20" fill="#7a5cff"/>
+              <rect x="590" y="80" width="120" height="85" rx="20" fill="#18c7b8"/>
+
+              <rect x="130" y="250" width="180" height="90" rx="20" fill="#ffffff"/>
+              <rect x="450" y="250" width="180" height="90" rx="20" fill="#ffffff"/>
+
+              <rect x="250" y="405" width="250" height="70" rx="20" fill="url(#g1)"/>
+
+              <path d="M200 122 L230 122" stroke="#dbe7ff" stroke-width="8" stroke-linecap="round"/>
+              <path d="M380 122 L410 122" stroke="#dbe7ff" stroke-width="8" stroke-linecap="round"/>
+              <path d="M560 122 L590 122" stroke="#dbe7ff" stroke-width="8" stroke-linecap="round"/>
+              <path d="M290 165 L290 250" stroke="#dbe7ff" stroke-width="8" stroke-linecap="round"/>
+              <path d="M500 165 L500 250" stroke="#dbe7ff" stroke-width="8" stroke-linecap="round"/>
+              <path d="M310 295 L450 295" stroke="#dbe7ff" stroke-width="8" stroke-linecap="round"/>
+              <path d="M540 340 L540 382 L375 382 L375 405" stroke="#dbe7ff" stroke-width="8" fill="none" stroke-linecap="round"/>
+
+              <text x="83" y="130" fill="#fff" font-size="22" font-family="Arial">IMDB</text>
+              <text x="245" y="130" fill="#fff" font-size="22" font-family="Arial">Padding</text>
+              <text x="435" y="130" fill="#fff" font-size="22" font-family="Arial">Embedding</text>
+              <text x="610" y="130" fill="#fff" font-size="22" font-family="Arial">LSTM</text>
+
+              <text x="160" y="305" fill="#16213b" font-size="22" font-family="Arial">Entraînement</text>
+              <text x="490" y="305" fill="#16213b" font-size="22" font-family="Arial">Évaluation</text>
+              <text x="308" y="448" fill="#fff" font-size="24" font-family="Arial">Prédiction</text>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="objectif">
+      <div class="container">
+        <div class="section-title">
+          <h2>1. Objectif du projet</h2>
+          <p>
+            On veut apprendre à un modèle à détecter si une critique de film exprime un avis positif ou négatif.
+          </p>
+        </div>
+
+        <div class="grid-3">
+          <article class="card">
+            <div class="icon">🎯</div>
+            <h3>Tâche</h3>
+            <p>
+              Classification binaire : 0 ou 1.
+            </p>
+          </article>
+
+          <article class="card">
+            <div class="icon">📝</div>
+            <h3>Entrée</h3>
+            <p>
+              Une séquence de mots représentant une critique.
+            </p>
+          </article>
+
+          <article class="card">
+            <div class="icon">📊</div>
+            <h3>Sortie</h3>
+            <p>
+              Une probabilité indiquant si l’avis est positif.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="donnees">
+      <div class="container">
+        <div class="section-title">
+          <h2>2. Les données IMDB</h2>
+          <p>
+            Keras fournit IMDB directement par `keras.datasets.imdb.load_data()`. Les exemples officiels
+            montrent aussi l’usage d’un vocabulaire tronqué, par exemple les 20 000 mots les plus fréquents,
+            puis un bourrage des séquences à une longueur fixe comme 200. :contentReference[oaicite:2]{index=2}
+          </p>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Élément</th>
+                <th>Rôle</th>
+                <th>Exemple</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Critique</td>
+                <td>Texte du film</td>
+                <td>« excellent film »</td>
+              </tr>
+              <tr>
+                <td>Séquence</td>
+                <td>Version numérique</td>
+                <td>[12, 45, 89, 3, ...]</td>
+              </tr>
+              <tr>
+                <td>Étiquette</td>
+                <td>Sentiment</td>
+                <td>1 = positif, 0 = négatif</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="warning-box" style="margin-top:1rem;">
+          <p>
+            Dans cette version, on ne manipule pas le texte brut directement. On travaille avec des séquences déjà codées en entiers.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="preparation">
+      <div class="container">
+        <div class="section-title">
+          <h2>3. Préparation des données</h2>
+          <p>
+            Il faut limiter le vocabulaire, charger les données, puis forcer toutes les séquences à avoir
+            la même longueur avec `pad_sequences`, comme dans les exemples Keras IMDB. :contentReference[oaicite:3]{index=3}
+          </p>
+        </div>
+
+<pre class="code">import tensorflow as tf
+from tensorflow import keras
+from tensorflow.keras.preprocessing.sequence import pad_sequences
+
+max_features = 20000   # vocabulaire limité aux 20 000 mots les plus fréquents
+maxlen = 200           # longueur maximale de chaque critique
+
+(x_train, y_train), (x_test, y_test) = keras.datasets.imdb.load_data(num_words=max_features)
+
+x_train = pad_sequences(x_train, maxlen=maxlen)
+x_test = pad_sequences(x_test, maxlen=maxlen)
+
+print("Taille entraînement :", len(x_train))
+print("Taille test :", len(x_test))
+print("Forme d'une entrée :", x_train.shape)</pre>
+
+        <div class="grid-2" style="margin-top:1rem;">
+          <article class="card">
+            <h3>Pourquoi limiter le vocabulaire ?</h3>
+            <p>
+              Pour réduire la taille du problème et garder les mots les plus utiles.
+            </p>
+          </article>
+
+          <article class="card">
+            <h3>Pourquoi faire du padding ?</h3>
+            <p>
+              Parce qu’un réseau attend des entrées de forme régulière.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="modele">
+      <div class="container">
+        <div class="section-title">
+          <h2>4. Modèle choisi</h2>
+          <p>
+            Ici, on utilise un modèle simple et pédagogique : <strong>Embedding + LSTM bidirectionnel + Dense</strong>.
+            Keras propose bien un exemple officiel IMDB avec un LSTM bidirectionnel sur ce même jeu de données. :contentReference[oaicite:4]{index=4}
+          </p>
+        </div>
+
+<pre class="code">from tensorflow import keras
+from tensorflow.keras import layers
+
+model = keras.Sequential([
+    layers.Embedding(input_dim=max_features, output_dim=128, input_length=maxlen),
+    layers.Bidirectional(layers.LSTM(64, return_sequences=True)),
+    layers.Bidirectional(layers.LSTM(32)),
+    layers.Dense(64, activation="relu"),
+    layers.Dropout(0.3),
+    layers.Dense(1, activation="sigmoid")
+])
+
+model.compile(
+    optimizer="adam",
+    loss="binary_crossentropy",
+    metrics=["accuracy"]
+)
+
+model.summary()</pre>
+
+        <div class="grid-3" style="margin-top:1rem;">
+          <article class="card">
+            <div class="icon">🔢</div>
+            <h3>Embedding</h3>
+            <p>
+              Transforme chaque entier en vecteur dense.
+            </p>
+          </article>
+
+          <article class="card">
+            <div class="icon">↔</div>
+            <h3>Bidirectionnel</h3>
+            <p>
+              Lit la séquence dans les deux sens.
+            </p>
+          </article>
+
+          <article class="card">
+            <div class="icon">📌</div>
+            <h3>Sigmoid</h3>
+            <p>
+              Donne une probabilité entre 0 et 1.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="entrainement">
+      <div class="container">
+        <div class="section-title">
+          <h2>5. Entraînement</h2>
+          <p>
+            On entraîne avec une validation séparée. Keras couvre ce flux de travail complet,
+            de la préparation au suivi des métriques. :contentReference[oaicite:5]{index=5}
+          </p>
+        </div>
+
+<pre class="code">callbacks = [
+    keras.callbacks.EarlyStopping(
+        monitor="val_loss",
+        patience=3,
+        restore_best_weights=True
+    )
+]
+
+history = model.fit(
+    x_train,
+    y_train,
+    epochs=8,
+    batch_size=64,
+    validation_split=0.2,
+    callbacks=callbacks
+)</pre>
+
+        <div class="success-box" style="margin-top:1rem;">
+          <p>
+            `EarlyStopping` évite souvent de continuer trop longtemps quand le modèle n’améliore plus la validation.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="evaluation">
+      <div class="container">
+        <div class="section-title">
+          <h2>6. Évaluation finale</h2>
+          <p>
+            Une fois l’entraînement terminé, on mesure les performances sur le jeu de test.
+          </p>
+        </div>
+
+<pre class="code">loss, accuracy = model.evaluate(x_test, y_test)
+print("Perte test :", loss)
+print("Précision test :", accuracy)</pre>
+
+        <div class="grid-2" style="margin-top:1rem;">
+          <article class="card">
+            <h3>Ce que dit l’accuracy</h3>
+            <p>
+              Le pourcentage global de bonnes réponses.
+            </p>
+          </article>
+
+          <article class="card">
+            <h3>Ce que dit la loss</h3>
+            <p>
+              Une mesure plus fine de l’erreur globale du modèle.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="prediction">
+      <div class="container">
+        <div class="section-title">
+          <h2>7. Exemple de prédiction</h2>
+          <p>
+            Le jeu IMDB fourni par Keras est pré-encodé. Donc, pour prédire sur une nouvelle phrase libre,
+            il faut en pratique une étape supplémentaire de vectorisation adaptée. Cette page reste volontairement simple :
+            on montre ici la prédiction sur une séquence déjà encodée du jeu de test. :contentReference[oaicite:6]{index=6}
+          </p>
+        </div>
+
+<pre class="code">prediction = model.predict(x_test[:5])
+
+for i, proba in enumerate(prediction):
+    print("Exemple", i, "- probabilité positif :", float(proba[0]))</pre>
+
+        <div class="warning-box" style="margin-top:1rem;">
+          <p>
+            Si tu veux prédire directement sur du texte brut tapé à la main, il vaut mieux utiliser une page séparée avec `TextVectorization`.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <div class="section-title">
+          <h2>8. Sauvegarde du modèle</h2>
+          <p>
+            Keras gère aussi la sauvegarde et le rechargement du modèle entraîné. :contentReference[oaicite:7]{index=7}
+          </p>
+        </div>
+
+        <div class="grid-2">
+          <article class="card">
+            <h3>Enregistrer</h3>
+<pre class="code">model.save("modele_imdb.keras")</pre>
+          </article>
+
+          <article class="card">
+            <h3>Recharger</h3>
+<pre class="code">from tensorflow import keras
+
+modele_recharge = keras.models.load_model("modele_imdb.keras")</pre>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <div class="section-title">
+          <h2>9. Script complet de A à Z</h2>
+          <p>
+            Voici une version compacte, exécutable telle quelle.
+          </p>
+        </div>
+
+<pre class="code">import tensorflow as tf
+from tensorflow import keras
+from tensorflow.keras import layers
+from tensorflow.keras.preprocessing.sequence import pad_sequences
+
+max_features = 20000
+maxlen = 200
+
+(x_train, y_train), (x_test, y_test) = keras.datasets.imdb.load_data(num_words=max_features)
+
+x_train = pad_sequences(x_train, maxlen=maxlen)
+x_test = pad_sequences(x_test, maxlen=maxlen)
+
+model = keras.Sequential([
+    layers.Embedding(input_dim=max_features, output_dim=128, input_length=maxlen),
+    layers.Bidirectional(layers.LSTM(64, return_sequences=True)),
+    layers.Bidirectional(layers.LSTM(32)),
+    layers.Dense(64, activation="relu"),
+    layers.Dropout(0.3),
+    layers.Dense(1, activation="sigmoid")
+])
+
+model.compile(
+    optimizer="adam",
+    loss="binary_crossentropy",
+    metrics=["accuracy"]
+)
+
+callbacks = [
+    keras.callbacks.EarlyStopping(
+        monitor="val_loss",
+        patience=3,
+        restore_best_weights=True
+    )
+]
+
+model.fit(
+    x_train,
+    y_train,
+    epochs=8,
+    batch_size=64,
+    validation_split=0.2,
+    callbacks=callbacks
+)
+
+loss, accuracy = model.evaluate(x_test, y_test)
+print("Perte test :", loss)
+print("Précision test :", accuracy)
+
+prediction = model.predict(x_test[:3])
+print(prediction)
+
+model.save("modele_imdb.keras")</pre>
+      </div>
+    </section>
+
+    <section id="resume">
+      <div class="container">
+        <div class="section-title">
+          <h2>10. Résumé final</h2>
+        </div>
+
+        <div class="grid-2">
+          <div class="highlight">
+            <h3>Ce qu’il faut retenir</h3>
+            <p>
+              Le projet IMDB est un bon point d’entrée pour le NLP avec TensorFlow :
+              jeu de données prêt, séquences déjà tokenisées, préparation simple et modèle compréhensible. :contentReference[oaicite:8]{index=8}
+            </p>
+          </div>
+
+          <div class="highlight">
+            <h3>Ordre de travail</h3>
+            <p>
+              1. Charger IMDB<br>
+              2. Faire le padding<br>
+              3. Construire le modèle<br>
+              4. Entraîner<br>
+              5. Évaluer<br>
+              6. Prédire<br>
+              7. Sauvegarder
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-card">
+        <h3>Fin de la page</h3>
+        <p>
+          Cette page complète bien les autres pages TensorFlow. Elle montre un projet NLP concret,
+          court et directement exploitable.
+        </p>
+        <p class="small">
+          Notions couvertes : IMDB, padding, embedding, LSTM bidirectionnel, entraînement, validation, test et sauvegarde.
+        </p>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
