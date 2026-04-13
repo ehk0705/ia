@@ -136,6 +136,44 @@
       color: #444;
     }
 
+    .gallery {
+      margin-top: 40px;
+    }
+
+    .gallery h3 {
+      font-size: 1.35rem;
+      color: #1f2d3d;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+    }
+
+    .gallery-grid a {
+      display: block;
+      text-decoration: none;
+    }
+
+    .gallery-grid img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      display: block;
+      border-radius: 12px;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+    }
+
+    .gallery-grid a:hover img {
+      transform: scale(1.03);
+      box-shadow: 0 8px 22px rgba(0, 0, 0, 0.18);
+    }
+
     .bottom-link {
       display: inline-block;
       margin-top: 30px;
@@ -181,6 +219,14 @@
         font-size: 1rem;
       }
 
+      .gallery-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .gallery-grid img {
+        height: auto;
+      }
+
       .top-link,
       .bottom-link {
         display: block;
@@ -203,7 +249,7 @@
   </header>
 
   <section class="hero">
-    <img src="progres-technique.jpg" alt="Illustration du progrès technique et de la condition humaine">
+    <img src="progres-technique.jfif" alt="Illustration du progrès technique et de la condition humaine">
   </section>
 
   <main>
@@ -267,6 +313,27 @@
           forcément rendu l’homme plus heureux, ni plus sage.
         </p>
       </div>
+
+      <section class="gallery">
+        <h3>Images de réflexion</h3>
+        <div class="gallery-grid">
+          <a href="progres-einstein.jfif" target="_blank" rel="noopener noreferrer">
+            <img src="progres-einstein.jfif" alt="Image sur le progrès et Einstein">
+          </a>
+
+          <a href="progres-promesse.jfif" target="_blank" rel="noopener noreferrer">
+            <img src="progres-promesse.jfif" alt="Image sur la promesse du progrès">
+          </a>
+
+          <a href="progres-bonheur.jfif" target="_blank" rel="noopener noreferrer">
+            <img src="progres-bonheur.jfif" alt="Image sur le progrès technique">
+          </a>
+
+          <a href="time-to-be-happy.jfif" target="_blank" rel="noopener noreferrer">
+            <img src="time-to-be-happy.jfif" alt="Image sur le temps d’être heureux">
+          </a>
+        </div>
+      </section>
 
       <a href="index.html" class="bottom-link">Retour à l’accueil</a>
     </article>
