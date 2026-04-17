@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>L’IA d’aujourd’hui, héritière de LISP, Prolog et plus</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --bg-soft: #111827;
+      --card: #1e293b;
+      --card-2: #243244;
+      --text: #e5e7eb;
+      --muted: #cbd5e1;
+      --accent: #38bdf8;
+      --accent-2: #22c55e;
+      --border: rgba(255,255,255,0.08);
+      --shadow: 0 10px 30px rgba(0,0,0,0.25);
+      --max: 1200px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: linear-gradient(180deg, #0b1220, #111827 35%, #0f172a 100%);
+      color: var(--text);
+      line-height: 1.7;
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(15, 23, 42, 0.94);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav {
+      max-width: var(--max);
+      margin: auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 20px;
+      gap: 20px;
+    }
+
+    .logo {
+      font-size: 1.05rem;
+      font-weight: bold;
+      color: #fff;
+      white-space: nowrap;
+    }
+
+    .menu {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .menu a {
+      color: var(--muted);
+      font-size: 0.95rem;
+      padding: 8px 10px;
+      border-radius: 8px;
+      transition: 0.2s ease;
+    }
+
+    .menu a:hover {
+      background: rgba(255,255,255,0.06);
+      color: #fff;
+      text-decoration: none;
+    }
+
+    .hero-image-wrap {
+      max-width: var(--max);
+      margin: 28px auto 0;
+      padding: 0 20px;
+    }
+
+    .hero-image-box {
+      position: relative;
+      border-radius: 22px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+      background: #111827;
+    }
+
+    .hero-image-box img {
+      width: 100%;
+      height: 420px;
+      object-fit: cover;
+      filter: brightness(0.72);
+    }
+
+    .hero-image-overlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: flex-end;
+      padding: 28px;
+      background: linear-gradient(to top, rgba(2,6,23,0.82), rgba(2,6,23,0.18));
+    }
+
+    .hero-image-caption {
+      max-width: 760px;
+    }
+
+    .hero-image-caption h1 {
+      font-size: 2.5rem;
+      line-height: 1.2;
+      color: #fff;
+      margin-bottom: 12px;
+    }
+
+    .hero-image-caption p {
+      color: #dbeafe;
+      font-size: 1.04rem;
+    }
+
+    .hero {
+      max-width: var(--max);
+      margin: auto;
+      padding: 34px 20px 24px;
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 30px;
+      align-items: center;
+    }
+
+    .hero-text .badge {
+      display: inline-block;
+      background: rgba(56, 189, 248, 0.12);
+      color: var(--accent);
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      padding: 8px 14px;
+      border-radius: 999px;
+      margin-bottom: 18px;
+      font-size: 0.92rem;
+    }
+
+    .hero-text p {
+      font-size: 1.05rem;
+      color: var(--muted);
+      margin-bottom: 16px;
+      text-align: justify;
+    }
+
+    .hero-visual {
+      background: linear-gradient(135deg, #1d4ed8, #0f766e);
+      border-radius: 20px;
+      min-height: 320px;
+      padding: 24px;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-visual::before,
+    .hero-visual::after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.08);
+    }
+
+    .hero-visual::before {
+      width: 220px;
+      height: 220px;
+      top: -60px;
+      right: -40px;
+    }
+
+    .hero-visual::after {
+      width: 140px;
+      height: 140px;
+      bottom: -30px;
+      left: -20px;
+    }
+
+    .visual-box {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      gap: 16px;
+      height: 100%;
+    }
+
+    .mini-card {
+      background: rgba(255,255,255,0.10);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 16px;
+      padding: 16px;
+      color: #fff;
+    }
+
+    .mini-card h3 {
+      margin-bottom: 8px;
+      font-size: 1.05rem;
+    }
+
+    .mini-card p {
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    main {
+      max-width: var(--max);
+      margin: auto;
+      padding: 20px;
+    }
+
+    section {
+      margin: 30px 0 38px;
+    }
+
+    .section-title {
+      font-size: 2rem;
+      margin-bottom: 14px;
+      color: #fff;
+    }
+
+    .section-intro {
+      color: var(--muted);
+      margin-bottom: 22px;
+      max-width: 980px;
+      text-align: justify;
+    }
+
+    .grid-2, .grid-3 {
+      display: grid;
+      gap: 22px;
+    }
+
+    .grid-2 {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .grid-3 {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .card {
+      background: linear-gradient(180deg, var(--card), var(--card-2));
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 22px;
+      box-shadow: var(--shadow);
+    }
+
+    .card h3 {
+      color: #fff;
+      margin-bottom: 12px;
+      font-size: 1.22rem;
+    }
+
+    .card p {
+      color: var(--muted);
+      margin-bottom: 12px;
+      text-align: justify;
+    }
+
+    .card ul {
+      padding-left: 20px;
+      color: var(--muted);
+    }
+
+    .card li {
+      margin-bottom: 8px;
+    }
+
+    .highlight {
+      border-left: 4px solid var(--accent);
+      padding: 18px 20px;
+      background: rgba(56, 189, 248, 0.08);
+      border-radius: 14px;
+      color: #dbeafe;
+      margin-top: 16px;
+    }
+
+    .timeline {
+      display: grid;
+      gap: 18px;
+    }
+
+    .timeline-item {
+      display: grid;
+      grid-template-columns: 110px 1fr;
+      gap: 18px;
+      align-items: start;
+      background: linear-gradient(180deg, var(--card), var(--card-2));
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 18px;
+      box-shadow: var(--shadow);
+    }
+
+    .year {
+      background: rgba(34, 197, 94, 0.15);
+      border: 1px solid rgba(34, 197, 94, 0.25);
+      color: #bbf7d0;
+      font-weight: bold;
+      text-align: center;
+      border-radius: 12px;
+      padding: 12px 8px;
+    }
+
+    .comparison table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: 16px;
+      background: linear-gradient(180deg, var(--card), var(--card-2));
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+    }
+
+    .comparison th,
+    .comparison td {
+      padding: 14px 12px;
+      border-bottom: 1px solid var(--border);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .comparison th {
+      background: rgba(255,255,255,0.05);
+      color: #fff;
+    }
+
+    .comparison td {
+      color: var(--muted);
+    }
+
+    .quote-box {
+      background: linear-gradient(180deg, rgba(56,189,248,0.12), rgba(34,197,94,0.08));
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 18px;
+      padding: 24px;
+      color: #e0f2fe;
+      font-size: 1.08rem;
+      box-shadow: var(--shadow);
+    }
+
+    .author-box {
+      margin-top: 26px;
+      padding: 18px 20px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      color: var(--muted);
+    }
+
+    footer {
+      margin-top: 40px;
+      border-top: 1px solid var(--border);
+      background: rgba(0,0,0,0.18);
+    }
+
+    .footer-inner {
+      max-width: var(--max);
+      margin: auto;
+      padding: 24px 20px 40px;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    .footer-inner strong {
+      color: #fff;
+    }
+
+    @media (max-width: 900px) {
+      .hero,
+      .grid-2,
+      .grid-3 {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-image-box img {
+        height: 300px;
+      }
+
+      .hero-image-caption h1 {
+        font-size: 1.9rem;
+      }
+
+      .timeline-item {
+        grid-template-columns: 1fr;
+      }
+
+      .year {
+        width: fit-content;
+        min-width: 100px;
+      }
+
+      .nav {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .menu {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <nav class="nav">
+      <div class="logo">L’IA d’aujourd’hui et ses racines</div>
+      <div class="menu">
+        <a href="#introduction">Introduction</a>
+        <a href="#origines">Origines</a>
+        <a href="#lisp">LISP</a>
+        <a href="#prolog">Prolog</a>
+        <a href="#modernite">IA moderne</a>
+        <a href="#turing-rosenblatt">Turing et Rosenblatt</a>
+        <a href="#conclusion">Conclusion</a>
+        <a href="index.html">Retour</a>
+		
+      </div>
+    </nav>
+  </header>
+
+  <section class="hero-image-wrap" id="introduction">
+    <div class="hero-image-box">
+      <img
+        src="https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=1600&q=80"
+        alt="Illustration de l’intelligence artificielle moderne avec circuits, données et représentation numérique"
+      />
+      <div class="hero-image-overlay">
+        <div class="hero-image-caption">
+          <h1>L’IA d’aujourd’hui est aussi l’héritière de l’IA d’hier</h1>
+          <p>
+            Derrière les modèles modernes, on retrouve les fondations anciennes :
+            logique, symboles, raisonnement, apprentissage et représentation des connaissances.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="hero">
+    <div class="hero-text">
+      <div class="badge">Page pédagogique sur l’histoire de l’intelligence artificielle</div>
+      <p>
+        On présente souvent l’intelligence artificielle actuelle comme une rupture totale. Ce n’est pas exact.
+        Les modèles récents prolongent une histoire plus ancienne, construite autour de la logique,
+        des symboles, des règles, de l’inférence et du calcul.
+      </p>
+      <p>
+        Bien avant les modèles génératifs modernes, des langages comme <strong>LISP</strong> et
+        <strong>Prolog</strong> occupaient déjà une place centrale dans la recherche en intelligence artificielle.
+        Ils servaient à représenter des connaissances, à raisonner, à automatiser certaines déductions
+        et à résoudre des problèmes.
+      </p>
+      <p>
+        L’IA moderne a changé d’échelle, de méthode et de puissance, mais elle ne vient pas de nulle part.
+        Elle repose aussi sur des fondations posées il y a plusieurs décennies.
+      </p>
+    </div>
+
+    <div class="hero-visual">
+      <div class="visual-box">
+        <div class="mini-card">
+          <h3>Hier</h3>
+          <p>Logique, règles, systèmes experts, démonstration, raisonnement symbolique.</p>
+        </div>
+        <div class="mini-card">
+          <h3>Transition</h3>
+          <p>Statistiques, apprentissage automatique, bases de données plus vastes, calcul plus rapide.</p>
+        </div>
+        <div class="mini-card">
+          <h3>Aujourd’hui</h3>
+          <p>Apprentissage profond, modèles de langage, vision artificielle, agents et génération de contenu.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <main>
+
+    <section id="origines">
+      <h2 class="section-title">Les grandes origines de l’IA</h2>
+      <p class="section-intro">
+        L’intelligence artificielle n’est pas née avec les grands modèles actuels. Dès le départ,
+        les chercheurs cherchaient déjà à faire exécuter par des machines certaines opérations
+        qui relèvent de l’intelligence humaine : raisonner, classer, décider, planifier,
+        interpréter un langage ou résoudre un problème.
+      </p>
+
+      <div class="grid-3">
+        <article class="card">
+          <h3>Représenter la connaissance</h3>
+          <p>
+            L’un des premiers objectifs de l’IA consistait à structurer des faits, des relations
+            et des règles, afin qu’une machine puisse les exploiter.
+          </p>
+        </article>
+
+        <article class="card">
+          <h3>Raisonner automatiquement</h3>
+          <p>
+            L’IA ancienne cherchait à reproduire une forme de raisonnement logique.
+            Cela passait par l’inférence, la déduction et la résolution méthodique de problèmes.
+          </p>
+        </article>
+
+        <article class="card">
+          <h3>Passer du symbole à l’apprentissage</h3>
+          <p>
+            Avec le temps, l’accent s’est déplacé : on est passé d’une IA fondée surtout sur
+            des règles écrites à la main à une IA qui apprend à partir des données.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section id="lisp">
+      <h2 class="section-title">LISP : un pilier de l’IA symbolique</h2>
+      <p class="section-intro">
+        LISP, créé à la fin des années 1950, est l’un des langages historiques de l’intelligence artificielle.
+        Il était particulièrement adapté à la manipulation de symboles, de listes et d’expressions.
+      </p>
+
+      <div class="grid-2">
+        <article class="card">
+          <h3>Pourquoi LISP a compté</h3>
+          <ul>
+            <li>Il facilitait la manipulation de structures symboliques complexes.</li>
+            <li>Il convenait bien aux programmes récursifs et aux transformations d’expressions.</li>
+            <li>Il a été largement utilisé dans les systèmes experts et les recherches en IA classique.</li>
+            <li>Il a marqué durablement la manière de penser l’IA à ses débuts.</li>
+          </ul>
+        </article>
+
+        <article class="card">
+          <h3>Son apport principal</h3>
+          <p>
+            LISP a donné aux chercheurs un outil puissant pour concevoir l’intelligence comme
+            une manipulation de symboles. Cette vision a dominé une grande partie de la première période de l’IA.
+          </p>
+          <p>
+            Il ne s’agissait pas seulement de programmer. Il s’agissait aussi de formaliser
+            une certaine idée de la pensée.
+          </p>
+        </article>
+      </div>
+
+      <div class="highlight">
+        <strong>Idée centrale :</strong> avec LISP, l’IA s’est construite comme une science de la représentation symbolique
+        et du raisonnement formel.
+      </div>
+    </section>
+
+    <section id="prolog">
+      <h2 class="section-title">Prolog : la logique au cœur du raisonnement</h2>
+      <p class="section-intro">
+        Prolog est un langage fondé sur la logique. On n’y décrit pas seulement des instructions,
+        mais surtout des faits et des règles. Le système cherche ensuite ce qui peut être déduit.
+      </p>
+
+      <div class="grid-2">
+        <article class="card">
+          <h3>Principe de fonctionnement</h3>
+          <p>
+            Avec Prolog, on définit un ensemble de connaissances. Ensuite, on interroge le système.
+            Celui-ci tente de répondre en appliquant les règles logiques disponibles.
+          </p>
+        </article>
+
+        <article class="card">
+          <h3>Importance pour l’IA</h3>
+          <ul>
+            <li>Il a renforcé l’idée d’une IA fondée sur l’inférence logique.</li>
+            <li>Il a été utilisé en systèmes experts, en linguistique informatique et en déduction automatique.</li>
+            <li>Il montrait qu’une machine pouvait tirer des conclusions à partir de règles bien définies.</li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="quote-box">
+        LISP mettait surtout l’accent sur la manipulation de symboles. Prolog insistait davantage
+        sur la logique et l’inférence. Les deux ont profondément marqué l’IA classique.
+      </div>
+    </section>
+
+    <section>
+      <h2 class="section-title">Il n’y avait pas que LISP et Prolog</h2>
+      <p class="section-intro">
+        Réduire toute l’histoire de l’IA à ces deux langages serait insuffisant. Ils ont été majeurs,
+        mais d’autres approches ont également compté.
+      </p>
+
+      <div class="grid-3">
+        <article class="card">
+          <h3>Systèmes experts</h3>
+          <p>
+            Ils reposaient sur des bases de connaissances et des règles explicites, afin d’imiter
+            le raisonnement d’un spécialiste dans un domaine précis.
+          </p>
+        </article>
+
+        <article class="card">
+          <h3>Recherche et planification</h3>
+          <p>
+            Une grande partie de l’IA consistait aussi à explorer des choix, comparer des chemins
+            possibles et atteindre un objectif à partir de contraintes.
+          </p>
+        </article>
+
+        <article class="card">
+          <h3>Langage et compréhension</h3>
+          <p>
+            Les premiers essais de dialogue homme-machine et d’analyse du langage existaient déjà,
+            même s’ils restaient beaucoup plus rigides que les systèmes actuels.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section id="modernite">
+      <h2 class="section-title">L’IA moderne : une transformation plus qu’une naissance</h2>
+      <p class="section-intro">
+        L’IA actuelle repose sur des avancées majeures : puissance de calcul, masse de données
+        disponibles et progrès de l’apprentissage automatique, surtout avec les réseaux neuronaux profonds.
+      </p>
+
+      <div class="grid-2">
+        <article class="card">
+          <h3>Ce qui a changé</h3>
+          <ul>
+            <li>Les modèles apprennent sur d’immenses quantités de données.</li>
+            <li>Ils détectent des régularités sans que toutes les règles soient écrites à la main.</li>
+            <li>Ils produisent des résultats remarquables en texte, image, son et traduction.</li>
+            <li>Ils fonctionnent souvent de manière probabiliste plutôt que strictement logique.</li>
+          </ul>
+        </article>
+
+        <article class="card">
+          <h3>Ce qui demeure</h3>
+          <ul>
+            <li>Le but reste de produire un comportement jugé intelligent.</li>
+            <li>Les questions de représentation, de raisonnement et de décision restent centrales.</li>
+            <li>L’ancienne IA continue d’inspirer certaines approches hybrides.</li>
+            <li>L’idée de simuler certaines capacités humaines reste intacte.</li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="highlight">
+        <strong>En réalité :</strong> l’IA moderne n’a pas effacé les idées anciennes. Elle les a prolongées,
+        transformées et rendues plus puissantes grâce aux données et au calcul.
+      </div>
+    </section>
+
+    <section>
+      <h2 class="section-title">Repères historiques</h2>
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="year">1950-1960</div>
+          <div>
+            <h3>Naissance de l’IA</h3>
+            <p>
+              L’idée apparaît qu’une machine peut reproduire certaines formes de raisonnement
+              ou de comportement intelligent.
+            </p>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="year">1960-1980</div>
+          <div>
+            <h3>Âge symbolique</h3>
+            <p>
+              LISP, Prolog, les systèmes experts et les approches fondées sur les règles dominent largement.
+            </p>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="year">1980-2000</div>
+          <div>
+            <h3>Montée des approches statistiques</h3>
+            <p>
+              Les limites des systèmes purement symboliques deviennent plus visibles.
+              L’apprentissage automatique prend davantage d’importance.
+            </p>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="year">2000-2020</div>
+          <div>
+            <h3>Essor de l’apprentissage profond</h3>
+            <p>
+              Grâce à la puissance informatique et aux grandes masses de données,
+              les réseaux neuronaux progressent fortement.
+            </p>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="year">2020+</div>
+          <div>
+            <h3>Ère des grands modèles</h3>
+            <p>
+              Les systèmes génératifs deviennent centraux. Ils produisent du texte, du code,
+              des images et des analyses à grande échelle.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="comparison">
+      <h2 class="section-title">Comparaison simple : IA classique et IA moderne</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Aspect</th>
+            <th>IA classique</th>
+            <th>IA moderne</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Base principale</td>
+            <td>Règles, logique, symboles</td>
+            <td>Données, apprentissage, probabilité</td>
+          </tr>
+          <tr>
+            <td>Langages emblématiques</td>
+            <td>LISP, Prolog</td>
+            <td>Python et bibliothèques d’apprentissage</td>
+          </tr>
+          <tr>
+            <td>Construction</td>
+            <td>Connaissances écrites manuellement</td>
+            <td>Paramètres appris automatiquement</td>
+          </tr>
+          <tr>
+            <td>Force principale</td>
+            <td>Structure logique et explicabilité</td>
+            <td>Performance à grande échelle</td>
+          </tr>
+          <tr>
+            <td>Limite principale</td>
+            <td>Rigidité et faible généralisation</td>
+            <td>Opacité, coût élevé, erreurs plausibles</td>
+          </tr>
+          <tr>
+            <td>But commun</td>
+            <td colspan="2">Reproduire ou assister certaines capacités intellectuelles humaines</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="turing-rosenblatt">
+      <h2 class="section-title">Résumé final : Alan Turing et Frank Rosenblatt</h2>
+
+      <div class="grid-2">
+        <article class="card">
+          <h3>Alan Turing</h3>
+          <p>
+            Alan Turing est l’un des grands précurseurs de l’intelligence artificielle.
+            Il a posé très tôt une question fondamentale : une machine peut-elle penser ?
+          </p>
+          <p>
+            Son importance dépasse largement le célèbre test qui porte son nom. Il a contribué
+            à installer l’idée qu’un comportement intelligent pouvait être produit par une machine.
+            En cela, il représente l’une des bases théoriques les plus solides de l’IA.
+          </p>
+        </article>
+
+        <article class="card">
+          <h3>Frank Rosenblatt</h3>
+          <p>
+            Frank Rosenblatt a joué un rôle majeur dans l’histoire des réseaux neuronaux.
+            Il a développé le perceptron, un modèle précoce d’apprentissage automatique.
+          </p>
+          <p>
+            Son travail a montré qu’une machine pouvait apprendre à partir d’exemples,
+            et pas seulement appliquer des règles écrites à l’avance. Même limité à l’époque,
+            ce modèle annonçait déjà une partie de l’IA moderne fondée sur l’apprentissage.
+          </p>
+        </article>
+      </div>
+
+      <div class="highlight">
+        <strong>En résumé :</strong> Turing a posé la grande question théorique de l’intelligence des machines,
+        tandis que Rosenblatt a ouvert une voie concrète vers l’apprentissage automatique.
+        Tous deux complètent naturellement l’histoire de LISP, de Prolog et de l’évolution de l’IA jusqu’à aujourd’hui.
+      </div>
+    </section>
+
+    <section id="conclusion">
+      <h2 class="section-title">Conclusion</h2>
+      <div class="quote-box">
+        L’intelligence artificielle d’aujourd’hui n’efface pas celle d’hier.
+        Elle en reprend plusieurs ambitions, en transforme les méthodes et en amplifie la portée.
+        Derrière les systèmes modernes, on retrouve encore les traces de la logique,
+        des symboles, de LISP, de Prolog, de Turing, de Rosenblatt et des premiers grands projets de l’IA.
+      </div>
+
+      <div class="author-box">
+        <p><strong>Auteur :</strong> Hocine Korichi, ingénieur</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+      <p>Tous droits réservés 2026</p>
+    </div>
+  </footer>
+
+</body>
+</html>
