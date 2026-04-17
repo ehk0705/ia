@@ -491,45 +491,6 @@
       color: var(--muted);
     }
 
-    .portrait-card {
-      overflow: hidden;
-      padding: 0;
-    }
-
-    .portrait-photo {
-      position: relative;
-      width: 100%;
-      height: 300px;
-      overflow: hidden;
-      border-bottom: 1px solid var(--border);
-      background: #0f172a;
-    }
-
-    .portrait-photo img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center top;
-    }
-
-    .portrait-content {
-      padding: 22px;
-    }
-
-    .portrait-caption,
-    .gallery-caption {
-      margin-top: 14px;
-      font-size: 0.9rem;
-      color: #b6c5dc;
-      padding-top: 12px;
-      border-top: 1px solid rgba(255,255,255,0.06);
-    }
-
-    .portrait-caption a,
-    .gallery-caption a {
-      color: #93c5fd;
-    }
-
     .frise-plus {
       display: grid;
       gap: 16px;
@@ -537,7 +498,7 @@
 
     .frise-row {
       display: grid;
-      grid-template-columns: 120px 1fr 220px;
+      grid-template-columns: 120px 1fr;
       gap: 16px;
       align-items: stretch;
       background: linear-gradient(180deg, var(--card), var(--card-2));
@@ -574,22 +535,8 @@
       text-align: justify;
     }
 
-    .frise-image {
-      min-height: 160px;
-      background: #0f172a;
-    }
-
-    .frise-image img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
     .perceptron-box {
-      display: grid;
-      grid-template-columns: 1fr 320px;
-      gap: 18px;
-      align-items: stretch;
+      display: block;
       background: linear-gradient(180deg, rgba(56,189,248,0.10), rgba(96,165,250,0.06));
       border: 1px solid rgba(56,189,248,0.18);
       border-radius: 18px;
@@ -623,25 +570,11 @@
       color: #dbeafe;
     }
 
-    .perceptron-media {
-      background: #0f172a;
-      border: 1px solid rgba(255,255,255,0.06);
-      border-radius: 16px;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .perceptron-media img {
-      width: 100%;
-      height: 220px;
-      object-fit: cover;
-      background: #fff;
-    }
-
-    .perceptron-media .gallery-caption {
-      margin: 0;
-      padding: 14px;
+    .gallery-caption {
+      margin-top: 14px;
+      font-size: 0.9rem;
+      color: #b6c5dc;
+      padding-top: 12px;
       border-top: 1px solid rgba(255,255,255,0.06);
     }
 
@@ -717,19 +650,6 @@
     }
 
     @media (max-width: 980px) {
-      .perceptron-box {
-        grid-template-columns: 1fr;
-      }
-
-      .frise-row {
-        grid-template-columns: 110px 1fr;
-      }
-
-      .frise-image {
-        grid-column: 1 / -1;
-        min-height: 220px;
-      }
-
       .grid-4 {
         grid-template-columns: repeat(2, 1fr);
       }
@@ -804,10 +724,6 @@
         width: fit-content;
         min-width: 96px;
       }
-
-      .portrait-photo {
-        height: 340px;
-      }
     }
 
     @media (max-width: 640px) {
@@ -866,7 +782,6 @@
       .quote-box,
       .author-box,
       .timeline-item,
-      .portrait-content,
       .frise-content,
       .perceptron-box {
         padding: 18px;
@@ -874,10 +789,6 @@
 
       .mini-card {
         padding: 14px;
-      }
-
-      .portrait-photo {
-        height: 280px;
       }
 
       .gallery-image {
@@ -891,10 +802,6 @@
       .frise-date {
         border-right: none;
         border-bottom: 1px solid var(--border);
-      }
-
-      .frise-image {
-        min-height: 190px;
       }
 
       .top-link {
@@ -913,10 +820,6 @@
 
       .hero-image-caption h1 {
         font-size: 1.45rem;
-      }
-
-      .portrait-photo {
-        height: 240px;
       }
 
       .gallery-image {
@@ -1211,9 +1114,6 @@
               Il déplace le débat : au lieu de demander ce qu’est l’esprit, il interroge ce qu’une machine peut faire.
             </p>
           </div>
-          <div class="frise-image">
-            <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Alan%20Turing%20(1951).jpg" alt="Alan Turing">
-          </div>
         </article>
 
         <article class="frise-row">
@@ -1222,11 +1122,8 @@
             <h3>Dartmouth et le nom « intelligence artificielle »</h3>
             <p>
               Le projet de Dartmouth est généralement considéré comme le moment fondateur du champ.
-              C’est là que l’expression « intelligence artificielle » s’impose durablement. 
+              C’est là que l’expression « intelligence artificielle » s’impose durablement.
             </p>
-          </div>
-          <div class="frise-image">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/A_Proposal_for_the_Dartmouth_Summer_Research_Project_on_Artificial_Intelligence%2C_by_John_McCarthy_et_al%2C_1955.pdf/page1-900px-A_Proposal_for_the_Dartmouth_Summer_Research_Project_on_Artificial_Intelligence%2C_by_John_McCarthy_et_al%2C_1955.pdf.jpg" alt="Première page de la proposition du projet Dartmouth sur l’intelligence artificielle">
           </div>
         </article>
 
@@ -1239,9 +1136,6 @@
               Cette intuition, longtemps sous-estimée, sera plus tard au cœur des réseaux neuronaux modernes.
             </p>
           </div>
-          <div class="frise-image">
-            <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Frank%20Rosenblatt.jpg" alt="Frank Rosenblatt">
-          </div>
         </article>
 
         <article class="frise-row">
@@ -1252,9 +1146,6 @@
               Après les systèmes experts et les approches logiques, l’apprentissage statistique puis profond
               prennent le relais. L’IA moderne ne naît pas de rien : elle prolonge plusieurs fils historiques.
             </p>
-          </div>
-          <div class="frise-image">
-            <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Elementary%20perceptron.jpg" alt="Schéma élémentaire d’un perceptron">
           </div>
         </article>
       </div>
@@ -1391,13 +1282,6 @@
             <div class="perceptron-point"><strong>Héritage :</strong> ancêtre direct des réseaux neuronaux modernes.</div>
           </div>
         </div>
-
-        <div class="perceptron-media">
-          <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Elementary%20perceptron.jpg" alt="Schéma simple d’un perceptron élémentaire">
-          <div class="gallery-caption">
-            Schéma d’un perceptron élémentaire. Image disponible sur Wikimedia Commons. Le rôle historique du perceptron de Rosenblatt et sa démonstration publique de 1958 sont rappelés dans les sources consultées. :contentReference[oaicite:2]{index=2}
-          </div>
-        </div>
       </div>
     </section>
 
@@ -1405,47 +1289,30 @@
       <h2 class="section-title">Résumé final : Alan Turing et Frank Rosenblatt</h2>
 
       <div class="grid-2">
-        <article class="card portrait-card">
-          <div class="portrait-photo">
-
-          </div>
-          <div class="portrait-content">
-            <h3>Alan Turing</h3>
-            <p>
-              Alan Turing est l’un des grands précurseurs de l’intelligence artificielle.
-              Il a posé très tôt une question fondamentale : une machine peut-elle penser ?
-            </p>
-            <p>
-              Son importance dépasse largement le célèbre test qui porte son nom. Il a contribué
-              à installer l’idée qu’un comportement intelligent pouvait être produit par une machine.
-              En cela, il représente l’une des bases théoriques les plus solides de l’IA.
-            </p>
-            <div class="portrait-caption">
-              Portrait historique d’Alan Turing sur Wikimedia Commons. 
-            </div>
-          </div>
+        <article class="card">
+          <h3>Alan Turing</h3>
+          <p>
+            Alan Turing est l’un des grands précurseurs de l’intelligence artificielle.
+            Il a posé très tôt une question fondamentale : une machine peut-elle penser ?
+          </p>
+          <p>
+            Son importance dépasse largement le célèbre test qui porte son nom. Il a contribué
+            à installer l’idée qu’un comportement intelligent pouvait être produit par une machine.
+            En cela, il représente l’une des bases théoriques les plus solides de l’IA.
+          </p>
         </article>
 
-        <article class="card portrait-card">
-          <div class="portrait-photo">
-
-          </div>
-		  
-          <div class="portrait-content">
-            <h3>Frank Rosenblatt</h3>
-            <p>
-              Frank Rosenblatt a joué un rôle majeur dans l’histoire des réseaux neuronaux.
-              Il a développé le perceptron, un modèle précoce d’apprentissage automatique.
-            </p>
-            <p>
-              Son travail a montré qu’une machine pouvait apprendre à partir d’exemples,
-              et pas seulement appliquer des règles écrites à l’avance. Même limité à l’époque,
-              ce modèle annonçait déjà une partie de l’IA moderne fondée sur l’apprentissage.
-            </p>
-            <div class="portrait-caption">
-              Portrait de Frank Rosenblatt disponible sur Wikimedia Commons. Le rôle fondateur du perceptron est confirmé par les sources consultées. :contentReference[oaicite:4]{index=4}
-            </div>
-          </div>
+        <article class="card">
+          <h3>Frank Rosenblatt</h3>
+          <p>
+            Frank Rosenblatt a joué un rôle majeur dans l’histoire des réseaux neuronaux.
+            Il a développé le perceptron, un modèle précoce d’apprentissage automatique.
+          </p>
+          <p>
+            Son travail a montré qu’une machine pouvait apprendre à partir d’exemples,
+            et pas seulement appliquer des règles écrites à l’avance. Même limité à l’époque,
+            ce modèle annonçait déjà une partie de l’IA moderne fondée sur l’apprentissage.
+          </p>
         </article>
       </div>
 
@@ -1471,7 +1338,6 @@
           <div class="gallery-body">
             <h3>Alan Turing</h3>
             <p>Une figure centrale de la théorie du calcul et de la réflexion sur l’intelligence des machines.</p>
-            <div class="gallery-caption">Source : Wikimedia Commons. </div>
           </div>
         </article>
 
@@ -1482,7 +1348,6 @@
           <div class="gallery-body">
             <h3>Dartmouth</h3>
             <p>Le texte fondateur qui installe durablement l’expression « intelligence artificielle ».</p>
-            <div class="gallery-caption">Source : Wikimedia Commons. Le projet Dartmouth de 1956 est généralement considéré comme l’événement fondateur du domaine. :contentReference[oaicite:6]{index=6}</div>
           </div>
         </article>
 
@@ -1493,7 +1358,6 @@
           <div class="gallery-body">
             <h3>Frank Rosenblatt</h3>
             <p>Le pionnier qui a remis l’apprentissage au centre avec le perceptron.</p>
-            <div class="gallery-caption">Source : Wikimedia Commons. :contentReference[oaicite:7]{index=7}</div>
           </div>
         </article>
 
@@ -1504,7 +1368,6 @@
           <div class="gallery-body">
             <h3>Schéma du perceptron</h3>
             <p>Une représentation simple d’un principe qui a préparé l’essor des réseaux neuronaux modernes.</p>
-            <div class="gallery-caption">Source : Wikimedia Commons. :contentReference[oaicite:8]{index=8}</div>
           </div>
         </article>
       </div>
