@@ -6,17 +6,23 @@
   <title>L’IA d’aujourd’hui, héritière de LISP, Prolog et plus</title>
   <style>
     :root {
-      --bg: #0f172a;
-      --bg-soft: #111827;
-      --card: #1e293b;
-      --card-2: #243244;
-      --text: #e5e7eb;
+      --bg: #0b1120;
+      --bg-2: #111827;
+      --surface: rgba(20, 28, 45, 0.92);
+      --surface-2: #182235;
+      --card: #1a2538;
+      --card-2: #22304a;
+      --text: #eef2ff;
       --muted: #cbd5e1;
       --accent: #38bdf8;
       --accent-2: #22c55e;
+      --accent-3: #60a5fa;
       --border: rgba(255,255,255,0.08);
-      --shadow: 0 10px 30px rgba(0,0,0,0.25);
-      --max: 1200px;
+      --shadow: 0 14px 38px rgba(0,0,0,0.30);
+      --radius: 18px;
+      --radius-lg: 24px;
+      --max: 1180px;
+      --header-h: 76px;
     }
 
     * {
@@ -31,7 +37,10 @@
 
     body {
       font-family: Arial, Helvetica, sans-serif;
-      background: linear-gradient(180deg, #0b1220, #111827 35%, #0f172a 100%);
+      background:
+        radial-gradient(circle at top right, rgba(56,189,248,0.10), transparent 22%),
+        radial-gradient(circle at top left, rgba(34,197,94,0.08), transparent 18%),
+        linear-gradient(180deg, var(--bg), var(--bg-2) 36%, var(--bg) 100%);
       color: var(--text);
       line-height: 1.7;
     }
@@ -42,7 +51,7 @@
     }
 
     a:hover {
-      text-decoration: underline;
+      text-decoration: none;
     }
 
     img {
@@ -50,72 +59,126 @@
       display: block;
     }
 
+    body.menu-open {
+      overflow: hidden;
+    }
+
+    .container {
+      width: min(var(--max), calc(100% - 28px));
+      margin: auto;
+    }
+
     header {
       position: sticky;
       top: 0;
       z-index: 1000;
-      background: rgba(15, 23, 42, 0.94);
-      backdrop-filter: blur(8px);
+      background: rgba(10, 15, 28, 0.88);
+      backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border);
     }
 
     .nav {
-      max-width: var(--max);
-      margin: auto;
+      min-height: var(--header-h);
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 14px 20px;
-      gap: 20px;
+      gap: 18px;
+      padding: 12px 0;
     }
 
     .logo {
-      font-size: 1.05rem;
-      font-weight: bold;
+      font-size: 1rem;
+      font-weight: 700;
       color: #fff;
-      white-space: nowrap;
+      letter-spacing: 0.2px;
+      max-width: 260px;
+      line-height: 1.3;
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
     }
 
     .menu {
       display: flex;
-      gap: 14px;
+      align-items: center;
+      gap: 8px;
       flex-wrap: wrap;
     }
 
     .menu a {
       color: var(--muted);
       font-size: 0.95rem;
-      padding: 8px 10px;
-      border-radius: 8px;
+      padding: 10px 12px;
+      border-radius: 10px;
       transition: 0.2s ease;
+      white-space: nowrap;
     }
 
-    .menu a:hover {
+    .menu a:hover,
+    .menu a:focus {
       background: rgba(255,255,255,0.06);
       color: #fff;
-      text-decoration: none;
+    }
+
+    .menu-toggle {
+      display: none;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.04);
+      color: #fff;
+      width: 46px;
+      height: 46px;
+      border-radius: 12px;
+      cursor: pointer;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 5px;
+      box-shadow: var(--shadow);
+    }
+
+    .menu-toggle span {
+      width: 20px;
+      height: 2px;
+      background: #fff;
+      border-radius: 10px;
+      display: block;
+      transition: 0.25s ease;
+    }
+
+    .menu-toggle.active span:nth-child(1) {
+      transform: translateY(7px) rotate(45deg);
+    }
+
+    .menu-toggle.active span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .menu-toggle.active span:nth-child(3) {
+      transform: translateY(-7px) rotate(-45deg);
     }
 
     .hero-image-wrap {
-      max-width: var(--max);
-      margin: 28px auto 0;
-      padding: 0 20px;
+      padding-top: 22px;
     }
 
     .hero-image-box {
       position: relative;
-      border-radius: 22px;
+      border-radius: var(--radius-lg);
       overflow: hidden;
       box-shadow: var(--shadow);
       border: 1px solid var(--border);
       background: #111827;
+      min-height: 420px;
     }
 
     .hero-image-box img {
       width: 100%;
       height: 420px;
       object-fit: cover;
-      filter: brightness(0.72);
+      filter: brightness(0.62);
     }
 
     .hero-image-overlay {
@@ -123,34 +186,58 @@
       inset: 0;
       display: flex;
       align-items: flex-end;
-      padding: 28px;
-      background: linear-gradient(to top, rgba(2,6,23,0.82), rgba(2,6,23,0.18));
+      padding: 30px;
+      background:
+        linear-gradient(to top, rgba(2,6,23,0.92), rgba(2,6,23,0.12)),
+        linear-gradient(to right, rgba(15,23,42,0.70), rgba(15,23,42,0.14));
     }
 
     .hero-image-caption {
       max-width: 760px;
     }
 
+    .hero-image-caption .tag {
+      display: inline-block;
+      margin-bottom: 14px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(56,189,248,0.14);
+      border: 1px solid rgba(56,189,248,0.25);
+      color: #dbeafe;
+      font-size: 0.92rem;
+    }
+
     .hero-image-caption h1 {
-      font-size: 2.5rem;
-      line-height: 1.2;
+      font-size: clamp(1.85rem, 4vw, 3rem);
+      line-height: 1.15;
       color: #fff;
-      margin-bottom: 12px;
+      margin-bottom: 14px;
     }
 
     .hero-image-caption p {
       color: #dbeafe;
       font-size: 1.04rem;
+      max-width: 680px;
     }
 
     .hero {
-      max-width: var(--max);
-      margin: auto;
-      padding: 34px 20px 24px;
+      padding: 28px 0 10px;
       display: grid;
-      grid-template-columns: 1.2fr 0.8fr;
-      gap: 30px;
-      align-items: center;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 24px;
+      align-items: stretch;
+    }
+
+    .hero-text,
+    .hero-visual {
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      box-shadow: var(--shadow);
+    }
+
+    .hero-text {
+      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
+      padding: 24px;
     }
 
     .hero-text .badge {
@@ -165,18 +252,15 @@
     }
 
     .hero-text p {
-      font-size: 1.05rem;
+      font-size: 1.02rem;
       color: var(--muted);
-      margin-bottom: 16px;
+      margin-bottom: 15px;
       text-align: justify;
     }
 
     .hero-visual {
-      background: linear-gradient(135deg, #1d4ed8, #0f766e);
-      border-radius: 20px;
-      min-height: 320px;
-      padding: 24px;
-      box-shadow: var(--shadow);
+      background: linear-gradient(135deg, #123a8b, #0d766e);
+      padding: 22px;
       position: relative;
       overflow: hidden;
     }
@@ -207,13 +291,13 @@
       position: relative;
       z-index: 2;
       display: grid;
-      gap: 16px;
+      gap: 14px;
       height: 100%;
     }
 
     .mini-card {
-      background: rgba(255,255,255,0.10);
-      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.11);
+      border: 1px solid rgba(255,255,255,0.14);
       border-radius: 16px;
       padding: 16px;
       color: #fff;
@@ -221,40 +305,42 @@
 
     .mini-card h3 {
       margin-bottom: 8px;
-      font-size: 1.05rem;
+      font-size: 1.02rem;
     }
 
     .mini-card p {
       font-size: 0.95rem;
-      line-height: 1.6;
+      line-height: 1.55;
     }
 
     main {
-      max-width: var(--max);
-      margin: auto;
-      padding: 20px;
+      padding: 16px 0 12px;
     }
 
     section {
-      margin: 30px 0 38px;
+      scroll-margin-top: 92px;
+      margin: 28px 0 36px;
     }
 
     .section-title {
-      font-size: 2rem;
-      margin-bottom: 14px;
+      font-size: clamp(1.45rem, 2.8vw, 2rem);
+      margin-bottom: 12px;
       color: #fff;
+      line-height: 1.2;
     }
 
     .section-intro {
       color: var(--muted);
-      margin-bottom: 22px;
+      margin-bottom: 20px;
       max-width: 980px;
       text-align: justify;
     }
 
-    .grid-2, .grid-3 {
+    .grid-2,
+    .grid-3,
+    .grid-4 {
       display: grid;
-      gap: 22px;
+      gap: 18px;
     }
 
     .grid-2 {
@@ -263,6 +349,10 @@
 
     .grid-3 {
       grid-template-columns: repeat(3, 1fr);
+    }
+
+    .grid-4 {
+      grid-template-columns: repeat(4, 1fr);
     }
 
     .card {
@@ -276,7 +366,8 @@
     .card h3 {
       color: #fff;
       margin-bottom: 12px;
-      font-size: 1.22rem;
+      font-size: 1.16rem;
+      line-height: 1.35;
     }
 
     .card p {
@@ -286,7 +377,7 @@
     }
 
     .card ul {
-      padding-left: 20px;
+      padding-left: 18px;
       color: var(--muted);
     }
 
@@ -301,17 +392,20 @@
       border-radius: 14px;
       color: #dbeafe;
       margin-top: 16px;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      border-right: 1px solid rgba(255,255,255,0.05);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
     }
 
     .timeline {
       display: grid;
-      gap: 18px;
+      gap: 16px;
     }
 
     .timeline-item {
       display: grid;
       grid-template-columns: 110px 1fr;
-      gap: 18px;
+      gap: 16px;
       align-items: start;
       background: linear-gradient(180deg, var(--card), var(--card-2));
       border: 1px solid var(--border);
@@ -322,7 +416,7 @@
 
     .year {
       background: rgba(34, 197, 94, 0.15);
-      border: 1px solid rgba(34, 197, 94, 0.25);
+      border: 1px solid rgba(34, 197, 94, 0.24);
       color: #bbf7d0;
       font-weight: bold;
       text-align: center;
@@ -330,14 +424,35 @@
       padding: 12px 8px;
     }
 
+    .timeline-item h3 {
+      margin-bottom: 8px;
+      color: #fff;
+      font-size: 1.08rem;
+    }
+
+    .timeline-item p {
+      color: var(--muted);
+      text-align: justify;
+    }
+
+    .comparison {
+      overflow: hidden;
+    }
+
+    .table-wrap {
+      width: 100%;
+      overflow-x: auto;
+      border-radius: 16px;
+      -webkit-overflow-scrolling: touch;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      background: linear-gradient(180deg, var(--card), var(--card-2));
+    }
+
     .comparison table {
       width: 100%;
+      min-width: 720px;
       border-collapse: collapse;
-      overflow: hidden;
-      border-radius: 16px;
-      background: linear-gradient(180deg, var(--card), var(--card-2));
-      box-shadow: var(--shadow);
-      border: 1px solid var(--border);
     }
 
     .comparison th,
@@ -363,12 +478,12 @@
       border-radius: 18px;
       padding: 24px;
       color: #e0f2fe;
-      font-size: 1.08rem;
+      font-size: 1.05rem;
       box-shadow: var(--shadow);
     }
 
     .author-box {
-      margin-top: 26px;
+      margin-top: 24px;
       padding: 18px 20px;
       background: rgba(255,255,255,0.04);
       border: 1px solid var(--border);
@@ -376,16 +491,200 @@
       color: var(--muted);
     }
 
+    .portrait-card {
+      overflow: hidden;
+      padding: 0;
+    }
+
+    .portrait-photo {
+      position: relative;
+      width: 100%;
+      height: 300px;
+      overflow: hidden;
+      border-bottom: 1px solid var(--border);
+      background: #0f172a;
+    }
+
+    .portrait-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+    }
+
+    .portrait-content {
+      padding: 22px;
+    }
+
+    .portrait-caption,
+    .gallery-caption {
+      margin-top: 14px;
+      font-size: 0.9rem;
+      color: #b6c5dc;
+      padding-top: 12px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .portrait-caption a,
+    .gallery-caption a {
+      color: #93c5fd;
+    }
+
+    .frise-plus {
+      display: grid;
+      gap: 16px;
+    }
+
+    .frise-row {
+      display: grid;
+      grid-template-columns: 120px 1fr 220px;
+      gap: 16px;
+      align-items: stretch;
+      background: linear-gradient(180deg, var(--card), var(--card-2));
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+
+    .frise-date {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      color: #bbf7d0;
+      background: rgba(34, 197, 94, 0.12);
+      border-right: 1px solid var(--border);
+      padding: 18px 10px;
+      text-align: center;
+    }
+
+    .frise-content {
+      padding: 18px;
+    }
+
+    .frise-content h3 {
+      margin-bottom: 8px;
+      font-size: 1.08rem;
+      color: #fff;
+    }
+
+    .frise-content p {
+      color: var(--muted);
+      text-align: justify;
+    }
+
+    .frise-image {
+      min-height: 160px;
+      background: #0f172a;
+    }
+
+    .frise-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .perceptron-box {
+      display: grid;
+      grid-template-columns: 1fr 320px;
+      gap: 18px;
+      align-items: stretch;
+      background: linear-gradient(180deg, rgba(56,189,248,0.10), rgba(96,165,250,0.06));
+      border: 1px solid rgba(56,189,248,0.18);
+      border-radius: 18px;
+      padding: 20px;
+      box-shadow: var(--shadow);
+    }
+
+    .perceptron-text h3 {
+      margin-bottom: 10px;
+      color: #fff;
+      font-size: 1.18rem;
+    }
+
+    .perceptron-text p {
+      color: var(--muted);
+      margin-bottom: 12px;
+      text-align: justify;
+    }
+
+    .perceptron-points {
+      display: grid;
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    .perceptron-point {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 12px;
+      padding: 12px 14px;
+      color: #dbeafe;
+    }
+
+    .perceptron-media {
+      background: #0f172a;
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 16px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .perceptron-media img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      background: #fff;
+    }
+
+    .perceptron-media .gallery-caption {
+      margin: 0;
+      padding: 14px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .gallery-card {
+      overflow: hidden;
+      padding: 0;
+    }
+
+    .gallery-image {
+      height: 180px;
+      background: #0f172a;
+    }
+
+    .gallery-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .gallery-body {
+      padding: 16px;
+    }
+
+    .gallery-body h3 {
+      font-size: 1rem;
+      margin-bottom: 8px;
+    }
+
+    .gallery-body p {
+      color: var(--muted);
+      font-size: 0.95rem;
+      text-align: left;
+      margin-bottom: 10px;
+    }
+
     footer {
-      margin-top: 40px;
+      margin-top: 30px;
       border-top: 1px solid var(--border);
-      background: rgba(0,0,0,0.18);
+      background: rgba(0,0,0,0.16);
     }
 
     .footer-inner {
-      max-width: var(--max);
-      margin: auto;
-      padding: 24px 20px 40px;
+      padding: 24px 0 34px;
       color: var(--muted);
       text-align: center;
     }
@@ -394,19 +693,107 @@
       color: #fff;
     }
 
-    @media (max-width: 900px) {
-      .hero,
-      .grid-2,
-      .grid-3 {
+    .top-link {
+      position: fixed;
+      right: 16px;
+      bottom: 16px;
+      z-index: 999;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: rgba(15,23,42,0.92);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: var(--shadow);
+      font-size: 1.2rem;
+      transition: transform 0.2s ease, opacity 0.2s ease;
+    }
+
+    .top-link:hover {
+      transform: translateY(-2px);
+    }
+
+    @media (max-width: 980px) {
+      .perceptron-box {
         grid-template-columns: 1fr;
       }
 
-      .hero-image-box img {
-        height: 300px;
+      .frise-row {
+        grid-template-columns: 110px 1fr;
       }
 
-      .hero-image-caption h1 {
-        font-size: 1.9rem;
+      .frise-image {
+        grid-column: 1 / -1;
+        min-height: 220px;
+      }
+
+      .grid-4 {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 920px) {
+      :root {
+        --header-h: 72px;
+      }
+
+      .menu-toggle {
+        display: inline-flex;
+      }
+
+      .menu {
+        position: fixed;
+        top: var(--header-h);
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(8, 13, 24, 0.98);
+        backdrop-filter: blur(12px);
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 4px;
+        padding: 18px 16px 28px;
+        overflow-y: auto;
+        transform: translateX(100%);
+        transition: transform 0.28s ease;
+        border-top: 1px solid var(--border);
+      }
+
+      .menu.open {
+        transform: translateX(0);
+      }
+
+      .menu a {
+        font-size: 1rem;
+        padding: 14px 14px;
+        border-radius: 12px;
+        background: rgba(255,255,255,0.03);
+      }
+
+      .hero,
+      .grid-2,
+      .grid-3,
+      .grid-4 {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-image-box,
+      .hero-image-box img {
+        min-height: auto;
+        height: 360px;
+      }
+
+      .hero-image-overlay {
+        padding: 22px;
+      }
+
+      .hero-text,
+      .hero-visual {
+        padding: 20px;
       }
 
       .timeline-item {
@@ -415,16 +802,125 @@
 
       .year {
         width: fit-content;
-        min-width: 100px;
+        min-width: 96px;
       }
 
-      .nav {
-        flex-direction: column;
-        align-items: flex-start;
+      .portrait-photo {
+        height: 340px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .container {
+        width: min(var(--max), calc(100% - 20px));
       }
 
-      .menu {
-        width: 100%;
+      .logo {
+        max-width: 220px;
+        font-size: 0.95rem;
+      }
+
+      .hero-image-wrap {
+        padding-top: 16px;
+      }
+
+      .hero-image-box,
+      .hero-image-box img {
+        height: 290px;
+        border-radius: 20px;
+      }
+
+      .hero-image-caption .tag {
+        font-size: 0.84rem;
+        padding: 7px 12px;
+      }
+
+      .hero-image-caption h1 {
+        font-size: 1.6rem;
+        margin-bottom: 10px;
+      }
+
+      .hero-image-caption p {
+        font-size: 0.96rem;
+      }
+
+      .hero {
+        padding-top: 18px;
+        gap: 18px;
+      }
+
+      .hero-text p,
+      .section-intro,
+      .card p,
+      .timeline-item p,
+      .frise-content p,
+      .perceptron-text p {
+        text-align: left;
+      }
+
+      .section-title {
+        font-size: 1.4rem;
+      }
+
+      .card,
+      .quote-box,
+      .author-box,
+      .timeline-item,
+      .portrait-content,
+      .frise-content,
+      .perceptron-box {
+        padding: 18px;
+      }
+
+      .mini-card {
+        padding: 14px;
+      }
+
+      .portrait-photo {
+        height: 280px;
+      }
+
+      .gallery-image {
+        height: 210px;
+      }
+
+      .frise-row {
+        grid-template-columns: 1fr;
+      }
+
+      .frise-date {
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .frise-image {
+        min-height: 190px;
+      }
+
+      .top-link {
+        width: 44px;
+        height: 44px;
+        right: 12px;
+        bottom: 12px;
+      }
+    }
+
+    @media (max-width: 400px) {
+      .hero-image-box,
+      .hero-image-box img {
+        height: 260px;
+      }
+
+      .hero-image-caption h1 {
+        font-size: 1.45rem;
+      }
+
+      .portrait-photo {
+        height: 240px;
+      }
+
+      .gallery-image {
+        height: 180px;
       }
     }
   </style>
@@ -432,79 +928,97 @@
 <body>
 
   <header>
-    <nav class="nav">
-      <div class="logo">L’IA d’aujourd’hui et ses racines</div>
-      <div class="menu">
-        <a href="#introduction">Introduction</a>
-        <a href="#origines">Origines</a>
-        <a href="#lisp">LISP</a>
-        <a href="#prolog">Prolog</a>
-        <a href="#modernite">IA moderne</a>
-        <a href="#turing-rosenblatt">Turing et Rosenblatt</a>
-        <a href="#conclusion">Conclusion</a>
-        <a href="index.html">Retour</a>
-		
-      </div>
-    </nav>
+    <div class="container">
+      <nav class="nav">
+        <div class="logo">L’IA d’aujourd’hui et ses racines</div>
+
+        <div class="nav-actions">
+          <button class="menu-toggle" id="menuToggle" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="menu">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+
+          <div class="menu" id="menu">
+            <a href="#introduction">Introduction</a>
+            <a href="#origines">Origines</a>
+            <a href="#lisp">LISP</a>
+            <a href="#prolog">Prolog</a>
+            <a href="#modernite">IA moderne</a>
+            <a href="#frise-illustree">Frise</a>
+            <a href="#perceptron">Perceptron</a>
+            <a href="#turing-rosenblatt">Turing et Rosenblatt</a>
+            <a href="#galerie-historique">Galerie</a>
+            <a href="#conclusion">Conclusion</a>
+            <a href="index.html">Retour</a>
+          </div>
+        </div>
+      </nav>
+    </div>
   </header>
 
   <section class="hero-image-wrap" id="introduction">
-    <div class="hero-image-box">
-      <img
-        src="https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=1600&q=80"
-        alt="Illustration de l’intelligence artificielle moderne avec circuits, données et représentation numérique"
-      />
-      <div class="hero-image-overlay">
-        <div class="hero-image-caption">
-          <h1>L’IA d’aujourd’hui est aussi l’héritière de l’IA d’hier</h1>
-          <p>
-            Derrière les modèles modernes, on retrouve les fondations anciennes :
-            logique, symboles, raisonnement, apprentissage et représentation des connaissances.
-          </p>
+    <div class="container">
+      <div class="hero-image-box">
+        <img
+          src="https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=1600&q=80"
+          alt="Illustration de l’intelligence artificielle moderne avec circuits, données et représentation numérique"
+        />
+        <div class="hero-image-overlay">
+          <div class="hero-image-caption">
+            <div class="tag">Histoire et évolution de l’intelligence artificielle</div>
+            <h1>L’IA d’aujourd’hui est aussi l’héritière de l’IA d’hier</h1>
+            <p>
+              Derrière les modèles modernes, on retrouve des bases plus anciennes :
+              logique, symboles, raisonnement, apprentissage et représentation des connaissances.
+            </p>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
   <section class="hero">
-    <div class="hero-text">
-      <div class="badge">Page pédagogique sur l’histoire de l’intelligence artificielle</div>
-      <p>
-        On présente souvent l’intelligence artificielle actuelle comme une rupture totale. Ce n’est pas exact.
-        Les modèles récents prolongent une histoire plus ancienne, construite autour de la logique,
-        des symboles, des règles, de l’inférence et du calcul.
-      </p>
-      <p>
-        Bien avant les modèles génératifs modernes, des langages comme <strong>LISP</strong> et
-        <strong>Prolog</strong> occupaient déjà une place centrale dans la recherche en intelligence artificielle.
-        Ils servaient à représenter des connaissances, à raisonner, à automatiser certaines déductions
-        et à résoudre des problèmes.
-      </p>
-      <p>
-        L’IA moderne a changé d’échelle, de méthode et de puissance, mais elle ne vient pas de nulle part.
-        Elle repose aussi sur des fondations posées il y a plusieurs décennies.
-      </p>
-    </div>
+    <div class="container" style="display: contents;">
+      <div class="hero-text">
+        <div class="badge">Page pédagogique sur l’histoire de l’intelligence artificielle</div>
+        <p>
+          On présente souvent l’intelligence artificielle actuelle comme une rupture totale. Ce n’est pas exact.
+          Les modèles récents prolongent une histoire plus ancienne, construite autour de la logique,
+          des symboles, des règles, de l’inférence et du calcul.
+        </p>
+        <p>
+          Bien avant les modèles génératifs modernes, des langages comme <strong>LISP</strong> et
+          <strong>Prolog</strong> occupaient déjà une place centrale dans la recherche en intelligence artificielle.
+          Ils servaient à représenter des connaissances, à raisonner, à automatiser certaines déductions
+          et à résoudre des problèmes.
+        </p>
+        <p>
+          L’IA moderne a changé d’échelle, de méthode et de puissance, mais elle ne vient pas de nulle part.
+          Elle repose aussi sur des fondations posées il y a plusieurs décennies.
+        </p>
+      </div>
 
-    <div class="hero-visual">
-      <div class="visual-box">
-        <div class="mini-card">
-          <h3>Hier</h3>
-          <p>Logique, règles, systèmes experts, démonstration, raisonnement symbolique.</p>
-        </div>
-        <div class="mini-card">
-          <h3>Transition</h3>
-          <p>Statistiques, apprentissage automatique, bases de données plus vastes, calcul plus rapide.</p>
-        </div>
-        <div class="mini-card">
-          <h3>Aujourd’hui</h3>
-          <p>Apprentissage profond, modèles de langage, vision artificielle, agents et génération de contenu.</p>
+      <div class="hero-visual">
+        <div class="visual-box">
+          <div class="mini-card">
+            <h3>Hier</h3>
+            <p>Logique, règles, systèmes experts, démonstration et raisonnement symbolique.</p>
+          </div>
+          <div class="mini-card">
+            <h3>Transition</h3>
+            <p>Statistiques, apprentissage automatique, bases de données plus vastes et calcul plus rapide.</p>
+          </div>
+          <div class="mini-card">
+            <h3>Aujourd’hui</h3>
+            <p>Apprentissage profond, modèles de langage, vision artificielle, agents et génération de contenu.</p>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
-  <main>
+  <main class="container">
 
     <section id="origines">
       <h2 class="section-title">Les grandes origines de l’IA</h2>
@@ -680,6 +1194,72 @@
       </div>
     </section>
 
+    <section id="frise-illustree">
+      <h2 class="section-title">Frise illustrée de l’évolution de l’IA</h2>
+      <p class="section-intro">
+        Cette frise résume quelques moments clés : le cadre théorique, la naissance officielle du domaine,
+        l’essor des approches symboliques, puis la réhabilitation de l’apprentissage.
+      </p>
+
+      <div class="frise-plus">
+        <article class="frise-row">
+          <div class="frise-date">1950</div>
+          <div class="frise-content">
+            <h3>Turing pose la grande question</h3>
+            <p>
+              L’article de Turing sur les machines et l’intelligence devient un repère fondateur.
+              Il déplace le débat : au lieu de demander ce qu’est l’esprit, il interroge ce qu’une machine peut faire.
+            </p>
+          </div>
+          <div class="frise-image">
+            <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Alan%20Turing%20(1951).jpg" alt="Alan Turing">
+          </div>
+        </article>
+
+        <article class="frise-row">
+          <div class="frise-date">1955-1956</div>
+          <div class="frise-content">
+            <h3>Dartmouth et le nom « intelligence artificielle »</h3>
+            <p>
+              Le projet de Dartmouth est généralement considéré comme le moment fondateur du champ.
+              C’est là que l’expression « intelligence artificielle » s’impose durablement. 
+            </p>
+          </div>
+          <div class="frise-image">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/A_Proposal_for_the_Dartmouth_Summer_Research_Project_on_Artificial_Intelligence%2C_by_John_McCarthy_et_al%2C_1955.pdf/page1-900px-A_Proposal_for_the_Dartmouth_Summer_Research_Project_on_Artificial_Intelligence%2C_by_John_McCarthy_et_al%2C_1955.pdf.jpg" alt="Première page de la proposition du projet Dartmouth sur l’intelligence artificielle">
+          </div>
+        </article>
+
+        <article class="frise-row">
+          <div class="frise-date">1958</div>
+          <div class="frise-content">
+            <h3>Rosenblatt présente le perceptron</h3>
+            <p>
+              Frank Rosenblatt ouvre une voie décisive : apprendre à partir d’exemples.
+              Cette intuition, longtemps sous-estimée, sera plus tard au cœur des réseaux neuronaux modernes.
+            </p>
+          </div>
+          <div class="frise-image">
+            <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Frank%20Rosenblatt.jpg" alt="Frank Rosenblatt">
+          </div>
+        </article>
+
+        <article class="frise-row">
+          <div class="frise-date">1980-2020+</div>
+          <div class="frise-content">
+            <h3>Du symbolique au profond</h3>
+            <p>
+              Après les systèmes experts et les approches logiques, l’apprentissage statistique puis profond
+              prennent le relais. L’IA moderne ne naît pas de rien : elle prolonge plusieurs fils historiques.
+            </p>
+          </div>
+          <div class="frise-image">
+            <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Elementary%20perceptron.jpg" alt="Schéma élémentaire d’un perceptron">
+          </div>
+        </article>
+      </div>
+    </section>
+
     <section>
       <h2 class="section-title">Repères historiques</h2>
       <div class="timeline">
@@ -741,76 +1321,131 @@
 
     <section class="comparison">
       <h2 class="section-title">Comparaison simple : IA classique et IA moderne</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Aspect</th>
-            <th>IA classique</th>
-            <th>IA moderne</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Base principale</td>
-            <td>Règles, logique, symboles</td>
-            <td>Données, apprentissage, probabilité</td>
-          </tr>
-          <tr>
-            <td>Langages emblématiques</td>
-            <td>LISP, Prolog</td>
-            <td>Python et bibliothèques d’apprentissage</td>
-          </tr>
-          <tr>
-            <td>Construction</td>
-            <td>Connaissances écrites manuellement</td>
-            <td>Paramètres appris automatiquement</td>
-          </tr>
-          <tr>
-            <td>Force principale</td>
-            <td>Structure logique et explicabilité</td>
-            <td>Performance à grande échelle</td>
-          </tr>
-          <tr>
-            <td>Limite principale</td>
-            <td>Rigidité et faible généralisation</td>
-            <td>Opacité, coût élevé, erreurs plausibles</td>
-          </tr>
-          <tr>
-            <td>But commun</td>
-            <td colspan="2">Reproduire ou assister certaines capacités intellectuelles humaines</td>
-          </tr>
-        </tbody>
-      </table>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Aspect</th>
+              <th>IA classique</th>
+              <th>IA moderne</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Base principale</td>
+              <td>Règles, logique, symboles</td>
+              <td>Données, apprentissage, probabilité</td>
+            </tr>
+            <tr>
+              <td>Langages emblématiques</td>
+              <td>LISP, Prolog</td>
+              <td>Python et bibliothèques d’apprentissage</td>
+            </tr>
+            <tr>
+              <td>Construction</td>
+              <td>Connaissances écrites manuellement</td>
+              <td>Paramètres appris automatiquement</td>
+            </tr>
+            <tr>
+              <td>Force principale</td>
+              <td>Structure logique et explicabilité</td>
+              <td>Performance à grande échelle</td>
+            </tr>
+            <tr>
+              <td>Limite principale</td>
+              <td>Rigidité et faible généralisation</td>
+              <td>Opacité, coût élevé, erreurs plausibles</td>
+            </tr>
+            <tr>
+              <td>But commun</td>
+              <td colspan="2">Reproduire ou assister certaines capacités intellectuelles humaines</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="perceptron">
+      <h2 class="section-title">Encadré : le perceptron de Rosenblatt</h2>
+      <p class="section-intro">
+        Le perceptron est un moment charnière. Il montre qu’une machine peut ajuster son comportement
+        à partir d’exemples au lieu de dépendre uniquement de règles écrites à la main.
+      </p>
+
+      <div class="perceptron-box">
+        <div class="perceptron-text">
+          <h3>Pourquoi le perceptron compte encore aujourd’hui</h3>
+          <p>
+            Le perceptron est un modèle simple, mais historique. Il reçoit des entrées, leur applique des poids,
+            calcule un score, puis décide d’une sortie. Ce principe a servi de base à toute une lignée
+            d’approches d’apprentissage supervisé.
+          </p>
+          <p>
+            Ses limites ont été réelles, mais son importance est immense : il a préparé le terrain
+            des réseaux neuronaux et, beaucoup plus tard, de l’apprentissage profond.
+          </p>
+
+          <div class="perceptron-points">
+            <div class="perceptron-point"><strong>Idée clé :</strong> apprendre à classer à partir d’exemples.</div>
+            <div class="perceptron-point"><strong>Rupture :</strong> moins de règles manuelles, plus d’ajustement par les données.</div>
+            <div class="perceptron-point"><strong>Héritage :</strong> ancêtre direct des réseaux neuronaux modernes.</div>
+          </div>
+        </div>
+
+        <div class="perceptron-media">
+          <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Elementary%20perceptron.jpg" alt="Schéma simple d’un perceptron élémentaire">
+          <div class="gallery-caption">
+            Schéma d’un perceptron élémentaire. Image disponible sur Wikimedia Commons. Le rôle historique du perceptron de Rosenblatt et sa démonstration publique de 1958 sont rappelés dans les sources consultées. :contentReference[oaicite:2]{index=2}
+          </div>
+        </div>
+      </div>
     </section>
 
     <section id="turing-rosenblatt">
       <h2 class="section-title">Résumé final : Alan Turing et Frank Rosenblatt</h2>
 
       <div class="grid-2">
-        <article class="card">
-          <h3>Alan Turing</h3>
-          <p>
-            Alan Turing est l’un des grands précurseurs de l’intelligence artificielle.
-            Il a posé très tôt une question fondamentale : une machine peut-elle penser ?
-          </p>
-          <p>
-            Son importance dépasse largement le célèbre test qui porte son nom. Il a contribué
-            à installer l’idée qu’un comportement intelligent pouvait être produit par une machine.
-            En cela, il représente l’une des bases théoriques les plus solides de l’IA.
-          </p>
+        <article class="card portrait-card">
+          <div class="portrait-photo">
+
+          </div>
+          <div class="portrait-content">
+            <h3>Alan Turing</h3>
+            <p>
+              Alan Turing est l’un des grands précurseurs de l’intelligence artificielle.
+              Il a posé très tôt une question fondamentale : une machine peut-elle penser ?
+            </p>
+            <p>
+              Son importance dépasse largement le célèbre test qui porte son nom. Il a contribué
+              à installer l’idée qu’un comportement intelligent pouvait être produit par une machine.
+              En cela, il représente l’une des bases théoriques les plus solides de l’IA.
+            </p>
+            <div class="portrait-caption">
+              Portrait historique d’Alan Turing sur Wikimedia Commons. 
+            </div>
+          </div>
         </article>
 
-        <article class="card">
-          <h3>Frank Rosenblatt</h3>
-          <p>
-            Frank Rosenblatt a joué un rôle majeur dans l’histoire des réseaux neuronaux.
-            Il a développé le perceptron, un modèle précoce d’apprentissage automatique.
-          </p>
-          <p>
-            Son travail a montré qu’une machine pouvait apprendre à partir d’exemples,
-            et pas seulement appliquer des règles écrites à l’avance. Même limité à l’époque,
-            ce modèle annonçait déjà une partie de l’IA moderne fondée sur l’apprentissage.
-          </p>
+        <article class="card portrait-card">
+          <div class="portrait-photo">
+
+          </div>
+		  
+          <div class="portrait-content">
+            <h3>Frank Rosenblatt</h3>
+            <p>
+              Frank Rosenblatt a joué un rôle majeur dans l’histoire des réseaux neuronaux.
+              Il a développé le perceptron, un modèle précoce d’apprentissage automatique.
+            </p>
+            <p>
+              Son travail a montré qu’une machine pouvait apprendre à partir d’exemples,
+              et pas seulement appliquer des règles écrites à l’avance. Même limité à l’époque,
+              ce modèle annonçait déjà une partie de l’IA moderne fondée sur l’apprentissage.
+            </p>
+            <div class="portrait-caption">
+              Portrait de Frank Rosenblatt disponible sur Wikimedia Commons. Le rôle fondateur du perceptron est confirmé par les sources consultées. :contentReference[oaicite:4]{index=4}
+            </div>
+          </div>
         </article>
       </div>
 
@@ -818,6 +1453,60 @@
         <strong>En résumé :</strong> Turing a posé la grande question théorique de l’intelligence des machines,
         tandis que Rosenblatt a ouvert une voie concrète vers l’apprentissage automatique.
         Tous deux complètent naturellement l’histoire de LISP, de Prolog et de l’évolution de l’IA jusqu’à aujourd’hui.
+      </div>
+    </section>
+
+    <section id="galerie-historique">
+      <h2 class="section-title">Galerie historique</h2>
+      <p class="section-intro">
+        Quelques images et documents symboliques permettent d’ancrer visuellement cette histoire :
+        les personnes, les idées fondatrices et les premiers schémas d’apprentissage.
+      </p>
+
+      <div class="grid-4">
+        <article class="card gallery-card">
+          <div class="gallery-image">
+            <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Alan%20Turing%20(1951).jpg" alt="Alan Turing en 1951">
+          </div>
+          <div class="gallery-body">
+            <h3>Alan Turing</h3>
+            <p>Une figure centrale de la théorie du calcul et de la réflexion sur l’intelligence des machines.</p>
+            <div class="gallery-caption">Source : Wikimedia Commons. </div>
+          </div>
+        </article>
+
+        <article class="card gallery-card">
+          <div class="gallery-image">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/A_Proposal_for_the_Dartmouth_Summer_Research_Project_on_Artificial_Intelligence%2C_by_John_McCarthy_et_al%2C_1955.pdf/page1-900px-A_Proposal_for_the_Dartmouth_Summer_Research_Project_on_Artificial_Intelligence%2C_by_John_McCarthy_et_al%2C_1955.pdf.jpg" alt="Première page de la proposition de Dartmouth">
+          </div>
+          <div class="gallery-body">
+            <h3>Dartmouth</h3>
+            <p>Le texte fondateur qui installe durablement l’expression « intelligence artificielle ».</p>
+            <div class="gallery-caption">Source : Wikimedia Commons. Le projet Dartmouth de 1956 est généralement considéré comme l’événement fondateur du domaine. :contentReference[oaicite:6]{index=6}</div>
+          </div>
+        </article>
+
+        <article class="card gallery-card">
+          <div class="gallery-image">
+            <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Frank%20Rosenblatt.jpg" alt="Frank Rosenblatt">
+          </div>
+          <div class="gallery-body">
+            <h3>Frank Rosenblatt</h3>
+            <p>Le pionnier qui a remis l’apprentissage au centre avec le perceptron.</p>
+            <div class="gallery-caption">Source : Wikimedia Commons. :contentReference[oaicite:7]{index=7}</div>
+          </div>
+        </article>
+
+        <article class="card gallery-card">
+          <div class="gallery-image">
+            <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Elementary%20perceptron.jpg" alt="Schéma d’un perceptron élémentaire">
+          </div>
+          <div class="gallery-body">
+            <h3>Schéma du perceptron</h3>
+            <p>Une représentation simple d’un principe qui a préparé l’essor des réseaux neuronaux modernes.</p>
+            <div class="gallery-caption">Source : Wikimedia Commons. :contentReference[oaicite:8]{index=8}</div>
+          </div>
+        </article>
       </div>
     </section>
 
@@ -838,10 +1527,43 @@
   </main>
 
   <footer>
-    <div class="footer-inner">
+    <div class="container footer-inner">
       <p>Tous droits réservés 2026</p>
     </div>
   </footer>
+
+  <a href="#introduction" class="top-link" aria-label="Retour en haut">↑</a>
+
+  <script>
+    const menuToggle = document.getElementById('menuToggle');
+    const menu = document.getElementById('menu');
+    const body = document.body;
+
+    menuToggle.addEventListener('click', () => {
+      const isOpen = menu.classList.toggle('open');
+      menuToggle.classList.toggle('active', isOpen);
+      menuToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      body.classList.toggle('menu-open', isOpen);
+    });
+
+    document.querySelectorAll('.menu a').forEach(link => {
+      link.addEventListener('click', () => {
+        menu.classList.remove('open');
+        menuToggle.classList.remove('active');
+        menuToggle.setAttribute('aria-expanded', 'false');
+        body.classList.remove('menu-open');
+      });
+    });
+
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 920) {
+        menu.classList.remove('open');
+        menuToggle.classList.remove('active');
+        menuToggle.setAttribute('aria-expanded', 'false');
+        body.classList.remove('menu-open');
+      }
+    });
+  </script>
 
 </body>
 </html>
