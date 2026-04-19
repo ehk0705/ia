@@ -121,6 +121,43 @@
     .visual-card img { border-radius: 14px; border: 1px solid #e5e7eb; background: #f8fafc; }
     .faq { display: grid; gap: 14px; margin-top: 18px; }
     .faq-item { background: #ffffff; border: 1px solid var(--line); border-radius: 16px; padding: 18px; box-shadow: var(--shadow); }
+    .warning-card {
+      background: linear-gradient(135deg, #fff7ed 0%, #fef2f2 55%, #fff1f2 100%);
+      border: 2px solid #fb7185;
+      box-shadow: 0 16px 34px rgba(225, 29, 72, 0.14);
+    }
+    .warning-card h2 {
+      color: #9f1239;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 1.95rem;
+      letter-spacing: 0.2px;
+      margin-bottom: 16px;
+    }
+    .warning-list {
+      list-style: none;
+      padding-left: 0;
+      margin-top: 10px;
+    }
+    .warning-list li {
+      background: #ffffff;
+      border-left: 6px solid #f97316;
+      border-radius: 12px;
+      padding: 14px 14px 14px 16px;
+      margin-bottom: 12px;
+      color: #431407;
+      font-weight: 700;
+      font-size: 1.02rem;
+      box-shadow: 0 6px 16px rgba(15, 23, 42, 0.06);
+    }
+    .warning-list li:nth-child(2) { border-left-color: #ef4444; color: #4c0519; }
+    .warning-list li:nth-child(3) { border-left-color: #eab308; color: #422006; }
+    .warning-list li:nth-child(4) { border-left-color: #8b5cf6; color: #3b0764; }
+    .warning-list li:nth-child(5) { border-left-color: #2563eb; color: #172554; }
+    .warning-intro {
+      color: #7f1d1d;
+      font-weight: 700;
+      font-size: 1.03rem;
+    }
     .sources { font-size: 0.95rem; color: var(--muted); }
     footer { margin-top: 40px; background: #0f172a; color: #cbd5e1; }
     .footer-inner { max-width: var(--max); margin: 0 auto; padding: 26px 18px; }
@@ -139,6 +176,8 @@
       .hero-copy, .card, .visual-card, .faq-item { padding: 18px; }
       h1 { font-size: 1.6rem; }
       h2 { font-size: 1.35rem; }
+      .warning-card h2 { font-size: 1.5rem; }
+      .warning-list li { font-size: 0.97rem; }
       th, td { padding: 12px; font-size: 0.95rem; }
     }
   </style>
@@ -313,14 +352,15 @@
       <div class="note">Il est mauvais de vider le cache de toutes les applications sans raison. Cela ne rend pas automatiquement le téléphone plus rapide de façon durable.</div>
     </section>
 
-    <section class="card">
+    <section class="card warning-card">
       <h2>Erreurs fréquentes à éviter</h2>
-      <ul>
-        <li>confondre <strong>vider le cache</strong> avec <strong>effacer les données</strong> ;</li>
-        <li>supprimer une application sans vérifier si des données locales importantes y sont stockées ;</li>
-        <li>croire que tout le cache se trouve en mémoire vive ;</li>
-        <li>penser qu’un nettoyage permanent améliore toujours les performances ;</li>
-        <li>oublier qu’une application recrée naturellement son cache après usage.</li>
+      <p class="warning-intro">Cette section mérite une attention particulière, car ce sont les confusions les plus courantes chez les utilisateurs.</p>
+      <ul class="warning-list">
+        <li>Confondre <strong>vider le cache</strong> avec <strong>effacer les données</strong>.</li>
+        <li>Supprimer une application sans vérifier si des données locales importantes y sont stockées.</li>
+        <li>Croire que tout le cache se trouve en mémoire vive.</li>
+        <li>Penser qu’un nettoyage permanent améliore toujours les performances.</li>
+        <li>Oublier qu’une application recrée naturellement son cache après usage.</li>
       </ul>
     </section>
 
@@ -364,6 +404,10 @@
       <h2>Références utiles</h2>
       <p class="sources">Cette page reprend les principes généraux de fonctionnement du cache sur Android et sur iPhone, avec une présentation simple, structurée et adaptée à la lecture sur smartphone.</p>
     </section>
+    <div class="author-box">
+      <p><strong>Auteur :</strong> Hocine Korichi, ingénieur</p>
+	  <p>Tous droits réservés 2026</p>
+    </div>
   </main>
 
   <footer>
