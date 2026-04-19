@@ -19,6 +19,7 @@
       --shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
       --radius: 18px;
       --max: 1100px;
+      --header-offset: 130px;
     }
 
     * {
@@ -27,6 +28,7 @@
 
     html {
       scroll-behavior: smooth;
+      scroll-padding-top: var(--header-offset);
     }
 
     body {
@@ -55,6 +57,10 @@
       text-decoration: none;
     }
 
+    section[id] {
+      scroll-margin-top: var(--header-offset);
+    }
+
     .topbar {
       background: rgba(15, 23, 42, 0.96);
       border-bottom: 1px solid rgba(255,255,255,0.08);
@@ -67,10 +73,10 @@
     .nav {
       max-width: var(--max);
       margin: 0 auto;
-      padding: 12px;
+      padding: 10px 12px;
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 10px;
       color: #ffffff;
     }
 
@@ -107,24 +113,40 @@
     }
 
     .menu {
-      display: grid;
-      grid-template-columns: 1fr;
+      display: flex;
+      flex-wrap: nowrap;
       gap: 8px;
       width: 100%;
+      overflow-x: auto;
+      overflow-y: hidden;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: thin;
+      padding-bottom: 2px;
+    }
+
+    .menu::-webkit-scrollbar {
+      height: 6px;
+    }
+
+    .menu::-webkit-scrollbar-thumb {
+      background: rgba(255,255,255,0.25);
+      border-radius: 999px;
     }
 
     .menu a {
-      display: flex;
+      flex: 0 0 auto;
+      display: inline-flex;
       align-items: center;
       justify-content: center;
-      min-height: 42px;
-      padding: 10px 12px;
+      min-height: 40px;
+      padding: 10px 14px;
       border-radius: 999px;
       background: rgba(255,255,255,0.06);
       color: #e5e7eb;
       font-size: 0.95rem;
       transition: 0.2s ease;
       text-align: center;
+      white-space: nowrap;
     }
 
     .menu a:hover,
@@ -509,10 +531,6 @@
     }
 
     @media (min-width: 640px) {
-      .menu {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
       .hero-photos {
         grid-template-columns: repeat(2, 1fr);
       }
@@ -524,16 +542,15 @@
       .hero-actions {
         grid-template-columns: repeat(2, 1fr);
       }
+
+      :root {
+        --header-offset: 120px;
+      }
     }
 
     @media (min-width: 900px) {
       .nav {
         padding: 14px 18px;
-      }
-
-      .menu {
-        grid-template-columns: repeat(5, auto);
-        justify-content: start;
       }
 
       .hero {
@@ -578,6 +595,10 @@
       .hero-photo-card img {
         height: 220px;
       }
+
+      :root {
+        --header-offset: 110px;
+      }
     }
   </style>
 </head>
@@ -605,7 +626,11 @@
         <a href="#definition">Définition</a>
         <a href="#android">Android</a>
         <a href="#ios">iPhone</a>
+        <a href="#stockage">Mémoire et stockage</a>
         <a href="#comparaison">Comparaison</a>
+        <a href="#guide">Guide pratique</a>
+        <a href="#erreurs">Erreurs à éviter</a>
+        <a href="#cas">Cas typiques</a>
         <a href="#faq">Questions fréquentes</a>
       </div>
     </nav>
@@ -654,8 +679,7 @@
       <h2>Définition simple</h2>
       <p>
         Le cache d’une application est un ensemble de <strong>données temporaires</strong> conservées pour accélérer le fonctionnement.
-        Cela peut être des images, des éléments d’interface, des pages déjà consultées, des fichiers calculés à l’avance
-        ou certains contenus téléchargés temporairement.
+        Cela peut être des images, des éléments d’interface, des pages déjà consultées, des fichiers calculés à l’avance ou certains contenus téléchargés temporairement.
       </p>
       <p>Il faut distinguer trois choses :</p>
       <ul>
@@ -708,8 +732,7 @@
         <span class="badge ios">iPhone / iOS</span>
         <h2>Comment cela fonctionne sur iPhone</h2>
         <p>
-          Sur iPhone, il existe aussi des données temporaires. En revanche, Apple ne fournit pas toujours un bouton général
-          pour vider le cache de chaque application. La gestion est plus fermée.
+          Sur iPhone, il existe aussi des données temporaires. En revanche, Apple ne fournit pas toujours un bouton général pour vider le cache de chaque application. La gestion est plus fermée.
         </p>
 
         <h3>Ce qu’on observe souvent</h3>
@@ -734,7 +757,7 @@
       </section>
     </div>
 
-    <section class="card">
+    <section id="stockage" class="card">
       <h2>Ce qui est en mémoire et ce qui est sur le stockage</h2>
       <div class="compare">
         <table>
@@ -775,8 +798,7 @@
         </table>
       </div>
       <div class="note">
-        Quand un téléphone propose <strong>vider le cache</strong>, il s’agit généralement de supprimer des fichiers temporaires
-        enregistrés sur le <strong>stockage interne</strong>, pas de vider la mémoire vive.
+        Quand un téléphone propose <strong>vider le cache</strong>, il s’agit généralement de supprimer des fichiers temporaires enregistrés sur le <strong>stockage interne</strong>, pas de vider la mémoire vive.
       </div>
     </section>
 
@@ -845,7 +867,7 @@
       </article>
     </section>
 
-    <section class="card">
+    <section id="guide" class="card">
       <h2>Guide pratique : que faire en cas de lenteur</h2>
       <div class="grid-2">
         <div>
@@ -859,8 +881,7 @@
             <li>Redémarrer l’application.</li>
           </ol>
           <p>
-            Si le problème continue, vérifier les mises à jour de l’application, puis envisager en dernier recours
-            <strong>effacer les données</strong>.
+            Si le problème continue, vérifier les mises à jour de l’application, puis envisager en dernier recours <strong>effacer les données</strong>.
           </p>
         </div>
         <div>
@@ -877,12 +898,11 @@
         </div>
       </div>
       <div class="note">
-        Il est mauvais de vider le cache de toutes les applications sans raison.
-        Cela ne rend pas automatiquement le téléphone plus rapide de façon durable.
+        Il est mauvais de vider le cache de toutes les applications sans raison. Cela ne rend pas automatiquement le téléphone plus rapide de façon durable.
       </div>
     </section>
 
-    <section class="card warning-card">
+    <section id="erreurs" class="card warning-card">
       <h2>Erreurs fréquentes à éviter</h2>
       <p class="warning-intro">
         Ne néglige pas cette partie : ce sont les erreurs les plus fréquentes, et aussi les plus trompeuses.
@@ -896,30 +916,53 @@
       </ul>
     </section>
 
+    <section id="cas" class="card">
+      <h2>Cas typiques où le cache est utile</h2>
+      <div class="grid-2">
+        <div>
+          <h3>Applications qui utilisent beaucoup de cache</h3>
+          <ul>
+            <li>navigateurs web ;</li>
+            <li>réseaux sociaux ;</li>
+            <li>applications vidéo et musique ;</li>
+            <li>cartographie et navigation ;</li>
+            <li>messageries riches en images et en fichiers.</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Pourquoi elles en utilisent autant</h3>
+          <ul>
+            <li>chargement plus rapide des images ;</li>
+            <li>accès plus rapide aux contenus déjà consultés ;</li>
+            <li>réduction des téléchargements répétés ;</li>
+            <li>meilleure fluidité de l’interface ;</li>
+            <li>expérience plus stable hors connexion partielle.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
     <section id="faq" class="card">
       <h2>Questions fréquentes</h2>
       <div class="faq">
         <div class="faq-item">
           <h3>Vider le cache est-il dangereux ?</h3>
           <p>
-            En général non. Cela supprime surtout des fichiers temporaires.
-            L’application peut simplement être un peu plus lente au premier redémarrage, le temps de recréer son cache.
+            En général non. Cela supprime surtout des fichiers temporaires. L’application peut simplement être un peu plus lente au premier redémarrage, le temps de recréer son cache.
           </p>
         </div>
 
         <div class="faq-item">
           <h3>Vider le cache supprime-t-il mon compte ?</h3>
           <p>
-            En général non. C’est plutôt <strong>effacer les données</strong> sur Android ou
-            <strong>supprimer l’application</strong> sur iPhone qui peut remettre certains éléments à zéro.
+            En général non. C’est plutôt <strong>effacer les données</strong> sur Android ou <strong>supprimer l’application</strong> sur iPhone qui peut remettre certains éléments à zéro.
           </p>
         </div>
 
         <div class="faq-item">
           <h3>Le cache est-il toujours utile ?</h3>
           <p>
-            Oui, tant qu’il reste raisonnable. Le cache accélère souvent l’usage quotidien.
-            Le vider systématiquement n’apporte pas toujours un bénéfice réel.
+            Oui, tant qu’il reste raisonnable. Le cache accélère souvent l’usage quotidien. Le vider systématiquement n’apporte pas toujours un bénéfice réel.
           </p>
         </div>
 
@@ -935,22 +978,17 @@
     <section class="card">
       <h2>Références utiles</h2>
       <p class="sources">
-        Cette page reprend les principes généraux de fonctionnement du cache sur Android et sur iPhone,
-        avec une présentation simple, structurée et adaptée à la lecture sur smartphone.
+        Cette page reprend les principes généraux de fonctionnement du cache sur Android et sur iPhone, avec une présentation simple, structurée et adaptée à la lecture sur smartphone.
       </p>
     </section>
   </main>
 
-
-  <footer>
-    <div class="footer-inner">
-      <p>Page HTML informative sur la mémoire cache des applications sur Android et sur iPhone.</p>
-      <div class="author-box">
-        <p><strong>Auteur :</strong> Hocine Korichi, ingénieur</p>
-		<p>Tous droits réservés Avril 2026</p>
-      </div>
-    </div>
-  </footer>
+<footer>
+  <div class="footer-inner">
+    <p>Page HTML informative sur la mémoire cache des applications sur Android et sur iPhone.</p>
+    <p>Auteur : Hocine Korichi, ingénieur</p>
+    <p>Tous droits réservés Avril 2026</p>
+  </div>
+</footer>
 </body>
 </html>
-
