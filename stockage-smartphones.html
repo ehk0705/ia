@@ -91,6 +91,33 @@
     .hero-visual {
       background: #ffffff; border: 1px solid #dbeafe; border-radius: 28px; padding: 16px; box-shadow: var(--shadow);
     }
+    .hero-photos {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+    .hero-photo-card {
+      background: #f8fafc;
+      border: 1px solid #e5e7eb;
+      border-radius: 16px;
+      padding: 10px;
+    }
+    .hero-photo-card img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      border-radius: 12px;
+      border: 1px solid #dbeafe;
+      background: #ffffff;
+    }
+    .hero-photo-card span {
+      display: block;
+      text-align: center;
+      font-weight: 700;
+      margin-top: 8px;
+      color: #0f172a;
+    }
     .wrapper { max-width: var(--max); margin: 0 auto; padding: 14px 18px 50px; }
     .grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; margin: 26px 0; }
     .card { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 22px; box-shadow: var(--shadow); }
@@ -122,42 +149,80 @@
     .faq { display: grid; gap: 14px; margin-top: 18px; }
     .faq-item { background: #ffffff; border: 1px solid var(--line); border-radius: 16px; padding: 18px; box-shadow: var(--shadow); }
     .warning-card {
-      background: linear-gradient(135deg, #fff7ed 0%, #fef2f2 55%, #fff1f2 100%);
-      border: 2px solid #fb7185;
-      box-shadow: 0 16px 34px rgba(225, 29, 72, 0.14);
+      background: linear-gradient(135deg, #7f1d1d 0%, #991b1b 48%, #be123c 100%);
+      border: 2px solid #fecaca;
+      box-shadow: 0 18px 40px rgba(127, 29, 29, 0.28);
+      color: #fff7ed;
+      position: relative;
+      overflow: hidden;
+    }
+    .warning-card::before {
+      content: "";
+      position: absolute;
+      top: -40px;
+      right: -40px;
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.08);
     }
     .warning-card h2 {
-      color: #9f1239;
+      color: #ffffff;
       font-family: Georgia, 'Times New Roman', serif;
-      font-size: 1.95rem;
-      letter-spacing: 0.2px;
-      margin-bottom: 16px;
+      font-size: 2rem;
+      letter-spacing: 0.3px;
+      margin-bottom: 14px;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.18);
+    }
+    .warning-intro {
+      color: #ffe4e6;
+      font-weight: 700;
+      font-size: 1.05rem;
     }
     .warning-list {
       list-style: none;
       padding-left: 0;
-      margin-top: 10px;
+      margin-top: 14px;
     }
     .warning-list li {
-      background: #ffffff;
-      border-left: 6px solid #f97316;
-      border-radius: 12px;
-      padding: 14px 14px 14px 16px;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      background: rgba(255,255,255,0.96);
+      border-left: 8px solid #f59e0b;
+      border-radius: 14px;
+      padding: 15px 16px;
       margin-bottom: 12px;
-      color: #431407;
-      font-weight: 700;
-      font-size: 1.02rem;
-      box-shadow: 0 6px 16px rgba(15, 23, 42, 0.06);
-    }
-    .warning-list li:nth-child(2) { border-left-color: #ef4444; color: #4c0519; }
-    .warning-list li:nth-child(3) { border-left-color: #eab308; color: #422006; }
-    .warning-list li:nth-child(4) { border-left-color: #8b5cf6; color: #3b0764; }
-    .warning-list li:nth-child(5) { border-left-color: #2563eb; color: #172554; }
-    .warning-intro {
-      color: #7f1d1d;
+      color: #3f0a0a;
       font-weight: 700;
       font-size: 1.03rem;
+      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.10);
     }
+    .warning-list li::before {
+      content: "⚠";
+      flex: 0 0 auto;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: #fff7ed;
+      color: #b45309;
+      font-size: 1rem;
+      font-weight: 900;
+      line-height: 1;
+      margin-top: 1px;
+      box-shadow: inset 0 0 0 1px rgba(180, 83, 9, 0.15);
+    }
+    .warning-list li:nth-child(2) { border-left-color: #ef4444; color: #4c0519; }
+    .warning-list li:nth-child(2)::before { color: #b91c1c; }
+    .warning-list li:nth-child(3) { border-left-color: #eab308; color: #422006; }
+    .warning-list li:nth-child(3)::before { color: #a16207; }
+    .warning-list li:nth-child(4) { border-left-color: #8b5cf6; color: #3b0764; }
+    .warning-list li:nth-child(4)::before { color: #6d28d9; }
+    .warning-list li:nth-child(5) { border-left-color: #2563eb; color: #172554; }
+    .warning-list li:nth-child(5)::before { color: #1d4ed8; }
     .sources { font-size: 0.95rem; color: var(--muted); }
     footer { margin-top: 40px; background: #0f172a; color: #cbd5e1; }
     .footer-inner { max-width: var(--max); margin: 0 auto; padding: 26px 18px; }
@@ -172,12 +237,21 @@
       }
       .menu { justify-content: flex-start; }
     }
+    @media (max-width: 700px) {
+      .hero-photos {
+        grid-template-columns: 1fr;
+      }
+      .hero-photo-card img {
+        height: 200px;
+      }
+    }
     @media (max-width: 560px) {
       .hero-copy, .card, .visual-card, .faq-item { padding: 18px; }
       h1 { font-size: 1.6rem; }
       h2 { font-size: 1.35rem; }
-      .warning-card h2 { font-size: 1.5rem; }
-      .warning-list li { font-size: 0.97rem; }
+      .warning-card h2 { font-size: 1.55rem; }
+      .warning-intro { font-size: 0.98rem; }
+      .warning-list li { font-size: 0.97rem; padding: 13px 14px; }
       th, td { padding: 12px; font-size: 0.95rem; }
     }
   </style>
@@ -212,6 +286,16 @@
       </div>
     </div>
     <div class="hero-visual">
+      <div class="hero-photos">
+        <figure class="hero-photo-card">
+          <img src="android.jfif" alt="Téléphone Android">
+          <span>Android</span>
+        </figure>
+        <figure class="hero-photo-card">
+          <img src="iphone.jfif" alt="iPhone">
+          <span>iPhone</span>
+        </figure>
+      </div>
       <img alt="Illustration de deux smartphones, Android et iPhone, avec des fichiers temporaires, de la mémoire vive et du stockage local" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 900 620'><defs><linearGradient id='g1' x1='0' y1='0' x2='1' y2='1'><stop offset='0%' stop-color='%23dbeafe'/><stop offset='100%' stop-color='%23dcfce7'/></linearGradient></defs><rect width='900' height='620' rx='28' fill='url(%23g1)'/><rect x='110' y='90' width='230' height='430' rx='28' fill='%23ffffff' stroke='%2334a853' stroke-width='8'/><rect x='560' y='90' width='230' height='430' rx='28' fill='%23ffffff' stroke='%232563eb' stroke-width='8'/><rect x='165' y='125' width='120' height='14' rx='7' fill='%2394a3b8'/><rect x='615' y='125' width='120' height='14' rx='7' fill='%2394a3b8'/><text x='175' y='185' font-size='34' font-family='Arial' fill='%23111827' font-weight='700'>Android</text><text x='646' y='185' font-size='34' font-family='Arial' fill='%23111827' font-weight='700'>iPhone</text><rect x='145' y='220' width='160' height='64' rx='14' fill='%23e9f9ee'/><text x='173' y='259' font-size='26' font-family='Arial' fill='%23166534' font-weight='700'>Cache</text><rect x='145' y='306' width='160' height='64' rx='14' fill='%23eef2ff'/><text x='170' y='346' font-size='24' font-family='Arial' fill='%231e3a8a' font-weight='700'>Stockage</text><rect x='145' y='392' width='160' height='64' rx='14' fill='%23fff7ed'/><text x='180' y='432' font-size='24' font-family='Arial' fill='%239a3412' font-weight='700'>Mémoire</text><rect x='595' y='220' width='160' height='64' rx='14' fill='%23dbeafe'/><text x='623' y='259' font-size='26' font-family='Arial' fill='%231d4ed8' font-weight='700'>Cache</text><rect x='595' y='306' width='160' height='64' rx='14' fill='%23eef2ff'/><text x='620' y='346' font-size='24' font-family='Arial' fill='%231e3a8a' font-weight='700'>Stockage</text><rect x='595' y='392' width='160' height='64' rx='14' fill='%23fff7ed'/><text x='630' y='432' font-size='24' font-family='Arial' fill='%239a3412' font-weight='700'>Mémoire</text><circle cx='450' cy='305' r='88' fill='%230f172a'/><text x='385' y='292' font-size='30' font-family='Arial' fill='white' font-weight='700'>Données</text><text x='392' y='330' font-size='30' font-family='Arial' fill='white' font-weight='700'>temporaires</text><path d='M335 306 C365 306, 380 306, 405 306' stroke='%2334a853' stroke-width='10' fill='none' stroke-linecap='round'/><path d='M495 306 C520 306, 535 306, 565 306' stroke='%232563eb' stroke-width='10' fill='none' stroke-linecap='round'/></svg>">
     </div>
   </section>
@@ -354,7 +438,7 @@
 
     <section class="card warning-card">
       <h2>Erreurs fréquentes à éviter</h2>
-      <p class="warning-intro">Cette section mérite une attention particulière, car ce sont les confusions les plus courantes chez les utilisateurs.</p>
+      <p class="warning-intro">Ne néglige pas cette partie : ce sont les erreurs les plus fréquentes, et aussi les plus trompeuses.</p>
       <ul class="warning-list">
         <li>Confondre <strong>vider le cache</strong> avec <strong>effacer les données</strong>.</li>
         <li>Supprimer une application sans vérifier si des données locales importantes y sont stockées.</li>
@@ -404,10 +488,6 @@
       <h2>Références utiles</h2>
       <p class="sources">Cette page reprend les principes généraux de fonctionnement du cache sur Android et sur iPhone, avec une présentation simple, structurée et adaptée à la lecture sur smartphone.</p>
     </section>
-    <div class="author-box">
-      <p><strong>Auteur :</strong> Hocine Korichi, ingénieur</p>
-	  <p>Tous droits réservés 2026</p>
-    </div>
   </main>
 
   <footer>
