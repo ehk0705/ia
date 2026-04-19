@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mémoire cache sur Android et iPhone</title>
+  <meta name="description" content="Page explicative sur la mémoire cache des applications sur Android et iPhone : définition, différences, gestion, avantages et précautions.">
+  <style>
+    :root {
+      --bg: #0f172a;
+      --bg-soft: #111827;
+      --card: #ffffff;
+      --text: #111827;
+      --muted: #475569;
+      --line: #e5e7eb;
+      --android: #34a853;
+      --ios: #2563eb;
+      --accent: #0ea5e9;
+      --hero1: #dbeafe;
+      --hero2: #dcfce7;
+      --shadow: 0 12px 30px rgba(15, 23, 42, 0.10);
+      --radius: 18px;
+      --max: 1180px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      line-height: 1.65;
+      color: var(--text);
+      background: linear-gradient(180deg, #eff6ff 0%, #f8fafc 30%, #ffffff 100%);
+    }
+    img { max-width: 100%; display: block; }
+    a { color: inherit; text-decoration: none; }
+    .topbar {
+      position: sticky; top: 0; z-index: 1000;
+      background: rgba(15, 23, 42, 0.94);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .nav {
+      max-width: var(--max); margin: 0 auto; display: flex; align-items: center; justify-content: space-between;
+      gap: 18px; padding: 14px 18px; color: #ffffff;
+    }
+    .brand { font-weight: 700; letter-spacing: 0.2px; white-space: nowrap; }
+    .menu { display: flex; flex-wrap: wrap; gap: 10px; justify-content: flex-end; }
+    .menu a {
+      padding: 8px 12px; border-radius: 999px; color: #e5e7eb; transition: 0.2s ease; font-size: 0.96rem;
+    }
+    .menu a:hover, .menu a:focus { background: rgba(255,255,255,0.10); color: #ffffff; outline: none; }
+    .hero {
+      max-width: var(--max); margin: 0 auto; padding: 34px 18px 16px; display: grid;
+      grid-template-columns: 1.1fr 0.9fr; gap: 28px; align-items: center;
+    }
+    .hero-copy {
+      background: linear-gradient(135deg, rgba(219,234,254,0.96), rgba(220,252,231,0.96));
+      border: 1px solid rgba(148,163,184,0.25); border-radius: 28px; padding: 28px; box-shadow: var(--shadow);
+    }
+    .eyebrow {
+      display: inline-block; background: #ffffff; border: 1px solid #dbeafe; color: #0f172a;
+      border-radius: 999px; padding: 6px 12px; font-size: 0.9rem; margin-bottom: 12px;
+    }
+    h1, h2, h3 { line-height: 1.2; margin-top: 0; }
+    h1 { font-size: 2.25rem; margin-bottom: 12px; color: #0f172a; }
+    h2 { font-size: 1.7rem; margin-bottom: 14px; }
+    h3 { font-size: 1.15rem; margin-bottom: 10px; }
+    p { margin: 0 0 14px; }
+    .lead { font-size: 1.05rem; color: #1e293b; }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 18px; }
+    .btn { display: inline-block; padding: 12px 16px; border-radius: 12px; font-weight: 700; border: 1px solid transparent; }
+    .btn-primary { background: #0f172a; color: #ffffff; }
+    .btn-secondary { background: #ffffff; color: #0f172a; border-color: #cbd5e1; }
+    .hero-visual {
+      background: #ffffff; border: 1px solid #dbeafe; border-radius: 28px; padding: 16px; box-shadow: var(--shadow);
+    }
+    .wrapper { max-width: var(--max); margin: 0 auto; padding: 14px 18px 50px; }
+    .grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; margin: 26px 0; }
+    .card { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 22px; box-shadow: var(--shadow); }
+    .platform { position: relative; overflow: hidden; }
+    .platform::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 7px; }
+    .platform.android::before { background: var(--android); }
+    .platform.ios::before { background: var(--ios); }
+    .badge { display: inline-block; font-size: 0.85rem; font-weight: 700; padding: 5px 10px; border-radius: 999px; margin-bottom: 12px; }
+    .badge.android { background: #e9f9ee; color: #166534; }
+    .badge.ios { background: #eaf2ff; color: #1d4ed8; }
+    ul, ol { margin: 0; padding-left: 20px; }
+    li { margin-bottom: 8px; }
+    .section-title { margin-top: 18px; margin-bottom: 12px; }
+    .compare { overflow-x: auto; }
+    table {
+      width: 100%; border-collapse: collapse; background: #ffffff; border-radius: 16px; overflow: hidden;
+      box-shadow: var(--shadow); border: 1px solid var(--line);
+    }
+    th, td { padding: 14px 16px; text-align: left; border-bottom: 1px solid var(--line); vertical-align: top; }
+    th { background: #f8fafc; font-size: 0.96rem; }
+    tr:last-child td { border-bottom: none; }
+    .note {
+      margin-top: 16px; padding: 16px 18px; border-left: 4px solid var(--accent); background: #f0f9ff;
+      border-radius: 10px; color: #0f172a;
+    }
+    .visual-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; margin-top: 20px; }
+    .visual-card { background: #ffffff; border: 1px solid var(--line); border-radius: var(--radius); padding: 18px; box-shadow: var(--shadow); }
+    .visual-card img { border-radius: 14px; border: 1px solid #e5e7eb; background: #f8fafc; }
+    .faq { display: grid; gap: 14px; margin-top: 18px; }
+    .faq-item { background: #ffffff; border: 1px solid var(--line); border-radius: 16px; padding: 18px; box-shadow: var(--shadow); }
+    .sources { font-size: 0.95rem; color: var(--muted); }
+    footer { margin-top: 40px; background: #0f172a; color: #cbd5e1; }
+    .footer-inner { max-width: var(--max); margin: 0 auto; padding: 26px 18px; }
+    .footer-inner p { margin: 0; }
+    @media (max-width: 900px) {
+      .hero, .grid-2, .visual-grid { grid-template-columns: 1fr; }
+      h1 { font-size: 1.85rem; }
+      .nav { align-items: flex-start; flex-direction: column; }
+      .menu { justify-content: flex-start; }
+    }
+    @media (max-width: 560px) {
+      .hero-copy, .card, .visual-card, .faq-item { padding: 18px; }
+      h1 { font-size: 1.6rem; }
+      h2 { font-size: 1.35rem; }
+      th, td { padding: 12px; font-size: 0.95rem; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <nav class="nav" aria-label="Navigation principale">
+      <div class="brand">Mémoire cache : Android et iPhone</div>
+      <div class="menu">
+        <a href="#definition">Définition</a>
+        <a href="#android">Android</a>
+        <a href="#ios">iPhone</a>
+        <a href="#comparaison">Comparaison</a>
+        <a href="#faq">Questions fréquentes</a>
+      </div>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <div class="hero-copy">
+      <span class="eyebrow">Page explicative complète</span>
+      <h1>Comprendre la mémoire cache des applications sur Android et sur iPhone</h1>
+      <p class="lead">La mémoire cache sert à conserver des données temporaires pour accélérer l’ouverture et l’usage des applications. Elle est utile, mais elle peut aussi prendre de la place ou provoquer certains dysfonctionnements.</p>
+      <p>Sur Android, la gestion du cache est souvent directe dans les réglages de l’application. Sur iPhone, le principe existe aussi, mais le contrôle est généralement plus limité et dépend davantage d’Apple ou de l’application elle-même.</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#comparaison">Voir la comparaison</a>
+        <a class="btn btn-secondary" href="#faq">Lire les réponses rapides</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <img alt="Illustration de deux smartphones, Android et iPhone, avec des fichiers temporaires, de la mémoire vive et du stockage local" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 900 620'><defs><linearGradient id='g1' x1='0' y1='0' x2='1' y2='1'><stop offset='0%' stop-color='%23dbeafe'/><stop offset='100%' stop-color='%23dcfce7'/></linearGradient></defs><rect width='900' height='620' rx='28' fill='url(%23g1)'/><rect x='110' y='90' width='230' height='430' rx='28' fill='%23ffffff' stroke='%2334a853' stroke-width='8'/><rect x='560' y='90' width='230' height='430' rx='28' fill='%23ffffff' stroke='%232563eb' stroke-width='8'/><rect x='165' y='125' width='120' height='14' rx='7' fill='%2394a3b8'/><rect x='615' y='125' width='120' height='14' rx='7' fill='%2394a3b8'/><text x='175' y='185' font-size='34' font-family='Arial' fill='%23111827' font-weight='700'>Android</text><text x='646' y='185' font-size='34' font-family='Arial' fill='%23111827' font-weight='700'>iPhone</text><rect x='145' y='220' width='160' height='64' rx='14' fill='%23e9f9ee'/><text x='173' y='259' font-size='26' font-family='Arial' fill='%23166534' font-weight='700'>Cache</text><rect x='145' y='306' width='160' height='64' rx='14' fill='%23eef2ff'/><text x='170' y='346' font-size='24' font-family='Arial' fill='%231e3a8a' font-weight='700'>Stockage</text><rect x='145' y='392' width='160' height='64' rx='14' fill='%23fff7ed'/><text x='180' y='432' font-size='24' font-family='Arial' fill='%239a3412' font-weight='700'>Mémoire</text><rect x='595' y='220' width='160' height='64' rx='14' fill='%23dbeafe'/><text x='623' y='259' font-size='26' font-family='Arial' fill='%231d4ed8' font-weight='700'>Cache</text><rect x='595' y='306' width='160' height='64' rx='14' fill='%23eef2ff'/><text x='620' y='346' font-size='24' font-family='Arial' fill='%231e3a8a' font-weight='700'>Stockage</text><rect x='595' y='392' width='160' height='64' rx='14' fill='%23fff7ed'/><text x='630' y='432' font-size='24' font-family='Arial' fill='%239a3412' font-weight='700'>Mémoire</text><circle cx='450' cy='305' r='88' fill='%230f172a'/><text x='385' y='292' font-size='30' font-family='Arial' fill='white' font-weight='700'>Données</text><text x='392' y='330' font-size='30' font-family='Arial' fill='white' font-weight='700'>temporaires</text><path d='M335 306 C365 306, 380 306, 405 306' stroke='%2334a853' stroke-width='10' fill='none' stroke-linecap='round'/><path d='M495 306 C520 306, 535 306, 565 306' stroke='%232563eb' stroke-width='10' fill='none' stroke-linecap='round'/></svg>">
+    </div>
+  </section>
+
+  <main class="wrapper">
+    <section id="definition" class="card">
+      <h2>Définition simple</h2>
+      <p>Le cache d’une application est un ensemble de <strong>données temporaires</strong> conservées pour accélérer le fonctionnement. Cela peut être des images, des éléments d’interface, des pages déjà consultées, des fichiers calculés à l’avance ou certains contenus téléchargés temporairement.</p>
+      <p>Il faut distinguer trois choses :</p>
+      <ul>
+        <li><strong>La mémoire vive</strong> : utilisée pendant l’exécution de l’application.</li>
+        <li><strong>Le stockage interne</strong> : où l’application peut garder un cache persistant.</li>
+        <li><strong>Les données de l’application</strong> : réglages, comptes, préférences, contenus locaux, qui ne sont pas la même chose que le cache.</li>
+      </ul>
+      <div class="note">Sur Android comme sur iPhone, le mot <strong>cache</strong> peut désigner des fichiers temporaires sur le stockage. Ce n’est donc pas seulement une affaire de mémoire vive.</div>
+    </section>
+
+    <div class="grid-2">
+      <section id="android" class="card platform android">
+        <span class="badge android">Android</span>
+        <h2>Comment cela fonctionne sur Android</h2>
+        <p>Android permet en général de gérer plus directement le cache des applications. Sur beaucoup d’appareils, on peut ouvrir la fiche d’une application puis choisir <strong>vider le cache</strong>.</p>
+        <h3>Ce que fait le cache</h3>
+        <ul>
+          <li>accélère le lancement de l’application ;</li>
+          <li>évite certains téléchargements répétés ;</li>
+          <li>réduit parfois la consommation de données ;</li>
+          <li>améliore la fluidité de certaines applications lourdes.</li>
+        </ul>
+        <h3>Quand vider le cache</h3>
+        <ul>
+          <li>si une application devient lente ;</li>
+          <li>si elle plante ou affiche mal certains contenus ;</li>
+          <li>si elle occupe trop d’espace ;</li>
+          <li>si un ancien contenu persiste alors qu’il devrait être mis à jour.</li>
+        </ul>
+        <h3>Chemin fréquent</h3>
+        <p><strong>Paramètres &gt; Applications &gt; nom de l’application &gt; Stockage et cache &gt; Vider le cache</strong></p>
+        <h3>Attention</h3>
+        <p><strong>Effacer le stockage</strong> ou <strong>effacer les données</strong> remet l’application presque à zéro. Cela ne correspond pas à un simple nettoyage du cache.</p>
+      </section>
+
+      <section id="ios" class="card platform ios">
+        <span class="badge ios">iPhone / iOS</span>
+        <h2>Comment cela fonctionne sur iPhone</h2>
+        <p>Sur iPhone, il existe aussi des données temporaires. En revanche, Apple ne fournit pas toujours un bouton général pour vider le cache de chaque application. La gestion est plus fermée.</p>
+        <h3>Ce qu’on observe souvent</h3>
+        <ul>
+          <li>certaines applications gèrent elles-mêmes leur propre nettoyage ;</li>
+          <li>Safari permet d’effacer historique, cache et cookies ;</li>
+          <li>pour d’autres applications, il faut parfois supprimer puis réinstaller ;</li>
+          <li>la fonction <strong>Décharger l’app</strong> peut libérer de l’espace sans effacer les documents et données.</li>
+        </ul>
+        <h3>Chemin fréquent</h3>
+        <p><strong>Réglages &gt; Général &gt; Stockage iPhone &gt; choisir une application</strong></p>
+        <p>Selon l’application, on peut voir des options comme <strong>Décharger l’app</strong> ou <strong>Supprimer l’app</strong>.</p>
+        <h3>Exemple connu</h3>
+        <p>Pour Safari, Apple permet d’effacer les données de navigation dans les réglages. Pour beaucoup d’autres applications, le contrôle du cache est moins direct qu’avec Android.</p>
+      </section>
+    </div>
+
+    <section class="card">
+      <h2 class="section-title">Ce qui est en mémoire et ce qui est sur le stockage</h2>
+      <div class="compare">
+        <table>
+          <thead>
+            <tr><th>Élément</th><th>En mémoire vive</th><th>Sur le stockage</th><th>Rôle</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Application ouverte</td><td>Oui</td><td>Partiellement</td><td>Exécuter l’application et afficher son contenu immédiatement.</td></tr>
+            <tr><td>Images déjà vues</td><td>Parfois</td><td>Souvent</td><td>Réafficher rapidement sans tout retélécharger.</td></tr>
+            <tr><td>Fichiers temporaires</td><td>Parfois</td><td>Souvent</td><td>Accélérer certaines opérations ou conserver un état temporaire.</td></tr>
+            <tr><td>Données de compte et réglages</td><td>Temporairement</td><td>Oui</td><td>Conserver les préférences et l’identification de l’utilisateur.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="note">Quand un téléphone propose <strong>vider le cache</strong>, il s’agit généralement de supprimer des fichiers temporaires enregistrés sur le <strong>stockage interne</strong>, pas de vider la mémoire vive.</div>
+    </section>
+
+    <section id="comparaison" class="card">
+      <h2>Comparaison rapide : Android contre iPhone</h2>
+      <div class="compare">
+        <table>
+          <thead>
+            <tr><th>Point comparé</th><th>Android</th><th>iPhone</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Présence de cache</td><td>Oui</td><td>Oui</td></tr>
+            <tr><td>Bouton pour vider le cache app par app</td><td>Souvent oui</td><td>Souvent non</td></tr>
+            <tr><td>Gestion par l’utilisateur</td><td>Plus directe</td><td>Plus limitée</td></tr>
+            <tr><td>Effacer les données de l’application</td><td>Souvent possible</td><td>Souvent via suppression ou déchargement</td></tr>
+            <tr><td>Safari / navigateur système</td><td>Variable selon le navigateur</td><td>Nettoyage prévu dans les réglages Safari</td></tr>
+            <tr><td>Philosophie générale</td><td>Contrôle plus ouvert</td><td>Contrôle plus encadré</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="visual-grid">
+      <article class="visual-card">
+        <h3>Illustration Android</h3>
+        <img alt="Schéma Android montrant une application, un cache sur stockage, et la possibilité de vider le cache dans les réglages" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 760 440'><rect width='760' height='440' rx='28' fill='%23f8fafc'/><rect x='46' y='42' width='255' height='356' rx='26' fill='%23ffffff' stroke='%2334a853' stroke-width='8'/><text x='92' y='102' font-size='34' font-family='Arial' fill='%23111827' font-weight='700'>Application</text><rect x='83' y='130' width='180' height='60' rx='12' fill='%23e9f9ee'/><text x='131' y='168' font-size='28' font-family='Arial' fill='%23166534' font-weight='700'>Cache</text><rect x='83' y='215' width='180' height='60' rx='12' fill='%23eef2ff'/><text x='102' y='253' font-size='26' font-family='Arial' fill='%231e3a8a' font-weight='700'>Données</text><rect x='83' y='300' width='180' height='60' rx='12' fill='%23fff7ed'/><text x='102' y='338' font-size='24' font-family='Arial' fill='%239a3412' font-weight='700'>Mémoire vive</text><rect x='435' y='78' width='250' height='280' rx='24' fill='%230f172a'/><text x='480' y='128' font-size='30' font-family='Arial' fill='white' font-weight='700'>Réglages</text><rect x='468' y='160' width='184' height='56' rx='12' fill='%231e293b'/><text x='490' y='196' font-size='22' font-family='Arial' fill='%23cbd5e1'>Stockage et cache</text><rect x='468' y='237' width='184' height='72' rx='12' fill='%2334a853'/><text x='507' y='282' font-size='28' font-family='Arial' fill='white' font-weight='700'>Vider</text><path d='M305 220 C350 220, 380 220, 425 220' stroke='%2334a853' stroke-width='10' fill='none' stroke-linecap='round'/></svg>">
+      </article>
+      <article class="visual-card">
+        <h3>Illustration iPhone</h3>
+        <img alt="Schéma iPhone montrant une application, du cache temporaire et les options décharger ou supprimer l’application" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 760 440'><rect width='760' height='440' rx='28' fill='%23f8fafc'/><rect x='46' y='42' width='255' height='356' rx='26' fill='%23ffffff' stroke='%232563eb' stroke-width='8'/><text x='98' y='102' font-size='34' font-family='Arial' fill='%23111827' font-weight='700'>iPhone</text><rect x='83' y='130' width='180' height='60' rx='12' fill='%23dbeafe'/><text x='131' y='168' font-size='28' font-family='Arial' fill='%231d4ed8' font-weight='700'>Cache</text><rect x='83' y='215' width='180' height='60' rx='12' fill='%23eef2ff'/><text x='102' y='253' font-size='26' font-family='Arial' fill='%231e3a8a' font-weight='700'>Stockage</text><rect x='83' y='300' width='180' height='60' rx='12' fill='%23fff7ed'/><text x='102' y='338' font-size='24' font-family='Arial' fill='%239a3412' font-weight='700'>Mémoire vive</text><rect x='410' y='60' width='300' height='320' rx='24' fill='%230f172a'/><text x='470' y='112' font-size='30' font-family='Arial' fill='white' font-weight='700'>Stockage iPhone</text><rect x='445' y='150' width='230' height='58' rx='12' fill='%231e293b'/><text x='489' y='186' font-size='24' font-family='Arial' fill='%23cbd5e1'>Décharger l’app</text><rect x='445' y='232' width='230' height='58' rx='12' fill='%23dc2626'/><text x='498' y='268' font-size='24' font-family='Arial' fill='white'>Supprimer</text><path d='M305 220 C345 220, 372 220, 400 220' stroke='%232563eb' stroke-width='10' fill='none' stroke-linecap='round'/></svg>">
+      </article>
+    </section>
+
+    <section class="card">
+      <h2>Guide pratique : que faire en cas de lenteur</h2>
+      <div class="grid-2">
+        <div>
+          <h3>Sur Android</h3>
+          <ol>
+            <li>Ouvrir <strong>Paramètres</strong>.</li>
+            <li>Aller dans <strong>Applications</strong>.</li>
+            <li>Choisir l’application concernée.</li>
+            <li>Ouvrir <strong>Stockage et cache</strong>.</li>
+            <li>Appuyer sur <strong>Vider le cache</strong>.</li>
+            <li>Redémarrer l’application.</li>
+          </ol>
+          <p>Si le problème continue, vérifier les mises à jour de l’application, puis envisager en dernier recours <strong>effacer les données</strong>.</p>
+        </div>
+        <div>
+          <h3>Sur iPhone</h3>
+          <ol>
+            <li>Ouvrir <strong>Réglages</strong>.</li>
+            <li>Aller dans <strong>Général</strong>.</li>
+            <li>Ouvrir <strong>Stockage iPhone</strong>.</li>
+            <li>Choisir l’application concernée.</li>
+            <li>Utiliser <strong>Décharger l’app</strong> si l’option est adaptée.</li>
+            <li>En cas de besoin, supprimer puis réinstaller l’application.</li>
+          </ol>
+          <p>Pour Safari, le nettoyage du cache passe par les réglages du navigateur dans iOS.</p>
+        </div>
+      </div>
+      <div class="note">Il est mauvais de vider le cache de toutes les applications sans raison. Cela ne rend pas automatiquement le téléphone plus rapide de façon durable.</div>
+    </section>
+
+    <section class="card">
+      <h2>Erreurs fréquentes à éviter</h2>
+      <ul>
+        <li>confondre <strong>vider le cache</strong> avec <strong>effacer les données</strong> ;</li>
+        <li>supprimer une application sans vérifier si des données locales importantes y sont stockées ;</li>
+        <li>croire que tout le cache se trouve en mémoire vive ;</li>
+        <li>penser qu’un nettoyage permanent améliore toujours les performances ;</li>
+        <li>oublier qu’une application recrée naturellement son cache après usage.</li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <h2>Cas typiques où le cache est utile</h2>
+      <div class="grid-2">
+        <div>
+          <h3>Applications qui utilisent beaucoup de cache</h3>
+          <ul>
+            <li>navigateurs web ;</li>
+            <li>réseaux sociaux ;</li>
+            <li>applications vidéo et musique ;</li>
+            <li>cartographie et navigation ;</li>
+            <li>messageries riches en images et en fichiers.</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Pourquoi elles en utilisent autant</h3>
+          <ul>
+            <li>chargement plus rapide des images ;</li>
+            <li>accès plus rapide aux contenus déjà consultés ;</li>
+            <li>réduction des téléchargements répétés ;</li>
+            <li>meilleure fluidité de l’interface ;</li>
+            <li>expérience plus stable hors connexion partielle.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="faq" class="card">
+      <h2>Questions fréquentes</h2>
+      <div class="faq">
+        <div class="faq-item"><h3>Vider le cache est-il dangereux ?</h3><p>En général non. Cela supprime surtout des fichiers temporaires. L’application peut simplement être un peu plus lente au premier redémarrage, le temps de recréer son cache.</p></div>
+        <div class="faq-item"><h3>Vider le cache supprime-t-il mon compte ?</h3><p>En général non. C’est plutôt <strong>effacer les données</strong> sur Android ou <strong>supprimer l’application</strong> sur iPhone qui peut remettre certains éléments à zéro.</p></div>
+        <div class="faq-item"><h3>Le cache est-il toujours utile ?</h3><p>Oui, tant qu’il reste raisonnable. Le cache accélère souvent l’usage quotidien. Le vider systématiquement n’apporte pas toujours un bénéfice réel.</p></div>
+        <div class="faq-item"><h3>Pourquoi une application reprend-elle de la place après nettoyage ?</h3><p>Parce qu’elle reconstitue son cache au fur et à mesure de son utilisation. C’est normal.</p></div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Références utiles</h2>
+      <p class="sources">Cette page reprend les principes généraux de fonctionnement du cache sur Android et sur iPhone, avec une présentation simple, structurée et adaptée à la lecture sur smartphone.</p>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+      <p>Page HTML informative sur la mémoire cache des applications sur Android et sur iPhone.</p>
+    </div>
+  </footer>
+</body>
+</html>
