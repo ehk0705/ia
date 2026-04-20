@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Protocole ARP - Comprendre la résolution d'adresse IP en adresse MAC</title>
+  <style>
+    :root {
+      --fond: #0b1220;
+      --fond-2: #111a2e;
+      --bloc: #16233f;
+      --bloc-2: #1a2c4f;
+      --texte: #e8eefc;
+      --texte-doux: #b8c4e4;
+      --accent: #7cc7ff;
+      --accent-2: #9ef0c6;
+      --bordure: rgba(255,255,255,0.12);
+      --ombre: 0 18px 40px rgba(0,0,0,0.28);
+      --rayon: 18px;
+      --largeur: 1180px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      line-height: 1.65;
+      background: linear-gradient(180deg, var(--fond), #0d1730 45%, #0b1220 100%);
+      color: var(--texte);
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(10px);
+      background: rgba(8, 14, 27, 0.82);
+      border-bottom: 1px solid var(--bordure);
+    }
+
+    .topbar-inner,
+    .container {
+      width: min(calc(100% - 32px), var(--largeur));
+      margin: 0 auto;
+    }
+
+    .topbar-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      padding: 14px 0;
+    }
+
+    .brand {
+      font-size: 1.05rem;
+      font-weight: 700;
+      letter-spacing: 0.2px;
+      white-space: nowrap;
+    }
+
+    .brand span {
+      color: var(--accent-2);
+    }
+
+    .nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: flex-end;
+    }
+
+    .nav a {
+      padding: 8px 12px;
+      border-radius: 999px;
+      color: var(--texte);
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.06);
+      font-size: 0.95rem;
+    }
+
+    .nav a:hover {
+      text-decoration: none;
+      background: rgba(124, 199, 255, 0.12);
+      border-color: rgba(124, 199, 255, 0.35);
+    }
+
+    .hero {
+      padding: 44px 0 18px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 28px;
+      align-items: center;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      padding: 7px 12px;
+      border-radius: 999px;
+      background: rgba(158, 240, 198, 0.12);
+      color: var(--accent-2);
+      border: 1px solid rgba(158, 240, 198, 0.24);
+      font-size: 0.9rem;
+      margin-bottom: 14px;
+    }
+
+    h1, h2, h3 {
+      line-height: 1.2;
+      margin-top: 0;
+    }
+
+    h1 {
+      font-size: clamp(2rem, 3.8vw, 3.25rem);
+      margin-bottom: 14px;
+    }
+
+    h2 {
+      font-size: clamp(1.45rem, 2.3vw, 2rem);
+      margin-bottom: 16px;
+    }
+
+    h3 {
+      font-size: 1.18rem;
+      margin-bottom: 12px;
+    }
+
+    .lead {
+      font-size: 1.08rem;
+      color: var(--texte-doux);
+      margin-bottom: 18px;
+    }
+
+    .hero-card,
+    .section,
+    .info-card,
+    .timeline-step,
+    .table-wrap,
+    .note,
+    .faq-item,
+    .footer-card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
+      border: 1px solid var(--bordure);
+      border-radius: var(--rayon);
+      box-shadow: var(--ombre);
+    }
+
+    .hero-card {
+      padding: 18px;
+    }
+
+    .hero-visual {
+      min-height: 320px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 22px;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 12px 18px;
+      border-radius: 12px;
+      font-weight: 700;
+      border: 1px solid transparent;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent), #5aa7ff);
+      color: #07111f;
+    }
+
+    .btn-secondary {
+      background: rgba(255,255,255,0.04);
+      color: var(--texte);
+      border-color: rgba(255,255,255,0.1);
+    }
+
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-top: 28px;
+    }
+
+    .metric {
+      padding: 16px;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .metric strong {
+      display: block;
+      font-size: 1.3rem;
+      color: var(--accent-2);
+      margin-bottom: 6px;
+    }
+
+    main {
+      padding: 12px 0 42px;
+    }
+
+    .section {
+      padding: 28px;
+      margin: 24px 0;
+    }
+
+    .section p,
+    .section li {
+      color: var(--texte-doux);
+    }
+
+    .grid-2,
+    .grid-3 {
+      display: grid;
+      gap: 18px;
+    }
+
+    .grid-2 {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .grid-3 {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .info-card {
+      padding: 20px;
+      height: 100%;
+    }
+
+    .info-card p:last-child,
+    .faq-item p:last-child,
+    .note p:last-child {
+      margin-bottom: 0;
+    }
+
+    .mini-tag {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(124, 199, 255, 0.12);
+      border: 1px solid rgba(124, 199, 255, 0.25);
+      color: var(--accent);
+      font-size: 0.82rem;
+      margin-bottom: 12px;
+    }
+
+    .timeline {
+      display: grid;
+      gap: 16px;
+      margin-top: 18px;
+    }
+
+    .timeline-step {
+      padding: 18px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .timeline-step::before {
+      content: attr(data-step);
+      position: absolute;
+      top: 12px;
+      right: 14px;
+      font-size: 2.6rem;
+      font-weight: 700;
+      color: rgba(255,255,255,0.06);
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      padding: 6px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 760px;
+    }
+
+    th, td {
+      padding: 14px 16px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      color: var(--accent-2);
+      font-size: 0.95rem;
+      background: rgba(255,255,255,0.02);
+    }
+
+    tr:hover td {
+      background: rgba(255,255,255,0.02);
+    }
+
+    .note {
+      padding: 18px 20px;
+      margin-top: 18px;
+      border-left: 4px solid var(--accent-2);
+    }
+
+    .faq-list {
+      display: grid;
+      gap: 16px;
+    }
+
+    .faq-item {
+      padding: 18px 20px;
+    }
+
+    .footer {
+      padding: 8px 0 36px;
+    }
+
+    .footer-card {
+      padding: 22px;
+      text-align: center;
+      color: var(--texte-doux);
+    }
+
+    .footer-card strong {
+      color: var(--texte);
+    }
+
+    ul.check-list {
+      padding-left: 20px;
+      margin: 0;
+    }
+
+    ul.check-list li {
+      margin: 10px 0;
+    }
+
+    .diagram-box {
+      margin-top: 18px;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(5, 12, 24, 0.55);
+    }
+
+    code {
+      color: #9ef0c6;
+      font-family: Consolas, Monaco, monospace;
+      font-size: 0.95em;
+    }
+
+    @media (max-width: 920px) {
+      .hero-grid,
+      .grid-2,
+      .grid-3,
+      .metrics {
+        grid-template-columns: 1fr;
+      }
+
+      .topbar-inner {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .nav {
+        justify-content: flex-start;
+      }
+
+      .section {
+        padding: 22px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .topbar-inner,
+      .container {
+        width: min(calc(100% - 20px), var(--largeur));
+      }
+
+      .hero {
+        padding-top: 26px;
+      }
+
+      .section {
+        padding: 18px;
+        border-radius: 14px;
+      }
+
+      .nav a {
+        padding: 8px 10px;
+        font-size: 0.9rem;
+      }
+
+      h1 {
+        font-size: 1.9rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">Réseaux <span>informatique</span> - Protocole ARP</div>
+      <nav class="nav" aria-label="Navigation principale">
+        <a href="#definition">Définition</a>
+        <a href="#fonctionnement">Fonctionnement</a>
+        <a href="#trame">Trame ARP</a>
+        <a href="#limites">Limites</a>
+        <a href="#securite">Sécurité</a>
+        <a href="#faq">Questions</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="container hero-grid">
+      <div>
+        <div class="eyebrow">Page pédagogique complète</div>
+        <h1>Comprendre le protocole ARP</h1>
+        <p class="lead">
+          Le protocole ARP permet à une machine de retrouver l'adresse MAC correspondant à une adresse IP sur un réseau local. Sans lui, un appareil connaît peut-être l'adresse IP de destination, mais il ne sait pas à quelle carte réseau envoyer physiquement la trame Ethernet.
+        </p>
+        <p class="lead">
+          En pratique, ARP joue le rôle d'un annuaire local entre <strong>adresse logique</strong> et <strong>adresse matérielle</strong>. Il est simple, rapide, mais aussi vulnérable à certaines attaques si le réseau est mal protégé.
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#fonctionnement">Voir le mécanisme</a>
+          <a class="btn btn-secondary" href="#securite">Voir les risques</a>
+        </div>
+        <div class="metrics">
+          <div class="metric">
+            <strong>IP</strong>
+            Adresse logique utilisée pour l'acheminement réseau.
+          </div>
+          <div class="metric">
+            <strong>MAC</strong>
+            Adresse physique de l'interface sur le réseau local.
+          </div>
+          <div class="metric">
+            <strong>ARP</strong>
+            Correspondance entre les deux, dans un même segment local.
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-card hero-visual" aria-label="Illustration du protocole ARP">
+        <svg viewBox="0 0 760 520" role="img" aria-label="Deux ordinateurs, un commutateur et une requête ARP" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="bg1" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#112140"/>
+              <stop offset="100%" stop-color="#091221"/>
+            </linearGradient>
+            <linearGradient id="pc" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#7cc7ff"/>
+              <stop offset="100%" stop-color="#4c88ff"/>
+            </linearGradient>
+            <linearGradient id="sw" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#9ef0c6"/>
+              <stop offset="100%" stop-color="#4ec58f"/>
+            </linearGradient>
+            <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+              <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#000" flood-opacity="0.35"/>
+            </filter>
+          </defs>
+          <rect width="760" height="520" rx="28" fill="url(#bg1)"/>
+          <text x="40" y="48" fill="#e8eefc" font-size="28" font-family="Arial" font-weight="700">Qui possède l'IP 192.168.1.20 ?</text>
+          <text x="40" y="82" fill="#b8c4e4" font-size="20" font-family="Arial">Envoyé en diffusion sur le réseau local</text>
+
+          <g filter="url(#shadow)">
+            <rect x="50" y="160" width="170" height="120" rx="18" fill="url(#pc)"/>
+            <rect x="74" y="182" width="122" height="68" rx="8" fill="#dff3ff"/>
+            <rect x="104" y="286" width="62" height="16" rx="5" fill="#55728b"/>
+            <text x="72" y="336" fill="#e8eefc" font-size="22" font-family="Arial" font-weight="700">Machine A</text>
+            <text x="52" y="366" fill="#b8c4e4" font-size="18" font-family="Arial">IP : 192.168.1.10</text>
+            <text x="52" y="392" fill="#b8c4e4" font-size="18" font-family="Arial">MAC : AA:AA:AA:AA:AA:10</text>
+          </g>
+
+          <g filter="url(#shadow)">
+            <rect x="525" y="160" width="170" height="120" rx="18" fill="url(#pc)"/>
+            <rect x="549" y="182" width="122" height="68" rx="8" fill="#dff3ff"/>
+            <rect x="579" y="286" width="62" height="16" rx="5" fill="#55728b"/>
+            <text x="547" y="336" fill="#e8eefc" font-size="22" font-family="Arial" font-weight="700">Machine B</text>
+            <text x="527" y="366" fill="#b8c4e4" font-size="18" font-family="Arial">IP : 192.168.1.20</text>
+            <text x="527" y="392" fill="#b8c4e4" font-size="18" font-family="Arial">MAC : BB:BB:BB:BB:BB:20</text>
+          </g>
+
+          <g filter="url(#shadow)">
+            <rect x="286" y="200" width="188" height="96" rx="18" fill="url(#sw)"/>
+            <text x="323" y="254" fill="#062018" font-size="28" font-family="Arial" font-weight="700">Commutateur</text>
+          </g>
+
+          <line x1="220" y1="222" x2="286" y2="240" stroke="#9fd2ff" stroke-width="6" stroke-linecap="round"/>
+          <line x1="474" y1="240" x2="525" y2="222" stroke="#9fd2ff" stroke-width="6" stroke-linecap="round"/>
+
+          <path d="M223 146 C 310 96, 455 96, 542 146" fill="none" stroke="#ffdb70" stroke-width="7" stroke-linecap="round" stroke-dasharray="14 10"/>
+          <polygon points="540,136 566,150 537,160" fill="#ffdb70"/>
+          <text x="212" y="126" fill="#ffdb70" font-size="21" font-family="Arial" font-weight="700">Requête ARP : diffusion</text>
+
+          <path d="M540 430 C 455 474, 305 474, 220 430" fill="none" stroke="#9ef0c6" stroke-width="7" stroke-linecap="round" stroke-dasharray="14 10"/>
+          <polygon points="221,420 194,434 223,446" fill="#9ef0c6"/>
+          <text x="222" y="504" fill="#9ef0c6" font-size="21" font-family="Arial" font-weight="700">Réponse ARP : unicast</text>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <main>
+    <div class="container">
+      <section class="section" id="definition">
+        <h2>1. Qu'est-ce que le protocole ARP ?</h2>
+        <div class="grid-2">
+          <div>
+            <p>
+              ARP signifie <strong>Address Resolution Protocol</strong>. Son rôle est de traduire une adresse IP en adresse MAC sur un réseau local de type IPv4. Une machine peut connaître l'adresse IP d'une autre machine, mais pour transmettre une trame Ethernet, elle doit connaître l'adresse MAC du destinataire local.
+            </p>
+            <p>
+              ARP intervient donc au point de rencontre entre la couche réseau et la couche liaison. Ce n'est pas un protocole de routage. Ce n'est pas non plus un mécanisme pour Internet entier. Il agit uniquement dans le cadre d'un <strong>segment local</strong> ou pour joindre la <strong>passerelle par défaut</strong>.
+            </p>
+          </div>
+          <div class="info-card">
+            <div class="mini-tag">Idée clé</div>
+            <h3>Pourquoi ARP est indispensable</h3>
+            <p>
+              Ethernet transporte des trames destinées à des adresses MAC. Or les applications et le protocole IP travaillent avec des adresses IP. ARP fait le lien entre ces deux mondes.
+            </p>
+            <p>
+              Sans ARP, une machine saurait <em>où</em> elle veut aller en termes logiques, mais pas <em>à qui</em> remettre la trame sur le réseau local.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="fonctionnement">
+        <h2>2. Comment ARP fonctionne</h2>
+        <p>
+          Le fonctionnement d'ARP est simple. Lorsqu'une machine veut envoyer des données à une adresse IP locale, elle vérifie d'abord si elle possède déjà la correspondance IP-MAC dans son <strong>cache ARP</strong>. Si oui, elle utilise directement cette entrée. Sinon, elle lance une requête ARP.
+        </p>
+
+        <div class="timeline">
+          <div class="timeline-step" data-step="01">
+            <h3>Vérification du cache ARP</h3>
+            <p>
+              La machine source consulte sa table locale. Cette table contient des correspondances récemment apprises. Cela évite de refaire une diffusion à chaque envoi.
+            </p>
+          </div>
+          <div class="timeline-step" data-step="02">
+            <h3>Requête ARP en diffusion</h3>
+            <p>
+              Si aucune entrée n'existe, la machine envoie une requête à tout le réseau local : <strong>Qui possède cette adresse IP ?</strong> Cette requête est envoyée en <em>broadcast</em> vers l'adresse MAC <code>FF:FF:FF:FF:FF:FF</code>.
+            </p>
+          </div>
+          <div class="timeline-step" data-step="03">
+            <h3>Réponse ARP en unicast</h3>
+            <p>
+              La machine qui reconnaît son adresse IP répond directement à l'émetteur avec sa propre adresse MAC. La réponse est généralement envoyée en <em>unicast</em>.
+            </p>
+          </div>
+          <div class="timeline-step" data-step="04">
+            <h3>Mise à jour du cache</h3>
+            <p>
+              L'émetteur mémorise la correspondance dans son cache ARP pendant un certain temps. Les communications suivantes seront alors plus rapides.
+            </p>
+          </div>
+        </div>
+
+        <div class="diagram-box">
+          <svg viewBox="0 0 1200 290" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Schéma chronologique d'une requête et d'une réponse ARP">
+            <rect width="1200" height="290" fill="#08111f"/>
+            <line x1="140" y1="70" x2="140" y2="235" stroke="#7cc7ff" stroke-width="4"/>
+            <line x1="600" y1="70" x2="600" y2="235" stroke="#9ef0c6" stroke-width="4"/>
+            <line x1="1060" y1="70" x2="1060" y2="235" stroke="#7cc7ff" stroke-width="4"/>
+            <text x="78" y="48" fill="#e8eefc" font-family="Arial" font-size="28" font-weight="700">Source</text>
+            <text x="532" y="48" fill="#e8eefc" font-family="Arial" font-size="28" font-weight="700">Réseau local</text>
+            <text x="972" y="48" fill="#e8eefc" font-family="Arial" font-size="28" font-weight="700">Destination</text>
+            <path d="M150 104 C 300 104, 420 104, 590 104" fill="none" stroke="#ffdb70" stroke-width="6" stroke-dasharray="14 9"/>
+            <polygon points="588,95 612,104 588,113" fill="#ffdb70"/>
+            <text x="200" y="89" fill="#ffdb70" font-family="Arial" font-size="22">Requête ARP en diffusion</text>
+            <path d="M612 138 C 740 138, 860 138, 1050 138" fill="none" stroke="#ffdb70" stroke-width="6" stroke-dasharray="14 9"/>
+            <polygon points="1048,129 1072,138 1048,147" fill="#ffdb70"/>
+            <text x="728" y="123" fill="#ffdb70" font-family="Arial" font-size="22">Tous reçoivent, un seul répond</text>
+            <path d="M1050 193 C 870 193, 730 193, 150 193" fill="none" stroke="#9ef0c6" stroke-width="6" stroke-dasharray="14 9"/>
+            <polygon points="152,184 128,193 152,202" fill="#9ef0c6"/>
+            <text x="554" y="178" fill="#9ef0c6" font-family="Arial" font-size="22">Réponse ARP en unicast avec l'adresse MAC</text>
+          </svg>
+        </div>
+      </section>
+
+      <section class="section" id="trame">
+        <h2>3. Les champs d'une trame ARP</h2>
+        <p>
+          Une trame ARP contient plusieurs champs permettant d'identifier le type de matériel utilisé, le protocole concerné, ainsi que les adresses source et destination. Pour une utilisation classique sur Ethernet et IPv4, voici les éléments les plus importants.
+        </p>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Champ</th>
+                <th>Rôle</th>
+                <th>Exemple</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Type matériel</td>
+                <td>Indique le support de liaison. Sur Ethernet, la valeur est généralement 1.</td>
+                <td>Ethernet</td>
+              </tr>
+              <tr>
+                <td>Type protocole</td>
+                <td>Indique le protocole réseau concerné par la résolution d'adresse.</td>
+                <td>IPv4 : <code>0x0800</code></td>
+              </tr>
+              <tr>
+                <td>Taille adresse matérielle</td>
+                <td>Longueur de l'adresse MAC en octets.</td>
+                <td>6</td>
+              </tr>
+              <tr>
+                <td>Taille adresse protocole</td>
+                <td>Longueur de l'adresse IP utilisée par le protocole.</td>
+                <td>4</td>
+              </tr>
+              <tr>
+                <td>Opération</td>
+                <td>Précise s'il s'agit d'une requête ou d'une réponse.</td>
+                <td>1 = requête, 2 = réponse</td>
+              </tr>
+              <tr>
+                <td>Adresse MAC source</td>
+                <td>Adresse physique de l'émetteur.</td>
+                <td>AA:AA:AA:AA:AA:10</td>
+              </tr>
+              <tr>
+                <td>Adresse IP source</td>
+                <td>Adresse IP de l'émetteur.</td>
+                <td>192.168.1.10</td>
+              </tr>
+              <tr>
+                <td>Adresse MAC cible</td>
+                <td>Inconnue dans une requête, renseignée dans une réponse.</td>
+                <td>00:00:00:00:00:00</td>
+              </tr>
+              <tr>
+                <td>Adresse IP cible</td>
+                <td>Adresse IP recherchée.</td>
+                <td>192.168.1.20</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="section" id="cache">
+        <h2>4. Le cache ARP</h2>
+        <div class="grid-3">
+          <div class="info-card">
+            <div class="mini-tag">Performance</div>
+            <h3>Réduire les diffusions</h3>
+            <p>
+              Le cache ARP évite d'envoyer une nouvelle requête à chaque échange. Cela diminue le trafic inutile sur le réseau local.
+            </p>
+          </div>
+          <div class="info-card">
+            <div class="mini-tag">Mémoire temporaire</div>
+            <h3>Entrées limitées dans le temps</h3>
+            <p>
+              Les associations IP-MAC ne sont pas conservées indéfiniment. Elles expirent pour permettre l'adaptation aux changements du réseau.
+            </p>
+          </div>
+          <div class="info-card">
+            <div class="mini-tag">Administration</div>
+            <h3>Entrées dynamiques ou statiques</h3>
+            <p>
+              Certaines entrées peuvent être ajoutées manuellement, mais la plupart sont apprises automatiquement lors des échanges ARP.
+            </p>
+          </div>
+        </div>
+        <div class="note">
+          <p>
+            Sous de nombreux systèmes, il est possible d'afficher la table ARP locale avec des commandes d'administration réseau. Cela permet de voir quelles adresses IP sont déjà associées à quelles adresses MAC.
+          </p>
+        </div>
+      </section>
+
+      <section class="section" id="limites">
+        <h2>5. Portée et limites du protocole ARP</h2>
+        <div class="grid-2">
+          <div>
+            <ul class="check-list">
+              <li>ARP ne fonctionne que dans un réseau local IPv4.</li>
+              <li>Il ne traverse pas directement les routeurs.</li>
+              <li>Pour joindre un hôte situé sur un autre réseau, la machine résout généralement l'adresse MAC de la passerelle par défaut, pas celle de l'hôte distant.</li>
+              <li>ARP est lié au monde IPv4. En IPv6, il est remplacé par d'autres mécanismes, notamment le protocole de découverte de voisins.</li>
+            </ul>
+          </div>
+          <div class="info-card">
+            <div class="mini-tag">À retenir</div>
+            <h3>ARP n'est pas universel</h3>
+            <p>
+              Beaucoup de débutants pensent qu'ARP permet de retrouver directement n'importe quelle machine sur Internet. C'est faux. ARP sert surtout à déterminer le prochain saut local au niveau Ethernet.
+            </p>
+            <p>
+              Dès qu'il faut sortir du réseau local, la communication passe par la passerelle, et c'est l'adresse MAC de cette passerelle qui devient essentielle.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="securite">
+        <h2>6. Sécurité : l'attaque par usurpation ARP</h2>
+        <div class="grid-2">
+          <div>
+            <p>
+              Le protocole ARP repose largement sur la confiance. Une machine peut accepter une correspondance IP-MAC reçue sans vérification forte. Cela ouvre la voie à l'<strong>ARP spoofing</strong> ou <strong>ARP poisoning</strong>.
+            </p>
+            <p>
+              Dans ce type d'attaque, un appareil malveillant envoie de fausses réponses ARP pour faire croire qu'il possède l'adresse IP d'une autre machine, souvent la passerelle. Le trafic peut alors être redirigé vers l'attaquant.
+            </p>
+          </div>
+          <div class="info-card">
+            <div class="mini-tag">Conséquences</div>
+            <h3>Ce que l'attaquant peut faire</h3>
+            <ul class="check-list">
+              <li>intercepter le trafic ;</li>
+              <li>modifier certains échanges ;</li>
+              <li>bloquer la communication ;</li>
+              <li>se placer entre la victime et le routeur.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="grid-3" style="margin-top:18px;">
+          <div class="info-card">
+            <div class="mini-tag">Mesure 1</div>
+            <h3>Segmentation réseau</h3>
+            <p>
+              Réduire la taille des domaines de diffusion limite la portée d'une attaque ARP et facilite la surveillance.
+            </p>
+          </div>
+          <div class="info-card">
+            <div class="mini-tag">Mesure 2</div>
+            <h3>Contrôles de commutateur</h3>
+            <p>
+              Certains équipements gérés proposent des fonctions de protection comme l'inspection dynamique ARP ou des listes de confiance.
+            </p>
+          </div>
+          <div class="info-card">
+            <div class="mini-tag">Mesure 3</div>
+            <h3>Entrées statiques ciblées</h3>
+            <p>
+              Pour des équipements critiques, des associations fixes peuvent parfois limiter les risques, mais cela demande de l'administration et de la rigueur.
+            </p>
+          </div>
+        </div>
+
+        <div class="note">
+          <p>
+            ARP n'est pas mauvais en soi. Il est simplement ancien, simple et peu défensif. Sur un réseau moderne, sa sécurité dépend surtout de la qualité de l'architecture et des équipements utilisés.
+          </p>
+        </div>
+      </section>
+
+      <section class="section" id="comparaison">
+        <h2>7. Différence entre IP, MAC et ARP</h2>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Élément</th>
+                <th>Nature</th>
+                <th>Rôle</th>
+                <th>Exemple</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Adresse IP</td>
+                <td>Logique</td>
+                <td>Identifier l'hôte au niveau réseau</td>
+                <td>192.168.1.20</td>
+              </tr>
+              <tr>
+                <td>Adresse MAC</td>
+                <td>Matérielle</td>
+                <td>Identifier l'interface sur le réseau local</td>
+                <td>BB:BB:BB:BB:BB:20</td>
+              </tr>
+              <tr>
+                <td>ARP</td>
+                <td>Protocole de résolution</td>
+                <td>Associer IP et MAC en environnement IPv4 local</td>
+                <td>Requête puis réponse</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="section" id="exemple">
+        <h2>8. Exemple concret</h2>
+        <p>
+          Un ordinateur ayant l'adresse IP <code>192.168.1.10</code> veut envoyer un paquet à <code>192.168.1.20</code> sur le même réseau local.
+        </p>
+        <div class="grid-2">
+          <div class="info-card">
+            <h3>Cas 1 : la destination est locale</h3>
+            <p>
+              L'ordinateur vérifie son cache ARP. S'il ne connaît pas encore l'adresse MAC de <code>192.168.1.20</code>, il diffuse une requête. La machine cible répond avec son adresse MAC. La communication Ethernet peut alors commencer.
+            </p>
+          </div>
+          <div class="info-card">
+            <h3>Cas 2 : la destination est distante</h3>
+            <p>
+              Si l'adresse IP visée est sur un autre réseau, l'ordinateur n'essaie pas de résoudre la MAC de la machine distante. Il résout la MAC de la passerelle par défaut, puis lui remet la trame.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="faq">
+        <h2>9. Questions fréquentes</h2>
+        <div class="faq-list">
+          <div class="faq-item">
+            <h3>ARP fonctionne-t-il avec IPv6 ?</h3>
+            <p>
+              Non. En IPv6, le rôle de découverte locale est assuré par un autre mécanisme, notamment le protocole de découverte de voisins.
+            </p>
+          </div>
+          <div class="faq-item">
+            <h3>Pourquoi ARP utilise-t-il la diffusion ?</h3>
+            <p>
+              Parce que l'émetteur ne connaît pas encore le destinataire exact au niveau MAC. Il interroge donc tout le segment local pour trouver la bonne machine.
+            </p>
+          </div>
+          <div class="faq-item">
+            <h3>Pourquoi une réponse ARP n'est-elle pas diffusée ?</h3>
+            <p>
+              Parce que la machine qui répond connaît déjà l'adresse MAC de l'émetteur grâce à la requête reçue. Elle peut donc répondre directement.
+            </p>
+          </div>
+          <div class="faq-item">
+            <h3>Peut-on vivre sans ARP en IPv4 sur Ethernet ?</h3>
+            <p>
+              Pas de façon normale sur un réseau local classique. Il faudrait configurer manuellement les correspondances, ce qui est peu pratique et vite ingérable.
+            </p>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-card">
+        <p><strong>arp-protocol.html</strong> - Page explicative sur le protocole ARP</p>
+        <p>Contenu pédagogique en français, avec mise en page responsive, navigation par ancres et illustrations intégrées en SVG.</p>
+		<p>Auteur : Hocine Korichi, ingénieur</p>
+        <p>Tous droits réservés Avril 2026</p>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
