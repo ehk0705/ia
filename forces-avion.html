@@ -355,6 +355,31 @@
       border-bottom:none;
     }
 
+    .dispositif-image{
+      margin:14px 0 14px;
+      border-radius:16px;
+      overflow:hidden;
+      border:1px solid var(--border);
+      background:rgba(255,255,255,0.04);
+      box-shadow:var(--shadow);
+    }
+
+    .dispositif-image img{
+      width:100%;
+      height:220px;
+      object-fit:cover;
+      object-position:center;
+      display:block;
+    }
+
+    .dispositif-image figcaption{
+      padding:10px 12px 12px;
+      color:var(--muted);
+      font-size:0.92rem;
+      background:rgba(0,0,0,0.10);
+      border-top:1px solid var(--border);
+    }
+
     footer{
       padding:26px 0 36px;
       color:var(--muted);
@@ -467,6 +492,14 @@
         padding:6px 10px;
       }
 
+      .dispositif-image img{
+        height:180px;
+      }
+
+      .dispositif-image figcaption{
+        font-size:0.9rem;
+      }
+
       section{
         padding:18px 0;
         scroll-margin-top:130px;
@@ -546,6 +579,14 @@
 
       .badge{
         font-size:0.78rem;
+      }
+
+      .dispositif-image img{
+        height:155px;
+      }
+
+      .dispositif-image figcaption{
+        font-size:0.88rem;
       }
 
       th, td{
@@ -1063,11 +1104,20 @@
       <h2 class="section-title">6. Volets, becs et aérofreins</h2>
       <p class="section-intro">
         Ces dispositifs modifient l’aérodynamique de l’avion. Ils sont très importants pendant le décollage et l’atterrissage.
+		Becs : avant de l’aile, pour améliorer l’écoulement.
+		Volets : arrière de l’aile, pour augmenter la portance à basse vitesse.
+		Aérofreins : sur l’aile, pour augmenter la traînée et ralentir.
       </p>
 
       <div class="grid-3">
         <article class="card">
           <h3>Les volets</h3>
+
+          <figure class="dispositif-image">
+            <img src="volets.jfif" alt="Volets d’un avion sortis sur l’aile" />
+            <figcaption>Volets : surfaces mobiles situées au bord de fuite de l’aile.</figcaption>
+          </figure>
+
           <p>
             Les volets sont situés en général à l’arrière de l’aile.
           </p>
@@ -1080,6 +1130,12 @@
 
         <article class="card">
           <h3>Les becs</h3>
+
+          <figure class="dispositif-image">
+            <img src="becs.jfif" alt="Becs de bord d’attaque déployés sur une aile d’avion" />
+            <figcaption>Becs : dispositifs placés à l’avant de l’aile pour améliorer l’écoulement de l’air.</figcaption>
+          </figure>
+
           <p>
             Les becs de bord d’attaque sont situés à l’avant de l’aile.
           </p>
@@ -1092,6 +1148,12 @@
 
         <article class="card">
           <h3>Les aérofreins</h3>
+
+          <figure class="dispositif-image">
+            <img src="aerofreins.jfif" alt="Aérofreins déployés sur l’aile d’un avion" />
+            <figcaption>Aérofreins : surfaces qui augmentent la traînée et aident au ralentissement.</figcaption>
+          </figure>
+
           <p>
             Les aérofreins servent surtout à augmenter la traînée.
           </p>
