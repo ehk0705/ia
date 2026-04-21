@@ -7,20 +7,23 @@
   <meta name="description" content="Page pédagogique expliquant les forces appliquées sur un avion au décollage, en vol et à l’atterrissage : portance, poids, poussée, traînée, angle d’attaque, assiette, volets, becs, aérofreins et décrochage." />
   <style>
     :root{
-      --bg:#0b1220;
-      --bg-soft:#111a2b;
-      --card:#172338;
-      --card-2:#1d2c45;
+      --bg:#08111f;
+      --bg-2:#0d1728;
+      --bg-3:#10203a;
+      --card:#16253a;
+      --card-2:#1b2f49;
       --text:#eef4ff;
       --muted:#bfd0ea;
       --accent:#6fc2ff;
       --accent-2:#8ff0c8;
-      --warning:#ffd27a;
+      --accent-3:#ffd27a;
       --danger:#ff8c8c;
-      --border:rgba(255,255,255,0.08);
+      --border:rgba(255,255,255,0.09);
       --shadow:0 18px 40px rgba(0,0,0,0.25);
+      --shadow-soft:0 10px 24px rgba(0,0,0,0.18);
       --radius:20px;
-      --max:1200px;
+      --radius-sm:16px;
+      --max:1240px;
     }
 
     *{
@@ -34,9 +37,11 @@
     body{
       margin:0;
       font-family:Arial, Helvetica, sans-serif;
-      background:linear-gradient(180deg, #09101c 0%, #0d1728 100%);
+      background:
+        radial-gradient(circle at top right, rgba(111,194,255,0.08), transparent 25%),
+        linear-gradient(180deg, var(--bg) 0%, var(--bg-2) 100%);
       color:var(--text);
-      line-height:1.65;
+      line-height:1.7;
       overflow-x:hidden;
     }
 
@@ -55,16 +60,24 @@
     }
 
     .container{
-      width:min(var(--max), calc(100% - 32px));
+      width:min(var(--max), calc(100% - 36px));
       margin:0 auto;
+    }
+
+    .section-shell{
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border:1px solid rgba(255,255,255,0.04);
+      border-radius:24px;
+      padding:24px;
+      box-shadow:var(--shadow-soft);
     }
 
     header{
       position:sticky;
       top:0;
       z-index:1000;
-      background:rgba(9,16,28,0.94);
-      backdrop-filter:blur(10px);
+      background:rgba(8,17,31,0.94);
+      backdrop-filter:blur(12px);
       border-bottom:1px solid var(--border);
     }
 
@@ -78,11 +91,29 @@
     }
 
     .brand{
-      font-size:1.1rem;
+      display:flex;
+      align-items:center;
+      gap:12px;
+      font-size:1.08rem;
       font-weight:700;
       letter-spacing:0.2px;
       color:#ffffff;
       flex:1 1 100%;
+    }
+
+    .brand-badge{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-width:42px;
+      height:42px;
+      padding:0 12px;
+      border-radius:999px;
+      background:linear-gradient(135deg, rgba(111,194,255,0.25), rgba(143,240,200,0.18));
+      border:1px solid var(--border);
+      box-shadow:var(--shadow-soft);
+      font-size:0.92rem;
+      color:#fff;
     }
 
     nav{
@@ -107,85 +138,100 @@
       border:1px solid var(--border);
       font-size:0.92rem;
       line-height:1.2;
+      transition:transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
     }
 
     nav a:hover{
       background:rgba(255,255,255,0.10);
+      border-color:rgba(111,194,255,0.35);
+      transform:translateY(-1px);
       text-decoration:none;
     }
 
     .bandeau-photos{
-      padding:14px 0 8px;
+      padding:18px 0 8px;
     }
 
     .photos-cote-a-cote{
       display:grid;
       grid-template-columns:1fr 1fr;
-      gap:16px;
+      gap:18px;
       align-items:stretch;
     }
 
     .photo-card{
       background:linear-gradient(180deg, #10213d 0%, #183157 100%);
       border:1px solid var(--border);
-      border-radius:20px;
+      border-radius:22px;
       overflow:hidden;
       box-shadow:var(--shadow);
       min-width:0;
+      position:relative;
+    }
+
+    .photo-card::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+      background:linear-gradient(180deg, rgba(255,255,255,0.08), transparent 25%);
     }
 
     .photo-card img{
       width:100%;
-      height:240px;
+      height:260px;
       object-fit:cover;
       object-position:center;
     }
 
     .photo-legende{
-      padding:12px 14px 14px;
+      padding:13px 15px 15px;
       color:var(--muted);
       font-size:0.95rem;
       border-top:1px solid var(--border);
-      background:rgba(0,0,0,0.08);
+      background:rgba(0,0,0,0.10);
     }
 
     .hero{
-      padding:22px 0 20px;
+      padding:18px 0 18px;
     }
 
     .hero-grid{
       display:grid;
-      grid-template-columns:1.1fr 0.9fr;
+      grid-template-columns:1.02fr 0.98fr;
       gap:22px;
-      align-items:start;
+      align-items:stretch;
     }
 
     .hero-card{
-      background:linear-gradient(180deg, rgba(111,194,255,0.08), rgba(143,240,200,0.05));
+      background:
+        linear-gradient(180deg, rgba(111,194,255,0.08), rgba(143,240,200,0.05)),
+        linear-gradient(180deg, var(--card) 0%, var(--card-2) 100%);
       border:1px solid var(--border);
       border-radius:var(--radius);
-      padding:24px;
+      padding:26px;
       box-shadow:var(--shadow);
       min-width:0;
+      height:100%;
     }
 
     .hero h1{
-      font-size:2rem;
-      line-height:1.15;
-      margin:0 0 14px;
+      font-size:2.15rem;
+      line-height:1.12;
+      margin:0 0 16px;
     }
 
     .hero p{
       font-size:1.02rem;
       color:var(--muted);
-      margin:0 0 12px;
+      margin:0 0 14px;
     }
 
     .hero-badges{
       display:flex;
       flex-wrap:wrap;
       gap:8px;
-      margin-top:16px;
+      margin-top:18px;
     }
 
     .badge{
@@ -195,27 +241,84 @@
       border-radius:999px;
       color:#fff;
       font-size:0.88rem;
+      box-shadow:var(--shadow-soft);
+    }
+
+    .hero-side{
+      display:grid;
+      gap:16px;
+    }
+
+    .hero-mini{
+      background:linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+      border:1px solid var(--border);
+      border-radius:18px;
+      padding:18px;
+      box-shadow:var(--shadow-soft);
+    }
+
+    .hero-mini h2{
+      margin:0 0 10px;
+      font-size:1.08rem;
+    }
+
+    .hero-mini p{
+      margin:0;
+      color:var(--muted);
+      font-size:0.96rem;
+    }
+
+    .hero-mini ul{
+      margin:0;
+      padding-left:18px;
+      color:var(--text);
+    }
+
+    .hero-mini li + li{
+      margin-top:8px;
     }
 
     main{
-      padding-bottom:34px;
+      padding:8px 0 34px;
     }
 
     section{
-      padding:22px 0;
+      padding:18px 0 22px;
       scroll-margin-top:110px;
     }
 
+    .section-head{
+      display:flex;
+      flex-wrap:wrap;
+      align-items:flex-end;
+      justify-content:space-between;
+      gap:12px;
+      margin-bottom:14px;
+    }
+
     .section-title{
-      margin:0 0 10px;
-      font-size:1.75rem;
-      line-height:1.2;
+      margin:0;
+      font-size:1.78rem;
+      line-height:1.15;
+    }
+
+    .section-chip{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 12px;
+      border-radius:999px;
+      background:rgba(111,194,255,0.08);
+      color:#d9ecff;
+      border:1px solid rgba(111,194,255,0.18);
+      font-size:0.88rem;
+      white-space:nowrap;
     }
 
     .section-intro{
       margin:0 0 18px;
       color:var(--muted);
-      max-width:900px;
+      max-width:960px;
     }
 
     .grid-2{
@@ -237,6 +340,7 @@
       padding:20px;
       box-shadow:var(--shadow);
       min-width:0;
+      height:100%;
     }
 
     .card h3{
@@ -269,11 +373,13 @@
       box-shadow:var(--shadow);
       min-width:0;
       overflow:hidden;
+      height:100%;
     }
 
     .figure svg{
       width:100%;
       height:auto;
+      border-radius:14px;
     }
 
     .figure-caption{
@@ -288,7 +394,7 @@
     }
 
     .note{
-      border-left:4px solid var(--warning);
+      border-left:4px solid var(--accent-3);
       padding:14px 16px;
       background:rgba(255,210,122,0.08);
       border-radius:12px;
@@ -315,11 +421,17 @@
       border:1px solid var(--border);
       border-radius:18px;
       padding:16px;
+      box-shadow:var(--shadow-soft);
     }
 
     .step h3{
       margin:0 0 8px;
       line-height:1.25;
+    }
+
+    .step p{
+      margin:0;
+      color:var(--muted);
     }
 
     .compare{
@@ -330,7 +442,7 @@
 
     table{
       width:100%;
-      min-width:700px;
+      min-width:720px;
       border-collapse:collapse;
       background:linear-gradient(180deg, var(--card) 0%, var(--card-2) 100%);
       border:1px solid var(--border);
@@ -355,24 +467,27 @@
       border-bottom:none;
     }
 
-    .dispositif-image{
+    .dispositif-image,
+    .image-bloc{
       margin:14px 0 14px;
       border-radius:16px;
       overflow:hidden;
       border:1px solid var(--border);
       background:rgba(255,255,255,0.04);
-      box-shadow:var(--shadow);
+      box-shadow:var(--shadow-soft);
     }
 
-    .dispositif-image img{
+    .dispositif-image img,
+    .image-bloc img{
       width:100%;
-      height:220px;
+      height:230px;
       object-fit:cover;
       object-position:center;
       display:block;
     }
 
-    .dispositif-image figcaption{
+    .dispositif-image figcaption,
+    .image-caption{
       padding:10px 12px 12px;
       color:var(--muted);
       font-size:0.92rem;
@@ -380,11 +495,38 @@
       border-top:1px solid var(--border);
     }
 
-    footer{
-      padding:26px 0 36px;
+    .image-row{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:18px;
+      margin-top:18px;
+    }
+
+    .quick-facts{
+      display:grid;
+      grid-template-columns:repeat(4, 1fr);
+      gap:14px;
+      margin-top:18px;
+    }
+
+    .fact{
+      background:linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.025));
+      border:1px solid var(--border);
+      border-radius:18px;
+      padding:16px;
+      box-shadow:var(--shadow-soft);
+    }
+
+    .fact strong{
+      display:block;
+      margin-bottom:6px;
+      color:#fff;
+      font-size:1rem;
+    }
+
+    .fact span{
       color:var(--muted);
-      border-top:1px solid var(--border);
-      margin-top:20px;
+      font-size:0.92rem;
     }
 
     .small{
@@ -392,10 +534,20 @@
       color:var(--muted);
     }
 
+    footer{
+      padding:24px 0 36px;
+      color:var(--muted);
+      border-top:1px solid var(--border);
+      margin-top:12px;
+      background:rgba(0,0,0,0.08);
+    }
+
     @media (max-width: 1100px){
       .hero-grid,
       .grid-2,
-      .grid-3{
+      .grid-3,
+      .quick-facts,
+      .image-row{
         grid-template-columns:1fr;
       }
     }
@@ -403,10 +555,6 @@
     @media (max-width: 768px){
       .container{
         width:min(var(--max), calc(100% - 20px));
-      }
-
-      header{
-        position:sticky;
       }
 
       .topbar{
@@ -437,7 +585,7 @@
       }
 
       .photo-card img{
-        height:180px;
+        height:185px;
       }
 
       .photo-legende{
@@ -446,18 +594,19 @@
       }
 
       .hero{
-        padding:18px 0 16px;
+        padding:16px 0 14px;
       }
 
       .hero-card,
       .card,
-      .figure{
+      .figure,
+      .section-shell{
         padding:16px;
         border-radius:18px;
       }
 
       .hero h1{
-        font-size:1.45rem;
+        font-size:1.48rem;
       }
 
       .hero p{
@@ -483,7 +632,9 @@
       .step li,
       .figure-caption,
       .note,
-      .danger-note{
+      .danger-note,
+      .hero-mini p,
+      .hero-mini li{
         font-size:0.95rem;
       }
 
@@ -492,21 +643,24 @@
         padding:6px 10px;
       }
 
-      .dispositif-image img{
+      .dispositif-image img,
+      .image-bloc img{
         height:180px;
       }
 
-      .dispositif-image figcaption{
+      .dispositif-image figcaption,
+      .image-caption{
         font-size:0.9rem;
       }
 
       section{
-        padding:18px 0;
-        scroll-margin-top:130px;
+        padding:16px 0 18px;
+        scroll-margin-top:132px;
       }
 
       .grid-2,
-      .grid-3{
+      .grid-3,
+      .quick-facts{
         gap:14px;
       }
 
@@ -530,6 +684,16 @@
 
       .topbar{
         padding:10px 0;
+      }
+
+      .brand{
+        gap:8px;
+      }
+
+      .brand-badge{
+        min-width:38px;
+        height:38px;
+        font-size:0.82rem;
       }
 
       nav ul{
@@ -559,7 +723,9 @@
 
       .card,
       .hero-card,
-      .figure{
+      .figure,
+      .hero-mini,
+      .section-shell{
         padding:14px;
       }
 
@@ -581,11 +747,13 @@
         font-size:0.78rem;
       }
 
-      .dispositif-image img{
+      .dispositif-image img,
+      .image-bloc img{
         height:155px;
       }
 
-      .dispositif-image figcaption{
+      .dispositif-image figcaption,
+      .image-caption{
         font-size:0.88rem;
       }
 
@@ -600,7 +768,10 @@
 
   <header>
     <div class="container topbar">
-      <div class="brand">Forces appliquées sur un avion</div>
+      <div class="brand">
+        <span class="brand-badge">Aéro</span>
+        <span>Forces appliquées sur un avion</span>
+      </div>
       <nav aria-label="Navigation principale">
         <ul>
           <li><a href="#forces">Les forces</a></li>
@@ -655,61 +826,32 @@
           et des <span class="highlight">aérofreins</span>.
         </p>
 
+        <div class="hero-badges">
+          <span class="badge">Décollage</span>
+          <span class="badge">Vol stabilisé</span>
+          <span class="badge">Atterrissage</span>
+          <span class="badge">Portance</span>
+          <span class="badge">Angle d’attaque</span>
+          <span class="badge">Décrochage</span>
+        </div>
+      </div>
 
-      <div class="figure" aria-label="Illustration générale des quatre forces">
-        <svg viewBox="0 0 900 620" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Schéma des quatre forces sur un avion">
-          <defs>
-            <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stop-color="#17335f"/>
-              <stop offset="100%" stop-color="#0d1e39"/>
-            </linearGradient>
-            <marker id="arrowBlue" markerWidth="10" markerHeight="10" refX="6" refY="3" orient="auto">
-              <polygon points="0 0, 6 3, 0 6" fill="#6fc2ff"/>
-            </marker>
-            <marker id="arrowGreen" markerWidth="10" markerHeight="10" refX="6" refY="3" orient="auto">
-              <polygon points="0 0, 6 3, 0 6" fill="#8ff0c8"/>
-            </marker>
-            <marker id="arrowOrange" markerWidth="10" markerHeight="10" refX="6" refY="3" orient="auto">
-              <polygon points="0 0, 6 3, 0 6" fill="#ffd27a"/>
-            </marker>
-            <marker id="arrowRed" markerWidth="10" markerHeight="10" refX="6" refY="3" orient="auto">
-              <polygon points="0 0, 6 3, 0 6" fill="#ff8c8c"/>
-            </marker>
-          </defs>
+      <div class="hero-side">
+        <figure class="image-bloc">
+          <img src="vol-stabilise.jfif" alt="Vol stabilisé avec les quatre forces appliquées sur un avion">
+          <figcaption class="image-caption">
+            Vol stabilisé : la portance équilibre le poids, tandis que la poussée équilibre la traînée.
+          </figcaption>
+        </figure>
 
-          <rect width="900" height="620" fill="url(#sky)"/>
-          <ellipse cx="720" cy="95" rx="52" ry="52" fill="#ffe08a" opacity="0.95"/>
-
-          <g opacity="0.20" fill="#ffffff">
-            <ellipse cx="180" cy="110" rx="70" ry="22"/>
-            <ellipse cx="220" cy="105" rx="40" ry="18"/>
-            <ellipse cx="620" cy="150" rx="75" ry="24"/>
-            <ellipse cx="665" cy="145" rx="40" ry="16"/>
-          </g>
-
-          <g transform="translate(210 300)">
-            <path d="M0 0 L170 -8 L285 -42 L520 -32 L548 -14 L350 -4 L260 8 L168 34 L65 26 Z" fill="#dfe8f3"/>
-            <path d="M225 -21 L290 -105 L320 -104 L286 -16 Z" fill="#dfe8f3"/>
-            <path d="M375 -25 L440 -88 L465 -85 L430 -22 Z" fill="#dfe8f3"/>
-            <path d="M122 0 L75 -75 L98 -77 L148 -6 Z" fill="#dfe8f3"/>
-            <circle cx="100" cy="11" r="8" fill="#7fa7cf"/>
-            <circle cx="326" cy="2" r="8" fill="#7fa7cf"/>
-          </g>
-
-          <line x1="435" y1="300" x2="435" y2="135" stroke="#8ff0c8" stroke-width="7" marker-end="url(#arrowGreen)"/>
-          <text x="458" y="150" fill="#8ff0c8" font-size="28" font-family="Arial" font-weight="700">Portance</text>
-
-          <line x1="435" y1="300" x2="435" y2="460" stroke="#ff8c8c" stroke-width="7" marker-end="url(#arrowRed)"/>
-          <text x="460" y="448" fill="#ffb3b3" font-size="28" font-family="Arial" font-weight="700">Poids</text>
-
-          <line x1="435" y1="300" x2="700" y2="300" stroke="#6fc2ff" stroke-width="7" marker-end="url(#arrowBlue)"/>
-          <text x="588" y="280" fill="#9ed8ff" font-size="28" font-family="Arial" font-weight="700">Poussée</text>
-
-          <line x1="435" y1="300" x2="190" y2="300" stroke="#ffd27a" stroke-width="7" marker-end="url(#arrowOrange)"/>
-          <text x="100" y="280" fill="#ffe3a6" font-size="28" font-family="Arial" font-weight="700">Traînée</text>
-        </svg>
-        <div class="figure-caption">
-          Schéma général : ces quatre forces existent tout au long du vol. Leur équilibre change selon la phase.
+        <div class="hero-mini">
+          <h2>Ce que cette page explique</h2>
+          <ul>
+            <li>Les quatre forces fondamentales.</li>
+            <li>Le décollage, le vol stabilisé et l’atterrissage.</li>
+            <li>La différence entre assiette et angle d’attaque.</li>
+            <li>Le rôle des volets, des becs et des aérofreins.</li>
+          </ul>
         </div>
       </div>
     </div>
@@ -718,641 +860,618 @@
   <main class="container">
 
     <section id="forces">
-      <h2 class="section-title">1. Les quatre forces principales</h2>
-      <p class="section-intro">
-        L’avion n’est pas seulement porté par l’air. Il subit plusieurs actions physiques. Pour comprendre simplement, il faut mémoriser ces quatre forces.
-      </p>
+      <div class="section-shell">
+        <div class="section-head">
+          <h2 class="section-title">1. Les quatre forces principales</h2>
+          <div class="section-chip">Base indispensable</div>
+        </div>
 
-      <div class="grid-2">
-        <article class="card">
-          <h3>La poussée</h3>
-          <p>
-            La poussée est la force créée par les moteurs. Elle fait avancer l’avion.
-          </p>
-          <ul>
-            <li>Elle agit vers l’avant.</li>
-            <li>Elle sert à accélérer sur la piste.</li>
-            <li>Elle doit compenser la traînée pour garder la vitesse.</li>
-          </ul>
-        </article>
+        <p class="section-intro">
+          L’avion n’est pas seulement porté par l’air. Il subit plusieurs actions physiques. Pour comprendre simplement, il faut mémoriser ces quatre forces.
+        </p>
 
-        <article class="card">
-          <h3>La traînée</h3>
-          <p>
-            La traînée est la résistance de l’air. Elle s’oppose à l’avancement.
-          </p>
-          <ul>
-            <li>Elle agit vers l’arrière.</li>
-            <li>Elle augmente quand la vitesse augmente.</li>
-            <li>Elle augmente aussi avec certains dispositifs sortis, comme les volets ou les aérofreins.</li>
-          </ul>
-        </article>
+        <div class="grid-2">
+          <article class="card">
+            <h3>La poussée</h3>
+            <p>
+              La poussée est la force créée par les moteurs. Elle fait avancer l’avion.
+            </p>
+            <ul>
+              <li>Elle agit vers l’avant.</li>
+              <li>Elle sert à accélérer sur la piste.</li>
+              <li>Elle doit compenser la traînée pour garder la vitesse.</li>
+            </ul>
+          </article>
 
-        <article class="card">
-          <h3>Le poids</h3>
-          <p>
-            Le poids est lié à la gravité. Il attire l’avion vers le sol.
-          </p>
-          <ul>
-            <li>Il agit vers le bas.</li>
-            <li>Il dépend de la masse totale de l’avion.</li>
-            <li>Carburant, passagers et fret augmentent ce poids.</li>
-          </ul>
-        </article>
+          <article class="card">
+            <h3>La traînée</h3>
+            <p>
+              La traînée est la résistance de l’air. Elle s’oppose à l’avancement.
+            </p>
+            <ul>
+              <li>Elle agit vers l’arrière.</li>
+              <li>Elle augmente quand la vitesse augmente.</li>
+              <li>Elle augmente aussi avec certains dispositifs sortis, comme les volets ou les aérofreins.</li>
+            </ul>
+          </article>
 
-        <article class="card">
-          <h3>La portance</h3>
-          <p>
-            La portance est la force qui soutient l’avion dans l’air. Elle est produite en grande partie par les ailes.
-          </p>
-          <ul>
-            <li>Elle agit globalement vers le haut.</li>
-            <li>Elle dépend de la vitesse, du profil de l’aile et de l’angle d’attaque.</li>
-            <li>Elle doit équilibrer le poids pour maintenir l’altitude.</li>
-          </ul>
-        </article>
-      </div>
+          <article class="card">
+            <h3>Le poids</h3>
+            <p>
+              Le poids est lié à la gravité. Il attire l’avion vers le sol.
+            </p>
+            <ul>
+              <li>Il agit vers le bas.</li>
+              <li>Il dépend de la masse totale de l’avion.</li>
+              <li>Carburant, passagers et fret augmentent ce poids.</li>
+            </ul>
+          </article>
 
-      <div class="note">
-        À retenir : si la poussée dépasse la traînée, l’avion accélère.  
-        Si la portance dépasse le poids, l’avion monte.
+          <article class="card">
+            <h3>La portance</h3>
+            <p>
+              La portance est la force qui soutient l’avion dans l’air. Elle est produite en grande partie par les ailes.
+            </p>
+            <ul>
+              <li>Elle agit globalement vers le haut.</li>
+              <li>Elle dépend de la vitesse, du profil de l’aile et de l’angle d’attaque.</li>
+              <li>Elle doit équilibrer le poids pour maintenir l’altitude.</li>
+            </ul>
+          </article>
+        </div>
+
+        <div class="quick-facts">
+          <div class="fact">
+            <strong>Poussée &gt; traînée</strong>
+            <span>L’avion accélère.</span>
+          </div>
+          <div class="fact">
+            <strong>Poussée = traînée</strong>
+            <span>La vitesse se stabilise.</span>
+          </div>
+          <div class="fact">
+            <strong>Portance &gt; poids</strong>
+            <span>L’avion monte.</span>
+          </div>
+          <div class="fact">
+            <strong>Portance = poids</strong>
+            <span>L’altitude se maintient.</span>
+          </div>
+        </div>
+
+        <div class="note">
+          À retenir : si la poussée dépasse la traînée, l’avion accélère.
+          Si la portance dépasse le poids, l’avion monte.
+        </div>
       </div>
     </section>
 
     <section id="decollage">
-      <h2 class="section-title">2. Le décollage</h2>
-      <p class="section-intro">
-        Le décollage n’est pas un saut. C’est une phase progressive où l’avion accélère, crée de plus en plus de portance, puis quitte le sol quand les conditions sont réunies.
-      </p>
-
-      <div class="grid-2">
-        <div class="card">
-          <h3>Phase 1 : accélération sur la piste</h3>
-          <p>
-            Le pilote met de la puissance. Les moteurs produisent une forte poussée et l’avion prend de la vitesse.
-          </p>
-<ul>
-  <li>La poussée est très importante.</li>
-  <li>La traînée augmente avec la vitesse.</li>
-  <li>La portance augmente elle aussi car l’air circule plus vite autour des ailes.</li>
-</ul>
-
-<div class="image-bloc">
-  <img src="avion-decollage.jfif" alt="Avion au décollage" class="image-decollage">
-</div>
+      <div class="section-shell">
+        <div class="section-head">
+          <h2 class="section-title">2. Le décollage</h2>
+          <div class="section-chip">Mise en vitesse et rotation</div>
         </div>
 
-        <div class="figure">
-          <svg viewBox="0 0 900 500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Décollage d’un avion">
-            <rect width="900" height="500" fill="#132847"/>
-            <rect y="360" width="900" height="140" fill="#505762"/>
-            <line x1="0" y1="430" x2="900" y2="430" stroke="#d9dee7" stroke-width="8" stroke-dasharray="34 20"/>
-            <g transform="translate(220 280)">
-              <path d="M0 0 L150 -6 L245 -32 L430 -25 L455 -10 L300 -2 L210 12 L140 30 L50 23 Z" fill="#e8eef7"/>
-              <path d="M185 -16 L235 -84 L260 -84 L236 -13 Z" fill="#e8eef7"/>
-              <path d="M308 -20 L360 -72 L382 -70 L352 -18 Z" fill="#e8eef7"/>
-              <path d="M100 2 L66 -52 L86 -54 L122 -4 Z" fill="#e8eef7"/>
-              <circle cx="95" cy="10" r="14" fill="#2d3748"/>
-              <circle cx="285" cy="6" r="14" fill="#2d3748"/>
-            </g>
-            <line x1="450" y1="275" x2="710" y2="275" stroke="#6fc2ff" stroke-width="8"/>
-            <polygon points="710,275 686,262 686,288" fill="#6fc2ff"/>
-            <text x="560" y="246" fill="#9ed8ff" font-size="30" font-family="Arial" font-weight="700">Poussée forte</text>
+        <p class="section-intro">
+          Le décollage n’est pas un saut. C’est une phase progressive où l’avion accélère, crée de plus en plus de portance, puis quitte le sol quand les conditions sont réunies.
+        </p>
 
-            <line x1="440" y1="275" x2="440" y2="150" stroke="#8ff0c8" stroke-width="8"/>
-            <polygon points="440,150 427,174 453,174" fill="#8ff0c8"/>
-            <text x="468" y="165" fill="#8ff0c8" font-size="30" font-family="Arial" font-weight="700">Portance</text>
+        <div class="grid-2">
+          <div class="card">
+            <h3>Phase 1 : accélération sur la piste</h3>
+            <p>
+              Le pilote met de la puissance. Les moteurs produisent une forte poussée et l’avion prend de la vitesse.
+            </p>
+            <ul>
+              <li>La poussée est très importante.</li>
+              <li>La traînée augmente avec la vitesse.</li>
+              <li>La portance augmente elle aussi car l’air circule plus vite autour des ailes.</li>
+            </ul>
 
-            <line x1="440" y1="275" x2="440" y2="385" stroke="#ff8c8c" stroke-width="8"/>
-            <polygon points="440,385 427,361 453,361" fill="#ff8c8c"/>
-            <text x="468" y="392" fill="#ffb3b3" font-size="30" font-family="Arial" font-weight="700">Poids</text>
-          </svg>
-          <div class="figure-caption">
-            La vitesse sur la piste est indispensable : sans vitesse suffisante, pas assez de portance.
+            <figure class="image-bloc">
+              <img src="avion-decollage.jfif" alt="Avion au décollage">
+              <figcaption class="image-caption">Décollage réel observé sur la piste.</figcaption>
+            </figure>
           </div>
-        </div>
 
-        <div class="card">
-          <h3>Phase 2 : rotation</h3>
-          <p>
-            À une vitesse déterminée, le pilote relève légèrement le nez. C’est la rotation.
-          </p>
-          <ul>
-            <li>L’assiette devient plus cabrée.</li>
-            <li>L’angle d’attaque augmente.</li>
-            <li>La portance devient suffisante pour quitter le sol.</li>
-          </ul>
-        </div>
+          <figure class="image-bloc">
+            <img src="decollage-forces.jfif" alt="Décollage avec les forces appliquées sur un avion">
+            <figcaption class="image-caption">
+              Décollage : la poussée est forte, la traînée s’oppose au mouvement, le poids agit vers le bas et la portance augmente jusqu’au départ du sol.
+            </figcaption>
+          </figure>
 
-        <div class="card">
-          <h3>Phase 3 : montée initiale</h3>
-          <p>
-            Une fois décollé, l’avion continue de monter avec prudence. Il faut un bon compromis entre montée et vitesse.
-          </p>
-          <ul>
-            <li>Trop cabrer est une mauvaise idée.</li>
-            <li>Un angle d’attaque excessif peut provoquer un décrochage.</li>
-            <li>Le pilote suit des vitesses précises de sécurité.</li>
-          </ul>
+          <div class="card">
+            <h3>Phase 2 : rotation</h3>
+            <p>
+              À une vitesse déterminée, le pilote relève légèrement le nez. C’est la rotation.
+            </p>
+            <ul>
+              <li>L’assiette devient plus cabrée.</li>
+              <li>L’angle d’attaque augmente.</li>
+              <li>La portance devient suffisante pour quitter le sol.</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <h3>Phase 3 : montée initiale</h3>
+            <p>
+              Une fois décollé, l’avion continue de monter avec prudence. Il faut un bon compromis entre montée et vitesse.
+            </p>
+            <ul>
+              <li>Trop cabrer est une mauvaise idée.</li>
+              <li>Un angle d’attaque excessif peut provoquer un décrochage.</li>
+              <li>Le pilote suit des vitesses précises de sécurité.</li>
+            </ul>
+          </div>
         </div>
       </div>
     </section>
 
     <section id="vol">
-      <h2 class="section-title">3. Le vol</h2>
-      <p class="section-intro">
-        En croisière ou en vol stabilisé, les forces se compensent globalement. Cela ne veut pas dire qu’elles disparaissent, mais qu’elles s’équilibrent.
-      </p>
-
-      <div class="grid-3">
-        <article class="card">
-          <h3>Vol horizontal stabilisé</h3>
-          <ul>
-            <li>La portance équilibre le poids.</li>
-            <li>La poussée équilibre la traînée.</li>
-            <li>L’altitude et la vitesse restent à peu près constantes.</li>
-          </ul>
-        </article>
-
-        <article class="card">
-          <h3>Montée</h3>
-          <ul>
-            <li>La poussée est augmentée.</li>
-            <li>L’assiette est souvent plus cabrée.</li>
-            <li>L’énergie disponible permet à l’avion de gagner de l’altitude.</li>
-          </ul>
-        </article>
-
-        <article class="card">
-          <h3>Descente</h3>
-          <ul>
-            <li>La poussée est souvent réduite.</li>
-            <li>L’avion perd de l’altitude de manière contrôlée.</li>
-            <li>La gestion de la vitesse reste essentielle.</li>
-          </ul>
-        </article>
-      </div>
-
-      <div class="grid-2" style="margin-top:18px;">
-        <div class="figure">
-          <svg viewBox="0 0 900 500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Avion en vol horizontal">
-            <rect width="900" height="500" fill="#112847"/>
-            <g opacity="0.18" fill="#ffffff">
-              <ellipse cx="180" cy="120" rx="75" ry="24"/>
-              <ellipse cx="225" cy="116" rx="42" ry="18"/>
-              <ellipse cx="650" cy="92" rx="82" ry="24"/>
-              <ellipse cx="690" cy="87" rx="45" ry="18"/>
-            </g>
-            <g transform="translate(210 255)">
-              <path d="M0 0 L170 -8 L285 -42 L520 -32 L548 -14 L350 -4 L260 8 L168 34 L65 26 Z" fill="#dfe8f3"/>
-              <path d="M225 -21 L290 -105 L320 -104 L286 -16 Z" fill="#dfe8f3"/>
-              <path d="M375 -25 L440 -88 L465 -85 L430 -22 Z" fill="#dfe8f3"/>
-              <path d="M122 0 L75 -75 L98 -77 L148 -6 Z" fill="#dfe8f3"/>
-            </g>
-
-            <line x1="435" y1="255" x2="435" y2="120" stroke="#8ff0c8" stroke-width="8"/>
-            <polygon points="435,120 422,144 448,144" fill="#8ff0c8"/>
-            <line x1="435" y1="255" x2="435" y2="390" stroke="#ff8c8c" stroke-width="8"/>
-            <polygon points="435,390 422,366 448,366" fill="#ff8c8c"/>
-            <line x1="435" y1="255" x2="650" y2="255" stroke="#6fc2ff" stroke-width="8"/>
-            <polygon points="650,255 626,242 626,268" fill="#6fc2ff"/>
-            <line x1="435" y1="255" x2="220" y2="255" stroke="#ffd27a" stroke-width="8"/>
-            <polygon points="220,255 244,242 244,268" fill="#ffd27a"/>
-
-            <text x="460" y="140" fill="#8ff0c8" font-size="28" font-family="Arial" font-weight="700">Portance</text>
-            <text x="460" y="395" fill="#ffb3b3" font-size="28" font-family="Arial" font-weight="700">Poids</text>
-            <text x="560" y="230" fill="#9ed8ff" font-size="28" font-family="Arial" font-weight="700">Poussée</text>
-            <text x="110" y="230" fill="#ffe3a6" font-size="28" font-family="Arial" font-weight="700">Traînée</text>
-          </svg>
-          <div class="figure-caption">
-            En vol stabilisé, l’avion ne lutte pas contre une seule force, mais cherche un équilibre global.
-          </div>
+      <div class="section-shell">
+        <div class="section-head">
+          <h2 class="section-title">3. Le vol</h2>
+          <div class="section-chip">Équilibre aérodynamique</div>
         </div>
 
-        <div class="card">
-          <h3>Comment l’aile crée la portance</h3>
-          <p>
-            L’aile modifie l’écoulement de l’air. Elle dévie une partie de l’air vers le bas et crée aussi une différence de pression entre sa face supérieure et sa face inférieure.
-          </p>
-          <ul>
-            <li><strong>Extrados</strong> : partie supérieure de l’aile.</li>
-            <li><strong>Intrados</strong> : partie inférieure de l’aile.</li>
-            <li>La forme du profil de l’aile aide à créer la portance.</li>
-            <li>La vitesse et l’angle d’attaque influencent fortement le résultat.</li>
-          </ul>
-          <div class="note">
-            Il est trop simpliste de dire que l’avion vole uniquement parce que l’air va plus vite au-dessus.  
-            L’explication correcte fait intervenir l’écoulement de l’air, la déviation du flux et la répartition des pressions.
+        <p class="section-intro">
+          En croisière ou en vol stabilisé, les forces se compensent globalement. Cela ne veut pas dire qu’elles disparaissent, mais qu’elles s’équilibrent.
+        </p>
+
+        <div class="grid-3">
+          <article class="card">
+            <h3>Vol horizontal stabilisé</h3>
+            <ul>
+              <li>La portance équilibre le poids.</li>
+              <li>La poussée équilibre la traînée.</li>
+              <li>L’altitude et la vitesse restent à peu près constantes.</li>
+            </ul>
+          </article>
+
+          <article class="card">
+            <h3>Montée</h3>
+            <ul>
+              <li>La poussée est augmentée.</li>
+              <li>L’assiette est souvent plus cabrée.</li>
+              <li>L’énergie disponible permet à l’avion de gagner de l’altitude.</li>
+            </ul>
+          </article>
+
+          <article class="card">
+            <h3>Descente</h3>
+            <ul>
+              <li>La poussée est souvent réduite.</li>
+              <li>L’avion perd de l’altitude de manière contrôlée.</li>
+              <li>La gestion de la vitesse reste essentielle.</li>
+            </ul>
+          </article>
+        </div>
+
+        <div class="grid-2" style="margin-top:18px;">
+          <figure class="image-bloc">
+            <img src="vol-stabilise.jfif" alt="Vol stabilisé avec les forces appliquées sur un avion">
+            <figcaption class="image-caption">
+              En vol stabilisé, les quatre forces principales s’équilibrent.
+            </figcaption>
+          </figure>
+
+          <div class="card">
+            <h3>Comment l’aile crée la portance</h3>
+            <p>
+              L’aile modifie l’écoulement de l’air. Elle dévie une partie de l’air vers le bas et crée aussi une différence de pression entre sa face supérieure et sa face inférieure.
+            </p>
+            <ul>
+              <li><strong>Extrados</strong> : partie supérieure de l’aile.</li>
+              <li><strong>Intrados</strong> : partie inférieure de l’aile.</li>
+              <li>La forme du profil de l’aile aide à créer la portance.</li>
+              <li>La vitesse et l’angle d’attaque influencent fortement le résultat.</li>
+            </ul>
+            <div class="note">
+              Il est trop simpliste de dire que l’avion vole uniquement parce que l’air va plus vite au-dessus.
+              L’explication correcte fait intervenir l’écoulement de l’air, la déviation du flux et la répartition des pressions.
+            </div>
           </div>
         </div>
       </div>
     </section>
 
     <section id="atterrissage">
-      <h2 class="section-title">4. L’atterrissage</h2>
-      <p class="section-intro">
-        L’atterrissage consiste à ramener l’avion au sol en contrôlant à la fois la vitesse, la pente de descente et la diminution progressive de la portance.
-      </p>
-
-      <div class="timeline">
-        <div class="step">
-          <h3>Approche</h3>
-          <p>
-            Le pilote réduit la poussée et configure l’avion pour voler plus lentement sans perdre le contrôle.
-          </p>
+      <div class="section-shell">
+        <div class="section-head">
+          <h2 class="section-title">4. L’atterrissage</h2>
+          <div class="section-chip">Réduction de vitesse et de portance</div>
         </div>
 
-        <div class="step">
-          <h3>Arrondi</h3>
-          <p>
-            Juste avant le sol, le pilote relève légèrement le nez afin de réduire le taux de descente.
-          </p>
-        </div>
+        <p class="section-intro">
+          L’atterrissage consiste à ramener l’avion au sol en contrôlant à la fois la vitesse, la pente de descente et la diminution progressive de la portance.
+        </p>
 
-        <div class="step">
-          <h3>Toucher des roues et freinage</h3>
-          <p>
-            Une fois sur la piste, la portance doit diminuer rapidement pour transférer le poids sur le train d’atterrissage et permettre un freinage efficace.
-          </p>
-        </div>
-      </div>
-
-      <div class="grid-2" style="margin-top:18px;">
-        <div class="card">
-          <h3>Forces pendant l’atterrissage</h3>
-          <ul>
-            <li>La poussée est faible ou réduite.</li>
-            <li>La traînée est souvent augmentée par les volets et d’autres dispositifs.</li>
-            <li>La portance existe encore pendant l’approche.</li>
-            <li>Après le toucher, il faut au contraire faire diminuer cette portance.</li>
-          </ul>
-        </div>
-<div class="image-bloc">
-  <img src="avion-atterissage.jfif" alt="Avion au décollage" class="image-decollage">
-</div>
-        <div class="figure">
-          <svg viewBox="0 0 900 500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Avion en approche pour atterrissage">
-            <rect width="900" height="500" fill="#132847"/>
-            <rect y="385" width="900" height="115" fill="#57616f"/>
-            <line x1="0" y1="438" x2="900" y2="438" stroke="#dbe4f0" stroke-width="8" stroke-dasharray="34 20"/>
-
-            <g transform="translate(230 220) rotate(6)">
-              <path d="M0 0 L170 -8 L285 -42 L520 -32 L548 -14 L350 -4 L260 8 L168 34 L65 26 Z" fill="#dfe8f3"/>
-              <path d="M225 -21 L290 -105 L320 -104 L286 -16 Z" fill="#dfe8f3"/>
-              <path d="M375 -25 L440 -88 L465 -85 L430 -22 Z" fill="#dfe8f3"/>
-              <path d="M122 0 L75 -75 L98 -77 L148 -6 Z" fill="#dfe8f3"/>
-            </g>
-
-            <line x1="430" y1="235" x2="590" y2="235" stroke="#6fc2ff" stroke-width="7"/>
-            <polygon points="590,235 568,223 568,247" fill="#6fc2ff"/>
-            <line x1="430" y1="235" x2="250" y2="235" stroke="#ffd27a" stroke-width="8"/>
-            <polygon points="250,235 272,223 272,247" fill="#ffd27a"/>
-            <line x1="430" y1="235" x2="430" y2="350" stroke="#ff8c8c" stroke-width="8"/>
-            <polygon points="430,350 417,326 443,326" fill="#ff8c8c"/>
-
-            <text x="525" y="210" fill="#9ed8ff" font-size="28" font-family="Arial" font-weight="700">Poussée réduite</text>
-            <text x="90" y="210" fill="#ffe3a6" font-size="28" font-family="Arial" font-weight="700">Traînée plus forte</text>
-            <text x="460" y="355" fill="#ffb3b3" font-size="28" font-family="Arial" font-weight="700">Poids</text>
-          </svg>
-          <div class="figure-caption">
-            En approche, l’avion doit rester stable à une vitesse plus faible qu’en croisière, sans dépasser son angle d’attaque critique.
+        <div class="timeline">
+          <div class="step">
+            <h3>Approche</h3>
+            <p>
+              Le pilote réduit la poussée et configure l’avion pour voler plus lentement sans perdre le contrôle.
+            </p>
           </div>
+
+          <div class="step">
+            <h3>Arrondi</h3>
+            <p>
+              Juste avant le sol, le pilote relève légèrement le nez afin de réduire le taux de descente.
+            </p>
+          </div>
+
+          <div class="step">
+            <h3>Toucher des roues et freinage</h3>
+            <p>
+              Une fois sur la piste, la portance doit diminuer rapidement pour transférer le poids sur le train d’atterrissage et permettre un freinage efficace.
+            </p>
+          </div>
+        </div>
+
+        <div class="grid-2" style="margin-top:18px;">
+          <div class="card">
+            <h3>Forces pendant l’atterrissage</h3>
+            <ul>
+              <li>La poussée est faible ou réduite.</li>
+              <li>La traînée est souvent augmentée par les volets et d’autres dispositifs.</li>
+              <li>La portance existe encore pendant l’approche.</li>
+              <li>Après le toucher, il faut au contraire faire diminuer cette portance.</li>
+            </ul>
+
+            <figure class="image-bloc">
+              <img src="avion-atterissage.jfif" alt="Avion en phase d’atterrissage">
+              <figcaption class="image-caption">Atterrissage réel observé en approche finale.</figcaption>
+            </figure>
+          </div>
+
+          <figure class="image-bloc">
+            <img src="atterrissage-forces.jfif" alt="Atterrissage avec les forces appliquées sur un avion">
+            <figcaption class="image-caption">
+              Atterrissage : la poussée est réduite, la traînée augmente, la portance subsiste encore, tandis que le poids agit en permanence vers le bas.
+            </figcaption>
+          </figure>
         </div>
       </div>
     </section>
 
     <section id="angles">
-      <h2 class="section-title">5. Angle d’attaque et assiette</h2>
-      <p class="section-intro">
-        Ces deux notions sont souvent confondues. C’est une erreur. Elles sont liées, mais ce n’est pas la même chose.
-      </p>
-<div class="image-bloc">
-  <img src="avion-assiette-angle-attaque.jfif" alt="Avion au décollage" class="image-decollage">
-</div>
-      <div class="grid-2">
-        <article class="card">
-          <h3>L’assiette</h3>
-          <p>
-            L’assiette désigne l’orientation de l’avion par rapport à l’horizon.
-          </p>
-          <ul>
-            <li><strong>Assiette à cabrer</strong> : nez vers le haut.</li>
-            <li><strong>Assiette à piquer</strong> : nez vers le bas.</li>
-            <li>L’assiette décrit la position générale de l’avion.</li>
-          </ul>
-        </article>
-
-        <article class="card">
-          <h3>L’angle d’attaque</h3>
-          <p>
-            L’angle d’attaque est l’angle entre la corde de l’aile et le vent relatif, c’est-à-dire l’air qui arrive sur l’aile.
-          </p>
-          <ul>
-            <li>Il détermine une grande partie de la portance.</li>
-            <li>Quand il augmente modérément, la portance augmente.</li>
-            <li>Quand il devient excessif, l’aile décroche.</li>
-          </ul>
-        </article>
-      </div>
-
-      <div class="grid-2" style="margin-top:18px;">
-        <div class="figure">
-          <svg viewBox="0 0 900 520" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Schéma angle d’attaque et assiette">
-            <rect width="900" height="520" fill="#132847"/>
-            <line x1="70" y1="330" x2="830" y2="330" stroke="#89a6ca" stroke-width="4" stroke-dasharray="10 8"/>
-            <text x="680" y="320" fill="#bcd1ed" font-size="24" font-family="Arial">Horizon</text>
-
-            <g transform="translate(240 250) rotate(-12)">
-              <path d="M0 0 L200 -10 L330 -44 L555 -34 L585 -16 L375 -6 L290 10 L200 34 L78 28 Z" fill="#dfe8f3"/>
-              <path d="M258 -21 L330 -120 L360 -119 L324 -15 Z" fill="#dfe8f3"/>
-              <path d="M415 -26 L490 -98 L518 -95 L478 -21 Z" fill="#dfe8f3"/>
-            </g>
-
-            <line x1="120" y1="250" x2="720" y2="250" stroke="#ffd27a" stroke-width="5"/>
-            <polygon points="120,250 145,238 145,262" fill="#ffd27a"/>
-            <text x="85" y="225" fill="#ffe3a6" font-size="25" font-family="Arial" font-weight="700">Vent relatif</text>
-
-            <line x1="360" y1="264" x2="600" y2="212" stroke="#8ff0c8" stroke-width="5"/>
-            <text x="610" y="215" fill="#8ff0c8" font-size="25" font-family="Arial" font-weight="700">Corde de l’aile</text>
-
-            <path d="M330 250 A55 55 0 0 1 374 264" fill="none" stroke="#ff8c8c" stroke-width="5"/>
-            <text x="210" y="290" fill="#ffb3b3" font-size="25" font-family="Arial" font-weight="700">Angle d’attaque</text>
-
-            <path d="M470 330 A100 100 0 0 0 620 250" fill="none" stroke="#6fc2ff" stroke-width="5"/>
-            <text x="600" y="320" fill="#9ed8ff" font-size="25" font-family="Arial" font-weight="700">Assiette</text>
-          </svg>
-          <div class="figure-caption">
-            L’assiette se lit par rapport à l’horizon.  
-            L’angle d’attaque se lit par rapport au vent relatif.
-          </div>
+      <div class="section-shell">
+        <div class="section-head">
+          <h2 class="section-title">5. Angle d’attaque et assiette</h2>
+          <div class="section-chip">Deux notions à ne pas confondre</div>
         </div>
 
-        <div class="card">
-          <h3>Erreur fréquente</h3>
-          <p>
-            Un avion peut avoir le nez haut sans avoir forcément un angle d’attaque dangereux, et il peut aussi avoir un angle d’attaque trop élevé sans donner visuellement l’impression d’être très cabré.
-          </p>
-          <ul>
-            <li>L’assiette seule ne suffit pas à juger la situation aérodynamique.</li>
-            <li>Le vent relatif change selon la trajectoire de l’avion.</li>
-            <li>C’est pour cela que l’angle d’attaque est une notion plus précise pour comprendre le décrochage.</li>
-          </ul>
+        <p class="section-intro">
+          Ces deux notions sont souvent confondues. C’est une erreur. Elles sont liées, mais ce n’est pas la même chose.
+        </p>
+
+        <figure class="image-bloc">
+          <img src="angle-attaque-assiette.jfif" alt="Illustration de l’assiette et de l’angle d’attaque d’un avion">
+          <figcaption class="image-caption">
+            Illustration pédagogique : ligne d’horizon, vent relatif, corde de l’aile, angle d’attaque et assiette.
+          </figcaption>
+        </figure>
+
+        <div class="grid-2">
+          <article class="card">
+            <h3>L’assiette</h3>
+            <p>
+              L’assiette désigne l’orientation de l’avion par rapport à l’horizon.
+            </p>
+            <ul>
+              <li><strong>Assiette à cabrer</strong> : nez vers le haut.</li>
+              <li><strong>Assiette à piquer</strong> : nez vers le bas.</li>
+              <li>L’assiette décrit la position générale de l’avion.</li>
+            </ul>
+          </article>
+
+          <article class="card">
+            <h3>L’angle d’attaque</h3>
+            <p>
+              L’angle d’attaque est l’angle entre la corde de l’aile et le vent relatif, c’est-à-dire l’air qui arrive sur l’aile.
+            </p>
+            <ul>
+              <li>Il détermine une grande partie de la portance.</li>
+              <li>Quand il augmente modérément, la portance augmente.</li>
+              <li>Quand il devient excessif, l’aile décroche.</li>
+            </ul>
+          </article>
+        </div>
+
+        <div class="grid-2" style="margin-top:18px;">
+          <div class="card">
+            <h3>Explication visuelle</h3>
+            <p>
+              L’assiette se lit par rapport à l’horizon, alors que l’angle d’attaque se lit par rapport au vent relatif.
+            </p>
+            <ul>
+              <li>L’assiette décrit l’inclinaison générale du nez de l’avion.</li>
+              <li>L’angle d’attaque décrit la relation entre l’aile et l’air qui arrive sur elle.</li>
+              <li>Ces deux valeurs peuvent évoluer ensemble, mais elles ne représentent pas la même chose.</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <h3>Erreur fréquente</h3>
+            <p>
+              Un avion peut avoir le nez haut sans avoir forcément un angle d’attaque dangereux, et il peut aussi avoir un angle d’attaque trop élevé sans donner visuellement l’impression d’être très cabré.
+            </p>
+            <ul>
+              <li>L’assiette seule ne suffit pas à juger la situation aérodynamique.</li>
+              <li>Le vent relatif change selon la trajectoire de l’avion.</li>
+              <li>C’est pour cela que l’angle d’attaque est une notion plus précise pour comprendre le décrochage.</li>
+            </ul>
+          </div>
         </div>
       </div>
     </section>
 
     <section id="dispositifs">
-      <h2 class="section-title">6. Volets, becs et aérofreins</h2>
-      <p class="section-intro">
-        Ces dispositifs modifient l’aérodynamique de l’avion. Ils sont très importants pendant le décollage et l’atterrissage.
-		Becs : avant de l’aile, pour améliorer l’écoulement.
-		Volets : arrière de l’aile, pour augmenter la portance à basse vitesse.
-		Aérofreins : sur l’aile, pour augmenter la traînée et ralentir.
-      </p>
-
-      <div class="grid-3">
-        <article class="card">
-          <h3>Les volets</h3>
-
-          <figure class="dispositif-image">
-            <img src="volets.jfif" alt="Volets d’un avion sortis sur l’aile" />
-            <figcaption>Volets : surfaces mobiles situées au bord de fuite de l’aile.</figcaption>
-          </figure>
-
-          <p>
-            Les volets sont situés en général à l’arrière de l’aile.
-          </p>
-          <ul>
-            <li>Ils augmentent la portance à basse vitesse.</li>
-            <li>Ils augmentent aussi la traînée.</li>
-            <li>Ils sont très utiles au décollage et surtout à l’atterrissage.</li>
-          </ul>
-        </article>
-
-        <article class="card">
-          <h3>Les becs</h3>
-
-          <figure class="dispositif-image">
-            <img src="becs.jfif" alt="Becs de bord d’attaque déployés sur une aile d’avion" />
-            <figcaption>Becs : dispositifs placés à l’avant de l’aile pour améliorer l’écoulement de l’air.</figcaption>
-          </figure>
-
-          <p>
-            Les becs de bord d’attaque sont situés à l’avant de l’aile.
-          </p>
-          <ul>
-            <li>Ils améliorent l’écoulement de l’air à forte incidence.</li>
-            <li>Ils aident à retarder le décrochage.</li>
-            <li>Ils permettent de voler plus lentement avec plus de sécurité.</li>
-          </ul>
-        </article>
-
-        <article class="card">
-          <h3>Les aérofreins</h3>
-
-          <figure class="dispositif-image">
-            <img src="aerofreins.jfif" alt="Aérofreins déployés sur l’aile d’un avion" />
-            <figcaption>Aérofreins : surfaces qui augmentent la traînée et aident au ralentissement.</figcaption>
-          </figure>
-
-          <p>
-            Les aérofreins servent surtout à augmenter la traînée.
-          </p>
-          <ul>
-            <li>Ils aident à ralentir l’avion.</li>
-            <li>Ils peuvent aider à augmenter le taux de descente.</li>
-            <li>Après l’atterrissage, ils réduisent la portance et améliorent le freinage.</li>
-          </ul>
-        </article>
-      </div>
-
-      <div class="grid-2" style="margin-top:18px;">
-        <div class="card">
-          <h3>Pourquoi ces dispositifs sont utiles</h3>
-          <p>
-            Un avion de ligne vole vite en croisière, mais il doit pouvoir décoller et atterrir à des vitesses beaucoup plus faibles. Les volets et les becs l’aident à rester contrôlable dans ces conditions.
-          </p>
-          <ul>
-            <li>Décollage : plus de portance pour quitter la piste plus tôt.</li>
-            <li>Approche : vol plus lent avec davantage de contrôle.</li>
-            <li>Atterrissage : plus de traînée pour freiner et descendre plus facilement.</li>
-          </ul>
+      <div class="section-shell">
+        <div class="section-head">
+          <h2 class="section-title">6. Volets, becs et aérofreins</h2>
+          <div class="section-chip">Dispositifs hypersustentateurs et de freinage</div>
         </div>
 
-        <div class="card">
-          <h3>Précision utile</h3>
-          <p>
-            Il ne faut pas confondre volets et aérofreins.
-          </p>
-          <ul>
-            <li>Les volets servent d’abord à modifier la portance, avec une augmentation de traînée en plus.</li>
-            <li>Les aérofreins servent d’abord à augmenter la traînée.</li>
-            <li>Après le toucher des roues, les aérofreins aident aussi à casser la portance restante.</li>
-          </ul>
-          <div class="note">
-            Dire que les aérofreins servent à créer de la portance serait faux. Leur rôle principal est de freiner l’avion par la résistance de l’air.
+        <p class="section-intro">
+          Ces dispositifs modifient l’aérodynamique de l’avion. Ils sont très importants pendant le décollage et l’atterrissage.
+          Becs : avant de l’aile, pour améliorer l’écoulement.
+          Volets : arrière de l’aile, pour augmenter la portance à basse vitesse.
+          Aérofreins : sur l’aile, pour augmenter la traînée et ralentir.
+        </p>
+
+        <div class="grid-3">
+          <article class="card">
+            <h3>Les volets</h3>
+
+            <figure class="dispositif-image">
+              <img src="volets.jfif" alt="Volets d’un avion sortis sur l’aile" />
+              <figcaption>Volets : surfaces mobiles situées au bord de fuite de l’aile.</figcaption>
+            </figure>
+
+            <p>
+              Les volets sont situés en général à l’arrière de l’aile.
+            </p>
+            <ul>
+              <li>Ils augmentent la portance à basse vitesse.</li>
+              <li>Ils augmentent aussi la traînée.</li>
+              <li>Ils sont très utiles au décollage et surtout à l’atterrissage.</li>
+            </ul>
+          </article>
+
+          <article class="card">
+            <h3>Les becs</h3>
+
+            <figure class="dispositif-image">
+              <img src="becs.jfif" alt="Becs de bord d’attaque déployés sur une aile d’avion" />
+              <figcaption>Becs : dispositifs placés à l’avant de l’aile pour améliorer l’écoulement de l’air.</figcaption>
+            </figure>
+
+            <p>
+              Les becs de bord d’attaque sont situés à l’avant de l’aile.
+            </p>
+            <ul>
+              <li>Ils améliorent l’écoulement de l’air à forte incidence.</li>
+              <li>Ils aident à retarder le décrochage.</li>
+              <li>Ils permettent de voler plus lentement avec plus de sécurité.</li>
+            </ul>
+          </article>
+
+          <article class="card">
+            <h3>Les aérofreins</h3>
+
+            <figure class="dispositif-image">
+              <img src="aerofreins.jfif" alt="Aérofreins déployés sur l’aile d’un avion" />
+              <figcaption>Aérofreins : surfaces qui augmentent la traînée et aident au ralentissement.</figcaption>
+            </figure>
+
+            <p>
+              Les aérofreins servent surtout à augmenter la traînée.
+            </p>
+            <ul>
+              <li>Ils aident à ralentir l’avion.</li>
+              <li>Ils peuvent aider à augmenter le taux de descente.</li>
+              <li>Après l’atterrissage, ils réduisent la portance et améliorent le freinage.</li>
+            </ul>
+          </article>
+        </div>
+
+        <div class="grid-2" style="margin-top:18px;">
+          <div class="card">
+            <h3>Pourquoi ces dispositifs sont utiles</h3>
+            <p>
+              Un avion de ligne vole vite en croisière, mais il doit pouvoir décoller et atterrir à des vitesses beaucoup plus faibles. Les volets et les becs l’aident à rester contrôlable dans ces conditions.
+            </p>
+            <ul>
+              <li>Décollage : plus de portance pour quitter la piste plus tôt.</li>
+              <li>Approche : vol plus lent avec davantage de contrôle.</li>
+              <li>Atterrissage : plus de traînée pour freiner et descendre plus facilement.</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <h3>Précision utile</h3>
+            <p>
+              Il ne faut pas confondre volets et aérofreins.
+            </p>
+            <ul>
+              <li>Les volets servent d’abord à modifier la portance, avec une augmentation de traînée en plus.</li>
+              <li>Les aérofreins servent d’abord à augmenter la traînée.</li>
+              <li>Après le toucher des roues, les aérofreins aident aussi à casser la portance restante.</li>
+            </ul>
+            <div class="note">
+              Dire que les aérofreins servent à créer de la portance serait faux. Leur rôle principal est de freiner l’avion par la résistance de l’air.
+            </div>
           </div>
         </div>
       </div>
     </section>
 
     <section id="stall">
-      <h2 class="section-title">7. Le décrochage et l’alarme stall</h2>
-      <p class="section-intro">
-        Le décrochage est l’un des phénomènes les plus importants à comprendre. Il est souvent mal expliqué.
-      </p>
-<div class="image-bloc">
-  <img src="avion-decrochage.jfif" alt="Avion au décollage" class="image-decollage">
-</div>
-      <div class="grid-2">
-        <div class="card">
-          <h3>Qu’est-ce qu’un décrochage ?</h3>
-          <p>
-            Le décrochage se produit quand l’angle d’attaque devient trop élevé. L’air ne suit plus correctement le profil de l’aile et la portance chute brutalement.
-          </p>
-          <ul>
-            <li>Ce n’est pas seulement un manque de vitesse.</li>
-            <li>La cause directe est un angle d’attaque excessif.</li>
-            <li>Un avion peut décrocher à différentes vitesses, selon sa configuration et sa charge.</li>
-          </ul>
+      <div class="section-shell">
+        <div class="section-head">
+          <h2 class="section-title">7. Le décrochage et l’alarme stall</h2>
+          <div class="section-chip">Phénomène critique</div>
         </div>
 
-        <div class="card">
-          <h3>Le signal stall</h3>
-          <p>
-            Sur de nombreux avions, une alarme avertit le pilote d’un risque de décrochage. On parle souvent de l’alarme <strong>stall</strong>.
-          </p>
-          <ul>
-            <li>Elle avertit que l’avion approche de son angle d’attaque critique.</li>
-            <li>Elle peut prendre la forme d’un signal sonore, d’un message ou d’un vibreur de manche.</li>
-            <li>Elle doit être prise très au sérieux.</li>
-          </ul>
-        </div>
-      </div>
+        <p class="section-intro">
+          Le décrochage est l’un des phénomènes les plus importants à comprendre. Il est souvent mal expliqué.
+        </p>
 
-      <div class="grid-2" style="margin-top:18px;">
-        <div class="card">
-          <h3>Que faire en cas de décrochage</h3>
-          <p>
-            Le principe général est simple : il faut diminuer l’angle d’attaque pour rétablir un écoulement d’air correct sur l’aile.
-          </p>
-          <ul>
-            <li>Réduire l’incidence en abaissant le nez si nécessaire.</li>
-            <li>Ajouter de la puissance selon la situation et la procédure.</li>
-            <li>Revenir à un vol maîtrisé avant toute autre action.</li>
-          </ul>
-          <div class="danger-note">
-            Mauvaise réaction : tirer davantage sur le manche pour empêcher la chute.  
-            C’est souvent exactement ce qu’il ne faut pas faire, car cela augmente encore l’angle d’attaque.
+        <figure class="image-bloc">
+          <img src="decrochage.jfif" alt="Illustration d’un avion en décrochage">
+          <figcaption class="image-caption">
+            Décrochage : angle d’attaque trop élevé, écoulement d’air perturbé et perte de portance.
+          </figcaption>
+        </figure>
+
+        <div class="grid-2">
+          <div class="card">
+            <h3>Qu’est-ce qu’un décrochage ?</h3>
+            <p>
+              Le décrochage se produit quand l’angle d’attaque devient trop élevé. L’air ne suit plus correctement le profil de l’aile et la portance chute brutalement.
+            </p>
+            <ul>
+              <li>Ce n’est pas seulement un manque de vitesse.</li>
+              <li>La cause directe est un angle d’attaque excessif.</li>
+              <li>Un avion peut décrocher à différentes vitesses, selon sa configuration et sa charge.</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <h3>Le signal stall</h3>
+            <p>
+              Sur de nombreux avions, une alarme avertit le pilote d’un risque de décrochage. On parle souvent de l’alarme <strong>stall</strong>.
+            </p>
+            <ul>
+              <li>Elle avertit que l’avion approche de son angle d’attaque critique.</li>
+              <li>Elle peut prendre la forme d’un signal sonore, d’un message ou d’un vibreur de manche.</li>
+              <li>Elle doit être prise très au sérieux.</li>
+            </ul>
           </div>
         </div>
 
-        <div class="figure">
-          <svg viewBox="0 0 900 480" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Illustration du décrochage">
-            <rect width="900" height="480" fill="#132847"/>
-            <line x1="80" y1="340" x2="820" y2="340" stroke="#93accb" stroke-width="4" stroke-dasharray="10 8"/>
-            <text x="690" y="325" fill="#bdd0ea" font-size="24" font-family="Arial">Horizon</text>
+        <div class="grid-2" style="margin-top:18px;">
+          <div class="card">
+            <h3>Que faire en cas de décrochage</h3>
+            <p>
+              Le principe général est simple : il faut diminuer l’angle d’attaque pour rétablir un écoulement d’air correct sur l’aile.
+            </p>
+            <ul>
+              <li>Réduire l’incidence en abaissant le nez si nécessaire.</li>
+              <li>Ajouter de la puissance selon la situation et la procédure.</li>
+              <li>Revenir à un vol maîtrisé avant toute autre action.</li>
+            </ul>
+            <div class="danger-note">
+              Mauvaise réaction : tirer davantage sur le manche pour empêcher la chute.
+              C’est souvent exactement ce qu’il ne faut pas faire, car cela augmente encore l’angle d’attaque.
+            </div>
+          </div>
 
-            <g transform="translate(210 210) rotate(-20)">
-              <path d="M0 0 L190 -10 L310 -45 L545 -33 L575 -15 L370 -4 L282 10 L190 35 L74 28 Z" fill="#dfe8f3"/>
-              <path d="M242 -20 L320 -118 L350 -116 L312 -14 Z" fill="#dfe8f3"/>
-              <path d="M404 -24 L480 -100 L508 -96 L468 -20 Z" fill="#dfe8f3"/>
-            </g>
-
-            <path d="M90 165 C170 145, 250 140, 330 150" fill="none" stroke="#ffd27a" stroke-width="5" stroke-dasharray="12 8"/>
-            <path d="M90 210 C170 190, 250 185, 330 195" fill="none" stroke="#ffd27a" stroke-width="5" stroke-dasharray="12 8"/>
-            <text x="84" y="130" fill="#ffe3a6" font-size="26" font-family="Arial" font-weight="700">Écoulement dégradé</text>
-
-            <text x="520" y="150" fill="#ff8c8c" font-size="34" font-family="Arial" font-weight="700">STALL</text>
-            <text x="520" y="190" fill="#ffb8b8" font-size="24" font-family="Arial">Angle d’attaque trop élevé</text>
-          </svg>
-          <div class="figure-caption">
-            Quand l’angle d’attaque devient excessif, l’écoulement d’air se dégrade et la portance s’effondre.
+          <div class="card">
+            <h3>Ce que montre l’image</h3>
+            <p>
+              L’image met en évidence un angle d’attaque excessif et un écoulement d’air perturbé au-dessus de l’aile.
+            </p>
+            <ul>
+              <li>L’écoulement n’adhère plus correctement au profil de l’aile.</li>
+              <li>La portance diminue fortement.</li>
+              <li>L’avion devient plus difficile à contrôler tant que l’incidence n’est pas réduite.</li>
+            </ul>
           </div>
         </div>
       </div>
     </section>
 
     <section id="resume">
-      <h2 class="section-title">8. Résumé simple à mémoriser</h2>
-      <p class="section-intro">
-        Ce tableau résume l’essentiel.
-      </p>
+      <div class="section-shell">
+        <div class="section-head">
+          <h2 class="section-title">8. Résumé simple à mémoriser</h2>
+          <div class="section-chip">Vue d’ensemble</div>
+        </div>
 
-      <div class="compare">
-        <table>
-          <thead>
-            <tr>
-              <th>Élément</th>
-              <th>Définition</th>
-              <th>Direction ou rôle</th>
-              <th>À retenir</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Poussée</td>
-              <td>Force produite par les moteurs</td>
-              <td>Vers l’avant</td>
-              <td>Fait avancer l’avion</td>
-            </tr>
-            <tr>
-              <td>Traînée</td>
-              <td>Résistance de l’air</td>
-              <td>Vers l’arrière</td>
-              <td>Freine l’avion</td>
-            </tr>
-            <tr>
-              <td>Poids</td>
-              <td>Effet de la gravité</td>
-              <td>Vers le bas</td>
-              <td>Tire l’avion vers la Terre</td>
-            </tr>
-            <tr>
-              <td>Portance</td>
-              <td>Force aérodynamique produite par l’aile</td>
-              <td>Globalement vers le haut</td>
-              <td>Soutient l’avion</td>
-            </tr>
-            <tr>
-              <td>Assiette</td>
-              <td>Position du nez par rapport à l’horizon</td>
-              <td>Ce n’est pas une force</td>
-              <td>Décrit l’attitude de l’avion</td>
-            </tr>
-            <tr>
-              <td>Angle d’attaque</td>
-              <td>Angle entre l’aile et le vent relatif</td>
-              <td>Ce n’est pas une force</td>
-              <td>Détermine fortement la portance et le décrochage</td>
-            </tr>
-            <tr>
-              <td>Volets</td>
-              <td>Dispositifs au bord de fuite</td>
-              <td>Augmentent portance et traînée</td>
-              <td>Utiles à basse vitesse</td>
-            </tr>
-            <tr>
-              <td>Becs</td>
-              <td>Dispositifs au bord d’attaque</td>
-              <td>Améliorent l’écoulement</td>
-              <td>Aident à retarder le décrochage</td>
-            </tr>
-            <tr>
-              <td>Aérofreins</td>
-              <td>Surfaces de freinage aérodynamique</td>
-              <td>Augmentent la traînée</td>
-              <td>Aident à ralentir et à réduire la portance après le toucher</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="card" style="margin-top:18px;">
-        <h3>Phrase finale à retenir</h3>
-        <p>
-          Un avion vole parce qu’il avance assez vite pour que ses ailes créent de la portance, tout en gardant un angle d’attaque correct et un équilibre entre poussée, traînée, poids et portance.
+        <p class="section-intro">
+          Ce tableau résume l’essentiel.
         </p>
+
+        <div class="compare">
+          <table>
+            <thead>
+              <tr>
+                <th>Élément</th>
+                <th>Définition</th>
+                <th>Direction ou rôle</th>
+                <th>À retenir</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Poussée</td>
+                <td>Force produite par les moteurs</td>
+                <td>Vers l’avant</td>
+                <td>Fait avancer l’avion</td>
+              </tr>
+              <tr>
+                <td>Traînée</td>
+                <td>Résistance de l’air</td>
+                <td>Vers l’arrière</td>
+                <td>Freine l’avion</td>
+              </tr>
+              <tr>
+                <td>Poids</td>
+                <td>Effet de la gravité</td>
+                <td>Vers le bas</td>
+                <td>Tire l’avion vers la Terre</td>
+              </tr>
+              <tr>
+                <td>Portance</td>
+                <td>Force aérodynamique produite par l’aile</td>
+                <td>Globalement vers le haut</td>
+                <td>Soutient l’avion</td>
+              </tr>
+              <tr>
+                <td>Assiette</td>
+                <td>Position du nez par rapport à l’horizon</td>
+                <td>Ce n’est pas une force</td>
+                <td>Décrit l’attitude de l’avion</td>
+              </tr>
+              <tr>
+                <td>Angle d’attaque</td>
+                <td>Angle entre l’aile et le vent relatif</td>
+                <td>Ce n’est pas une force</td>
+                <td>Détermine fortement la portance et le décrochage</td>
+              </tr>
+              <tr>
+                <td>Volets</td>
+                <td>Dispositifs au bord de fuite</td>
+                <td>Augmentent portance et traînée</td>
+                <td>Utiles à basse vitesse</td>
+              </tr>
+              <tr>
+                <td>Becs</td>
+                <td>Dispositifs au bord d’attaque</td>
+                <td>Améliorent l’écoulement</td>
+                <td>Aident à retarder le décrochage</td>
+              </tr>
+              <tr>
+                <td>Aérofreins</td>
+                <td>Surfaces de freinage aérodynamique</td>
+                <td>Augmentent la traînée</td>
+                <td>Aident à ralentir et à réduire la portance après le toucher</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="card" style="margin-top:18px;">
+          <h3>Phrase finale à retenir</h3>
+          <p>
+            Un avion vole parce qu’il avance assez vite pour que ses ailes créent de la portance, tout en gardant un angle d’attaque correct et un équilibre entre poussée, traînée, poids et portance.
+          </p>
+        </div>
       </div>
     </section>
 
