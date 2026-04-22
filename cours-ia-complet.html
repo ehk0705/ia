@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cours complet sur l’intelligence artificielle</title>
+  <style>
+    :root{
+      --bg:#0b1220;
+      --panel:#101a2e;
+      --panel-2:#14213d;
+      --text:#eef3fb;
+      --muted:#bfd0ea;
+      --accent:#60a5fa;
+      --accent-2:#22c55e;
+      --border:rgba(255,255,255,.12);
+      --shadow:0 14px 40px rgba(0,0,0,.28);
+      --radius:22px;
+      --max:1180px;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family:Arial, Helvetica, sans-serif;
+      line-height:1.65;
+      color:var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(96,165,250,.18), transparent 28%),
+        radial-gradient(circle at top right, rgba(34,197,94,.12), transparent 20%),
+        linear-gradient(180deg,#08101d,#0f1b31 45%,#0a1426 100%);
+    }
+    a{color:inherit;text-decoration:none}
+    .container{width:min(calc(100% - 32px), var(--max)); margin:auto}
+    .topbar{
+      position:sticky; top:0; z-index:50;
+      backdrop-filter:blur(10px);
+      background:rgba(8,16,29,.84);
+      border-bottom:1px solid var(--border);
+    }
+    .nav{
+      display:flex; align-items:center; justify-content:space-between;
+      gap:18px; padding:14px 0;
+    }
+    .brand{
+      font-weight:700; letter-spacing:.3px;
+      font-size:1.05rem;
+    }
+    .menu{
+      display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end;
+    }
+    .menu a{
+      padding:9px 14px; border:1px solid transparent;
+      border-radius:999px; color:var(--muted);
+    }
+    .menu a:hover{border-color:var(--border); background:rgba(255,255,255,.05); color:#fff}
+    .hero{padding:38px 0 22px}
+    .hero-grid{
+      display:grid; grid-template-columns:1.2fr .8fr; gap:24px; align-items:center;
+    }
+    .hero-card,.card,.chapter,.img-card,.timeline, .footer-card{
+      background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+      border:1px solid var(--border);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+    }
+    .hero-card{padding:34px}
+    .hero h1{
+      margin:0 0 14px; font-size:clamp(1.9rem,4vw,3.2rem); line-height:1.15;
+    }
+    .hero p{margin:0 0 16px; color:var(--muted)}
+    .badges{display:flex; gap:10px; flex-wrap:wrap; margin-top:18px}
+    .badge{
+      padding:8px 12px; border-radius:999px;
+      border:1px solid var(--border); color:#e9f3ff;
+      background:rgba(255,255,255,.05); font-size:.95rem;
+    }
+    .hero-side{
+      padding:18px;
+      display:grid; gap:16px;
+    }
+    .mini{
+      padding:18px; border-radius:18px; background:rgba(255,255,255,.04);
+      border:1px solid var(--border);
+    }
+    .mini strong{display:block; margin-bottom:6px}
+    .banner{padding:10px 0 32px}
+    .banner-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:18px}
+    .img-card{overflow:hidden}
+    .img-card img{display:block; width:100%; height:220px; object-fit:cover}
+    .img-card .caption{padding:14px 16px; color:var(--muted)}
+    section{padding:22px 0}
+    .section-head{margin-bottom:16px}
+    .section-head h2{margin:0 0 8px; font-size:clamp(1.4rem,3vw,2.2rem)}
+    .section-head p{margin:0; color:var(--muted)}
+    .grid-2{display:grid; grid-template-columns:repeat(2,1fr); gap:18px}
+    .grid-3{display:grid; grid-template-columns:repeat(3,1fr); gap:18px}
+    .card{padding:22px}
+    .card h3{margin:0 0 10px}
+    .card p{margin:0 0 12px; color:var(--muted)}
+    .card ul{margin:0; padding-left:20px}
+    .card li{margin:8px 0}
+    .chapter{padding:26px}
+    .chapter + .chapter{margin-top:18px}
+    .chapter h3{margin-top:0; font-size:1.5rem}
+    .note{
+      border-left:4px solid var(--accent);
+      padding:12px 14px;
+      background:rgba(96,165,250,.10);
+      border-radius:12px;
+      color:#e7f0fd;
+      margin:14px 0 0;
+    }
+    .schema{
+      display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-top:18px;
+    }
+    .schema div{
+      padding:16px; border-radius:16px;
+      background:rgba(255,255,255,.05); border:1px solid var(--border)
+    }
+    .timeline{padding:24px}
+    .timeline ol{margin:0; padding-left:22px}
+    .timeline li{margin:10px 0; color:var(--muted)}
+    .footer{padding:24px 0 50px}
+    .footer-card{padding:24px}
+    .footer-card p{color:var(--muted); margin:8px 0}
+    .author{font-weight:700; color:#fff}
+    .toc{
+      display:grid; grid-template-columns:repeat(2,1fr); gap:12px; margin-top:18px;
+    }
+    .toc a{
+      display:block; padding:14px 16px; border-radius:16px;
+      border:1px solid var(--border); background:rgba(255,255,255,.04); color:var(--muted);
+    }
+    .toc a:hover{color:#fff; background:rgba(255,255,255,.08)}
+    @media (max-width:980px){
+      .hero-grid,.grid-2,.grid-3,.banner-grid,.schema,.toc{grid-template-columns:1fr}
+      .menu{display:none}
+    }
+    @media (max-width:640px){
+      .container{width:min(calc(100% - 20px), var(--max))}
+      .hero-card,.card,.chapter,.timeline,.footer-card{padding:18px}
+      .img-card img{height:190px}
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="container nav">
+      <div class="brand">Cours complet sur l’intelligence artificielle</div>
+      <nav class="menu">
+        <a href="#introduction">Introduction</a>
+        <a href="#fondements">Fondements</a>
+        <a href="#machine-learning">Machine learning</a>
+        <a href="#deep-learning">Deep learning</a>
+        <a href="#llm">LLM</a>
+        <a href="#outils">Outils</a>
+        <a href="#pratique">Pratique</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="introduction">
+      <div class="container hero-grid">
+        <div class="hero-card">
+          <h1>Comprendre l’intelligence artificielle moderne</h1>
+          <p>
+            Cette page présente un cours structuré et progressif sur l’intelligence artificielle, le machine learning,
+            le deep learning, les grands modèles de langage, les probabilités, les statistiques, les réseaux de neurones
+            et les outils les plus utilisés aujourd’hui.
+          </p>
+          <p>
+            L’objectif est simple : expliquer clairement les notions essentielles, sans jargon inutile, tout en gardant
+            un niveau sérieux et cohérent.
+          </p>
+          <div class="badges">
+            <span class="badge">IA générale</span>
+            <span class="badge">Machine learning</span>
+            <span class="badge">Deep learning</span>
+            <span class="badge">LLM</span>
+            <span class="badge">Probabilités</span>
+            <span class="badge">Réseaux de neurones</span>
+          </div>
+
+          <div class="toc">
+            <a href="#fondements">1. Définitions et repères</a>
+            <a href="#probas">2. Statistiques et probabilité</a>
+            <a href="#machine-learning">3. Apprentissage automatique</a>
+            <a href="#deep-learning">4. Apprentissage profond</a>
+            <a href="#neurones">5. Neurones artificiels</a>
+            <a href="#llm">6. Grands modèles de langage</a>
+            <a href="#outils">7. Outils et écosystème</a>
+            <a href="#pratique">8. Méthode pratique</a>
+          </div>
+        </div>
+
+        <aside class="hero-side">
+          <div class="mini">
+            <strong>Idée centrale</strong>
+            L’intelligence artificielle n’est pas une magie. C’est un ensemble de méthodes mathématiques, statistiques et informatiques.
+          </div>
+          <div class="mini">
+            <strong>Réalité du terrain</strong>
+            Un bon modèle dépend surtout des données, de l’objectif, de la mesure des erreurs et du contexte d’usage.
+          </div>
+          <div class="mini">
+            <strong>Point clé</strong>
+            Les LLM sont puissants, mais ils ne remplacent ni la vérification, ni le raisonnement métier, ni l’esprit critique.
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="banner">
+      <div class="container banner-grid">
+        <article class="img-card">
+          <img src="intelligence-artificielle.jfif" alt="Illustration intelligence artificielle">
+          <div class="caption">Vue d’ensemble de l’intelligence artificielle moderne.</div>
+        </article>
+        <article class="img-card">
+          <img src="machine-learning.jfif" alt="Illustration machine learning">
+          <div class="caption">Les données, l’entraînement et l’évaluation sont au cœur du machine learning.</div>
+        </article>
+        <article class="img-card">
+          <img src="deep-learning.jfif" alt="Illustration deep learning">
+          <div class="caption">Le deep learning repose sur des architectures de réseaux de neurones plus profondes.</div>
+        </article>
+      </div>
+    </section>
+
+    <section id="fondements">
+      <div class="container">
+        <div class="section-head">
+          <h2>1. Définitions et fondements</h2>
+          <p>Avant de parler des modèles, il faut poser les bases correctement.</p>
+        </div>
+
+        <div class="grid-2">
+          <article class="card">
+            <h3>Qu’est-ce que l’intelligence artificielle ?</h3>
+            <p>
+              L’intelligence artificielle désigne un ensemble de techniques permettant à une machine d’exécuter des tâches
+              qui demandent habituellement des capacités humaines : reconnaître, classer, prévoir, traduire, recommander,
+              dialoguer ou aider à décider.
+            </p>
+            <ul>
+              <li>Perception : image, voix, texte, signal.</li>
+              <li>Décision : classement, tri, recommandation, alerte.</li>
+              <li>Génération : texte, image, code, résumé, réponse.</li>
+            </ul>
+          </article>
+
+          <article class="card">
+            <h3>Trois grandes familles</h3>
+            <p>Il faut distinguer des notions que beaucoup mélangent.</p>
+            <ul>
+              <li><strong>IA symbolique</strong> : règles, logique, systèmes experts.</li>
+              <li><strong>Machine learning</strong> : la machine apprend à partir de données.</li>
+              <li><strong>Deep learning</strong> : sous-ensemble du machine learning basé sur des réseaux de neurones profonds.</li>
+            </ul>
+          </article>
+        </div>
+
+        <div class="chapter">
+          <h3>Différence entre programme classique et apprentissage</h3>
+          <p>
+            Dans un programme classique, le développeur écrit explicitement les règles. Dans l’apprentissage automatique,
+            on fournit des exemples, et le système ajuste ses paramètres pour réduire ses erreurs.
+          </p>
+          <div class="schema">
+            <div><strong>Programme classique</strong><br>Données + règles → résultat</div>
+            <div><strong>Machine learning</strong><br>Données + résultats attendus → modèle</div>
+            <div><strong>En production</strong><br>Nouvelles données + modèle → prédiction</div>
+            <div><strong>Condition de réussite</strong><br>Données pertinentes + mesure fiable</div>
+          </div>
+          <div class="note">
+            Une mauvaise idée revient souvent : croire qu’un modèle compense des données médiocres. C’est faux.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="probas">
+      <div class="container">
+        <div class="section-head">
+          <h2>2. Probabilités, statistiques et notions quantitatives</h2>
+          <p>Sans ces bases, on comprend mal ce que fait réellement un modèle.</p>
+        </div>
+
+        <div class="grid-3">
+          <article class="card">
+            <h3>Probabilité</h3>
+            <p>La probabilité mesure l’incertitude. Un modèle ne “sait” pas au sens humain. Il estime une vraisemblance.</p>
+            <ul>
+              <li>Événement probable ou improbable</li>
+              <li>Distribution des valeurs</li>
+              <li>Risque d’erreur</li>
+            </ul>
+          </article>
+
+          <article class="card">
+            <h3>Statistique</h3>
+            <p>La statistique sert à décrire des données, à résumer l’information et à inférer des tendances.</p>
+            <ul>
+              <li>Moyenne, médiane, variance</li>
+              <li>Écart-type et dispersion</li>
+              <li>Corrélation et dépendance</li>
+            </ul>
+          </article>
+
+          <article class="card">
+            <h3>Biais et bruit</h3>
+            <p>Un modèle peut apprendre de faux signaux ou reproduire des biais présents dans les données.</p>
+            <ul>
+              <li>Biais d’échantillonnage</li>
+              <li>Données incomplètes</li>
+              <li>Étiquettes erronées</li>
+            </ul>
+          </article>
+        </div>
+
+        <div class="chapter">
+          <h3>Quelques notions incontournables</h3>
+          <ul>
+            <li><strong>Variable</strong> : élément mesuré, par exemple l’âge, la température ou un mot.</li>
+            <li><strong>Feature</strong> : variable transformée pour l’apprentissage.</li>
+            <li><strong>Distribution</strong> : manière dont les valeurs se répartissent.</li>
+            <li><strong>Inférence</strong> : conclusion tirée à partir des données observées.</li>
+            <li><strong>Erreur</strong> : écart entre la prédiction et la réalité observée.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="machine-learning">
+      <div class="container">
+        <div class="section-head">
+          <h2>3. Machine learning</h2>
+          <p>L’apprentissage automatique consiste à apprendre une relation à partir d’exemples.</p>
+        </div>
+
+        <div class="chapter">
+          <h3>Apprentissage supervisé</h3>
+          <p>
+            Le modèle reçoit des exemples avec une réponse attendue. Il apprend à prédire une sortie correcte à partir
+            d’entrées connues.
+          </p>
+          <ul>
+            <li><strong>Classification</strong> : attribuer une catégorie.</li>
+            <li><strong>Régression</strong> : prévoir une valeur numérique.</li>
+            <li><strong>Exemples</strong> : détection de fraude, prévision de prix, tri de courriels.</li>
+          </ul>
+        </div>
+
+        <div class="grid-2">
+          <article class="card">
+            <h3>Apprentissage non supervisé</h3>
+            <p>Le système cherche des structures cachées sans réponse fournie à l’avance.</p>
+            <ul>
+              <li>Clustering</li>
+              <li>Réduction de dimension</li>
+              <li>Segmentation de profils</li>
+            </ul>
+          </article>
+
+          <article class="card">
+            <h3>Apprentissage par renforcement</h3>
+            <p>Un agent agit, reçoit une récompense ou une pénalité, puis ajuste sa stratégie.</p>
+            <ul>
+              <li>Robotique</li>
+              <li>Jeux</li>
+              <li>Optimisation de décisions séquentielles</li>
+            </ul>
+          </article>
+        </div>
+
+        <div class="chapter">
+          <h3>Cycle de travail d’un projet de machine learning</h3>
+          <div class="schema">
+            <div><strong>1. Définir</strong><br>Quel problème veut-on résoudre ?</div>
+            <div><strong>2. Préparer</strong><br>Collecte, nettoyage, étiquetage</div>
+            <div><strong>3. Entraîner</strong><br>Choix du modèle et ajustement</div>
+            <div><strong>4. Évaluer</strong><br>Mesures, robustesse, limites</div>
+          </div>
+          <div class="note">
+            Beaucoup échouent ici : ils choisissent un modèle avant d’avoir défini le vrai problème.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="deep-learning">
+      <div class="container">
+        <div class="section-head">
+          <h2>4. Deep learning</h2>
+          <p>Le deep learning apprend des représentations complexes à partir de grandes quantités de données.</p>
+        </div>
+
+        <div class="grid-2">
+          <article class="card">
+            <h3>Pourquoi “profond” ?</h3>
+            <p>
+              Parce que le réseau contient plusieurs couches successives qui transforment progressivement l’information.
+              Les premières couches captent des motifs simples, les suivantes des structures plus abstraites.
+            </p>
+          </article>
+
+          <article class="card">
+            <h3>Où est-il utilisé ?</h3>
+            <p>Partout où les données sont riches et difficiles à modéliser avec des règles simples.</p>
+            <ul>
+              <li>Vision par ordinateur</li>
+              <li>Reconnaissance vocale</li>
+              <li>Traduction automatique</li>
+              <li>Traitement du langage</li>
+            </ul>
+          </article>
+        </div>
+
+        <div class="chapter" id="neurones">
+          <h3>5. Réseaux de neurones artificiels</h3>
+          <p>
+            Un neurone artificiel reçoit des entrées, les pondère, ajoute un biais, puis applique une fonction d’activation.
+            L’ensemble de milliers ou de millions de ces unités forme un réseau capable d’apprendre des comportements complexes.
+          </p>
+          <div class="schema">
+            <div><strong>Entrées</strong><br>Données brutes ou transformées</div>
+            <div><strong>Poids</strong><br>Importance donnée à chaque entrée</div>
+            <div><strong>Biais</strong><br>Ajustement complémentaire</div>
+            <div><strong>Activation</strong><br>Transformation non linéaire</div>
+          </div>
+          <p class="note">
+            La rétropropagation sert à corriger progressivement les poids pour diminuer l’erreur.
+          </p>
+        </div>
+
+        <div class="grid-3">
+          <article class="card">
+            <h3>Perte</h3>
+            <p>La fonction de perte mesure à quel point le modèle se trompe.</p>
+          </article>
+          <article class="card">
+            <h3>Optimisation</h3>
+            <p>L’optimiseur ajuste les paramètres pour réduire cette perte.</p>
+          </article>
+          <article class="card">
+            <h3>Généralisation</h3>
+            <p>Un bon modèle doit bien se comporter sur des données nouvelles, pas seulement sur celles vues à l’entraînement.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="llm">
+      <div class="container">
+        <div class="section-head">
+          <h2>6. Grands modèles de langage</h2>
+          <p>Les LLM sont aujourd’hui au centre de nombreuses applications conversationnelles et génératives.</p>
+        </div>
+
+        <div class="banner-grid">
+          <article class="img-card">
+            <img src="llm.jfif" alt="Illustration LLM">
+            <div class="caption">Les LLM manipulent des séquences de tokens et prédisent la suite la plus plausible.</div>
+          </article>
+          <article class="img-card">
+            <img src="probabilites-statistiques.jfif" alt="Illustration probabilités">
+            <div class="caption">Leur comportement repose sur des calculs statistiques à très grande échelle.</div>
+          </article>
+          <article class="img-card">
+            <img src="reseaux-neurones.jfif" alt="Illustration réseaux de neurones">
+            <div class="caption">Leur base technique reste un grand réseau de neurones entraîné sur beaucoup de texte.</div>
+          </article>
+        </div>
+
+        <div class="chapter">
+          <h3>Comment fonctionne un LLM ?</h3>
+          <ul>
+            <li>Le texte est découpé en <strong>tokens</strong>.</li>
+            <li>Le modèle convertit ces tokens en représentations numériques.</li>
+            <li>Il estime le token suivant le plus probable dans le contexte fourni.</li>
+            <li>Il répète ce processus jusqu’à produire une réponse complète.</li>
+          </ul>
+        </div>
+
+        <div class="grid-2">
+          <article class="card">
+            <h3>Notions utiles</h3>
+            <ul>
+              <li><strong>Contexte</strong> : quantité de texte que le modèle peut prendre en compte.</li>
+              <li><strong>Température</strong> : niveau de diversité dans la génération.</li>
+              <li><strong>Fine-tuning</strong> : adaptation supplémentaire sur des données ciblées.</li>
+              <li><strong>RAG</strong> : récupération de documents externes avant génération.</li>
+            </ul>
+          </article>
+
+          <article class="card">
+            <h3>Limites réelles</h3>
+            <ul>
+              <li>Hallucinations ou réponses inventées</li>
+              <li>Sensibilité à la formulation de la consigne</li>
+              <li>Dépendance au contexte fourni</li>
+              <li>Absence de vérité garantie sans vérification</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="outils">
+      <div class="container">
+        <div class="section-head">
+          <h2>7. Outils, modèles et écosystème</h2>
+          <p>Les outils changent vite, mais certaines catégories restent stables.</p>
+        </div>
+
+        <div class="grid-3">
+          <article class="card">
+            <h3>Langages et bibliothèques</h3>
+            <ul>
+              <li>Python</li>
+              <li>NumPy</li>
+              <li>Pandas</li>
+              <li>scikit-learn</li>
+              <li>PyTorch</li>
+              <li>TensorFlow</li>
+            </ul>
+          </article>
+
+          <article class="card">
+            <h3>Catégories de modèles</h3>
+            <ul>
+              <li>Régression linéaire</li>
+              <li>Arbres de décision</li>
+              <li>Forêts aléatoires</li>
+              <li>Réseaux de neurones</li>
+              <li>Transformers</li>
+            </ul>
+          </article>
+
+          <article class="card">
+            <h3>Usages fréquents</h3>
+            <ul>
+              <li>Résumé de documents</li>
+              <li>Assistant conversationnel</li>
+              <li>Analyse de texte</li>
+              <li>Aide au codage</li>
+              <li>Vision et reconnaissance</li>
+            </ul>
+          </article>
+        </div>
+
+        <div class="chapter">
+          <h3>Attention aux erreurs courantes</h3>
+          <ul>
+            <li>Confondre démonstration visuelle et fiabilité réelle.</li>
+            <li>Utiliser un modèle sans métrique d’évaluation claire.</li>
+            <li>Ignorer la qualité des données.</li>
+            <li>Croire qu’un outil remplace la compétence métier.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="pratique">
+      <div class="container">
+        <div class="section-head">
+          <h2>8. Méthode pratique pour apprendre sérieusement</h2>
+          <p>Voici une progression logique pour éviter de s’éparpiller.</p>
+        </div>
+
+        <div class="timeline">
+          <ol>
+            <li>Commencer par les bases : variables, fonctions, statistiques, probabilités.</li>
+            <li>Comprendre la logique des données : collecte, nettoyage, qualité, biais.</li>
+            <li>Étudier le machine learning classique avant le deep learning.</li>
+            <li>Passer ensuite aux réseaux de neurones, à la perte, à l’optimisation et à la généralisation.</li>
+            <li>Aborder enfin les LLM, les transformers, le contexte, les limites et les bons usages.</li>
+            <li>Mettre en pratique sur des cas réels simples, puis augmenter la difficulté.</li>
+          </ol>
+        </div>
+
+        <div class="chapter">
+          <h3>Conclusion</h3>
+          <p>
+            L’intelligence artificielle est un domaine vaste. Il faut la comprendre par couches : concepts, mathématiques,
+            données, modèles, évaluation, outils et usages concrets. Aller trop vite est une mauvaise stratégie.
+          </p>
+          <p>
+            Une approche sérieuse consiste à apprendre peu à peu, à tester, à vérifier et à garder une distance critique
+            face aux effets de mode.
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-card">
+        <div class="author">Auteur : Hocine Korichi, ingénieur</div>
+        <p>Tous droits réservés 2026</p>
+        <p>Fichier HTML autonome avec mise en page soignée, navigation claire et affichage adapté aux smartphones.</p>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
