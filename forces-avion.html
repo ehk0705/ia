@@ -469,7 +469,7 @@
 
     .dispositif-image,
     .image-bloc{
-      margin:14px 0 14px;
+      margin:20px 0 20px;
       border-radius:16px;
       overflow:hidden;
       border:1px solid var(--border);
@@ -477,10 +477,59 @@
       box-shadow:var(--shadow-soft);
     }
 
+    .image-link{
+      display:block;
+      position:relative;
+      cursor:zoom-in;
+    }
+
+    .image-link::after{
+      content:"Cliquer pour agrandir";
+      position:absolute;
+      right:10px;
+      bottom:10px;
+      background:rgba(8,17,31,0.82);
+      color:#ffffff;
+      border:1px solid rgba(255,255,255,0.18);
+      border-radius:999px;
+      padding:6px 10px;
+      font-size:0.78rem;
+      line-height:1;
+      backdrop-filter:blur(6px);
+      box-shadow:var(--shadow-soft);
+      opacity:0;
+      transform:translateY(4px);
+      transition:opacity 0.2s ease, transform 0.2s ease;
+      pointer-events:none;
+      text-decoration:none;
+    }
+
+    .image-link:hover::after,
+    .image-link:focus-visible::after{
+      opacity:1;
+      transform:translateY(0);
+    }
+
+    .image-link img{
+      transition:transform 0.25s ease, filter 0.25s ease;
+    }
+
+    .image-link:hover img,
+    .image-link:focus-visible img{
+      transform:scale(1.015);
+      filter:brightness(1.04);
+    }
+
+    .image-link:focus-visible{
+      outline:2px solid var(--accent);
+      outline-offset:3px;
+      border-radius:12px;
+    }
+
     .dispositif-image img,
     .image-bloc img{
       width:100%;
-      height:230px;
+      height:172px;
       object-fit:cover;
       object-position:center;
       display:block;
@@ -645,12 +694,19 @@
 
       .dispositif-image img,
       .image-bloc img{
-        height:180px;
+        height:135px;
       }
 
       .dispositif-image figcaption,
       .image-caption{
         font-size:0.9rem;
+      }
+
+      .image-link::after{
+        opacity:1;
+        transform:none;
+        font-size:0.74rem;
+        padding:5px 9px;
       }
 
       section{
@@ -749,7 +805,7 @@
 
       .dispositif-image img,
       .image-bloc img{
-        height:155px;
+        height:116px;
       }
 
       .dispositif-image figcaption,
@@ -791,14 +847,18 @@
     <div class="container">
       <div class="photos-cote-a-cote">
         <figure class="photo-card">
-          <img src="Boeing777.jfif" alt="Boeing 777 en vol" />
+          <a class="image-link" href="Boeing777.jfif" target="_blank" rel="noopener" aria-label="Visualiser l’image Boeing 777">
+            <img src="Boeing777.jfif" alt="Boeing 777 en vol" />
+          </a>
           <figcaption class="photo-legende">
             <strong>Boeing 777</strong> : exemple d’avion de ligne moderne utilisé ici pour illustrer les forces du vol.
           </figcaption>
         </figure>
 
         <figure class="photo-card">
-          <img src="oiseau.jfif" alt="Oiseau majestueux en vol" />
+          <a class="image-link" href="oiseau.jfif" target="_blank" rel="noopener" aria-label="Visualiser l’image Oiseau en vol">
+            <img src="oiseau.jfif" alt="Oiseau majestueux en vol" />
+          </a>
           <figcaption class="photo-legende">
             <strong>Oiseau en vol</strong> : rappel visuel du vol naturel, utile pour comparer l’équilibre, la portance et la trajectoire.
           </figcaption>
@@ -838,7 +898,9 @@
 
       <div class="hero-side">
         <figure class="image-bloc">
-          <img src="vol-stabilise.jfif" alt="Vol stabilisé avec les quatre forces appliquées sur un avion">
+          <a class="image-link" href="vol-stabilise.jfif" target="_blank" rel="noopener" aria-label="Visualiser l’image Vol stabilisé">
+            <img src="vol-stabilise.jfif" alt="Vol stabilisé avec les quatre forces appliquées sur un avion">
+          </a>
           <figcaption class="image-caption">
             Vol stabilisé : la portance équilibre le poids, tandis que la poussée équilibre la traînée.
           </figcaption>
@@ -970,13 +1032,17 @@
             </ul>
 
             <figure class="image-bloc">
-              <img src="avion-decollage.jfif" alt="Avion au décollage">
+              <a class="image-link" href="avion-decollage.jfif" target="_blank" rel="noopener" aria-label="Visualiser l’image Avion au décollage">
+                <img src="avion-decollage.jfif" alt="Avion au décollage">
+              </a>
               <figcaption class="image-caption">Décollage réel observé sur la piste.</figcaption>
             </figure>
           </div>
 
           <figure class="image-bloc">
-            <img src="decollage-forces.jfif" alt="Décollage avec les forces appliquées sur un avion">
+            <a class="image-link" href="decollage-forces.jfif" target="_blank" rel="noopener" aria-label="Visualiser l’image Décollage avec les forces">
+              <img src="decollage-forces.jfif" alt="Décollage avec les forces appliquées sur un avion">
+            </a>
             <figcaption class="image-caption">
               Décollage : la poussée est forte, la traînée s’oppose au mouvement, le poids agit vers le bas et la portance augmente jusqu’au départ du sol.
             </figcaption>
@@ -1051,7 +1117,9 @@
 
         <div class="grid-2" style="margin-top:18px;">
           <figure class="image-bloc">
-            <img src="vol-stabilise.jfif" alt="Vol stabilisé avec les forces appliquées sur un avion">
+            <a class="image-link" href="vol-stabilise.jfif" target="_blank" rel="noopener" aria-label="Visualiser l’image Vol stabilisé">
+              <img src="vol-stabilise.jfif" alt="Vol stabilisé avec les forces appliquées sur un avion">
+            </a>
             <figcaption class="image-caption">
               En vol stabilisé, les quatre forces principales s’équilibrent.
             </figcaption>
@@ -1122,13 +1190,17 @@
             </ul>
 
             <figure class="image-bloc">
-              <img src="avion-atterissage.jfif" alt="Avion en phase d’atterrissage">
+              <a class="image-link" href="avion-atterissage.jfif" target="_blank" rel="noopener" aria-label="Visualiser l’image Avion en phase d’atterrissage">
+                <img src="avion-atterissage.jfif" alt="Avion en phase d’atterrissage">
+              </a>
               <figcaption class="image-caption">Atterrissage réel observé en approche finale.</figcaption>
             </figure>
           </div>
 
           <figure class="image-bloc">
-            <img src="atterrissage-forces.jfif" alt="Atterrissage avec les forces appliquées sur un avion">
+            <a class="image-link" href="atterrissage-forces.jfif" target="_blank" rel="noopener" aria-label="Visualiser l’image Atterrissage avec les forces">
+              <img src="atterrissage-forces.jfif" alt="Atterrissage avec les forces appliquées sur un avion">
+            </a>
             <figcaption class="image-caption">
               Atterrissage : la poussée est réduite, la traînée augmente, la portance subsiste encore, tandis que le poids agit en permanence vers le bas.
             </figcaption>
@@ -1149,7 +1221,9 @@
         </p>
 
         <figure class="image-bloc">
-          <img src="angle-attaque-assiette.jfif" alt="Illustration de l’assiette et de l’angle d’attaque d’un avion">
+          <a class="image-link" href="angle-attaque-assiette.jfif" target="_blank" rel="noopener" aria-label="Visualiser l’image Angle d’attaque et assiette">
+            <img src="angle-attaque-assiette.jfif" alt="Illustration de l’assiette et de l’angle d’attaque d’un avion">
+          </a>
           <figcaption class="image-caption">
             Illustration pédagogique : ligne d’horizon, vent relatif, corde de l’aile, angle d’attaque et assiette.
           </figcaption>
@@ -1228,7 +1302,9 @@
             <h3>Les volets</h3>
 
             <figure class="dispositif-image">
-              <img src="volets.jfif" alt="Volets d’un avion sortis sur l’aile" />
+              <a class="image-link" href="volets.jfif" target="_blank" rel="noopener" aria-label="Visualiser l’image Volets">
+                <img src="volets.jfif" alt="Volets d’un avion sortis sur l’aile" />
+              </a>
               <figcaption>Volets : surfaces mobiles situées au bord de fuite de l’aile.</figcaption>
             </figure>
 
@@ -1246,7 +1322,9 @@
             <h3>Les becs</h3>
 
             <figure class="dispositif-image">
-              <img src="becs.jfif" alt="Becs de bord d’attaque déployés sur une aile d’avion" />
+              <a class="image-link" href="becs.jfif" target="_blank" rel="noopener" aria-label="Visualiser l’image Becs">
+                <img src="becs.jfif" alt="Becs de bord d’attaque déployés sur une aile d’avion" />
+              </a>
               <figcaption>Becs : dispositifs placés à l’avant de l’aile pour améliorer l’écoulement de l’air.</figcaption>
             </figure>
 
@@ -1264,7 +1342,9 @@
             <h3>Les aérofreins</h3>
 
             <figure class="dispositif-image">
-              <img src="aerofreins.jfif" alt="Aérofreins déployés sur l’aile d’un avion" />
+              <a class="image-link" href="aerofreins.jfif" target="_blank" rel="noopener" aria-label="Visualiser l’image Aérofreins">
+                <img src="aerofreins.jfif" alt="Aérofreins déployés sur l’aile d’un avion" />
+              </a>
               <figcaption>Aérofreins : surfaces qui augmentent la traînée et aident au ralentissement.</figcaption>
             </figure>
 
@@ -1322,7 +1402,9 @@
         </p>
 
         <figure class="image-bloc">
-          <img src="decrochage.jfif" alt="Illustration d’un avion en décrochage">
+          <a class="image-link" href="decrochage.jfif" target="_blank" rel="noopener" aria-label="Visualiser l’image Décrochage">
+            <img src="decrochage.jfif" alt="Illustration d’un avion en décrochage">
+          </a>
           <figcaption class="image-caption">
             Décrochage : angle d’attaque trop élevé, écoulement d’air perturbé et perte de portance.
           </figcaption>
@@ -1476,11 +1558,11 @@
     </section>
 
   </main>
-<footer>
-  <div class="container">
-    <p><strong>Auteur :</strong> Hocine Korichi, ingénieur physicien et informaticien. Avril 2026</p>
-  </div>
-</footer>
+  <footer>
+    <div class="container">
+      <p><strong>Auteur :</strong> Hocine Korichi, ingénieur physicien et informaticien. Avril 2026</p>
+    </div>
+  </footer>
 
 </body>
 </html>
