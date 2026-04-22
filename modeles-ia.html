@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Introduction complète à l'intelligence artificielle</title>
+  <style>
+    :root {
+      --bg: #f4f7fb;
+      --surface: #ffffff;
+      --surface-soft: #eef3f9;
+      --text: #1f2937;
+      --muted: #5b6472;
+      --primary: #1e3a8a;
+      --primary-2: #2563eb;
+      --accent: #0f766e;
+      --border: #dbe4ef;
+      --shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+      --radius: 18px;
+      --max: 1200px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: linear-gradient(180deg, #edf3fa 0%, #f8fbff 100%);
+      color: var(--text);
+      line-height: 1.7;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+      border-radius: 14px;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .container {
+      width: min(92%, var(--max));
+      margin: 0 auto;
+    }
+
+    header {
+      background: linear-gradient(135deg, #0f172a, #1e3a8a);
+      color: #fff;
+      padding-bottom: 28px;
+      box-shadow: var(--shadow);
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(15, 23, 42, 0.95);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .nav-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 14px 0;
+      flex-wrap: wrap;
+    }
+
+    .brand {
+      font-size: 1.2rem;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+      color: #fff;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    nav a {
+      color: #fff;
+      padding: 10px 14px;
+      border-radius: 10px;
+      transition: 0.25s ease;
+      font-size: 0.95rem;
+    }
+
+    nav a:hover {
+      background: rgba(255, 255, 255, 0.12);
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 28px;
+      align-items: center;
+      padding: 42px 0 10px;
+    }
+
+    .hero-text h1 {
+      font-size: 2.4rem;
+      line-height: 1.2;
+      margin-bottom: 16px;
+    }
+
+    .hero-text p {
+      font-size: 1.05rem;
+      color: #dbe7ff;
+      margin-bottom: 14px;
+      text-align: justify;
+    }
+
+    .hero-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .badge {
+      background: rgba(255, 255, 255, 0.14);
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      padding: 9px 14px;
+      border-radius: 999px;
+      font-size: 0.92rem;
+    }
+
+    .hero-image {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      padding: 12px;
+      border-radius: 22px;
+      box-shadow: var(--shadow);
+    }
+
+    .hero-image img {
+      width: 100%;
+      min-height: 260px;
+      object-fit: cover;
+    }
+
+    main {
+      padding: 34px 0 50px;
+    }
+
+    section {
+      margin-bottom: 28px;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 28px;
+    }
+
+    .section-title {
+      font-size: 1.75rem;
+      color: var(--primary);
+      margin-bottom: 14px;
+      line-height: 1.2;
+    }
+
+    .section-subtitle {
+      font-size: 1rem;
+      color: var(--muted);
+      margin-bottom: 18px;
+    }
+
+    .lead {
+      font-size: 1.02rem;
+      color: var(--text);
+      text-align: justify;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 22px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .mini-card {
+      background: var(--surface-soft);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 18px;
+    }
+
+    .mini-card h3 {
+      color: var(--primary);
+      margin-bottom: 10px;
+      font-size: 1.05rem;
+    }
+
+    .mini-card p {
+      color: var(--text);
+      font-size: 0.98rem;
+      text-align: justify;
+    }
+
+    .mini-card ul {
+      padding-left: 20px;
+    }
+
+    .mini-card li {
+      margin-bottom: 8px;
+    }
+
+    .image-block {
+      margin-top: 16px;
+    }
+
+    .image-caption {
+      font-size: 0.92rem;
+      color: var(--muted);
+      margin-top: 8px;
+      text-align: center;
+    }
+
+    .chapter {
+      padding: 20px;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      background: linear-gradient(180deg, #ffffff, #f8fbff);
+      margin-bottom: 16px;
+    }
+
+    .chapter h3 {
+      color: var(--accent);
+      margin-bottom: 10px;
+      font-size: 1.15rem;
+    }
+
+    .chapter p {
+      text-align: justify;
+      margin-bottom: 10px;
+    }
+
+    .chapter ul {
+      padding-left: 22px;
+    }
+
+    .chapter li {
+      margin-bottom: 8px;
+    }
+
+    .steps {
+      counter-reset: step;
+      display: grid;
+      gap: 14px;
+    }
+
+    .step {
+      background: var(--surface-soft);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 18px 18px 18px 64px;
+      position: relative;
+    }
+
+    .step::before {
+      counter-increment: step;
+      content: counter(step);
+      position: absolute;
+      left: 18px;
+      top: 18px;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--primary-2);
+      color: #fff;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .step h3 {
+      color: var(--primary);
+      margin-bottom: 8px;
+    }
+
+    .comparison-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 12px;
+      overflow: hidden;
+      border-radius: 14px;
+    }
+
+    .comparison-table th,
+    .comparison-table td {
+      border: 1px solid var(--border);
+      padding: 14px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .comparison-table th {
+      background: #e8f0fb;
+      color: var(--primary);
+    }
+
+    .comparison-table td {
+      background: #fff;
+    }
+
+    .quote-box {
+      background: linear-gradient(135deg, #e6f0ff, #eefaf7);
+      border: 1px solid #cfe2ff;
+      border-left: 6px solid var(--primary-2);
+      border-radius: 16px;
+      padding: 20px;
+      font-size: 1rem;
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 16px;
+    }
+
+    .gallery figure {
+      background: var(--surface-soft);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 10px;
+    }
+
+    .gallery figcaption {
+      text-align: center;
+      margin-top: 8px;
+      font-size: 0.92rem;
+      color: var(--muted);
+    }
+
+    footer {
+      background: #0f172a;
+      color: #d7deeb;
+      padding: 28px 0;
+      margin-top: 24px;
+    }
+
+    footer p {
+      text-align: center;
+      font-size: 0.95rem;
+    }
+
+    .highlight {
+      color: var(--primary);
+      font-weight: 700;
+    }
+
+    @media (max-width: 980px) {
+      .hero,
+      .grid-2,
+      .grid-3,
+      .gallery {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-text h1 {
+        font-size: 2rem;
+      }
+
+      nav ul {
+        justify-content: center;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .nav-wrap {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      nav ul {
+        width: 100%;
+        flex-direction: column;
+      }
+
+      nav a {
+        display: block;
+        width: 100%;
+      }
+
+      .hero {
+        padding-top: 24px;
+      }
+
+      .hero-text h1 {
+        font-size: 1.7rem;
+      }
+
+      .card {
+        padding: 20px;
+      }
+
+      .section-title {
+        font-size: 1.45rem;
+      }
+
+      .comparison-table,
+      .comparison-table thead,
+      .comparison-table tbody,
+      .comparison-table th,
+      .comparison-table td,
+      .comparison-table tr {
+        display: block;
+        width: 100%;
+      }
+
+      .comparison-table thead {
+        display: none;
+      }
+
+      .comparison-table tr {
+        margin-bottom: 14px;
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        overflow: hidden;
+      }
+
+      .comparison-table td {
+        border: none;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .comparison-table td:last-child {
+        border-bottom: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="topbar">
+    <div class="container nav-wrap">
+      <div class="brand">Cours complet sur l’intelligence artificielle</div>
+      <nav>
+        <ul>
+          <li><a href="#introduction">Introduction</a></li>
+          <li><a href="#familles">Familles</a></li>
+          <li><a href="#llm">LLM</a></li>
+          <li><a href="#probabilite">Statistique</a></li>
+          <li><a href="#neurones">Neurones</a></li>
+          <li><a href="#methodes">Méthodes</a></li>
+          <li><a href="#ergonomie">Ergonomie</a></li>
+          <li><a href="#conclusion">Conclusion</a></li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+
+  <header>
+    <div class="container hero">
+      <div class="hero-text">
+        <h1>Comprendre l’intelligence artificielle moderne, des bases aux grands modèles de langage</h1>
+        <p>
+          Cette page présente un cours clair et structuré sur l’intelligence artificielle, ses grands types de modèles,
+          ses fondements statistiques, le rôle des probabilités, les réseaux de neurones, les méthodes d’apprentissage
+          et la place particulière des modèles de langage modernes. Le but n’est pas de compliquer, mais d’expliquer
+          proprement l’essentiel.
+        </p>
+        <p>
+          La page est conçue pour un affichage large sur ordinateur et pour une lecture confortable sur smartphone,
+          avec une ergonomie simple, un menu visible, une hiérarchie claire des titres et des blocs visuels bien séparés.
+        </p>
+        <div class="hero-badges">
+          <span class="badge">Page claire</span>
+          <span class="badge">Style moderne</span>
+          <span class="badge">Adaptée smartphone</span>
+          <span class="badge">Cours pédagogique</span>
+        </div>
+      </div>
+
+      <div class="hero-image">
+        <img src="ia-principale.jpg" alt="Illustration principale sur l'intelligence artificielle" />
+        <p class="image-caption">Image principale d’illustration de l’intelligence artificielle</p>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section id="introduction">
+      <div class="card">
+        <h2 class="section-title">1. Introduction générale</h2>
+        <p class="section-subtitle">Qu’est-ce que l’intelligence artificielle et pourquoi ce domaine est-il devenu central ?</p>
+        <p class="lead">
+          L’intelligence artificielle regroupe un ensemble de méthodes permettant à une machine de traiter des données,
+          de repérer des régularités, d’établir des relations, de produire des prédictions ou de générer des contenus.
+          Il ne s’agit pas d’une magie technique, mais d’une combinaison de mathématiques, de statistiques,
+          d’optimisation, d’informatique et de traitement de l’information.
+        </p>
+      </div>
+    </section>
+
+    <section>
+      <div class="grid-2">
+        <div class="card">
+          <h2 class="section-title">2. Objectifs principaux</h2>
+          <div class="chapter">
+            <h3>Pourquoi utiliser l’IA ?</h3>
+            <ul>
+              <li>automatiser certaines tâches répétitives ;</li>
+              <li>classer, reconnaître ou trier des données ;</li>
+              <li>faire des prédictions ;</li>
+              <li>analyser un texte, une image ou un signal ;</li>
+              <li>assister la décision humaine ;</li>
+              <li>générer du texte, des images ou du code.</li>
+            </ul>
+          </div>
+          <div class="chapter">
+            <h3>Limite importante</h3>
+            <p>
+              Une IA peut être très utile sans être intelligente au sens humain. Elle peut produire de bons résultats
+              sur certaines tâches tout en restant fragile, biaisée ou trompeuse dans d’autres cas.
+            </p>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2 class="section-title">3. Les briques fondamentales</h2>
+          <div class="mini-card">
+            <h3>Les piliers techniques</h3>
+            <ul>
+              <li>probabilités ;</li>
+              <li>statistique ;</li>
+              <li>algèbre linéaire ;</li>
+              <li>optimisation ;</li>
+              <li>programmation ;</li>
+              <li>données de qualité.</li>
+            </ul>
+          </div>
+          <div class="image-block">
+            <img src="mathematiques-ia.jpg" alt="Illustration des mathématiques en intelligence artificielle" />
+            <p class="image-caption">Mathématiques, données et calcul : le socle réel de l’IA</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="familles">
+      <div class="card">
+        <h2 class="section-title">4. Les grandes familles de modèles</h2>
+        <p class="section-subtitle">Tous les modèles ne fonctionnent pas de la même manière.</p>
+
+        <div class="grid-3">
+          <div class="mini-card">
+            <h3>Modèles symboliques</h3>
+            <p>
+              Ils utilisent des règles explicites, de la logique et des structures de raisonnement formel.
+              Ils sont souvent précis sur un domaine fermé, mais peu souples.
+            </p>
+          </div>
+
+          <div class="mini-card">
+            <h3>Modèles statistiques</h3>
+            <p>
+              Ils apprennent à partir des fréquences, des corrélations et des distributions observées dans les données.
+              Ils constituent la base historique d’une grande partie du machine learning.
+            </p>
+          </div>
+
+          <div class="mini-card">
+            <h3>Réseaux de neurones</h3>
+            <p>
+              Ils apprennent des représentations internes à plusieurs niveaux. Ils sont au cœur de l’apprentissage profond
+              et des grands modèles modernes.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="llm">
+      <div class="card">
+        <h2 class="section-title">5. Les LLM : grands modèles de langage</h2>
+        <p class="section-subtitle">Pourquoi ces modèles occupent-ils aujourd’hui une place dominante ?</p>
+
+        <div class="chapter">
+          <h3>Définition simple</h3>
+          <p>
+            Un LLM est un grand modèle entraîné sur d’énormes volumes de textes. Son principe de base consiste à
+            prédire la suite la plus probable dans une séquence. Ce mécanisme, répété à très grande échelle, lui permet
+            de résumer, reformuler, expliquer, traduire, répondre et générer des textes complexes.
+          </p>
+        </div>
+
+        <div class="chapter">
+          <h3>Ce qu’il sait faire</h3>
+          <ul>
+            <li>expliquer un sujet ;</li>
+            <li>résumer un document ;</li>
+            <li>traduire ;</li>
+            <li>générer du code ;</li>
+            <li>proposer des brouillons ;</li>
+            <li>répondre à des questions en langage naturel.</li>
+          </ul>
+        </div>
+
+        <div class="chapter">
+          <h3>Ce qu’il ne faut pas croire</h3>
+          <p>
+            Un LLM n’est pas automatiquement fiable. Il peut produire des réponses plausibles mais fausses. Il faut donc
+            vérifier les faits, surtout dans les domaines sensibles.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="probabilite">
+      <div class="card">
+        <h2 class="section-title">6. Approches statistiques et probabilités</h2>
+        <p class="section-subtitle">Sans probabilité ni statistique, l’IA moderne n’existe pas.</p>
+
+        <div class="grid-2">
+          <div>
+            <div class="chapter">
+              <h3>Rôle de la probabilité</h3>
+              <p>
+                La probabilité mesure l’incertitude. Dans un modèle de langage, elle sert par exemple à estimer
+                quel mot a le plus de chances de venir ensuite dans une phrase.
+              </p>
+            </div>
+            <div class="chapter">
+              <h3>Rôle de la statistique</h3>
+              <p>
+                La statistique permet d’analyser les données, de repérer des tendances, d’estimer des paramètres
+                et de généraliser à partir d’exemples.
+              </p>
+            </div>
+          </div>
+
+          <div class="image-block">
+            <img src="statistique-probabilite.jpg" alt="Graphiques et probabilités en intelligence artificielle" />
+            <p class="image-caption">La probabilité et la statistique servent à modéliser l’incertitude et l’apprentissage</p>
+          </div>
+        </div>
+
+        <table class="comparison-table">
+          <thead>
+            <tr>
+              <th>Notion</th>
+              <th>Rôle</th>
+              <th>Exemple simple</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Probabilité</td>
+              <td>Mesurer une chance ou une incertitude</td>
+              <td>Prévoir le mot suivant dans une phrase</td>
+            </tr>
+            <tr>
+              <td>Statistique</td>
+              <td>Apprendre à partir d’observations</td>
+              <td>Estimer une tendance dans des données</td>
+            </tr>
+            <tr>
+              <td>Optimisation</td>
+              <td>Réduire l’erreur d’un modèle</td>
+              <td>Ajuster les paramètres pour améliorer les résultats</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="neurones">
+      <div class="card">
+        <h2 class="section-title">7. Les neurones artificiels</h2>
+        <p class="section-subtitle">Le mot “neurone” est souvent employé à tort comme s’il s’agissait de biologie pure.</p>
+
+        <div class="grid-2">
+          <div>
+            <div class="chapter">
+              <h3>Principe</h3>
+              <p>
+                Un neurone artificiel reçoit des entrées, leur applique des poids, calcule une somme pondérée,
+                puis transmet le résultat à une fonction d’activation. Cette sortie devient ensuite une entrée
+                pour d’autres neurones.
+              </p>
+            </div>
+
+            <div class="chapter">
+              <h3>Pourquoi plusieurs couches ?</h3>
+              <p>
+                Une seule couche est vite limitée. Plusieurs couches permettent d’apprendre des motifs de plus
+                en plus abstraits : contours, formes, objets, relations ou structures de langage.
+              </p>
+            </div>
+          </div>
+
+          <div class="image-block">
+            <img src="reseau-neuronal.jpg" alt="Schéma d'un réseau de neurones artificiels" />
+            <p class="image-caption">Exemple visuel d’un réseau de neurones artificiels</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="methodes">
+      <div class="card">
+        <h2 class="section-title">8. Les grandes méthodes d’apprentissage</h2>
+        <p class="section-subtitle">Chaque approche répond à un type de problème.</p>
+
+        <div class="steps">
+          <div class="step">
+            <h3>Apprentissage supervisé</h3>
+            <p>
+              On fournit au modèle des exemples avec la bonne réponse attendue. Il apprend à relier une entrée
+              à une sortie correcte.
+            </p>
+          </div>
+
+          <div class="step">
+            <h3>Apprentissage non supervisé</h3>
+            <p>
+              On fournit uniquement des données, sans réponse attendue. Le modèle cherche alors des structures,
+              des groupes ou des ressemblances.
+            </p>
+          </div>
+
+          <div class="step">
+            <h3>Apprentissage semi-supervisé</h3>
+            <p>
+              On combine un petit volume de données annotées avec un plus grand volume de données non annotées.
+            </p>
+          </div>
+
+          <div class="step">
+            <h3>Apprentissage par renforcement</h3>
+            <p>
+              Un agent agit dans un environnement et reçoit des récompenses ou des pénalités. Il apprend
+              progressivement à mieux agir.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="card">
+        <h2 class="section-title">9. Outils et techniques courants</h2>
+        <div class="grid-3">
+          <div class="mini-card">
+            <h3>Outils logiciels</h3>
+            <ul>
+              <li>Python</li>
+              <li>PyTorch</li>
+              <li>TensorFlow</li>
+              <li>Jupyter</li>
+              <li>bibliothèques de traitement de données</li>
+            </ul>
+          </div>
+
+          <div class="mini-card">
+            <h3>Étapes techniques</h3>
+            <ul>
+              <li>collecte de données ;</li>
+              <li>nettoyage ;</li>
+              <li>entraînement ;</li>
+              <li>validation ;</li>
+              <li>test ;</li>
+              <li>déploiement.</li>
+            </ul>
+          </div>
+
+          <div class="mini-card">
+            <h3>Critères d’évaluation</h3>
+            <ul>
+              <li>précision ;</li>
+              <li>rappel ;</li>
+              <li>score F1 ;</li>
+              <li>robustesse ;</li>
+              <li>coût ;</li>
+              <li>temps de réponse.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="ergonomie">
+      <div class="card">
+        <h2 class="section-title">10. Ergonomie, affichage et clarté d’une page</h2>
+        <p class="section-subtitle">Une bonne page ne dépend pas seulement du contenu, mais aussi de sa lisibilité.</p>
+
+        <div class="grid-2">
+          <div>
+            <div class="chapter">
+              <h3>Règles utiles</h3>
+              <ul>
+                <li>utiliser une hiérarchie visuelle claire ;</li>
+                <li>séparer les idées en blocs distincts ;</li>
+                <li>prévoir des marges suffisantes ;</li>
+                <li>éviter les couleurs agressives ;</li>
+                <li>limiter les longueurs de ligne ;</li>
+                <li>soigner la lecture sur smartphone.</li>
+              </ul>
+            </div>
+
+            <div class="chapter">
+              <h3>Adaptation mobile</h3>
+              <p>
+                Sur petit écran, une bonne page doit empiler les colonnes, élargir les boutons tactiles,
+                simplifier la navigation et conserver des tailles de police confortables.
+              </p>
+            </div>
+          </div>
+
+          <div>
+            <div class="quote-box">
+              Une page réussie est une page où l’œil comprend vite l’organisation, où le lecteur ne lutte pas
+              contre la présentation, et où l’information reste lisible aussi bien sur grand écran que sur téléphone.
+            </div>
+
+            <div class="image-block" style="margin-top:16px;">
+              <img src="ergonomie-interface.jpg" alt="Exemple d'ergonomie d'interface et d'affichage responsive" />
+              <p class="image-caption">Ergonomie visuelle et adaptation responsive</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="card">
+        <h2 class="section-title">11. Galerie d’illustrations</h2>
+        <p class="section-subtitle">Tu peux remplacer librement les images par tes propres fichiers.</p>
+
+        <div class="gallery">
+          <figure>
+            <img src="llm-illustration.jpg" alt="Illustration d'un grand modèle de langage" />
+            <figcaption>Grand modèle de langage</figcaption>
+          </figure>
+
+          <figure>
+            <img src="donnees-entrainement.jpg" alt="Illustration des données d'entraînement" />
+            <figcaption>Données d’entraînement</figcaption>
+          </figure>
+
+          <figure>
+            <img src="interface-mobile.jpg" alt="Affichage mobile d'une page web" />
+            <figcaption>Affichage sur smartphone</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section id="conclusion">
+      <div class="card">
+        <h2 class="section-title">12. Conclusion</h2>
+        <p class="lead">
+          L’intelligence artificielle moderne repose moins sur une idée mystérieuse que sur une architecture rigoureuse :
+          des données, des modèles, des probabilités, des statistiques, des méthodes d’optimisation et une puissance
+          de calcul suffisante. Les LLM sont une branche récente et très visible de cet ensemble, mais ils ne résument
+          pas toute l’IA. Pour comprendre le domaine sérieusement, il faut garder ensemble la théorie, la pratique,
+          l’ergonomie des outils et le sens critique.
+        </p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>Auteur : <span class="highlight">Hocine Korichi</span> — Cours HTML autonome sur l’intelligence artificielle — 2026</p>
+    </div>
+  </footer>
+
+</body>
+</html>
