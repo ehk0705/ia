@@ -2,220 +2,328 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>Tableau de bord Banco - Analyse IA avec trios</title>
+<title>Dashboard Banco - IA, duos et trios</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
-:root {
-    --bg:#f4f6f8;
-    --card:#ffffff;
-    --text:#17202a;
-    --muted:#637381;
-    --border:#d8dee4;
-    --accent:#1f6feb;
-    --green:#0f766e;
-    --orange:#b45309;
-    --purple:#7c3aed;
-    --red:#b91c1c;
+body {
+    margin: 0;
+    font-family: Arial, Verdana, sans-serif;
+    background: #f4f6f8;
+    color: #17202a;
 }
-body { margin:0; font-family:Arial,Verdana,sans-serif; background:var(--bg); color:var(--text); }
-header { background:linear-gradient(135deg,#0f172a,#1f6feb); color:white; padding:28px 22px; }
-header h1 { margin:0 0 8px 0; font-size:28px; }
-header p { margin:0; color:#dbeafe; }
-main { max-width:1280px; margin:0 auto; padding:22px; }
-.grid { display:grid; grid-template-columns:repeat(5,1fr); gap:16px; }
-.two { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
-.three { display:grid; grid-template-columns:1fr 1fr 1fr; gap:16px; }
-.card { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:18px; margin-top:18px; box-shadow:0 8px 20px rgba(15,23,42,.06); }
-.metric { font-size:25px; font-weight:bold; color:var(--accent); }
-.label { color:var(--muted); font-size:14px; }
-.bar-row { display:grid; grid-template-columns:74px 1fr 74px; gap:10px; align-items:center; margin:9px 0; font-size:14px; }
-.bar-bg { height:14px; background:#e5e7eb; border-radius:999px; overflow:hidden; }
-.bar { height:14px; background:var(--accent); border-radius:999px; }
-.low { background:var(--orange); }
-.pair { background:var(--green); }
-.trio { background:var(--purple); }
-table { width:100%; border-collapse:collapse; font-size:14px; }
-th,td { padding:9px 8px; border-bottom:1px solid var(--border); text-align:left; }
-th { background:#f8fafc; }
-.badge { display:inline-flex; align-items:center; justify-content:center; width:34px; height:34px; border-radius:50%; background:#dbeafe; font-weight:bold; }
-.ai { border-left:5px solid var(--accent); background:#eff6ff; padding:14px; border-radius:10px; line-height:1.55; }
-.warn { border-left:5px solid var(--red); background:#fef2f2; padding:14px; border-radius:10px; line-height:1.55; }
-svg { width:100%; min-width:780px; background:white; border-radius:10px; }
-.svg-wrap { overflow-x:auto; }
-pre { background:#0f172a; color:#e2e8f0; padding:12px; border-radius:10px; overflow-x:auto; }
-footer { color:var(--muted); text-align:center; padding:30px; font-size:13px; }
-@media(max-width:1000px) { .grid,.two,.three { grid-template-columns:1fr; } main { padding:14px; } header h1 { font-size:22px; } }
+header {
+    background: linear-gradient(135deg, #0f172a, #1f6feb);
+    color: white;
+    padding: 28px 22px;
+}
+header h1 {
+    margin: 0 0 8px 0;
+    font-size: 28px;
+}
+header p {
+    margin: 0;
+    color: #dbeafe;
+}
+main {
+    max-width: 1250px;
+    margin: 0 auto;
+    padding: 22px;
+}
+.card {
+    background: white;
+    border: 1px solid #d8dee4;
+    border-radius: 14px;
+    padding: 18px;
+    margin-top: 18px;
+    box-shadow: 0 8px 20px rgba(15, 23, 42, 0.06);
+}
+.today {
+    border: 2px solid #93c5fd;
+    background: linear-gradient(180deg, #ffffff, #eff6ff);
+}
+.today-head {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+.date {
+    font-weight: bold;
+    color: #1f6feb;
+}
+.balls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 16px;
+}
+.ball {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #dbeafe;
+    border: 1px solid #93c5fd;
+    font-weight: bold;
+}
+.turbo {
+    display: inline-block;
+    margin-top: 12px;
+    padding: 8px 14px;
+    border-radius: 999px;
+    background: #fef3c7;
+    border: 1px solid #f59e0b;
+    font-weight: bold;
+}
+.grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+}
+.two {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+.metric {
+    font-size: 26px;
+    font-weight: bold;
+    color: #1f6feb;
+}
+.label {
+    color: #637381;
+    font-size: 14px;
+}
+.bar-row {
+    display: grid;
+    grid-template-columns: 80px 1fr 70px;
+    gap: 10px;
+    align-items: center;
+    margin: 9px 0;
+    font-size: 14px;
+}
+.bar-bg {
+    height: 14px;
+    background: #e5e7eb;
+    border-radius: 999px;
+    overflow: hidden;
+}
+.bar {
+    height: 14px;
+    background: #1f6feb;
+}
+.bar.pair {
+    background: #0f766e;
+}
+.bar.trio {
+    background: #7c3aed;
+}
+.bar.low {
+    background: #b45309;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+th, td {
+    padding: 9px 8px;
+    border-bottom: 1px solid #d8dee4;
+    text-align: left;
+}
+th {
+    background: #f8fafc;
+}
+.ai {
+    border-left: 5px solid #1f6feb;
+    background: #eff6ff;
+    padding: 14px;
+    border-radius: 10px;
+    line-height: 1.55;
+}
+.warning {
+    border-left: 5px solid #b91c1c;
+    background: #fef2f2;
+    padding: 14px;
+    border-radius: 10px;
+    line-height: 1.55;
+}
+pre {
+    background: #0f172a;
+    color: #e2e8f0;
+    padding: 12px;
+    border-radius: 10px;
+    overflow-x: auto;
+}
+@media(max-width: 900px) {
+    .grid, .two {
+        grid-template-columns: 1fr;
+    }
+    main {
+        padding: 14px;
+    }
+}
 </style>
 </head>
 <body>
 <header>
 <h1>Tableau de bord Banco - Data Lake et analyse IA</h1>
-<p>Analyse statistique des numéros, paires et trios observés dans l’historique.</p>
+<p>Dernier résultat, fréquences, duos, trios et synthèse IA.</p>
 </header>
 
 <main>
+
+<section class="card today">
+    <div class="today-head">
+        <h2>Résultat du jour ou dernier résultat disponible</h2>
+        <div class="date" id="date-resultat"></div>
+    </div>
+    <div class="balls" id="numeros-resultat"></div>
+    <div id="turbo-resultat"></div>
+</section>
+
 <section class="grid">
-<div class="card"><div class="metric" id="m1"></div><div class="label">Tirages analysés</div></div>
-<div class="card"><div class="metric" id="m2"></div><div class="label">Période couverte</div></div>
-<div class="card"><div class="metric" id="m3"></div><div class="label">Numéro le plus fréquent</div></div>
-<div class="card"><div class="metric" id="m4"></div><div class="label">Paire la plus fréquente</div></div>
-<div class="card"><div class="metric" id="m5"></div><div class="label">Trio le plus fréquent</div></div>
+    <div class="card">
+        <div class="metric" id="m-tirages"></div>
+        <div class="label">Tirages analysés</div>
+    </div>
+    <div class="card">
+        <div class="metric" id="m-periode"></div>
+        <div class="label">Période couverte</div>
+    </div>
+    <div class="card">
+        <div class="metric" id="m-paire"></div>
+        <div class="label">Paire la plus fréquente</div>
+    </div>
+    <div class="card">
+        <div class="metric" id="m-trio"></div>
+        <div class="label">Trio le plus fréquent</div>
+    </div>
 </section>
 
 <section class="two">
-<div class="card"><h2>10 numéros les plus fréquents</h2><div id="top"></div></div>
-<div class="card"><h2>10 numéros les moins fréquents</h2><div id="low"></div></div>
+    <div class="card">
+        <h2>10 numéros les plus fréquents</h2>
+        <div id="top-freq"></div>
+    </div>
+    <div class="card">
+        <h2>10 numéros les moins fréquents</h2>
+        <div id="low-freq"></div>
+    </div>
 </section>
 
 <section class="two">
-<div class="card"><h2>10 paires les plus fréquentes</h2><div id="pairs"></div></div>
-<div class="card"><h2>10 trios les plus fréquents</h2><div id="trios"></div></div>
-</section>
-
-<section class="two">
-<div class="card"><h2>Synthèse d’analyse IA</h2><div class="ai" id="ai"></div><br><div class="warn">Analyse statistique uniquement. Aucune garantie de prédiction fiable.</div></div>
-<div class="card">
-<h2>Comment interpréter les trios</h2>
-<p>Un trio fréquent signifie que trois numéros sont souvent apparus ensemble dans les tirages historiques.</p>
-<p>Cela peut servir à l’analyse exploratoire, mais cela ne signifie pas que ce trio est plus probable au prochain tirage.</p>
-</div>
-</section>
-
-<section class="card"><h2>Évolution annuelle des 5 numéros principaux</h2><div class="svg-wrap" id="yearly"></div></section>
-<section class="card"><h2>Évolution mensuelle récente du numéro principal</h2><div class="svg-wrap" id="monthly"></div></section>
-
-<section class="three">
-<div class="card"><h2>Tableau - Top numéros</h2><div id="t1"></div></div>
-<div class="card"><h2>Tableau - Top paires</h2><div id="t2"></div></div>
-<div class="card"><h2>Tableau - Top trios</h2><div id="t3"></div></div>
+    <div class="card">
+        <h2>10 duos / paires les plus fréquents</h2>
+        <div id="top-pairs"></div>
+    </div>
+    <div class="card">
+        <h2>10 trios les plus fréquents</h2>
+        <div id="top-trios"></div>
+    </div>
 </section>
 
 <section class="card">
-<h2>Procédure d’alimentation avec trios</h2>
+    <h2>Synthèse d’analyse IA</h2>
+    <div class="ai" id="analyse-ia"></div>
+    <br>
+    <div class="warning">
+        Cette analyse est statistique et exploratoire. Elle ne permet pas de prédire avec certitude un tirage futur.
+    </div>
+</section>
+
+<section class="two">
+    <div class="card">
+        <h2>Tableau - Duos / paires</h2>
+        <div id="table-pairs"></div>
+    </div>
+    <div class="card">
+        <h2>Tableau - Trios</h2>
+        <div id="table-trios"></div>
+    </div>
+</section>
+
+<section class="card">
+<h2>Procédure</h2>
 <pre>cd C:\loto_scraping
 
 py banco-scraping-reprise-rapide.py
 py create_banco_datalake.py
 py create_banco_trios.py
 py create_banco_dashboard.py</pre>
-<p>Le fichier des trios doit être créé ici :</p>
-<pre>C:\loto_scraping\data_lake_banco\curated\statistiques_trios_numeros.csv</pre>
 </section>
+
 </main>
 
-<footer>Tableau de bord Banco - Analyse statistique, non prédictive.</footer>
-
 <script>
-const DATA = {"summary": {"tirages": 3775, "premiere_date": "2016-02-01", "derniere_date": "2026-06-02", "num_plus": "34", "freq_plus": 1154, "num_moins": "67", "freq_moins": 1006, "paire_plus": "26-34", "freq_paire_plus": 351, "trio_plus": "07-24-31", "freq_trio_plus": 128}, "topFreq": [{"numero_texte": "34", "frequence": 1154, "pourcentage_tirages": 30.57}, {"numero_texte": "05", "frequence": 1133, "pourcentage_tirages": 30.01}, {"numero_texte": "20", "frequence": 1129, "pourcentage_tirages": 29.91}, {"numero_texte": "03", "frequence": 1122, "pourcentage_tirages": 29.72}, {"numero_texte": "23", "frequence": 1120, "pourcentage_tirages": 29.67}, {"numero_texte": "26", "frequence": 1118, "pourcentage_tirages": 29.62}, {"numero_texte": "06", "frequence": 1115, "pourcentage_tirages": 29.54}, {"numero_texte": "48", "frequence": 1115, "pourcentage_tirages": 29.54}, {"numero_texte": "69", "frequence": 1109, "pourcentage_tirages": 29.38}, {"numero_texte": "12", "frequence": 1108, "pourcentage_tirages": 29.35}], "lowFreq": [{"numero_texte": "67", "frequence": 1006, "pourcentage_tirages": 26.65}, {"numero_texte": "15", "frequence": 1010, "pourcentage_tirages": 26.75}, {"numero_texte": "28", "frequence": 1029, "pourcentage_tirages": 27.26}, {"numero_texte": "41", "frequence": 1036, "pourcentage_tirages": 27.44}, {"numero_texte": "01", "frequence": 1037, "pourcentage_tirages": 27.47}, {"numero_texte": "22", "frequence": 1041, "pourcentage_tirages": 27.58}, {"numero_texte": "02", "frequence": 1045, "pourcentage_tirages": 27.68}, {"numero_texte": "60", "frequence": 1048, "pourcentage_tirages": 27.76}, {"numero_texte": "63", "frequence": 1049, "pourcentage_tirages": 27.79}, {"numero_texte": "04", "frequence": 1050, "pourcentage_tirages": 27.81}], "topPairs": [{"paire": "26-34", "frequence": 351}, {"paire": "03-48", "frequence": 348}, {"paire": "05-16", "frequence": 348}, {"paire": "05-39", "frequence": 347}, {"paire": "16-34", "frequence": 346}, {"paire": "26-51", "frequence": 346}, {"paire": "05-43", "frequence": 345}, {"paire": "34-47", "frequence": 345}, {"paire": "03-38", "frequence": 344}, {"paire": "20-25", "frequence": 344}], "topTrios": [{"trio": "07-24-31", "frequence": 128}, {"trio": "20-30-52", "frequence": 118}, {"trio": "34-37-69", "frequence": 118}, {"trio": "05-39-55", "frequence": 116}, {"trio": "09-51-57", "frequence": 115}, {"trio": "27-39-48", "frequence": 115}, {"trio": "05-35-47", "frequence": 114}, {"trio": "17-48-50", "frequence": 114}, {"trio": "05-16-34", "frequence": 113}, {"trio": "06-07-23", "frequence": 113}], "yearly": [{"annee": 2016, "numero_texte": "03", "frequence": 91}, {"annee": 2016, "numero_texte": "05", "frequence": 115}, {"annee": 2016, "numero_texte": "20", "frequence": 111}, {"annee": 2016, "numero_texte": "23", "frequence": 116}, {"annee": 2016, "numero_texte": "34", "frequence": 112}, {"annee": 2017, "numero_texte": "03", "frequence": 120}, {"annee": 2017, "numero_texte": "05", "frequence": 104}, {"annee": 2017, "numero_texte": "20", "frequence": 113}, {"annee": 2017, "numero_texte": "23", "frequence": 107}, {"annee": 2017, "numero_texte": "34", "frequence": 97}, {"annee": 2018, "numero_texte": "03", "frequence": 120}, {"annee": 2018, "numero_texte": "05", "frequence": 104}, {"annee": 2018, "numero_texte": "20", "frequence": 105}, {"annee": 2018, "numero_texte": "23", "frequence": 105}, {"annee": 2018, "numero_texte": "34", "frequence": 123}, {"annee": 2019, "numero_texte": "03", "frequence": 117}, {"annee": 2019, "numero_texte": "05", "frequence": 98}, {"annee": 2019, "numero_texte": "20", "frequence": 114}, {"annee": 2019, "numero_texte": "23", "frequence": 108}, {"annee": 2019, "numero_texte": "34", "frequence": 106}, {"annee": 2020, "numero_texte": "03", "frequence": 103}, {"annee": 2020, "numero_texte": "05", "frequence": 109}, {"annee": 2020, "numero_texte": "20", "frequence": 119}, {"annee": 2020, "numero_texte": "23", "frequence": 111}, {"annee": 2020, "numero_texte": "34", "frequence": 113}, {"annee": 2021, "numero_texte": "03", "frequence": 105}, {"annee": 2021, "numero_texte": "05", "frequence": 102}, {"annee": 2021, "numero_texte": "20", "frequence": 108}, {"annee": 2021, "numero_texte": "23", "frequence": 115}, {"annee": 2021, "numero_texte": "34", "frequence": 102}, {"annee": 2022, "numero_texte": "03", "frequence": 110}, {"annee": 2022, "numero_texte": "05", "frequence": 104}, {"annee": 2022, "numero_texte": "20", "frequence": 107}, {"annee": 2022, "numero_texte": "23", "frequence": 101}, {"annee": 2022, "numero_texte": "34", "frequence": 119}, {"annee": 2023, "numero_texte": "03", "frequence": 91}, {"annee": 2023, "numero_texte": "05", "frequence": 110}, {"annee": 2023, "numero_texte": "20", "frequence": 102}, {"annee": 2023, "numero_texte": "23", "frequence": 94}, {"annee": 2023, "numero_texte": "34", "frequence": 118}, {"annee": 2024, "numero_texte": "03", "frequence": 105}, {"annee": 2024, "numero_texte": "05", "frequence": 116}, {"annee": 2024, "numero_texte": "20", "frequence": 109}, {"annee": 2024, "numero_texte": "23", "frequence": 101}, {"annee": 2024, "numero_texte": "34", "frequence": 111}, {"annee": 2025, "numero_texte": "03", "frequence": 120}, {"annee": 2025, "numero_texte": "05", "frequence": 120}, {"annee": 2025, "numero_texte": "20", "frequence": 95}, {"annee": 2025, "numero_texte": "23", "frequence": 119}, {"annee": 2025, "numero_texte": "34", "frequence": 106}, {"annee": 2026, "numero_texte": "03", "frequence": 40}, {"annee": 2026, "numero_texte": "05", "frequence": 51}, {"annee": 2026, "numero_texte": "20", "frequence": 46}, {"annee": 2026, "numero_texte": "23", "frequence": 43}, {"annee": 2026, "numero_texte": "34", "frequence": 47}], "topNums": ["34", "05", "20", "03", "23"], "monthlyTop": [{"annee_mois": "2023-07", "numero_texte": "34", "frequence": 10}, {"annee_mois": "2023-08", "numero_texte": "34", "frequence": 9}, {"annee_mois": "2023-09", "numero_texte": "34", "frequence": 6}, {"annee_mois": "2023-10", "numero_texte": "34", "frequence": 9}, {"annee_mois": "2023-11", "numero_texte": "34", "frequence": 14}, {"annee_mois": "2023-12", "numero_texte": "34", "frequence": 9}, {"annee_mois": "2024-01", "numero_texte": "34", "frequence": 8}, {"annee_mois": "2024-02", "numero_texte": "34", "frequence": 12}, {"annee_mois": "2024-03", "numero_texte": "34", "frequence": 6}, {"annee_mois": "2024-04", "numero_texte": "34", "frequence": 9}, {"annee_mois": "2024-05", "numero_texte": "34", "frequence": 4}, {"annee_mois": "2024-06", "numero_texte": "34", "frequence": 6}, {"annee_mois": "2024-07", "numero_texte": "34", "frequence": 10}, {"annee_mois": "2024-08", "numero_texte": "34", "frequence": 10}, {"annee_mois": "2024-09", "numero_texte": "34", "frequence": 10}, {"annee_mois": "2024-10", "numero_texte": "34", "frequence": 16}, {"annee_mois": "2024-11", "numero_texte": "34", "frequence": 10}, {"annee_mois": "2024-12", "numero_texte": "34", "frequence": 10}, {"annee_mois": "2025-01", "numero_texte": "34", "frequence": 11}, {"annee_mois": "2025-02", "numero_texte": "34", "frequence": 9}, {"annee_mois": "2025-03", "numero_texte": "34", "frequence": 11}, {"annee_mois": "2025-04", "numero_texte": "34", "frequence": 9}, {"annee_mois": "2025-05", "numero_texte": "34", "frequence": 11}, {"annee_mois": "2025-06", "numero_texte": "34", "frequence": 9}, {"annee_mois": "2025-07", "numero_texte": "34", "frequence": 8}, {"annee_mois": "2025-08", "numero_texte": "34", "frequence": 9}, {"annee_mois": "2025-09", "numero_texte": "34", "frequence": 7}, {"annee_mois": "2025-10", "numero_texte": "34", "frequence": 6}, {"annee_mois": "2025-11", "numero_texte": "34", "frequence": 6}, {"annee_mois": "2025-12", "numero_texte": "34", "frequence": 10}, {"annee_mois": "2026-01", "numero_texte": "34", "frequence": 9}, {"annee_mois": "2026-02", "numero_texte": "34", "frequence": 8}, {"annee_mois": "2026-03", "numero_texte": "34", "frequence": 10}, {"annee_mois": "2026-04", "numero_texte": "34", "frequence": 10}, {"annee_mois": "2026-05", "numero_texte": "34", "frequence": 9}, {"annee_mois": "2026-06", "numero_texte": "34", "frequence": 1}]};
+const DATA = {"tirages": 3776, "premiere_date": "2016-02-01", "derniere_date": "2026-06-03", "dernier_resultat_date": "2026-06-03", "dernier_resultat_numeros": ["04", "06", "07", "09", "10", "14", "15", "16", "17", "19", "25", "30", "31", "43", "51", "52", "56", "58", "66", "67"], "dernier_turbo": "", "numero_plus": "34", "frequence_numero_plus": 1154, "paire_plus": "26-34", "frequence_paire_plus": 351, "trio_plus": "07-24-31", "frequence_trio_plus": 128, "top_freq": [{"numero_texte": "34", "frequence": 1154, "pourcentage_tirages": 30.56}, {"numero_texte": "05", "frequence": 1133, "pourcentage_tirages": 30.01}, {"numero_texte": "20", "frequence": 1129, "pourcentage_tirages": 29.9}, {"numero_texte": "03", "frequence": 1122, "pourcentage_tirages": 29.71}, {"numero_texte": "23", "frequence": 1120, "pourcentage_tirages": 29.66}, {"numero_texte": "26", "frequence": 1118, "pourcentage_tirages": 29.61}, {"numero_texte": "06", "frequence": 1116, "pourcentage_tirages": 29.56}, {"numero_texte": "48", "frequence": 1115, "pourcentage_tirages": 29.53}, {"numero_texte": "69", "frequence": 1109, "pourcentage_tirages": 29.37}, {"numero_texte": "12", "frequence": 1108, "pourcentage_tirages": 29.34}], "low_freq": [{"numero_texte": "67", "frequence": 1007, "pourcentage_tirages": 26.67}, {"numero_texte": "15", "frequence": 1011, "pourcentage_tirages": 26.77}, {"numero_texte": "28", "frequence": 1029, "pourcentage_tirages": 27.25}, {"numero_texte": "41", "frequence": 1036, "pourcentage_tirages": 27.44}, {"numero_texte": "01", "frequence": 1037, "pourcentage_tirages": 27.46}, {"numero_texte": "22", "frequence": 1041, "pourcentage_tirages": 27.57}, {"numero_texte": "02", "frequence": 1045, "pourcentage_tirages": 27.67}, {"numero_texte": "60", "frequence": 1048, "pourcentage_tirages": 27.75}, {"numero_texte": "63", "frequence": 1049, "pourcentage_tirages": 27.78}, {"numero_texte": "04", "frequence": 1051, "pourcentage_tirages": 27.83}], "top_pairs": [{"paire": "26-34", "frequence": 351}, {"paire": "03-48", "frequence": 348}, {"paire": "05-16", "frequence": 348}, {"paire": "05-39", "frequence": 347}, {"paire": "16-34", "frequence": 346}, {"paire": "26-51", "frequence": 346}, {"paire": "05-43", "frequence": 345}, {"paire": "34-47", "frequence": 345}, {"paire": "03-38", "frequence": 344}, {"paire": "20-25", "frequence": 344}], "top_trios": [{"trio": "07-24-31", "frequence": 128}, {"trio": "20-30-52", "frequence": 118}, {"trio": "34-37-69", "frequence": 118}, {"trio": "05-39-55", "frequence": 116}, {"trio": "09-51-57", "frequence": 115}, {"trio": "27-39-48", "frequence": 115}, {"trio": "05-35-47", "frequence": 114}, {"trio": "17-48-50", "frequence": 114}, {"trio": "05-16-34", "frequence": 113}, {"trio": "06-07-23", "frequence": 113}]};
 
-function bar(id, rows, label, val, cls='') {
-    const max = Math.max(...rows.map(r=>Number(r[val])));
-    document.getElementById(id).innerHTML = rows.map(r=>{
-        const width = Math.round(Number(r[val]) / max * 100);
-        return `<div class="bar-row"><strong>${r[label]}</strong><div class="bar-bg"><div class="bar ${cls}" style="width:${width}%"></div></div><span>${r[val]}</span></div>`;
-    }).join('');
+function barChart(id, rows, labelKey, valueKey, cls="") {
+    const max = Math.max(...rows.map(r => Number(r[valueKey])));
+    document.getElementById(id).innerHTML = rows.map(r => {
+        const width = Math.round(Number(r[valueKey]) / max * 100);
+        return `<div class="bar-row">
+            <strong>${r[labelKey]}</strong>
+            <div class="bar-bg"><div class="bar ${cls}" style="width:${width}%"></div></div>
+            <span>${r[valueKey]}</span>
+        </div>`;
+    }).join("");
 }
 
-function table(id, rows, cols) {
-    let h = '<table><thead><tr>' + cols.map(c=>`<th>${c.t}</th>`).join('') + '</tr></thead><tbody>';
-    for (const r of rows) {
-        h += '<tr>' + cols.map(c=>{
-            const v = c.badge ? `<span class="badge">${r[c.k]}</span>` : r[c.k];
-            return `<td>${v}</td>`;
-        }).join('') + '</tr>';
-    }
-    h += '</tbody></table>';
-    document.getElementById(id).innerHTML = h;
-}
-
-function yearly() {
-    const data = DATA.yearly;
-    const years = [...new Set(data.map(d=>d.annee))].sort();
-    const nums = DATA.topNums;
-    const colors = ['#1f6feb','#0f766e','#b45309','#7c3aed','#b91c1c'];
-    const W=980,H=420,L=60,R=20,T=30,B=70;
-    const max = Math.max(...data.map(d=>d.frequence));
-    const xs = y => L + years.indexOf(y) * (W-L-R) / Math.max(1, years.length-1);
-    const ys = v => T + (H-T-B) * (1 - v / max);
-
-    let s = `<svg viewBox="0 0 ${W} ${H}">`;
-    s += `<line x1="${L}" y1="${H-B}" x2="${W-R}" y2="${H-B}" stroke="#cbd5e1"/>`;
-    s += `<line x1="${L}" y1="${T}" x2="${L}" y2="${H-B}" stroke="#cbd5e1"/>`;
-    years.forEach(y => { s += `<text x="${xs(y)}" y="${H-35}" font-size="12" text-anchor="middle" fill="#475569">${y}</text>`; });
-
-    nums.forEach((n,i) => {
-        const rows = data.filter(d=>d.numero_texte===n).sort((a,b)=>a.annee-b.annee);
-        const points = rows.map(r=>`${xs(r.annee)},${ys(r.frequence)}`).join(' ');
-        s += `<polyline points="${points}" fill="none" stroke="${colors[i]}" stroke-width="3"/>`;
-        rows.forEach(r => { s += `<circle cx="${xs(r.annee)}" cy="${ys(r.frequence)}" r="4" fill="${colors[i]}"/>`; });
-        s += `<text x="${W-120}" y="${35+i*22}" font-size="13" fill="${colors[i]}">Numéro ${n}</text>`;
+function table(id, rows, columns) {
+    let html = "<table><thead><tr>";
+    columns.forEach(c => html += `<th>${c.title}</th>`);
+    html += "</tr></thead><tbody>";
+    rows.forEach(r => {
+        html += "<tr>";
+        columns.forEach(c => html += `<td>${r[c.key]}</td>`);
+        html += "</tr>";
     });
-
-    s += '</svg>';
-    document.getElementById('yearly').innerHTML = s;
+    html += "</tbody></table>";
+    document.getElementById(id).innerHTML = html;
 }
 
-function monthly() {
-    const data = DATA.monthlyTop;
-    const W=980,H=340,L=55,R=20,T=25,B=90;
-    const max = Math.max(...data.map(d=>d.frequence));
-    const bw = (W-L-R) / data.length * .75;
-    const gap = (W-L-R) / data.length * .25;
+document.getElementById("date-resultat").textContent = DATA.dernier_resultat_date;
 
-    let s = `<svg viewBox="0 0 ${W} ${H}">`;
-    s += `<line x1="${L}" y1="${H-B}" x2="${W-R}" y2="${H-B}" stroke="#cbd5e1"/>`;
-    s += `<line x1="${L}" y1="${T}" x2="${L}" y2="${H-B}" stroke="#cbd5e1"/>`;
+document.getElementById("numeros-resultat").innerHTML =
+    DATA.dernier_resultat_numeros.map(n => `<span class="ball">${n}</span>`).join("");
 
-    data.forEach((d,i) => {
-        const x = L + i * (bw + gap);
-        const h = (H-T-B) * d.frequence / max;
-        const y = H - B - h;
-        s += `<rect x="${x}" y="${y}" width="${bw}" height="${h}" fill="#1f6feb" rx="4"/>`;
-        if (i % 3 === 0) {
-            s += `<text x="${x+bw/2}" y="${H-52}" font-size="11" text-anchor="end" transform="rotate(-45 ${x+bw/2} ${H-52})" fill="#475569">${d.annee_mois}</text>`;
-        }
-    });
-
-    s += `<text x="${L}" y="18" font-size="13" fill="#475569">Numéro ${DATA.summary.num_plus}</text>`;
-    s += '</svg>';
-    document.getElementById('monthly').innerHTML = s;
+if (DATA.dernier_turbo && DATA.dernier_turbo !== "nan") {
+    document.getElementById("turbo-resultat").innerHTML =
+        `<span class="turbo">Turbo : ${DATA.dernier_turbo}</span>`;
 }
 
-document.getElementById('m1').textContent = DATA.summary.tirages.toLocaleString('fr-CA');
-document.getElementById('m2').textContent = DATA.summary.premiere_date + ' au ' + DATA.summary.derniere_date;
-document.getElementById('m3').textContent = DATA.summary.num_plus + ' (' + DATA.summary.freq_plus + ')';
-document.getElementById('m4').textContent = DATA.summary.paire_plus + ' (' + DATA.summary.freq_paire_plus + ')';
-document.getElementById('m5').textContent = DATA.summary.trio_plus + ' (' + DATA.summary.freq_trio_plus + ')';
+document.getElementById("m-tirages").textContent = DATA.tirages.toLocaleString("fr-CA");
+document.getElementById("m-periode").textContent = DATA.premiere_date + " au " + DATA.derniere_date;
+document.getElementById("m-paire").textContent = DATA.paire_plus + " (" + DATA.frequence_paire_plus + ")";
+document.getElementById("m-trio").textContent = DATA.trio_plus + " (" + DATA.frequence_trio_plus + ")";
 
-bar('top', DATA.topFreq, 'numero_texte', 'frequence');
-bar('low', DATA.lowFreq, 'numero_texte', 'frequence', 'low');
-bar('pairs', DATA.topPairs, 'paire', 'frequence', 'pair');
-bar('trios', DATA.topTrios, 'trio', 'frequence', 'trio');
+barChart("top-freq", DATA.top_freq, "numero_texte", "frequence");
+barChart("low-freq", DATA.low_freq, "numero_texte", "frequence", "low");
+barChart("top-pairs", DATA.top_pairs, "paire", "frequence", "pair");
+barChart("top-trios", DATA.top_trios, "trio", "frequence", "trio");
 
-table('t1', DATA.topFreq, [
-    {t:'Numéro', k:'numero_texte', badge:true},
-    {t:'Fréquence', k:'frequence'},
-    {t:'%', k:'pourcentage_tirages'}
+table("table-pairs", DATA.top_pairs, [
+    {title: "Paire", key: "paire"},
+    {title: "Fréquence", key: "frequence"}
 ]);
 
-table('t2', DATA.topPairs, [
-    {t:'Paire', k:'paire'},
-    {t:'Fréquence', k:'frequence'}
+table("table-trios", DATA.top_trios, [
+    {title: "Trio", key: "trio"},
+    {title: "Fréquence", key: "frequence"}
 ]);
 
-table('t3', DATA.topTrios, [
-    {t:'Trio', k:'trio'},
-    {t:'Fréquence', k:'frequence'}
-]);
-
-document.getElementById('ai').innerHTML =
-    `<p><strong>Lecture statistique :</strong> le numéro le plus fréquent est <strong>${DATA.summary.num_plus}</strong>, avec <strong>${DATA.summary.freq_plus}</strong> apparitions.</p>
-     <p><strong>Paires :</strong> la paire la plus observée est <strong>${DATA.summary.paire_plus}</strong>, avec <strong>${DATA.summary.freq_paire_plus}</strong> apparitions.</p>
-     <p><strong>Trios :</strong> le trio le plus observé est <strong>${DATA.summary.trio_plus}</strong>, avec <strong>${DATA.summary.freq_trio_plus}</strong> apparitions.</p>
-     <p><strong>IA :</strong> les trios enrichissent l’analyse des coapparitions. Ils peuvent être utilisés pour comparer les combinaisons générées avec l’historique, mais ils ne changent pas la nature aléatoire du tirage.</p>`;
-
-yearly();
-monthly();
+document.getElementById("analyse-ia").innerHTML = `
+<p><strong>Dernier résultat analysé :</strong> le tirage du <strong>${DATA.dernier_resultat_date}</strong> est affiché en haut du tableau de bord.</p>
+<p><strong>Numéro dominant :</strong> le numéro le plus fréquent dans l’historique est <strong>${DATA.numero_plus}</strong>, avec <strong>${DATA.frequence_numero_plus}</strong> apparitions.</p>
+<p><strong>Duos :</strong> la paire la plus fréquente est <strong>${DATA.paire_plus}</strong>, avec <strong>${DATA.frequence_paire_plus}</strong> apparitions.</p>
+<p><strong>Trios :</strong> le trio le plus fréquent est <strong>${DATA.trio_plus}</strong>, avec <strong>${DATA.frequence_trio_plus}</strong> apparitions.</p>
+<p><strong>Lecture IA :</strong> le résultat du jour est replacé dans son contexte historique : fréquences simples, coapparitions en duos et coapparitions en trios. Cette analyse aide à explorer les données, mais elle ne transforme pas un tirage aléatoire en prédiction certaine.</p>
+`;
 </script>
+
 </body>
 </html>
