@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Modèles d’apprentissage en intelligence artificielle</title>
+  <style>
+    :root {
+      --fond: #f5f7fb;
+      --texte: #1f2937;
+      --bleu: #1e3a8a;
+      --bleu-clair: #dbeafe;
+      --gris: #6b7280;
+      --blanc: #ffffff;
+      --bordure: #e5e7eb;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Verdana, Arial, sans-serif;
+      background: var(--fond);
+      color: var(--texte);
+      line-height: 1.6;
+    }
+
+    .page {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 28px;
+    }
+
+    header {
+      background: linear-gradient(135deg, #1e3a8a, #2563eb);
+      color: white;
+      padding: 34px;
+      border-radius: 18px;
+      margin-bottom: 26px;
+    }
+
+    header h1 {
+      margin: 0 0 12px;
+      font-size: 32px;
+      line-height: 1.25;
+    }
+
+    header p {
+      margin: 0;
+      font-size: 17px;
+      max-width: 850px;
+    }
+
+    .image-bloc {
+      background: var(--blanc);
+      border: 1px solid var(--bordure);
+      border-radius: 18px;
+      padding: 18px;
+      margin-bottom: 26px;
+      text-align: center;
+    }
+
+    .image-bloc img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 14px;
+    }
+
+    .intro, .section, .conclusion {
+      background: var(--blanc);
+      border: 1px solid var(--bordure);
+      border-radius: 18px;
+      padding: 24px;
+      margin-bottom: 22px;
+    }
+
+    h2 {
+      color: var(--bleu);
+      margin-top: 0;
+      font-size: 24px;
+    }
+
+    h3 {
+      color: var(--bleu);
+      margin-bottom: 8px;
+      font-size: 20px;
+    }
+
+    .cartes {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 18px;
+      margin-top: 18px;
+    }
+
+    .carte {
+      background: #f9fafb;
+      border: 1px solid var(--bordure);
+      border-radius: 16px;
+      padding: 18px;
+    }
+
+    .carte .numero {
+      display: inline-block;
+      background: var(--bleu-clair);
+      color: var(--bleu);
+      font-weight: bold;
+      padding: 5px 10px;
+      border-radius: 999px;
+      margin-bottom: 10px;
+      font-size: 13px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 16px;
+      overflow: hidden;
+      border-radius: 12px;
+    }
+
+    th, td {
+      border: 1px solid var(--bordure);
+      padding: 13px;
+      vertical-align: top;
+      text-align: left;
+    }
+
+    th {
+      background: var(--bleu);
+      color: white;
+    }
+
+    tr:nth-child(even) td {
+      background: #f9fafb;
+    }
+
+    .schema {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .etape {
+      background: var(--bleu-clair);
+      color: var(--bleu);
+      padding: 14px;
+      border-radius: 14px;
+      text-align: center;
+      font-weight: bold;
+    }
+
+    .note {
+      background: #fff7ed;
+      border-left: 5px solid #f97316;
+      padding: 14px 16px;
+      border-radius: 10px;
+      margin-top: 16px;
+    }
+
+    ul {
+      padding-left: 22px;
+    }
+
+    footer {
+      color: var(--gris);
+      text-align: center;
+      font-size: 13px;
+      margin-top: 30px;
+    }
+
+    @media print {
+      body {
+        background: white;
+      }
+
+      .page {
+        padding: 0;
+      }
+
+      header, .intro, .section, .conclusion, .image-bloc {
+        break-inside: avoid;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+
+    <header>
+      <h1>Les modèles d’apprentissage en intelligence artificielle</h1>
+      <p>
+        L’intelligence artificielle apprend à partir de données. Selon le type de données disponibles
+        et l’objectif recherché, on utilise différents modèles d’apprentissage.
+      </p>
+    </header>
+
+    <section class="image-bloc">
+      <img src="assets/img/learning_models.jfif" alt="Illustration des modèles d’apprentissage en intelligence artificielle">
+    </section>
+
+    <section class="intro">
+      <h2>1. Comprendre le principe général</h2>
+      <p>
+        Une IA ne comprend pas comme un être humain. Elle analyse des exemples, repère des régularités,
+        calcule des relations entre les données, puis produit une réponse, une prédiction ou une décision.
+      </p>
+      <p>
+        Plus les données sont fiables, bien préparées et représentatives, plus le modèle peut donner
+        des résultats utiles. À l’inverse, des données fausses, incomplètes ou mal classées donnent
+        souvent de mauvais résultats.
+      </p>
+
+      <div class="schema">
+        <div class="etape">Données</div>
+        <div class="etape">Nettoyage</div>
+        <div class="etape">Apprentissage</div>
+        <div class="etape">Modèle IA</div>
+        <div class="etape">Résultats</div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>2. Tableau résumé des principaux modèles</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Type</th>
+            <th>Principe</th>
+            <th>Exemples d’utilisation</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Apprentissage supervisé</strong></td>
+            <td>L’IA apprend avec des données déjà étiquetées. Chaque exemple contient la bonne réponse.</td>
+            <td>Classification, prédiction, détection de fraude, diagnostic assisté.</td>
+          </tr>
+          <tr>
+            <td><strong>Apprentissage non supervisé</strong></td>
+            <td>L’IA cherche seule des groupes, des ressemblances ou des structures cachées dans les données.</td>
+            <td>Segmentation de clients, détection d’anomalies, regroupement automatique.</td>
+          </tr>
+          <tr>
+            <td><strong>Apprentissage par renforcement</strong></td>
+            <td>L’IA apprend par essais, erreurs et récompenses. Elle améliore ses actions avec l’expérience.</td>
+            <td>Optimisation, robotique, jeux, gestion de parcours ou de ressources.</td>
+          </tr>
+          <tr>
+            <td><strong>Deep learning</strong></td>
+            <td>L’IA utilise des réseaux de neurones profonds capables d’apprendre des relations complexes.</td>
+            <td>Images, texte, voix, traduction, reconnaissance, IA générative.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="section">
+      <h2>3. Les modèles expliqués simplement</h2>
+
+      <div class="cartes">
+        <article class="carte">
+          <span class="numero">Modèle 1</span>
+          <h3>Apprentissage supervisé</h3>
+          <p>
+            C’est le modèle le plus facile à comprendre. On donne à l’IA des exemples avec la réponse attendue.
+          </p>
+          <p>
+            Exemple : on lui montre des courriels déjà classés en « normal » ou « fraude ».
+            Avec le temps, elle apprend à reconnaître les signes d’un courriel frauduleux.
+          </p>
+          <p><strong>Objectif :</strong> prédire ou classer correctement de nouvelles données.</p>
+        </article>
+
+        <article class="carte">
+          <span class="numero">Modèle 2</span>
+          <h3>Apprentissage non supervisé</h3>
+          <p>
+            Ici, l’IA ne reçoit pas de réponses toutes faites. Elle doit observer les données et trouver
+            des ressemblances.
+          </p>
+          <p>
+            Exemple : une entreprise donne à l’IA des données sur ses clients. L’IA peut découvrir plusieurs
+            groupes : clients réguliers, clients occasionnels, clients à risque de départ.
+          </p>
+          <p><strong>Objectif :</strong> découvrir des structures cachées.</p>
+        </article>
+
+        <article class="carte">
+          <span class="numero">Modèle 3</span>
+          <h3>Apprentissage par renforcement</h3>
+          <p>
+            L’IA apprend en agissant. Une bonne action reçoit une récompense. Une mauvaise action reçoit
+            une pénalité ou un mauvais résultat.
+          </p>
+          <p>
+            Exemple : un robot apprend à se déplacer. S’il avance correctement, il est récompensé.
+            S’il tombe ou bloque, il ajuste son comportement.
+          </p>
+          <p><strong>Objectif :</strong> trouver la meilleure action dans une situation donnée.</p>
+        </article>
+
+        <article class="carte">
+          <span class="numero">Modèle 4</span>
+          <h3>Deep learning</h3>
+          <p>
+            Le deep learning est une forme avancée d’apprentissage automatique. Il repose sur des réseaux
+            de neurones composés de plusieurs couches.
+          </p>
+          <p>
+            Ces réseaux peuvent analyser de grandes quantités de données complexes : images, textes,
+            sons, vidéos ou conversations.
+          </p>
+          <p><strong>Objectif :</strong> apprendre des relations complexes et produire des résultats avancés.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>4. Exemple concret : reconnaissance d’une image</h2>
+      <p>
+        Supposons que l’on veuille apprendre à une IA à reconnaître des chats et des chiens.
+      </p>
+      <ul>
+        <li>Avec l’apprentissage supervisé, on fournit des images déjà étiquetées : « chat » ou « chien ».</li>
+        <li>Avec l’apprentissage non supervisé, l’IA regroupe les images selon leurs ressemblances.</li>
+        <li>Avec le deep learning, un réseau de neurones analyse les formes, les couleurs, les contours et les détails.</li>
+        <li>Avec le renforcement, l’IA peut apprendre à améliorer ses choix selon les corrections reçues.</li>
+      </ul>
+      <div class="note">
+        Le choix du modèle dépend toujours du problème à résoudre, des données disponibles et du niveau
+        de précision attendu.
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>5. Où se place l’IA générative ?</h2>
+      <p>
+        L’IA générative, comme les modèles capables de produire du texte, des images, du code ou de la voix,
+        repose souvent sur le deep learning.
+      </p>
+      <p>
+        Elle apprend à partir de très grands volumes de données. Elle ne se contente pas de classer ou
+        de prédire : elle génère un nouveau contenu à partir de ce qu’elle a appris.
+      </p>
+      <p>
+        Cela ne veut pas dire qu’elle a toujours raison. Une IA générative peut produire une réponse
+        plausible mais fausse. C’est pourquoi la vérification humaine reste indispensable.
+      </p>
+    </section>
+
+    <section class="conclusion">
+      <h2>6. À retenir</h2>
+      <ul>
+        <li>L’apprentissage supervisé apprend avec des exemples corrigés.</li>
+        <li>L’apprentissage non supervisé cherche des groupes ou des structures.</li>
+        <li>L’apprentissage par renforcement apprend par essais, erreurs et récompenses.</li>
+        <li>Le deep learning permet de traiter des données complexes comme le texte, l’image et la voix.</li>
+        <li>La qualité des données reste la base de toute intelligence artificielle fiable.</li>
+      </ul>
+    </section>
+
+    <footer>
+      Page pédagogique sur les modèles d’apprentissage en intelligence artificielle.
+    </footer>
+
+  </div>
+</body>
+</html>
