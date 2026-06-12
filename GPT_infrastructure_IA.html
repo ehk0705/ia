@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GPT et infrastructure technologique</title>
+  <style>
+    :root {
+      --bg: #f5f7fb;
+      --card: #ffffff;
+      --text: #1f2937;
+      --muted: #4b5563;
+      --accent: #2563eb;
+      --accent-light: #dbeafe;
+      --border: #e5e7eb;
+      --dark: #111827;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    .page {
+      max-width: 1050px;
+      margin: 0 auto;
+      padding: 32px 18px 48px;
+    }
+
+    header {
+      background: linear-gradient(135deg, #1d4ed8, #0f172a);
+      color: white;
+      padding: 36px 28px;
+      border-radius: 18px;
+      margin-bottom: 24px;
+      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.18);
+    }
+
+    header h1 {
+      margin: 0 0 10px;
+      font-size: 2.2rem;
+      line-height: 1.2;
+    }
+
+    header p {
+      margin: 0;
+      font-size: 1.08rem;
+      opacity: 0.95;
+    }
+
+
+    .author {
+      margin-top: 18px;
+      display: inline-block;
+      background: rgba(255, 255, 255, 0.14);
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      padding: 8px 14px;
+      border-radius: 999px;
+      font-size: 0.98rem;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+      margin: 18px 0;
+      box-shadow: 0 4px 16px rgba(15, 23, 42, 0.06);
+    }
+
+    h2 {
+      margin: 0 0 14px;
+      color: var(--dark);
+      font-size: 1.55rem;
+    }
+
+    h3 {
+      margin: 22px 0 8px;
+      color: var(--dark);
+      font-size: 1.2rem;
+    }
+
+    .highlight {
+      background: var(--accent-light);
+      border-left: 5px solid var(--accent);
+      padding: 16px 18px;
+      border-radius: 10px;
+      margin: 16px 0;
+      font-weight: 600;
+    }
+
+    .definition {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-top: 16px;
+    }
+
+    .mini-card {
+      border: 1px solid var(--border);
+      background: #fafafa;
+      border-radius: 14px;
+      padding: 16px;
+    }
+
+    .mini-card strong {
+      display: block;
+      color: var(--accent);
+      margin-bottom: 6px;
+      font-size: 1.05rem;
+    }
+
+    ul {
+      padding-left: 22px;
+      margin: 10px 0;
+    }
+
+    li {
+      margin: 6px 0;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 14px;
+      overflow: hidden;
+      border-radius: 12px;
+      font-size: 0.98rem;
+    }
+
+    th, td {
+      padding: 13px 14px;
+      border-bottom: 1px solid var(--border);
+      text-align: left;
+    }
+
+    th {
+      background: #eef2ff;
+      color: var(--dark);
+    }
+
+    td:last-child, th:last-child {
+      text-align: right;
+      font-weight: 600;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    .number-box {
+      background: #f9fafb;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 18px;
+    }
+
+    .number-box .number {
+      font-size: 1.45rem;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 4px;
+    }
+
+    .conclusion {
+      background: #111827;
+      color: white;
+      border-radius: 18px;
+      padding: 26px;
+      margin-top: 20px;
+    }
+
+    .conclusion h2 {
+      color: white;
+    }
+
+    .conclusion ul {
+      margin-bottom: 0;
+    }
+
+    .footer {
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin-top: 28px;
+    }
+
+    @media (max-width: 800px) {
+      .definition,
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      header h1 {
+        font-size: 1.75rem;
+      }
+
+  
+    .author {
+      margin-top: 18px;
+      display: inline-block;
+      background: rgba(255, 255, 255, 0.14);
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      padding: 8px 14px;
+      border-radius: 999px;
+      font-size: 0.98rem;
+    }
+
+    .card {
+        padding: 18px;
+      }
+
+      th, td {
+        padding: 10px;
+        font-size: 0.92rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header>
+      <h1>🧠 GPT et infrastructure technologique</h1>
+      <p>Explication simple de GPT et des moyens techniques nécessaires pour créer et faire fonctionner une intelligence artificielle de grande taille.</p>
+
+    <div class="author">
+      Auteur : <strong>Hocine Korichi, ing.</strong>
+    </div>
+    </header>
+
+    <section class="card">
+      <h2>🧠 GPT veut dire quoi ?</h2>
+      <p><strong>GPT</strong> veut dire :</p>
+      <div class="highlight">Generative Pre-trained Transformer</div>
+      <p>En français :</p>
+      <div class="highlight">Transformateur génératif pré-entraîné</div>
+
+      <div class="definition">
+        <div class="mini-card">
+          <strong>✍️ Generative</strong>
+          Il peut produire du texte, des réponses, des idées, du code, des résumés et des explications.
+        </div>
+        <div class="mini-card">
+          <strong>📚 Pre-trained</strong>
+          Il a été entraîné à l’avance sur de très grandes quantités de textes.
+        </div>
+        <div class="mini-card">
+          <strong>🏗️ Transformer</strong>
+          C’est l’architecture technique qui permet de comprendre les relations entre les mots et de produire des réponses cohérentes.
+        </div>
+      </div>
+
+      <h3>✅ En résumé</h3>
+      <p><strong>GPT est un modèle d’intelligence artificielle entraîné pour comprendre et générer du langage humain.</strong></p>
+      <p>Il ne pense pas comme un humain. Il calcule des réponses à partir de données, de probabilités et de modèles mathématiques.</p>
+    </section>
+
+    <section class="card">
+      <h2>🏭 Quelle infrastructure faut-il ?</h2>
+      <p>Pour créer et faire fonctionner un système comme GPT, il faut une infrastructure comparable à un <strong>centre de calcul industriel</strong>.</p>
+      <p>Ce n’est pas seulement un logiciel installé sur un ordinateur classique. Il faut une infrastructure massive composée de :</p>
+
+      <ul>
+        <li>🖥️ serveurs puissants ;</li>
+        <li>🧠 processeurs spécialisés ;</li>
+        <li>🗄️ stockage massif ;</li>
+        <li>🌐 réseau très rapide ;</li>
+        <li>❄️ refroidissement industriel ;</li>
+        <li>⚡ énergie en grande quantité.</li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <h2>🖥️ Les éléments principaux</h2>
+
+      <h3>🧠 Serveurs puissants et GPU</h3>
+      <p>Il faut des serveurs spécialisés contenant des milliers de <strong>GPU</strong>.</p>
+      <p><strong>GPU</strong> veut dire <strong>Graphics Processing Unit</strong>, en français : <strong>processeur graphique</strong>.</p>
+      <p>À l’origine, le GPU servait surtout à afficher des images, des vidéos et des jeux vidéo. Aujourd’hui, il est essentiel pour l’intelligence artificielle, car il permet de faire énormément de calculs en parallèle.</p>
+
+      <h3>🗄️ Stockage massif</h3>
+      <p>Un modèle comme GPT utilise d’énormes volumes de données. Il faut donc du stockage massif, souvent de l’ordre de plusieurs <strong>pétaoctets</strong>.</p>
+      <p><strong>Un pétaoctet correspond à environ 1 000 téraoctets.</strong></p>
+
+      <h3>🌐 Réseau très rapide</h3>
+      <p>Les serveurs et les GPU doivent communiquer entre eux très rapidement. On utilise donc des réseaux très puissants, souvent autour de <strong>400 Gbit/s par serveur GPU ou plus</strong>.</p>
+
+      <h3>❄️ Refroidissement important</h3>
+      <p>Les serveurs et les GPU produisent beaucoup de chaleur. Il faut donc des systèmes de refroidissement puissants : air, liquide, circuits d’eau, ventilation industrielle.</p>
+
+      <h3>⚡ Électricité en grande quantité</h3>
+      <p>L’intelligence artificielle consomme beaucoup d’électricité. Les grands centres d’IA peuvent consommer des quantités d’énergie comparables à celles de grandes installations industrielles.</p>
+    </section>
+
+    <section class="card">
+      <h2>📊 Ordres de grandeur</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Élément</th>
+            <th>Estimation</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>🧠 GPU</td>
+            <td>10 000 à 100 000+</td>
+          </tr>
+          <tr>
+            <td>🖥️ Serveurs</td>
+            <td>1 250 à 12 500 serveurs de 8 GPU</td>
+          </tr>
+          <tr>
+            <td>🗄️ Stockage</td>
+            <td>plusieurs pétaoctets</td>
+          </tr>
+          <tr>
+            <td>🌐 Réseau</td>
+            <td>400 Gbit/s ou plus</td>
+          </tr>
+          <tr>
+            <td>⚡ Énergie</td>
+            <td>dizaines à centaines de GWh</td>
+          </tr>
+          <tr>
+            <td>💰 Coût</td>
+            <td>millions à milliards de dollars</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="card">
+      <h2>🔢 Exemple simple</h2>
+      <p>Un groupe de <strong>1 000 GPU H100</strong> peut consommer environ :</p>
+
+      <div class="grid">
+        <div class="number-box">
+          <div class="number">⚡ 1 à 2 MW</div>
+          <div>avec les serveurs, le réseau et le refroidissement.</div>
+        </div>
+        <div class="number-box">
+          <div class="number">⚡ 1 GWh par mois</div>
+          <div>ordre de grandeur de consommation électrique mensuelle.</div>
+        </div>
+      </div>
+
+      <p>Pour <strong>10 000 GPU</strong>, on peut monter autour de :</p>
+      <div class="highlight">⚡ 10 à 15 GWh par mois</div>
+    </section>
+
+    <section class="conclusion">
+      <h2>✅ Conclusion</h2>
+      <p><strong>GPT n’est pas seulement un logiciel.</strong></p>
+      <p>C’est un système d’intelligence artificielle appuyé sur une infrastructure massive :</p>
+      <ul>
+        <li>🖥️ serveurs ;</li>
+        <li>🧠 GPU ;</li>
+        <li>🗄️ stockage ;</li>
+        <li>🌐 réseau ;</li>
+        <li>❄️ refroidissement ;</li>
+        <li>⚡ énergie.</li>
+      </ul>
+      <p><strong>En résumé : GPT est une intelligence artificielle de langage, mais derrière elle se trouve une véritable infrastructure industrielle de calcul.</strong></p>
+    </section>
+
+    <div class="footer">
+      Document pédagogique — GPT, GPU et infrastructure IA — Auteur : Hocine Korichi, ing.
+    </div>
+  </main>
+</body>
+</html>
