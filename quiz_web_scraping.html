@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quiz — Web scraping</title>
+  <style>
+    :root {
+      --fond: #f4f7fb;
+      --carte: #ffffff;
+      --texte: #1f2937;
+      --muted: #6b7280;
+      --principal: #2563eb;
+      --principal-fonce: #1d4ed8;
+      --bordure: #dbe3ef;
+      --bon: #15803d;
+      --mauvais: #b91c1c;
+      --alerte: #f59e0b;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Verdana, Arial, sans-serif;
+      background: linear-gradient(135deg, #eef4ff 0%, #f8fafc 60%, #edf7f2 100%);
+      color: var(--texte);
+      line-height: 1.6;
+    }
+
+    header {
+      padding: 48px 20px 32px;
+      text-align: center;
+      background: #0f172a;
+      color: white;
+    }
+
+    header h1 {
+      margin: 0 0 12px;
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      letter-spacing: -0.03em;
+    }
+
+    header p {
+      margin: 0 auto;
+      max-width: 760px;
+      color: #dbeafe;
+      font-size: 1.05rem;
+    }
+
+    main {
+      width: min(1050px, 94%);
+      margin: 32px auto 56px;
+    }
+
+    .intro {
+      background: var(--carte);
+      border: 1px solid var(--bordure);
+      border-radius: 18px;
+      padding: 24px;
+      box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+      margin-bottom: 24px;
+    }
+
+    .intro h2 {
+      margin-top: 0;
+      color: #0f172a;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: #dbeafe;
+      color: #1e40af;
+      font-weight: bold;
+      font-size: 0.85rem;
+      margin-bottom: 12px;
+    }
+
+    .quiz {
+      display: grid;
+      gap: 18px;
+    }
+
+    .question {
+      background: var(--carte);
+      border: 1px solid var(--bordure);
+      border-radius: 18px;
+      padding: 22px;
+      box-shadow: 0 10px 26px rgba(15, 23, 42, 0.07);
+    }
+
+    .question h3 {
+      margin: 0 0 14px;
+      font-size: 1.08rem;
+      color: #111827;
+    }
+
+    .options {
+      display: grid;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    label {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      padding: 12px 14px;
+      border: 1px solid var(--bordure);
+      border-radius: 12px;
+      cursor: pointer;
+      background: #f8fafc;
+      transition: 0.2s ease;
+    }
+
+    label:hover {
+      border-color: var(--principal);
+      background: #eff6ff;
+    }
+
+    input[type="radio"] {
+      margin-top: 4px;
+      accent-color: var(--principal);
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin: 26px 0;
+    }
+
+    button {
+      border: none;
+      border-radius: 12px;
+      padding: 13px 18px;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: 0.2s ease;
+    }
+
+    .btn-primary {
+      background: var(--principal);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: var(--principal-fonce);
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      background: #e5e7eb;
+      color: #111827;
+    }
+
+    .btn-secondary:hover {
+      background: #d1d5db;
+    }
+
+    .resultat {
+      display: none;
+      background: #ecfdf5;
+      border: 1px solid #bbf7d0;
+      border-radius: 18px;
+      padding: 22px;
+      margin-top: 18px;
+      box-shadow: 0 10px 26px rgba(15, 23, 42, 0.07);
+    }
+
+    .resultat h2 {
+      margin-top: 0;
+      color: var(--bon);
+    }
+
+    .correction {
+      margin-top: 12px;
+      padding: 14px;
+      border-radius: 12px;
+      background: #f8fafc;
+      border: 1px solid var(--bordure);
+    }
+
+    .ok {
+      color: var(--bon);
+      font-weight: bold;
+    }
+
+    .ko {
+      color: var(--mauvais);
+      font-weight: bold;
+    }
+
+    .note {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    footer {
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.9rem;
+      padding: 24px 16px 40px;
+    }
+
+    @media (max-width: 640px) {
+      header {
+        padding: 36px 16px 26px;
+      }
+
+      .question,
+      .intro,
+      .resultat {
+        padding: 18px;
+      }
+
+      button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Quiz — Web scraping</h1>
+    <p>Testez vos connaissances sur l’extraction automatique de données à partir de pages web.</p>
+  </header>
+
+  <main>
+    <section class="intro">
+      <span class="badge">Formation IA et données</span>
+      <h2>Objectif du quiz</h2>
+      <p>
+        Ce quiz porte uniquement sur le web scraping : principes, outils, limites techniques,
+        règles de prudence et bonnes pratiques. La page ne contient aucune publicité.
+      </p>
+      <p class="note">
+        Choisissez une seule réponse par question, puis cliquez sur « Corriger le quiz ».
+      </p>
+    </section>
+
+    <form id="quizForm" class="quiz">
+      <section class="question">
+        <h3>1. Que signifie le web scraping ?</h3>
+        <div class="options">
+          <label><input type="radio" name="q1" value="a"> Créer un site web avec des animations.</label>
+          <label><input type="radio" name="q1" value="b"> Extraire automatiquement des données depuis des pages web.</label>
+          <label><input type="radio" name="q1" value="c"> Supprimer les pages inutiles d’un site.</label>
+        </div>
+      </section>
+
+      <section class="question">
+        <h3>2. Quel langage est souvent utilisé pour faire du web scraping ?</h3>
+        <div class="options">
+          <label><input type="radio" name="q2" value="a"> Python.</label>
+          <label><input type="radio" name="q2" value="b"> CSS uniquement.</label>
+          <label><input type="radio" name="q2" value="c"> HTML uniquement.</label>
+        </div>
+      </section>
+
+      <section class="question">
+        <h3>3. Quel outil Python permet de lire et analyser du HTML ?</h3>
+        <div class="options">
+          <label><input type="radio" name="q3" value="a"> Beautiful Soup.</label>
+          <label><input type="radio" name="q3" value="b"> PowerPoint.</label>
+          <label><input type="radio" name="q3" value="c"> Bloc-notes.</label>
+        </div>
+      </section>
+
+      <section class="question">
+        <h3>4. À quoi sert la bibliothèque Requests en Python ?</h3>
+        <div class="options">
+          <label><input type="radio" name="q4" value="a"> À dessiner des graphiques.</label>
+          <label><input type="radio" name="q4" value="b"> À envoyer des requêtes HTTP vers une page web.</label>
+          <label><input type="radio" name="q4" value="c"> À corriger automatiquement le code HTML.</label>
+        </div>
+      </section>
+
+      <section class="question">
+        <h3>5. Que faut-il vérifier avant de scraper un site ?</h3>
+        <div class="options">
+          <label><input type="radio" name="q5" value="a"> Les conditions d’utilisation et les règles du site.</label>
+          <label><input type="radio" name="q5" value="b"> La couleur du logo du site.</label>
+          <label><input type="radio" name="q5" value="c"> Le nombre d’images sur la page d’accueil.</label>
+        </div>
+      </section>
+
+      <section class="question">
+        <h3>6. Pourquoi faut-il limiter la fréquence des requêtes ?</h3>
+        <div class="options">
+          <label><input type="radio" name="q6" value="a"> Pour ne pas surcharger le serveur du site.</label>
+          <label><input type="radio" name="q6" value="b"> Pour augmenter la taille des fichiers HTML.</label>
+          <label><input type="radio" name="q6" value="c"> Pour rendre le navigateur plus lent.</label>
+        </div>
+      </section>
+
+      <section class="question">
+        <h3>7. Quel format est pratique pour stocker des données extraites ?</h3>
+        <div class="options">
+          <label><input type="radio" name="q7" value="a"> CSV.</label>
+          <label><input type="radio" name="q7" value="b"> Image JPG uniquement.</label>
+          <label><input type="radio" name="q7" value="c"> Fichier audio.</label>
+        </div>
+      </section>
+
+      <section class="question">
+        <h3>8. Quel est un risque fréquent dans un projet de web scraping ?</h3>
+        <div class="options">
+          <label><input type="radio" name="q8" value="a"> Le site peut changer sa structure HTML.</label>
+          <label><input type="radio" name="q8" value="b"> Le fichier CSV devient toujours illisible.</label>
+          <label><input type="radio" name="q8" value="c"> Python disparaît du système.</label>
+        </div>
+      </section>
+
+      <section class="question">
+        <h3>9. Que signifie « nettoyer les données » après scraping ?</h3>
+        <div class="options">
+          <label><input type="radio" name="q9" value="a"> Supprimer les erreurs, doublons et valeurs inutiles.</label>
+          <label><input type="radio" name="q9" value="b"> Changer la police du site web.</label>
+          <label><input type="radio" name="q9" value="c"> Éteindre le serveur.</label>
+        </div>
+      </section>
+
+      <section class="question">
+        <h3>10. Quelle est une bonne pratique ?</h3>
+        <div class="options">
+          <label><input type="radio" name="q10" value="a"> Scraper sans pause et sans limite.</label>
+          <label><input type="radio" name="q10" value="b"> Documenter le script, gérer les erreurs et respecter le site source.</label>
+          <label><input type="radio" name="q10" value="c"> Cacher volontairement l’origine des données.</label>
+        </div>
+      </section>
+
+      <div class="actions">
+        <button type="button" class="btn-primary" onclick="corrigerQuiz()">Corriger le quiz</button>
+        <button type="reset" class="btn-secondary" onclick="reinitialiser()">Réinitialiser</button>
+      </div>
+    </form>
+
+    <section id="resultat" class="resultat"></section>
+  </main>
+
+  <footer>
+    Page pédagogique sans publicité — Quiz Web scraping
+  </footer>
+
+  <script>
+    const reponses = {
+      q1: "b",
+      q2: "a",
+      q3: "a",
+      q4: "b",
+      q5: "a",
+      q6: "a",
+      q7: "a",
+      q8: "a",
+      q9: "a",
+      q10: "b"
+    };
+
+    const explications = {
+      q1: "Le web scraping consiste à extraire automatiquement des données depuis des pages web.",
+      q2: "Python est très utilisé grâce à ses bibliothèques comme Requests, Beautiful Soup, Selenium ou Pandas.",
+      q3: "Beautiful Soup permet d’analyser le HTML et d’extraire des éléments précis.",
+      q4: "Requests sert à envoyer des requêtes HTTP pour récupérer le contenu d’une page.",
+      q5: "Il faut vérifier les conditions d’utilisation, le fichier robots.txt et les règles du site.",
+      q6: "Limiter la fréquence évite de surcharger le serveur et réduit le risque de blocage.",
+      q7: "Le CSV est simple, lisible et pratique pour stocker des données tabulaires.",
+      q8: "Si la structure HTML change, le script peut ne plus trouver les données.",
+      q9: "Nettoyer les données consiste à corriger les erreurs, supprimer les doublons et uniformiser les valeurs.",
+      q10: "Un bon script doit être documenté, robuste et respectueux du site source."
+    };
+
+    function corrigerQuiz() {
+      let score = 0;
+      let total = Object.keys(reponses).length;
+      let details = "";
+
+      for (let question in reponses) {
+        const choix = document.querySelector(`input[name="${question}"]:checked`);
+        const estCorrect = choix && choix.value === reponses[question];
+
+        if (estCorrect) {
+          score++;
+        }
+
+        details += `
+          <div class="correction">
+            <p>
+              <span class="${estCorrect ? "ok" : "ko"}">
+                ${question.toUpperCase()} : ${estCorrect ? "Bonne réponse" : "Réponse incorrecte ou absente"}
+              </span>
+            </p>
+            <p>${explications[question]}</p>
+          </div>
+        `;
+      }
+
+      const resultat = document.getElementById("resultat");
+      resultat.style.display = "block";
+      resultat.innerHTML = `
+        <h2>Résultat : ${score} / ${total}</h2>
+        <p>${messageScore(score, total)}</p>
+        ${details}
+      `;
+
+      resultat.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    function messageScore(score, total) {
+      const pourcentage = (score / total) * 100;
+
+      if (pourcentage >= 80) {
+        return "Très bon résultat. Les bases du web scraping sont bien comprises.";
+      }
+
+      if (pourcentage >= 50) {
+        return "Résultat correct. Il faut revoir quelques notions importantes.";
+      }
+
+      return "Résultat insuffisant. Il faut reprendre les bases avant de passer à la pratique.";
+    }
+
+    function reinitialiser() {
+      const resultat = document.getElementById("resultat");
+      resultat.style.display = "none";
+      resultat.innerHTML = "";
+    }
+  </script>
+</body>
+</html>
