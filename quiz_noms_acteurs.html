@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quiz — Noms d’acteurs</title>
+  <style>
+    :root {
+      --fond: #f5f6fb;
+      --carte: #ffffff;
+      --texte: #1f2937;
+      --muted: #6b7280;
+      --principal: #7c3aed;
+      --principal-fonce: #5b21b6;
+      --bordure: #ddd6fe;
+      --bon: #15803d;
+      --mauvais: #b91c1c;
+      --ombre: rgba(17, 24, 39, 0.10);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Verdana, Arial, sans-serif;
+      color: var(--texte);
+      background:
+        radial-gradient(circle at top left, #ede9fe 0, transparent 35%),
+        radial-gradient(circle at bottom right, #fce7f3 0, transparent 30%),
+        var(--fond);
+      line-height: 1.6;
+    }
+
+    header {
+      padding: 52px 20px 36px;
+      text-align: center;
+      color: white;
+      background: linear-gradient(135deg, #111827, #4c1d95);
+    }
+
+    header h1 {
+      margin: 0 0 12px;
+      font-size: clamp(1.9rem, 4vw, 3.1rem);
+      letter-spacing: -0.04em;
+    }
+
+    header p {
+      margin: 0 auto;
+      max-width: 780px;
+      color: #ede9fe;
+      font-size: 1.06rem;
+    }
+
+    main {
+      width: min(1050px, 94%);
+      margin: 32px auto 56px;
+    }
+
+    .intro,
+    .question,
+    .resultat {
+      background: var(--carte);
+      border: 1px solid var(--bordure);
+      border-radius: 20px;
+      box-shadow: 0 14px 34px var(--ombre);
+    }
+
+    .intro {
+      padding: 24px;
+      margin-bottom: 24px;
+    }
+
+    .intro h2 {
+      margin: 0 0 10px;
+      color: #111827;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 7px 13px;
+      border-radius: 999px;
+      background: #ede9fe;
+      color: #5b21b6;
+      font-weight: bold;
+      font-size: 0.86rem;
+      margin-bottom: 12px;
+    }
+
+    .note {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .quiz {
+      display: grid;
+      gap: 18px;
+    }
+
+    .question {
+      padding: 22px;
+    }
+
+    .question h3 {
+      margin: 0 0 14px;
+      font-size: 1.08rem;
+      color: #111827;
+    }
+
+    .options {
+      display: grid;
+      gap: 10px;
+    }
+
+    label {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      padding: 12px 14px;
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      background: #fafafa;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    label:hover {
+      border-color: var(--principal);
+      background: #f5f3ff;
+      transform: translateY(-1px);
+    }
+
+    input[type="radio"] {
+      margin-top: 4px;
+      accent-color: var(--principal);
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin: 28px 0;
+    }
+
+    button {
+      border: none;
+      border-radius: 14px;
+      padding: 13px 18px;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: 0.2s ease;
+    }
+
+    .btn-primary {
+      background: var(--principal);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: var(--principal-fonce);
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      background: #e5e7eb;
+      color: #111827;
+    }
+
+    .btn-secondary:hover {
+      background: #d1d5db;
+    }
+
+    .resultat {
+      display: none;
+      padding: 22px;
+      margin-top: 18px;
+      background: #f8fafc;
+    }
+
+    .resultat h2 {
+      margin-top: 0;
+      color: #4c1d95;
+    }
+
+    .correction {
+      margin-top: 12px;
+      padding: 14px;
+      border-radius: 14px;
+      background: white;
+      border: 1px solid #e5e7eb;
+    }
+
+    .ok {
+      color: var(--bon);
+      font-weight: bold;
+    }
+
+    .ko {
+      color: var(--mauvais);
+      font-weight: bold;
+    }
+
+    footer {
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.9rem;
+      padding: 24px 16px 40px;
+    }
+
+    @media (max-width: 640px) {
+      header {
+        padding: 38px 16px 28px;
+      }
+
+      .intro,
+      .question,
+      .resultat {
+        padding: 18px;
+      }
+
+      button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>Quiz — Noms d’acteurs</h1>
+    <p>Testez vos connaissances sur les acteurs et actrices célèbres du cinéma.</p>
+  </header>
+
+  <main>
+    <section class="intro">
+      <span class="badge">Culture cinéma</span>
+      <h2>Objectif du quiz</h2>
+      <p>
+        Ce quiz porte uniquement sur les noms d’acteurs et d’actrices. Il ne contient aucune publicité.
+      </p>
+      <p class="note">
+        Choisissez une seule réponse par question, puis cliquez sur « Corriger le quiz ».
+      </p>
+    </section>
+
+    <form id="quizForm" class="quiz">
+      <section class="question">
+        <h3>1. Quel acteur joue Jack Dawson dans le film <em>Titanic</em> ?</h3>
+        <div class="options">
+          <label><input type="radio" name="q1" value="a"> Brad Pitt</label>
+          <label><input type="radio" name="q1" value="b"> Leonardo DiCaprio</label>
+          <label><input type="radio" name="q1" value="c"> Tom Cruise</label>
+        </div>
+      </section>
+
+      <section class="question">
+        <h3>2. Quelle actrice joue Hermione Granger dans la saga <em>Harry Potter</em> ?</h3>
+        <div class="options">
+          <label><input type="radio" name="q2" value="a"> Emma Watson</label>
+          <label><input type="radio" name="q2" value="b"> Natalie Portman</label>
+          <label><input type="radio" name="q2" value="c"> Keira Knightley</label>
+        </div>
+      </section>
+
+      <section class="question">
+        <h3>3. Quel acteur est connu pour le rôle de Terminator ?</h3>
+        <div class="options">
+          <label><input type="radio" name="q3" value="a"> Sylvester Stallone</label>
+          <label><input type="radio" name="q3" value="b"> Arnold Schwarzenegger</label>
+          <label><input type="radio" name="q3" value="c"> Bruce Willis</label>
+        </div>
+      </section>
+
+      <section class="question">
+        <h3>4. Quel acteur joue Forrest Gump ?</h3>
+        <div class="options">
+          <label><input type="radio" name="q4" value="a"> Tom Hanks</label>
+          <label><input type="radio" name="q4" value="b"> Matt Damon</label>
+          <label><input type="radio" name="q4" value="c"> Kevin Costner</label>
+        </div>
+      </section>
+
+      <section class="question">
+        <h3>5. Quelle actrice joue Katniss Everdeen dans <em>Hunger Games</em> ?</h3>
+        <div class="options">
+          <label><input type="radio" name="q5" value="a"> Scarlett Johansson</label>
+          <label><input type="radio" name="q5" value="b"> Jennifer Lawrence</label>
+          <label><input type="radio" name="q5" value="c"> Anne Hathaway</label>
+        </div>
+      </section>
+
+      <section class="question">
+        <h3>6. Quel acteur joue le capitaine Jack Sparrow ?</h3>
+        <div class="options">
+          <label><input type="radio" name="q6" value="a"> Johnny Depp</label>
+          <label><input type="radio" name="q6" value="b"> Orlando Bloom</label>
+          <label><input type="radio" name="q6" value="c"> Robert Downey Jr.</label>
+        </div>
+      </section>
+
+      <section class="question">
+        <h3>7. Quel acteur est associé au personnage d’Iron Man dans l’univers Marvel ?</h3>
+        <div class="options">
+          <label><input type="radio" name="q7" value="a"> Chris Evans</label>
+          <label><input type="radio" name="q7" value="b"> Chris Hemsworth</label>
+          <label><input type="radio" name="q7" value="c"> Robert Downey Jr.</label>
+        </div>
+      </section>
+
+      <section class="question">
+        <h3>8. Quelle actrice joue Rose dans <em>Titanic</em> ?</h3>
+        <div class="options">
+          <label><input type="radio" name="q8" value="a"> Kate Winslet</label>
+          <label><input type="radio" name="q8" value="b"> Julia Roberts</label>
+          <label><input type="radio" name="q8" value="c"> Nicole Kidman</label>
+        </div>
+      </section>
+
+      <section class="question">
+        <h3>9. Quel acteur est connu pour le rôle de James Bond dans plusieurs films récents ?</h3>
+        <div class="options">
+          <label><input type="radio" name="q9" value="a"> Daniel Craig</label>
+          <label><input type="radio" name="q9" value="b"> Hugh Jackman</label>
+          <label><input type="radio" name="q9" value="c"> Colin Farrell</label>
+        </div>
+      </section>
+
+      <section class="question">
+        <h3>10. Quelle actrice joue Wonder Woman au cinéma ?</h3>
+        <div class="options">
+          <label><input type="radio" name="q10" value="a"> Gal Gadot</label>
+          <label><input type="radio" name="q10" value="b"> Angelina Jolie</label>
+          <label><input type="radio" name="q10" value="c"> Charlize Theron</label>
+        </div>
+      </section>
+
+      <div class="actions">
+        <button type="button" class="btn-primary" onclick="corrigerQuiz()">Corriger le quiz</button>
+        <button type="reset" class="btn-secondary" onclick="reinitialiser()">Réinitialiser</button>
+      </div>
+    </form>
+
+    <section id="resultat" class="resultat"></section>
+  </main>
+
+  <footer>
+    Page pédagogique sans publicité — Quiz sur les noms d’acteurs
+  </footer>
+
+  <script>
+    const reponses = {
+      q1: "b",
+      q2: "a",
+      q3: "b",
+      q4: "a",
+      q5: "b",
+      q6: "a",
+      q7: "c",
+      q8: "a",
+      q9: "a",
+      q10: "a"
+    };
+
+    const explications = {
+      q1: "Jack Dawson est interprété par Leonardo DiCaprio.",
+      q2: "Hermione Granger est interprétée par Emma Watson.",
+      q3: "Le rôle de Terminator est fortement associé à Arnold Schwarzenegger.",
+      q4: "Forrest Gump est interprété par Tom Hanks.",
+      q5: "Katniss Everdeen est interprétée par Jennifer Lawrence.",
+      q6: "Le capitaine Jack Sparrow est interprété par Johnny Depp.",
+      q7: "Iron Man, alias Tony Stark, est interprété par Robert Downey Jr.",
+      q8: "Rose est interprétée par Kate Winslet.",
+      q9: "James Bond a été interprété par Daniel Craig dans plusieurs films récents.",
+      q10: "Wonder Woman est interprétée par Gal Gadot."
+    };
+
+    function corrigerQuiz() {
+      let score = 0;
+      const total = Object.keys(reponses).length;
+      let details = "";
+
+      for (let question in reponses) {
+        const choix = document.querySelector(`input[name="${question}"]:checked`);
+        const estCorrect = choix && choix.value === reponses[question];
+
+        if (estCorrect) {
+          score++;
+        }
+
+        details += `
+          <div class="correction">
+            <p>
+              <span class="${estCorrect ? "ok" : "ko"}">
+                ${question.toUpperCase()} : ${estCorrect ? "Bonne réponse" : "Réponse incorrecte ou absente"}
+              </span>
+            </p>
+            <p>${explications[question]}</p>
+          </div>
+        `;
+      }
+
+      const resultat = document.getElementById("resultat");
+      resultat.style.display = "block";
+      resultat.innerHTML = `
+        <h2>Résultat : ${score} / ${total}</h2>
+        <p>${messageScore(score, total)}</p>
+        ${details}
+      `;
+
+      resultat.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    function messageScore(score, total) {
+      const pourcentage = (score / total) * 100;
+
+      if (pourcentage >= 80) {
+        return "Très bon résultat. Vous connaissez bien les acteurs et actrices célèbres.";
+      }
+
+      if (pourcentage >= 50) {
+        return "Résultat correct. Quelques noms sont à revoir.";
+      }
+
+      return "Résultat faible. Il faut revoir les grands rôles du cinéma.";
+    }
+
+    function reinitialiser() {
+      const resultat = document.getElementById("resultat");
+      resultat.style.display = "none";
+      resultat.innerHTML = "";
+    }
+  </script>
+</body>
+</html>
