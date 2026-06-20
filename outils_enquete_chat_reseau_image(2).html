@@ -205,7 +205,7 @@
 <body>
   <header>
     <h1>Outils d’analyse réseau et d’investigation numérique</h1>
-    <img src="img/inspecteur_gadget.jfif" alt="Inspecteur Gadget" class="image-titre">
+    <img src="inspecteur_gadget.jfif" alt="Inspecteur Gadget" class="image-titre">
     <p>Liste structurée d’outils utiles pour analyser des traces techniques liées à un échange en ligne, à des journaux réseau, à des appareils ou à des sources ouvertes.</p>
   </header>
 
@@ -358,68 +358,69 @@ sudo apt install autopsy sleuthkit</pre>
         <tr><td>Compte en ligne</td><td>Demander les données exportables depuis la plateforme, si disponible.</td><td>Les métadonnées disponibles varient selon la plateforme.</td></tr>
       </table>
 
+      <h3>Installation sur Android</h3>
+      <div class="note">
+        Sur Android, ces outils servent surtout au diagnostic réseau local, à la vérification d’adresses, à la collecte d’indices visibles et à la conservation d’éléments. Ils ne remplacent pas un outil forensique officiel et ne donnent pas accès aux conversations privées chiffrées.
+      </div>
+
+      <table>
+        <tr><th>Outil ou méthode</th><th>Installation</th><th>Utilisation principale</th><th>Limites</th></tr>
+        <tr>
+          <td>Fing</td>
+          <td>Installer depuis Google Play.</td>
+          <td>Identifier les appareils connectés au même réseau Wi-Fi, relever les adresses IP locales, adresses MAC visibles et noms d’appareils.</td>
+          <td>Ne permet pas de lire les échanges privés. Les adresses MAC peuvent être masquées ou aléatoires.</td>
+        </tr>
+        <tr>
+          <td>PingTools Network Utilities</td>
+          <td>Installer depuis Google Play.</td>
+          <td>Effectuer des tests de ping, traceroute, DNS, ports et connectivité.</td>
+          <td>Outil de diagnostic, pas un outil d’extraction de messages.</td>
+        </tr>
+        <tr>
+          <td>Termux</td>
+          <td>Installer depuis F-Droid de préférence, puis mettre à jour les paquets.</td>
+          <td>Utiliser des commandes réseau simples dans un terminal Android.</td>
+          <td>Certaines fonctions réseau avancées exigent des droits élevés ou sont bloquées par Android.</td>
+        </tr>
+        <tr>
+          <td>Commandes utiles avec Termux</td>
+          <td>
+            <pre>pkg update
+pkg install nmap dnsutils whois traceroute</pre>
+          </td>
+          <td>Vérifier un domaine, une adresse IP, un itinéraire réseau ou les ports visibles d’un équipement autorisé.</td>
+          <td>À utiliser uniquement sur ses propres équipements ou dans un cadre autorisé.</td>
+        </tr>
+        <tr>
+          <td>Capture d’écran et export de données</td>
+          <td>Fonctions intégrées à Android ou export officiel depuis l’application concernée.</td>
+          <td>Conserver les messages visibles, noms de compte, dates, heures, profils et notifications.</td>
+          <td>Les captures doivent être accompagnées du contexte, de la date, de l’heure et de la source.</td>
+        </tr>
+        <tr>
+          <td>Sauvegarde Android autorisée</td>
+          <td>Paramètres Android, sauvegarde Google ou outil constructeur selon l’appareil.</td>
+          <td>Préserver certaines données accessibles, historiques ou fichiers synchronisés.</td>
+          <td>Les applications chiffrées ne livrent pas forcément leurs bases de données internes.</td>
+        </tr>
+      </table>
+
+      <h3>Précautions avant toute manipulation Android</h3>
+      <ul>
+        <li>Noter le modèle du téléphone, la version Android, l’heure affichée et l’état de verrouillage.</li>
+        <li>Éviter d’installer de nouveaux outils sur un appareil qui peut servir de preuve.</li>
+        <li>Photographier l’écran avant toute modification.</li>
+        <li>Travailler sur une copie ou une sauvegarde lorsque c’est possible.</li>
+        <li>Respecter le cadre légal applicable et la chaîne de conservation des preuves.</li>
+      </ul>
+
       <h3>Applications mobiles utiles, sans accès intrusif</h3>
       <ul>
         <li><strong>Analyse réseau locale</strong> : outils de diagnostic Wi-Fi, analyse DNS, test de connectivité, vérification d’adresse IP publique.</li>
         <li><strong>Conservation de preuve</strong> : captures d’écran, export officiel de données, sauvegarde complète autorisée.</li>
         <li><strong>Vérification de liens</strong> : analyse d’URL avec services de réputation comme VirusTotal.</li>
       </ul>
-
-      <h3>Installation sur Android</h3>
-      <p>Sur Android, les outils disponibles servent surtout au diagnostic réseau, à la vérification de connexions et à la conservation d’éléments visibles. Ils ne permettent pas d’accéder librement aux messages privés ni aux données internes des applications.</p>
-
-      <div class="grille">
-        <div class="carte">
-          <h3>Fing</h3>
-          <span class="badge">Wi-Fi</span><span class="badge">Réseau local</span>
-          <p><strong>Installation</strong> : installer l’application depuis Google Play.</p>
-          <p><strong>Utilité</strong> : identifier les appareils connectés au réseau Wi-Fi, relever les adresses IP locales, noms d’appareils et adresses MAC lorsque disponibles.</p>
-          <p class="petit">Limite : utile pour le réseau local, mais ne prouve pas le contenu d’une conversation.</p>
-        </div>
-
-        <div class="carte">
-          <h3>PingTools Network Utilities</h3>
-          <span class="badge">Diagnostic</span><span class="badge">Connectivité</span>
-          <p><strong>Installation</strong> : installer l’application depuis Google Play.</p>
-          <p><strong>Utilité</strong> : effectuer des tests de ping, traceroute, DNS, ports visibles et qualité de connexion.</p>
-          <p class="petit">Limite : donne des informations techniques de connectivité, pas le contenu des échanges.</p>
-        </div>
-
-        <div class="carte">
-          <h3>Termux</h3>
-          <span class="badge">Ligne de commande</span><span class="badge">Analyse simple</span>
-          <p><strong>Installation conseillée</strong> : installer Termux depuis F-Droid plutôt que depuis une ancienne version non maintenue.</p>
-          <pre>pkg update
-pkg install dnsutils
-pkg install traceroute
-pkg install whois
-pkg install nmap</pre>
-          <p><strong>Utilité</strong> : exécuter des commandes réseau simples pour vérifier un domaine, une adresse IP ou une connectivité.</p>
-          <p class="petit">À utiliser uniquement sur des systèmes autorisés. Ne pas scanner des réseaux tiers sans autorisation.</p>
-        </div>
-
-        <div class="carte">
-          <h3>Sauvegarde Android autorisée</h3>
-          <span class="badge">Préservation</span><span class="badge">Preuve</span>
-          <p><strong>Approche</strong> : conserver l’appareil, relever l’heure, photographier l’écran, sauvegarder les éléments accessibles et exporter les données depuis les applications lorsque cette option existe.</p>
-          <p><strong>Exemples</strong> : captures d’écran, export de conversation, historique de compte, notifications visibles, fichiers téléchargés.</p>
-          <p class="petit">Éviter les manipulations inutiles sur l’appareil afin de ne pas modifier les traces.</p>
-        </div>
-      </div>
-
-      <h3>Commandes utiles sous Termux</h3>
-      <table>
-        <tr><th>Commande</th><th>Utilité</th><th>Exemple</th></tr>
-        <tr><td><code>ping</code></td><td>Tester si une adresse répond.</td><td><code>ping exemple.com</code></td></tr>
-        <tr><td><code>traceroute</code></td><td>Observer le chemin réseau vers une destination.</td><td><code>traceroute exemple.com</code></td></tr>
-        <tr><td><code>nslookup</code></td><td>Résoudre un nom de domaine.</td><td><code>nslookup exemple.com</code></td></tr>
-        <tr><td><code>whois</code></td><td>Consulter les informations publiques d’un domaine ou d’une adresse IP.</td><td><code>whois exemple.com</code></td></tr>
-        <tr><td><code>nmap</code></td><td>Vérifier les ports ouverts sur un équipement autorisé.</td><td><code>nmap 192.168.1.1</code></td></tr>
-      </table>
-
-      <div class="note">
-        Pour Android, la bonne méthode consiste à préserver les éléments visibles, documenter les heures, exporter les données officiellement disponibles et éviter toute manipulation pouvant altérer les preuves.
-      </div>
     </section>
 
     <section id="methode">
