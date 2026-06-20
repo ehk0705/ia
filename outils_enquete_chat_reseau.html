@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Outils d'analyse réseau et d'investigation numérique</title>
+<style>
+:root{--bg:#f6f8fb;--card:#ffffff;--ink:#1d2433;--muted:#5b667a;--line:#d9e1ec;--head:#eef3f9;--accent:#223a5e;}
+*{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,Helvetica,sans-serif;line-height:1.55}.wrap{max-width:1050px;margin:0 auto;padding:32px 20px}header{background:linear-gradient(135deg,#1f3554,#405f8a);color:white;padding:34px 28px;border-radius:18px;margin-bottom:22px}h1{margin:0 0 8px;font-size:30px}header p{margin:0;opacity:.95}.note{background:#fff7e6;border:1px solid #f0d59a;padding:14px 16px;border-radius:12px;margin:18px 0;color:#4a3710}.section{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px;margin:18px 0;box-shadow:0 2px 10px rgba(31,53,84,.05)}h2{margin:0 0 12px;color:var(--accent);font-size:22px}table{width:100%;border-collapse:collapse;margin-top:8px}th,td{border:1px solid var(--line);padding:10px 12px;vertical-align:top}th{background:var(--head);text-align:left;color:#26364f}td:first-child{font-weight:bold;width:20%}ul{margin:8px 0 0 22px}.small{color:var(--muted);font-size:14px}footer{margin-top:24px;color:var(--muted);font-size:13px}
+</style>
+</head>
+<body><div class="wrap">
+<header><h1>Outils d'analyse réseau et d'investigation numérique</h1><p>Liste structurée d'outils utiles pour analyser des traces techniques liées à un échange en ligne.</p></header>
+<div class="note"><strong>Limite importante :</strong> ces outils servent à analyser des traces, des métadonnées, des journaux, des appareils ou des informations publiques. Ils ne donnent pas automatiquement accès au contenu privé de conversations chiffrées et ne prouvent pas seuls que « X a parlé à Y » sans données complémentaires.</div>
+
+<section class="section"><h2>1. Capture et analyse réseau</h2><table><tr><th>Outil</th><th>Utilité principale</th><th>Détails</th></tr>
+<tr><td>Wireshark</td><td>Capture et analyse de paquets réseau.</td><td>Permet d'observer les adresses IP, les ports, les protocoles, les horodatages et les flux. Très utile pour comprendre quelles machines communiquent entre elles.</td></tr>
+<tr><td>tcpdump</td><td>Capture réseau en ligne de commande.</td><td>Outil léger, souvent utilisé sur Linux et serveurs. Produit des fichiers de capture pouvant ensuite être ouverts dans Wireshark.</td></tr>
+<tr><td>TShark</td><td>Version ligne de commande de Wireshark.</td><td>Pratique pour automatiser l'extraction d'informations depuis de gros fichiers de capture.</td></tr>
+<tr><td>NetworkMiner</td><td>Analyse passive de trafic réseau.</td><td>Permet d'extraire des hôtes, sessions, noms de fichiers, certificats, noms de domaine et métadonnées depuis une capture.</td></tr>
+</table></section>
+
+<section class="section"><h2>2. Analyse de journaux et métadonnées réseau</h2><table><tr><th>Outil</th><th>Utilité principale</th><th>Détails</th></tr>
+<tr><td>Zeek</td><td>Transformation du trafic réseau en journaux exploitables.</td><td>Produit des journaux détaillés : connexions, DNS, HTTP, TLS, fichiers, certificats. Très utile pour corréler des événements.</td></tr>
+<tr><td>Suricata</td><td>Détection d'intrusion et analyse réseau.</td><td>Peut générer des alertes, journaux de flux, événements TLS, DNS et HTTP. Utile dans un contexte de supervision sécurité.</td></tr>
+<tr><td>Security Onion</td><td>Plateforme complète de surveillance réseau.</td><td>Regroupe plusieurs outils de sécurité, dont Zeek, Suricata, Elastic et des interfaces d'enquête.</td></tr>
+<tr><td>Elastic Stack</td><td>Centralisation, recherche et visualisation de journaux.</td><td>Permet d'indexer de gros volumes de journaux et de rechercher par adresse IP, utilisateur, date ou événement.</td></tr>
+<tr><td>Graylog</td><td>Gestion centralisée des journaux.</td><td>Alternative à Elastic pour regrouper les journaux de pare-feu, serveurs, applications, routeurs et proxys.</td></tr>
+</table></section>
+
+<section class="section"><h2>3. Investigation numérique sur appareils</h2><table><tr><th>Outil</th><th>Utilité principale</th><th>Détails</th></tr>
+<tr><td>Autopsy</td><td>Analyse forensique de disques et fichiers.</td><td>Permet de rechercher des historiques, fichiers supprimés, bases de données locales, images, documents et artefacts d'applications.</td></tr>
+<tr><td>The Sleuth Kit</td><td>Outils bas niveau pour analyse de systèmes de fichiers.</td><td>Souvent utilisé avec Autopsy. Utile pour analyser une image disque sans modifier la preuve originale.</td></tr>
+<tr><td>Volatility</td><td>Analyse de mémoire vive.</td><td>Peut révéler des processus, connexions réseau, fragments de données et traces présentes en mémoire au moment de la capture.</td></tr>
+<tr><td>CAINE</td><td>Distribution Linux forensique.</td><td>Environnement spécialisé contenant plusieurs outils d'investigation numérique.</td></tr>
+</table></section>
+
+<section class="section"><h2>4. Analyse d'adresses IP, domaines et réputation</h2><table><tr><th>Outil</th><th>Utilité principale</th><th>Détails</th></tr>
+<tr><td>VirusTotal</td><td>Réputation de fichiers, domaines, URL et adresses IP.</td><td>Permet de vérifier si une adresse ou un domaine est associé à une activité suspecte.</td></tr>
+<tr><td>Shodan</td><td>Recherche d'équipements exposés sur Internet.</td><td>Utile pour identifier des services visibles publiquement liés à une adresse IP.</td></tr>
+<tr><td>Censys</td><td>Recherche d'infrastructures Internet et certificats.</td><td>Aide à retrouver des informations sur domaines, certificats TLS, ports et services exposés.</td></tr>
+<tr><td>AbuseIPDB</td><td>Signalements liés aux adresses IP.</td><td>Permet de voir si une adresse IP a été signalée pour abus, fraude, spam ou activité malveillante.</td></tr>
+<tr><td>MXToolbox</td><td>Vérification DNS, courriel et listes noires.</td><td>Utile pour examiner des domaines, serveurs de messagerie, enregistrements DNS et listes de blocage.</td></tr>
+</table></section>
+
+<section class="section"><h2>5. Analyse de liens entre personnes, comptes et indices publics</h2><table><tr><th>Outil</th><th>Utilité principale</th><th>Détails</th></tr>
+<tr><td>Maltego</td><td>Cartographie de relations entre entités.</td><td>Permet de relier personnes, courriels, domaines, comptes, adresses IP et organisations dans un graphe visuel.</td></tr>
+<tr><td>SpiderFoot</td><td>Collecte automatisée d'informations ouvertes.</td><td>Recherche des informations publiques liées à une adresse courriel, un nom de domaine, une IP ou un pseudonyme.</td></tr>
+<tr><td>Hunchly</td><td>Conservation de preuves de navigation.</td><td>Utile pour documenter les recherches en ligne, conserver les pages visitées et préserver les traces consultées.</td></tr>
+</table></section>
+
+<section class="section"><h2>6. Messageries, réseaux sociaux et sources ouvertes</h2><table><tr><th>Outil</th><th>Utilité principale</th><th>Détails</th></tr>
+<tr><td>Intelligence X</td><td>Recherche dans des sources ouvertes indexées.</td><td>Peut aider à retrouver des courriels, domaines, fuites publiques, documents ou traces indexées.</td></tr>
+<tr><td>Social Searcher</td><td>Recherche dans certains contenus sociaux publics.</td><td>Utile pour retrouver des mentions publiques liées à un nom, pseudonyme ou mot-clé.</td></tr>
+<tr><td>OSINT Framework</td><td>Répertoire d'outils de recherche ouverte.</td><td>Point de départ pratique pour choisir des outils selon le type d'information recherchée.</td></tr>
+</table></section>
+
+<section class="section"><h2>Utilisation pratique dans un dossier de chat en ligne</h2><ul>
+<li>Identifier la plateforme utilisée : forum, application de messagerie, jeu, réseau social ou site web.</li>
+<li>Conserver les appareils et supports sans les modifier.</li>
+<li>Rechercher les messages locaux, notifications, captures d'écran, historiques et bases de données d'application.</li>
+<li>Corréler les horodatages avec les journaux réseau, les adresses IP, les connexions et les données de la plateforme.</li>
+<li>Distinguer clairement le contenu des messages, les métadonnées et les simples connexions réseau.</li>
+</ul></section>
+<footer>Document préparé à des fins d'analyse légale, d'administration réseau et d'investigation numérique autorisée.</footer>
+</div></body></html>
