@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Modèles de langage, Deep Learning et workflow de l'IA</title>
+  <style>
+    :root {
+      --bleu-fonce: #1f4e79;
+      --bleu: #2f80ed;
+      --fond: #f4f7fb;
+      --texte: #1f2933;
+      --bordure: #dbe3ec;
+      --jaune: #f2b705;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Verdana, Arial, sans-serif;
+      background: var(--fond);
+      color: var(--texte);
+      line-height: 1.7;
+    }
+
+    header {
+      background: linear-gradient(135deg, var(--bleu-fonce), var(--bleu));
+      color: white;
+      padding: 44px 20px;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2.1rem;
+    }
+
+    header p {
+      margin: 12px auto 0;
+      max-width: 900px;
+      font-size: 1rem;
+    }
+
+    main {
+      max-width: 1050px;
+      margin: 30px auto;
+      padding: 0 20px;
+    }
+
+    section {
+      background: white;
+      margin-bottom: 22px;
+      padding: 25px;
+      border-radius: 14px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    }
+
+    h2 {
+      color: var(--bleu-fonce);
+      margin-top: 0;
+      border-left: 5px solid var(--bleu);
+      padding-left: 12px;
+    }
+
+    h3 {
+      color: #1e3a8a;
+      margin-top: 22px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 15px;
+    }
+
+    .card {
+      background: #f8fafc;
+      border: 1px solid var(--bordure);
+      border-radius: 12px;
+      padding: 15px;
+    }
+
+    .card strong {
+      color: var(--bleu-fonce);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 18px 0;
+      background: white;
+    }
+
+    th, td {
+      border: 1px solid #d1d5db;
+      padding: 12px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: #eaf2ff;
+      color: #0f172a;
+    }
+
+    .schema {
+      background: #eef5ff;
+      border: 1px solid #c9ddf5;
+      border-radius: 12px;
+      padding: 18px;
+      font-family: "Courier New", monospace;
+      overflow-x: auto;
+      white-space: pre-line;
+      margin: 16px 0;
+    }
+
+    .box {
+      background: #f1f5f9;
+      border-left: 5px solid var(--bleu);
+      padding: 14px 18px;
+      margin: 18px 0;
+      border-radius: 8px;
+    }
+
+    .resume {
+      background: #fff8e6;
+      border-left: 6px solid var(--jaune);
+    }
+
+    ul { padding-left: 22px; }
+
+    footer {
+      text-align: center;
+      padding: 25px;
+      background: #1f2933;
+      color: white;
+      margin-top: 40px;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Modèles de langage, Deep Learning et workflow de l'intelligence artificielle</h1>
+  <p>Clarifier les notions de données, algorithme, modèle, LM, ML, DL, Transformer, entraînement et génération de réponses.</p>
+</header>
+
+<main>
+
+<section>
+  <h2>1. Objectif de cette page</h2>
+  <p>Cette page regroupe deux sujets complémentaires : le fonctionnement général d'un modèle de langage et la différence entre <strong>LM</strong>, <strong>ML</strong> et <strong>DL</strong>.</p>
+  <p>L'objectif est de dépoussiérer les termes de l'intelligence artificielle avec une logique simple : partir des données, comprendre l'apprentissage, puis arriver au modèle capable de générer une réponse.</p>
+</section>
+
+<section>
+  <h2>2. Les principaux concepts</h2>
+  <div class="grid">
+    <div class="card"><strong>Données</strong><br>Textes, images, sons, vidéos ou documents utilisés pour l'apprentissage.</div>
+    <div class="card"><strong>Algorithme</strong><br>Méthode mathématique permettant d'apprendre à partir des données.</div>
+    <div class="card"><strong>Réseau de neurones</strong><br>Structure de calcul composée de couches qui transforment l'information.</div>
+    <div class="card"><strong>Modèle</strong><br>Résultat obtenu après l'entraînement d'un algorithme sur des données.</div>
+    <div class="card"><strong>Modèle de langage</strong><br>Modèle spécialisé dans la compréhension, la prédiction et la génération de texte.</div>
+  </div>
+</section>
+
+<section>
+  <h2>3. Différence entre LM, ML et DL</h2>
+  <p>La différence est importante : <strong>LM</strong> désigne un type de modèle, tandis que <strong>ML</strong> et <strong>DL</strong> désignent des méthodes d'apprentissage.</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Terme</th>
+        <th>Signification</th>
+        <th>Rôle</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>IA</strong></td>
+        <td>Intelligence artificielle</td>
+        <td>Domaine général qui vise à simuler certaines capacités humaines.</td>
+      </tr>
+      <tr>
+        <td><strong>ML</strong></td>
+        <td>Machine Learning, ou apprentissage automatique</td>
+        <td>Méthode permettant à une machine d'apprendre à partir de données.</td>
+      </tr>
+      <tr>
+        <td><strong>DL</strong></td>
+        <td>Deep Learning, ou apprentissage profond</td>
+        <td>Technique fondée sur des réseaux de neurones à plusieurs couches.</td>
+      </tr>
+      <tr>
+        <td><strong>LM</strong></td>
+        <td>Language Model, ou modèle de langage</td>
+        <td>Modèle conçu pour comprendre, prédire et générer du texte.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="box">
+    Le Deep Learning est une méthode. Le modèle de langage est une application de cette méthode au traitement du langage.
+  </div>
+</section>
+
+<section>
+  <h2>4. Hiérarchie simplifiée</h2>
+  <div class="schema">Intelligence artificielle (IA)
+|
++-- Machine Learning (ML)
+    |
+    +-- Deep Learning (DL)
+        |
+        +-- Modèles de langage (LM)
+            |
+            +-- GPT
+            +-- Claude
+            +-- Gemini
+            +-- Llama</div>
+
+  <p>Un modèle comme GPT, Claude, Gemini ou Llama est donc un modèle de langage moderne, généralement construit avec des techniques de Deep Learning.</p>
+</section>
+
+<section>
+  <h2>5. Est-ce qu'on entraîne des modèles de langage ?</h2>
+  <p>Oui. On entraîne un modèle de langage sur de très grandes quantités de textes.</p>
+  <p>L'objectif est de lui faire apprendre les relations entre les mots, les phrases, les idées et les contextes.</p>
+  <p>Le modèle apprend notamment à prédire le prochain mot, ou plus exactement le prochain <strong>jeton</strong>, dans une suite donnée.</p>
+</section>
+
+<section>
+  <h2>6. Est-ce qu'un modèle de langage est un algorithme ?</h2>
+  <p>Pas exactement.</p>
+  <p>Un <strong>algorithme</strong> est une méthode ou une suite d'instructions.</p>
+  <p>Un <strong>modèle de langage</strong> est le résultat obtenu après l'entraînement d'un algorithme sur des données.</p>
+
+  <h3>Analogie simple</h3>
+  <div class="schema">Recette      = algorithme
+Ingrédients  = données
+Gâteau       = modèle entraîné</div>
+
+  <h3>Autre analogie</h3>
+  <ul>
+    <li><strong>DL</strong> = le moteur.</li>
+    <li><strong>LM</strong> = la voiture construite avec ce moteur.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>7. Architecture Transformer</h2>
+  <p>Les grands modèles de langage modernes utilisent souvent l'architecture <strong>Transformer</strong>.</p>
+  <p>Cette architecture repose sur un mécanisme appelé <strong>attention</strong>.</p>
+  <p>L'attention permet au modèle d'identifier les mots importants dans une phrase et de comprendre leurs relations dans le contexte.</p>
+</section>
+
+<section>
+  <h2>8. Workflow complet : des données jusqu'à la réponse</h2>
+  <div class="schema">Sources de données
+      ↓
+Collecte des données
+      ↓
+Nettoyage et filtrage
+      ↓
+Étiquetage si nécessaire
+      ↓
+Transformation en jetons
+      ↓
+Entraînement du modèle
+      ↓
+Ajustement du modèle
+      ↓
+Validation et tests
+      ↓
+Déploiement
+      ↓
+Question de l'utilisateur
+      ↓
+Analyse de la requête
+      ↓
+Génération des jetons
+      ↓
+Réponse finale</div>
+</section>
+
+<section>
+  <h2>9. Que se passe-t-il pendant l'entraînement ?</h2>
+  <ul>
+    <li>Le modèle lit de très grandes quantités de textes.</li>
+    <li>Il tente de prédire des mots ou des jetons manquants.</li>
+    <li>Il compare ses prédictions avec les bonnes réponses.</li>
+    <li>Il mesure ses erreurs.</li>
+    <li>Il corrige progressivement ses paramètres internes.</li>
+    <li>Il recommence ce processus des milliards de fois.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>10. Inférence : génération d'une réponse</h2>
+  <p>Lorsque l'utilisateur pose une question, le modèle ne récite pas simplement une réponse mémorisée.</p>
+  <p>Il analyse le contexte et calcule, étape par étape, les jetons les plus probables pour construire une réponse cohérente.</p>
+
+  <div class="schema">Question utilisateur
+      ↓
+Découpage en jetons
+      ↓
+Analyse du contexte
+      ↓
+Calcul des probabilités
+      ↓
+Choix du prochain jeton
+      ↓
+Construction progressive de la phrase
+      ↓
+Réponse affichée</div>
+</section>
+
+<section>
+  <h2>11. Infrastructure nécessaire</h2>
+  <p>Les grands modèles de langage nécessitent une infrastructure importante :</p>
+  <ul>
+    <li>des milliers de processeurs graphiques ;</li>
+    <li>des serveurs haute performance ;</li>
+    <li>des réseaux très rapides ;</li>
+    <li>des volumes massifs de stockage ;</li>
+    <li>des systèmes de refroidissement ;</li>
+    <li>une alimentation électrique importante.</li>
+  </ul>
+</section>
+
+<section class="resume">
+  <h2>12. Conclusion</h2>
+  <p><strong>DL</strong> est une méthode d'apprentissage. <strong>LM</strong> est un type de modèle spécialisé dans le langage.</p>
+  <p>Les données alimentent un algorithme d'apprentissage. Cet apprentissage produit un modèle. Ensuite, ce modèle analyse une question et génère une réponse jeton par jeton, en fonction du contexte et de ce qu'il a appris pendant l'entraînement.</p>
+</section>
+
+</main>
+
+<footer>
+  Auteur : Hocine Korichi, ing.
+</footer>
+
+</body>
+</html>
