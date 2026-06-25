@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>TensorFlow, Deep Learning et Data Lakes</title>
+  <style>
+    body {
+      font-family: Verdana, Arial, sans-serif;
+      line-height: 1.6;
+      margin: 0;
+      background: #f4f6f8;
+      color: #222;
+    }
+
+    header {
+      background: #1f2937;
+      color: white;
+      padding: 30px;
+      text-align: center;
+    }
+
+    main {
+      max-width: 1000px;
+      margin: 30px auto;
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+    }
+
+    h1, h2 {
+      color: #1f2937;
+    }
+
+    header h1 {
+      color: white;
+      margin-bottom: 10px;
+    }
+
+    .intro {
+      font-size: 18px;
+      background: #eef2ff;
+      padding: 18px;
+      border-left: 6px solid #4f46e5;
+      border-radius: 8px;
+    }
+
+    .bloc {
+      margin-top: 30px;
+      padding: 20px;
+      border-radius: 10px;
+      background: #f9fafb;
+      border: 1px solid #e5e7eb;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+    }
+
+    th {
+      background: #1f2937;
+      color: white;
+    }
+
+    th, td {
+      border: 1px solid #d1d5db;
+      padding: 12px;
+      text-align: left;
+    }
+
+    tr:nth-child(even) {
+      background: #f3f4f6;
+    }
+
+    .schema {
+      margin-top: 25px;
+      padding: 25px;
+      background: #ecfdf5;
+      border-radius: 10px;
+      border: 1px solid #bbf7d0;
+      text-align: center;
+      font-weight: bold;
+    }
+
+    .step {
+      display: inline-block;
+      padding: 14px 18px;
+      margin: 8px;
+      border-radius: 8px;
+      background: white;
+      border: 2px solid #10b981;
+    }
+
+    .arrow {
+      font-size: 24px;
+      color: #047857;
+      margin: 0 5px;
+    }
+
+    .resume {
+      background: #fff7ed;
+      border-left: 6px solid #f97316;
+      padding: 18px;
+      border-radius: 8px;
+      margin-top: 30px;
+      font-size: 17px;
+    }
+
+    footer {
+      text-align: center;
+      color: #666;
+      margin: 30px;
+      font-size: 14px;
+    }
+
+    @media (max-width: 700px) {
+      main {
+        margin: 10px;
+        padding: 20px;
+      }
+
+      .step {
+        display: block;
+      }
+
+      .arrow {
+        display: block;
+        margin: 8px 0;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>TensorFlow, Deep Learning et Data Lakes</h1>
+  <p>Comprendre le lien entre les données, l’apprentissage profond et les outils d’intelligence artificielle</p>
+</header>
+
+<main>
+
+  <section class="intro">
+    Ces trois notions sont liées, mais elles ne désignent pas la même chose.
+    Le <strong>data lake</strong> stocke les données, le <strong>deep learning</strong> apprend à partir de ces données,
+    et <strong>TensorFlow</strong> sert à construire et entraîner les modèles d’intelligence artificielle.
+  </section>
+
+  <section class="bloc">
+    <h2>1. TensorFlow</h2>
+    <p>
+      <strong>TensorFlow</strong> est un outil logiciel utilisé pour créer, entraîner et exploiter des modèles
+      d’intelligence artificielle.
+    </p>
+    <p>
+      Il est souvent utilisé pour le machine learning, le deep learning, la reconnaissance d’images,
+      l’analyse de texte, la prédiction et la détection d’anomalies.
+    </p>
+    <p>
+      En résumé : <strong>TensorFlow est une boîte à outils pour construire des modèles d’IA.</strong>
+    </p>
+  </section>
+
+  <section class="bloc">
+    <h2>2. Deep Learning</h2>
+    <p>
+      Le <strong>deep learning</strong>, ou apprentissage profond, est une branche de l’intelligence artificielle.
+      Il utilise des réseaux de neurones artificiels composés de plusieurs couches.
+    </p>
+    <p>
+      Ces réseaux apprennent automatiquement à partir de grandes quantités de données.
+    </p>
+
+    <table>
+      <tr>
+        <th>Domaine</th>
+        <th>Exemple d’utilisation</th>
+      </tr>
+      <tr>
+        <td>Images</td>
+        <td>Reconnaître un visage, un objet ou une anomalie médicale</td>
+      </tr>
+      <tr>
+        <td>Texte</td>
+        <td>Résumer un document ou classer des messages</td>
+      </tr>
+      <tr>
+        <td>Voix</td>
+        <td>Transformer la parole en texte</td>
+      </tr>
+      <tr>
+        <td>Finance</td>
+        <td>Détecter une fraude ou prévoir un risque</td>
+      </tr>
+      <tr>
+        <td>Santé</td>
+        <td>Repérer des signes de maladie ou aider au diagnostic</td>
+      </tr>
+    </table>
+  </section>
+
+  <section class="bloc">
+    <h2>3. Data Lake</h2>
+    <p>
+      Un <strong>data lake</strong>, ou lac de données, est un grand espace de stockage où l’on conserve
+      des données de formats très variés.
+    </p>
+    <p>Il peut contenir :</p>
+    <ul>
+      <li>des fichiers texte ;</li>
+      <li>des images ;</li>
+      <li>des vidéos ;</li>
+      <li>des fichiers CSV ou Excel ;</li>
+      <li>des bases de données ;</li>
+      <li>des journaux techniques ;</li>
+      <li>des données médicales ou financières ;</li>
+      <li>des données de capteurs.</li>
+    </ul>
+    <p>
+      Contrairement à un entrepôt de données classique, le data lake peut stocker des données brutes,
+      avant nettoyage ou transformation.
+    </p>
+  </section>
+
+  <section class="bloc">
+    <h2>4. Lien entre les trois</h2>
+    <p>Le fonctionnement général peut être résumé ainsi :</p>
+
+    <div class="schema">
+      <span class="step">Data Lake<br><small>Données brutes</small></span>
+      <span class="arrow">→</span>
+      <span class="step">Préparation<br><small>Nettoyage et tri</small></span>
+      <span class="arrow">→</span>
+      <span class="step">Deep Learning<br><small>Apprentissage</small></span>
+      <span class="arrow">→</span>
+      <span class="step">TensorFlow<br><small>Entraînement du modèle</small></span>
+      <span class="arrow">→</span>
+      <span class="step">Modèle IA<br><small>Prédictions</small></span>
+    </div>
+  </section>
+
+  <section class="bloc">
+    <h2>5. Exemple concret : détection de fraude</h2>
+    <p>
+      Une organisation veut détecter automatiquement des fraudes.
+    </p>
+    <p>
+      Elle stocke dans un data lake les transactions, les historiques clients, les connexions,
+      les adresses IP et les comportements suspects.
+    </p>
+    <p>
+      Ensuite, elle utilise le deep learning pour apprendre la différence entre un comportement normal
+      et un comportement anormal.
+    </p>
+    <p>
+      TensorFlow permet alors de construire et d’entraîner le modèle.
+    </p>
+    <p>
+      Résultat : le système peut signaler automatiquement une transaction suspecte.
+    </p>
+  </section>
+
+  <section class="resume">
+    <strong>Résumé :</strong><br>
+    Le <strong>data lake</strong> fournit la matière première.
+    Le <strong>deep learning</strong> apprend à partir de cette matière.
+    <strong>TensorFlow</strong> sert à fabriquer, entraîner et utiliser le modèle d’intelligence artificielle.
+  </section>
+
+</main>
+
+<footer>
+  Auteur : Hocine Korichi, ing.
+</footer>
+
+</body>
+</html>
