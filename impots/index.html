@@ -1,0 +1,438 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <title>Application fiscale - Déclarations téléchargeables</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: Arial, sans-serif; background:#f4f7fb; color:#111827; }
+    header { background:#0d6efd; color:white; padding:22px 32px; display:flex; justify-content:space-between; align-items:center; }
+    header h1 { margin:0; font-size:30px; }
+    header p { margin:6px 0 0; }
+    .badge { background:#ffc107; color:#111827; padding:10px 18px; border-radius:24px; font-weight:bold; }
+    .app { display:flex; min-height:calc(100vh - 90px); }
+    aside { width:280px; background:white; border-right:1px solid #dbe3ef; padding:22px; }
+    aside button { width:100%; padding:14px; margin-bottom:10px; border:0; border-radius:10px; background:transparent; text-align:left; cursor:pointer; font-size:16px; }
+    aside button.active { background:#0d6efd; color:white; font-weight:bold; }
+    main { flex:1; padding:34px; }
+    .page { display:none; background:white; border-radius:18px; padding:32px; box-shadow:0 8px 24px rgba(15,23,42,.08); }
+    .page.active { display:block; }
+    h2 { margin-top:0; font-size:28px; }
+    .cards { display:grid; grid-template-columns:repeat(4,1fr); gap:18px; margin:24px 0; }
+    .card { background:#f8fbff; border:1px solid #dbe3ef; border-radius:14px; padding:22px; }
+    .card strong { display:block; font-size:30px; color:#0d6efd; }
+    .notice, .box { background:#eef6ff; border-radius:10px; padding:18px; margin-top:18px; }
+    .warning { background:#fff3cd; border:1px solid #ffe69c; border-radius:10px; padding:18px; margin-top:18px; }
+    .upload { border:2px dashed #0d6efd; background:#f8fbff; border-radius:16px; padding:30px; text-align:center; margin:24px 0; }
+    input[type=file] { display:block; margin:16px auto; background:white; border:1px solid #cfd8e3; border-radius:10px; padding:12px; width:100%; max-width:460px; }
+    input[type=text], input[type=number] { width:100%; padding:9px; border:1px solid #cfd8e3; border-radius:8px; }
+    button.primary { background:#0d6efd; color:white; border:0; border-radius:10px; padding:12px 18px; cursor:pointer; font-size:16px; margin:4px; }
+    button.secondary { background:#6c757d; color:white; border:0; border-radius:10px; padding:12px 18px; cursor:pointer; font-size:16px; margin:4px; }
+    button.success { background:#198754; color:white; border:0; border-radius:10px; padding:12px 18px; cursor:pointer; font-size:16px; margin:4px; }
+    table { width:100%; border-collapse:collapse; margin-top:18px; }
+    th, td { padding:10px; border-bottom:1px solid #e5e7eb; text-align:left; vertical-align:top; }
+    th { background:#f3f6fb; }
+    .tag-ok { background:#198754; color:white; padding:5px 9px; border-radius:12px; font-size:13px; }
+    .tag-warn { background:#ffc107; color:#111827; padding:5px 9px; border-radius:12px; font-size:13px; }
+    @media(max-width:900px){ .app{display:block;} aside{width:100%; border-right:0; border-bottom:1px solid #dbe3ef;} .cards{grid-template-columns:1fr;} header{display:block;} .badge{display:inline-block;margin-top:12px;} }
+    @media print { header, aside, .no-print, button { display:none !important; } main { padding:0; } .page { display:block !important; box-shadow:none; page-break-after:always; } }
+  </style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>Application fiscale IA</h1>
+    <p>Remplissage et téléchargement des déclarations ARC et Revenu Québec</p>
+  </div>
+  <div class="badge">Prototype HTML</div>
+</header>
+
+<div class="app">
+  <aside>
+    <button class="active" data-page="dashboard">Tableau de bord</button>
+    <button data-page="upload">Téléversement</button>
+    <button data-page="verification">Vérification des montants</button>
+    <button data-page="arc">Déclaration ARC - T1</button>
+    <button data-page="rq">Déclaration RQ - TP-1</button>
+    <button data-page="download">Téléchargement</button>
+  </aside>
+
+  <main>
+    <section id="dashboard" class="page active">
+      <h2>Tableau de bord</h2>
+      <div class="cards">
+        <div class="card"><strong id="statDocs">0</strong>Documents</div>
+        <div class="card"><strong id="statArc">0</strong>Lignes ARC</div>
+        <div class="card"><strong id="statRq">0</strong>Lignes RQ</div>
+        <div class="card"><strong id="statReady">Non</strong>Prêt</div>
+      </div>
+      <div class="notice">
+        L’utilisateur téléverse ses documents. L’application prépare les déclarations. Les montants doivent être validés avant téléchargement.
+      </div>
+    </section>
+
+    <section id="upload" class="page">
+      <h2>Téléversement des documents</h2>
+      <div class="upload">
+        <p><strong>Sélectionnez vos feuillets, factures et justificatifs</strong></p>
+        <input id="files" type="file" multiple accept=".pdf,.jpg,.jpeg,.png">
+        <button class="primary" onclick="analyserDocuments()">Analyser et préparer les déclarations</button>
+        <button class="secondary" onclick="vider()">Vider</button>
+      </div>
+
+      <table>
+        <thead><tr><th>Document</th><th>Type détecté</th><th>Destination</th><th>État</th></tr></thead>
+        <tbody id="docsTable"></tbody>
+      </table>
+    </section>
+
+    <section id="verification" class="page">
+      <h2>Vérification des montants extraits</h2>
+      <div class="warning">
+        Sans OCR serveur, les montants ne peuvent pas être lus automatiquement. Saisissez ou validez ici les montants détectés avant de télécharger les déclarations.
+      </div>
+
+      <h3>Montants à vérifier</h3>
+      <table>
+        <thead><tr><th>Champ</th><th>Ligne ARC</th><th>Ligne RQ</th><th>Montant</th><th>Source</th></tr></thead>
+        <tbody id="verifyTable"></tbody>
+      </table>
+
+      <button class="primary" onclick="appliquerMontants()">Appliquer aux déclarations</button>
+    </section>
+
+    <section id="arc" class="page">
+      <h2>Déclaration fédérale ARC - T1</h2>
+      <table>
+        <thead><tr><th>Ligne ARC</th><th>Description</th><th>Montant</th><th>Source</th></tr></thead>
+        <tbody id="arcTable"></tbody>
+      </table>
+    </section>
+
+    <section id="rq" class="page">
+      <h2>Déclaration provinciale Revenu Québec - TP-1</h2>
+      <table>
+        <thead><tr><th>Ligne RQ</th><th>Description</th><th>Montant</th><th>Source</th></tr></thead>
+        <tbody id="rqTable"></tbody>
+      </table>
+    </section>
+
+    <section id="download" class="page">
+      <h2>Télécharger les déclarations remplies</h2>
+      <div class="box">
+        <p>Vous pouvez télécharger les déclarations préparées en fichiers HTML imprimables.</p>
+        <p>Ensuite, ouvrez le fichier et utilisez <strong>Imprimer → Enregistrer en PDF</strong>.</p>
+      </div>
+
+      <button class="success" onclick="telechargerARC()">Télécharger ARC - T1</button>
+      <button class="success" onclick="telechargerRQ()">Télécharger Revenu Québec - TP-1</button>
+      <button class="success" onclick="telechargerResume()">Télécharger résumé global</button>
+      <button class="primary" onclick="window.print()">Imprimer l’ensemble</button>
+
+      <div class="warning">
+        Ce prototype ne transmet rien officiellement à l’ARC ni à Revenu Québec. Il prépare des documents de travail.
+      </div>
+    </section>
+  </main>
+</div>
+
+<script>
+const state = {
+  documents: [],
+  verification: [],
+  arc: [
+    ["10100", "Revenus d'emploi", "", ""],
+    ["11300", "Pension de sécurité de la vieillesse", "", ""],
+    ["11400", "Prestations du RPC ou du RRQ", "", ""],
+    ["12100", "Intérêts et revenus de placements", "", ""],
+    ["14600", "Versement net des suppléments fédéraux", "", ""],
+    ["15000", "Revenu total", "", "Calcul"],
+    ["23600", "Revenu net", "", "Calcul"],
+    ["26000", "Revenu imposable", "", "Calcul"],
+    ["42000", "Impôt fédéral net", "", "Calcul"],
+    ["48200", "Remboursement", "", "Calcul"]
+  ],
+  rq: [
+    ["101", "Revenus d'emploi", "", ""],
+    ["114", "Pension de sécurité de la vieillesse", "", ""],
+    ["119", "Prestations du RRQ ou du RPC", "", ""],
+    ["130", "Intérêts et revenus de placements", "", ""],
+    ["148", "Indemnités et suppléments fédéraux", "", ""],
+    ["199", "Revenu total", "", "Calcul"],
+    ["275", "Revenu net", "", "Calcul"],
+    ["299", "Revenu imposable", "", "Calcul"],
+    ["401", "Impôt sur le revenu imposable", "", "Calcul"],
+    ["447", "Assurance médicaments Québec", "", ""],
+    ["458", "Maintien à domicile des aînés", "", ""],
+    ["478", "Remboursement", "", "Calcul"]
+  ]
+};
+
+document.querySelectorAll("aside button").forEach(btn => {
+  btn.addEventListener("click", () => ouvrir(btn.dataset.page));
+});
+
+document.getElementById("files").addEventListener("change", () => {
+  state.documents = [];
+  Array.from(document.getElementById("files").files).forEach(file => {
+    const type = detecterType(file.name);
+    state.documents.push({
+      name: file.name,
+      type,
+      destination: destination(type),
+      status: type === "Document non reconnu" ? "À vérifier" : "Reconnu"
+    });
+  });
+  rendre();
+});
+
+function analyserDocuments() {
+  state.verification = [];
+  resetLignes();
+
+  state.documents.forEach(doc => {
+    const c = correspondance(doc.type);
+    if (c.champ) {
+      state.verification.push({
+        champ: c.champ,
+        arc: c.arc,
+        rq: c.rq,
+        montant: "",
+        source: doc.type
+      });
+    }
+  });
+
+  rendre();
+  ouvrir("verification");
+}
+
+function detecterType(nom) {
+  const n = nom.toLowerCase();
+  if (n.includes("t4a") && (n.includes("oas") || n.includes("psv"))) return "T4A(OAS)";
+  if (n.includes("t4")) return "T4";
+  if (n.includes("t5")) return "T5";
+  if (n.includes("t1") || n.includes("arc") || n.includes("canada")) return "T1 ARC";
+  if (n.includes("tp-1") || n.includes("tp1") || n.includes("rq") || n.includes("quebec") || n.includes("québec")) return "TP-1 Revenu Québec";
+  if (n.includes("rl-1") || n.includes("releve 1") || n.includes("relevé 1")) return "Relevé 1";
+  if (n.includes("rl-2") || n.includes("releve 2") || n.includes("relevé 2")) return "Relevé 2";
+  if (n.includes("facture") || n.includes("recu") || n.includes("reçu")) return "Facture ou reçu";
+  if (n.includes("medical") || n.includes("médical")) return "Frais médicaux";
+  if (n.includes("don")) return "Don";
+  if (n.includes("loyer")) return "Loyer";
+  return "Document non reconnu";
+}
+
+function destination(type) {
+  const d = {
+    "T4": "ARC 10100 / RQ 101",
+    "T4A(OAS)": "ARC 11300 / RQ 114",
+    "T5": "ARC 12100 / RQ 130",
+    "Relevé 1": "RQ 101",
+    "Relevé 2": "ARC 11400 / RQ 119",
+    "T1 ARC": "Déclaration fédérale",
+    "TP-1 Revenu Québec": "Déclaration provinciale",
+    "Facture ou reçu": "Justificatif",
+    "Frais médicaux": "Crédit frais médicaux",
+    "Don": "Crédit pour dons",
+    "Loyer": "Annexes RQ"
+  };
+  return d[type] || "À classer";
+}
+
+function correspondance(type) {
+  const c = {
+    "T4": { champ: "Revenus d'emploi", arc: "10100", rq: "101" },
+    "T4A(OAS)": { champ: "Pension de sécurité de la vieillesse", arc: "11300", rq: "114" },
+    "T5": { champ: "Revenus de placements", arc: "12100", rq: "130" },
+    "Relevé 1": { champ: "Revenus d'emploi Québec", arc: "", rq: "101" },
+    "Relevé 2": { champ: "Prestations RRQ/RPC", arc: "11400", rq: "119" },
+    "Facture ou reçu": { champ: "Justificatif fiscal", arc: "", rq: "" },
+    "Frais médicaux": { champ: "Frais médicaux", arc: "", rq: "" },
+    "Don": { champ: "Dons", arc: "", rq: "" },
+    "Loyer": { champ: "Loyer", arc: "", rq: "" }
+  };
+  return c[type] || { champ: "", arc: "", rq: "" };
+}
+
+function appliquerMontants() {
+  document.querySelectorAll("[data-index]").forEach(input => {
+    const i = Number(input.dataset.index);
+    state.verification[i].montant = input.value;
+  });
+
+  resetLignes();
+
+  state.verification.forEach(v => {
+    if (v.arc) remplir("arc", v.arc, v.montant, v.source);
+    if (v.rq) remplir("rq", v.rq, v.montant, v.source);
+  });
+
+  calculerTotaux();
+  rendre();
+  ouvrir("arc");
+}
+
+function remplir(type, ligne, montant, source) {
+  const table = type === "arc" ? state.arc : state.rq;
+  const row = table.find(r => r[0] === ligne);
+  if (row) {
+    row[2] = montant;
+    row[3] = source;
+  }
+}
+
+function calculerTotaux() {
+  const arcTotal = somme(["10100", "11300", "11400", "12100", "14600"], state.arc);
+  setMontant(state.arc, "15000", arcTotal);
+  setMontant(state.arc, "23600", arcTotal);
+  setMontant(state.arc, "26000", arcTotal);
+
+  const rqTotal = somme(["101", "114", "119", "130", "148"], state.rq);
+  setMontant(state.rq, "199", rqTotal);
+  setMontant(state.rq, "275", rqTotal);
+  setMontant(state.rq, "299", rqTotal);
+}
+
+function somme(lignes, table) {
+  let total = 0;
+  lignes.forEach(ligne => {
+    const row = table.find(r => r[0] === ligne);
+    const val = row ? parseFloat(String(row[2]).replace(",", ".")) : 0;
+    if (!isNaN(val)) total += val;
+  });
+  return total ? total.toFixed(2) : "";
+}
+
+function setMontant(table, ligne, montant) {
+  const row = table.find(r => r[0] === ligne);
+  if (row) row[2] = montant;
+}
+
+function resetLignes() {
+  state.arc.forEach(r => { if (r[3] !== "Calcul") { r[2] = ""; r[3] = ""; } });
+  state.rq.forEach(r => { if (r[3] !== "Calcul") { r[2] = ""; r[3] = ""; } });
+}
+
+function ouvrir(id) {
+  document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+  document.querySelectorAll("aside button").forEach(b => b.classList.toggle("active", b.dataset.page === id));
+}
+
+function vider() {
+  state.documents = [];
+  state.verification = [];
+  resetLignes();
+  rendre();
+}
+
+function tag(status) {
+  return status === "Reconnu" ? '<span class="tag-ok">Reconnu</span>' : '<span class="tag-warn">À vérifier</span>';
+}
+
+function rendre() {
+  document.getElementById("statDocs").textContent = state.documents.length;
+  document.getElementById("statArc").textContent = state.arc.filter(r => r[2]).length;
+  document.getElementById("statRq").textContent = state.rq.filter(r => r[2]).length;
+  document.getElementById("statReady").textContent = state.verification.length ? "Oui" : "Non";
+
+  document.getElementById("docsTable").innerHTML = state.documents.map(d =>
+    `<tr><td>${escapeHtml(d.name)}</td><td>${d.type}</td><td>${d.destination}</td><td>${tag(d.status)}</td></tr>`
+  ).join("");
+
+  document.getElementById("verifyTable").innerHTML = state.verification.map((v, i) =>
+    `<tr>
+      <td>${v.champ}</td>
+      <td>${v.arc}</td>
+      <td>${v.rq}</td>
+      <td><input type="number" step="0.01" data-index="${i}" value="${v.montant}"></td>
+      <td>${v.source}</td>
+    </tr>`
+  ).join("");
+
+  renderDeclaration("arcTable", state.arc);
+  renderDeclaration("rqTable", state.rq);
+}
+
+function renderDeclaration(id, table) {
+  document.getElementById(id).innerHTML = table.map(r =>
+    `<tr><td><strong>${r[0]}</strong></td><td>${r[1]}</td><td>${r[2]}</td><td>${r[3]}</td></tr>`
+  ).join("");
+}
+
+function htmlDeclaration(titre, lignes) {
+  return `<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>${titre}</title>
+<style>
+body{font-family:Arial,sans-serif;margin:35px;color:#111827}
+h1{color:#0d6efd}
+table{width:100%;border-collapse:collapse;margin-top:20px}
+th,td{border:1px solid #ddd;padding:10px;text-align:left}
+th{background:#f3f6fb}
+.notice{background:#fff3cd;padding:15px;border-radius:8px;margin-top:20px}
+</style>
+</head>
+<body>
+<h1>${titre}</h1>
+<p>Document de travail généré par l'application fiscale HTML.</p>
+<table>
+<thead><tr><th>Ligne</th><th>Description</th><th>Montant</th><th>Source</th></tr></thead>
+<tbody>
+${lignes.map(r => `<tr><td>${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td><td>${r[3]}</td></tr>`).join("")}
+</tbody>
+</table>
+<div class="notice">Ce document n'est pas une déclaration officielle transmise à l'ARC ou à Revenu Québec.</div>
+</body>
+</html>`;
+}
+
+function telechargerARC() {
+  telecharger("declaration_ARC_T1.html", htmlDeclaration("Déclaration fédérale ARC - T1", state.arc));
+}
+
+function telechargerRQ() {
+  telecharger("declaration_Revenu_Quebec_TP1.html", htmlDeclaration("Déclaration provinciale Revenu Québec - TP-1", state.rq));
+}
+
+function telechargerResume() {
+  const html = `<!doctype html><html lang="fr"><head><meta charset="utf-8"><title>Résumé fiscal</title></head><body>
+  <h1>Résumé fiscal</h1>
+  <p>Documents téléversés : ${state.documents.length}</p>
+  <p>Lignes ARC remplies : ${state.arc.filter(r => r[2]).length}</p>
+  <p>Lignes RQ remplies : ${state.rq.filter(r => r[2]).length}</p>
+  </body></html>`;
+  telecharger("resume_fiscal.html", html);
+}
+
+function telecharger(nom, contenu) {
+  const blob = new Blob([contenu], { type: "text/html;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = nom;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+}
+
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, m => ({
+    "&":"&amp;",
+    "<":"&lt;",
+    ">":"&gt;",
+    '"':"&quot;",
+    "'":"&#039;"
+  }[m]));
+}
+
+rendre();
+</script>
+</body>
+</html>

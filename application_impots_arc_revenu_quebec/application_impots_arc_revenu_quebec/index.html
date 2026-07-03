@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Préparation d'impôts - ARC et Revenu Québec</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <div class="logos">
+      <div class="logo">Canada / ARC</div>
+      <div class="logo rq">Revenu Québec</div>
+    </div>
+    <div class="badge">Prototype non officiel</div>
+  </header>
+
+  <main>
+    <aside>
+      <button class="active" onclick="showStep('documents', this)">1. Documents</button>
+      <button onclick="showStep('extraction', this)">2. Extraction</button>
+      <button onclick="showStep('validation', this)">3. Validation</button>
+      <button onclick="showStep('calcul', this)">4. Calcul</button>
+      <button onclick="showStep('resume', this)">5. Résumé</button>
+    </aside>
+
+    <section class="content">
+      <div id="documents" class="step visible">
+        <h1>Préparation de déclaration d'impôts</h1>
+        <p>Déposez vos documents fiscaux : T4, RL-1, T5, reçus REER, frais médicaux, dons, etc.</p>
+
+        <div class="upload">
+          <input type="file" id="files" multiple>
+          <p>PDF, JPG ou PNG acceptés</p>
+        </div>
+
+        <button class="primary" onclick="submitDocuments()">Soumettre les documents</button>
+        <div id="documentsResult" class="box hidden"></div>
+      </div>
+
+      <div id="extraction" class="step">
+        <h2>Extraction simulée</h2>
+        <p>Les données suivantes ont été détectées automatiquement.</p>
+
+        <table>
+          <thead>
+            <tr>
+              <th>Type</th>
+              <th>Champ</th>
+              <th>Montant</th>
+              <th>Statut</th>
+            </tr>
+          </thead>
+          <tbody id="extractionTable"></tbody>
+        </table>
+
+        <button class="primary" onclick="showStepById('validation')">Valider les données</button>
+      </div>
+
+      <div id="validation" class="step">
+        <h2>Validation des montants</h2>
+
+        <div class="grid">
+          <label>Revenu d'emploi fédéral
+            <input type="number" id="revenuFederal" value="52500">
+          </label>
+
+          <label>Revenu d'emploi Québec
+            <input type="number" id="revenuQuebec" value="52500">
+          </label>
+
+          <label>Impôt fédéral retenu
+            <input type="number" id="impotFederal" value="6200">
+          </label>
+
+          <label>Impôt Québec retenu
+            <input type="number" id="impotQuebec" value="5400">
+          </label>
+
+          <label>REER
+            <input type="number" id="reer" value="2500">
+          </label>
+
+          <label>Frais médicaux
+            <input type="number" id="medical" value="900">
+          </label>
+        </div>
+
+        <button class="primary" onclick="calculate()">Calculer la déclaration</button>
+      </div>
+
+      <div id="calcul" class="step">
+        <h2>Résultat estimatif</h2>
+
+        <div class="cards">
+          <div class="card">
+            <h3>Fédéral</h3>
+            <p id="fedResult">-</p>
+          </div>
+
+          <div class="card">
+            <h3>Québec</h3>
+            <p id="qcResult">-</p>
+          </div>
+
+          <div class="card">
+            <h3>Total</h3>
+            <p id="totalResult">-</p>
+          </div>
+        </div>
+
+        <button class="primary" onclick="showStepById('resume')">Générer le résumé</button>
+      </div>
+
+      <div id="resume" class="step">
+        <h2>Résumé de déclaration</h2>
+        <div id="summary" class="box">Aucun calcul effectué.</div>
+
+        <div class="warning">
+          Cette page ne produit pas une déclaration officielle. Elle prépare seulement un résumé.
+          La transmission officielle doit passer par un logiciel homologué par l'ARC et autorisé par Revenu Québec.
+        </div>
+
+        <button class="secondary" onclick="window.print()">Imprimer ou enregistrer en PDF</button>
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

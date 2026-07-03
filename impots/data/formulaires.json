@@ -1,0 +1,94 @@
+{
+  "arc": [
+    [
+      "10100",
+      "Revenus d'emploi"
+    ],
+    [
+      "11300",
+      "Pension de sécurité de la vieillesse"
+    ],
+    [
+      "11400",
+      "Prestations du RPC ou du RRQ"
+    ],
+    [
+      "12100",
+      "Intérêts et autres revenus de placements"
+    ],
+    [
+      "14600",
+      "Versement net des suppléments fédéraux"
+    ],
+    [
+      "15000",
+      "Revenu total"
+    ],
+    [
+      "23600",
+      "Revenu net"
+    ],
+    [
+      "26000",
+      "Revenu imposable"
+    ],
+    [
+      "42000",
+      "Impôt fédéral net"
+    ],
+    [
+      "48200",
+      "Remboursement"
+    ]
+  ],
+  "rq": [
+    [
+      "101",
+      "Revenus d'emploi"
+    ],
+    [
+      "114",
+      "Pension de sécurité de la vieillesse"
+    ],
+    [
+      "119",
+      "Prestations du RRQ ou du RPC"
+    ],
+    [
+      "130",
+      "Intérêts et autres revenus de placements"
+    ],
+    [
+      "148",
+      "Indemnités de remplacement et suppléments fédéraux"
+    ],
+    [
+      "199",
+      "Revenu total"
+    ],
+    [
+      "275",
+      "Revenu net"
+    ],
+    [
+      "299",
+      "Revenu imposable"
+    ],
+    [
+      "401",
+      "Impôt sur le revenu imposable"
+    ],
+    [
+      "447",
+      "Cotisation assurance médicaments"
+    ],
+    [
+      "458",
+      "Maintien à domicile des aînés"
+    ],
+    [
+      "478",
+      "Remboursement"
+    ]
+  ]
+}

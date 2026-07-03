@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Préparation fiscale Canada et Québec</title>
+  <style>
+    :root {
+      --bleu: #1f4e79;
+      --bleu-clair: #eaf2f8;
+      --gris: #f5f7fa;
+      --texte: #1f2933;
+      --rouge: #b00020;
+      --vert: #2e7d32;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: var(--gris);
+      color: var(--texte);
+      line-height: 1.6;
+    }
+
+    header {
+      background: var(--bleu);
+      color: white;
+      padding: 30px 20px;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 30px;
+    }
+
+    header p {
+      margin: 10px 0 0;
+      font-size: 16px;
+    }
+
+    main {
+      max-width: 1100px;
+      margin: 30px auto;
+      padding: 0 20px;
+    }
+
+    .alerte {
+      background: #fff3cd;
+      border-left: 6px solid #f0ad4e;
+      padding: 15px;
+      margin-bottom: 25px;
+      border-radius: 6px;
+    }
+
+    .grille {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+
+    .carte {
+      background: white;
+      padding: 22px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    .carte h2 {
+      color: var(--bleu);
+      margin-top: 0;
+      font-size: 21px;
+    }
+
+    .zone-upload {
+      border: 2px dashed var(--bleu);
+      background: var(--bleu-clair);
+      padding: 30px;
+      border-radius: 10px;
+      text-align: center;
+      margin-top: 15px;
+    }
+
+    input[type="file"] {
+      margin-top: 15px;
+    }
+
+    button {
+      background: var(--bleu);
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 15px;
+      margin-top: 15px;
+    }
+
+    button:hover {
+      opacity: 0.9;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+      background: white;
+    }
+
+    th, td {
+      border: 1px solid #ddd;
+      padding: 10px;
+      text-align: left;
+    }
+
+    th {
+      background: var(--bleu);
+      color: white;
+    }
+
+    .statut-ok {
+      color: var(--vert);
+      font-weight: bold;
+    }
+
+    .statut-attente {
+      color: var(--rouge);
+      font-weight: bold;
+    }
+
+    footer {
+      text-align: center;
+      padding: 25px;
+      font-size: 13px;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Application de préparation fiscale</h1>
+  <p>Canada — ARC | Québec — Revenu Québec</p>
+</header>
+
+<main>
+  <section class="alerte">
+    <strong>Important :</strong> cette page sert à préparer et organiser une déclaration de revenus.
+    Elle ne transmet pas officiellement la déclaration à l’ARC ni à Revenu Québec.
+    Pour transmettre une déclaration, il faut utiliser un logiciel homologué ou autorisé.
+  </section>
+
+  <section class="grille">
+    <div class="carte">
+      <h2>1. Téléverser les documents</h2>
+      <p>Ajoutez vos feuillets de revenus, reçus REER, frais médicaux, dons et autres documents utiles.</p>
+      <div class="zone-upload">
+        <p>Glissez vos fichiers ici ou sélectionnez-les.</p>
+        <input type="file" multiple accept=".pdf,.jpg,.jpeg,.png" />
+        <br />
+        <button onclick="simulerAnalyse()">Analyser les documents</button>
+      </div>
+    </div>
+
+    <div class="carte">
+      <h2>2. Documents acceptés</h2>
+      <ul>
+        <li>T4</li>
+        <li>RL-1</li>
+        <li>T4A</li>
+        <li>T5</li>
+        <li>T3</li>
+        <li>Reçus REER</li>
+        <li>Frais médicaux</li>
+        <li>Dons</li>
+        <li>Frais de garde</li>
+      </ul>
+    </div>
+
+    <div class="carte">
+      <h2>3. Sécurité</h2>
+      <p>Les documents fiscaux contiennent des renseignements sensibles. Une vraie application doit prévoir :</p>
+      <ul>
+        <li>chiffrement des fichiers ;</li>
+        <li>suppression automatique ;</li>
+        <li>connexion sécurisée ;</li>
+        <li>journal des accès ;</li>
+        <li>hébergement fiable, idéalement au Canada.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="carte">
+    <h2>Résultat de l’analyse</h2>
+    <p id="message">Aucun document analysé pour le moment.</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Document</th>
+          <th>Information extraite</th>
+          <th>Statut</th>
+        </tr>
+      </thead>
+      <tbody id="resultats">
+        <tr>
+          <td>T4</td>
+          <td>Revenu d’emploi, impôt retenu, cotisations</td>
+          <td class="statut-attente">En attente</td>
+        </tr>
+        <tr>
+          <td>RL-1</td>
+          <td>Revenu Québec, impôt provincial, RRQ, RQAP</td>
+          <td class="statut-attente">En attente</td>
+        </tr>
+        <tr>
+          <td>REER</td>
+          <td>Montants déductibles</td>
+          <td class="statut-attente">En attente</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="carte" style="margin-top: 25px;">
+    <h2>Étapes prévues dans une vraie application</h2>
+    <ol>
+      <li>Création du compte utilisateur.</li>
+      <li>Téléversement sécurisé des documents.</li>
+      <li>Lecture automatique des feuillets.</li>
+      <li>Validation des montants par l’utilisateur.</li>
+      <li>Calcul estimatif fédéral et provincial.</li>
+      <li>Génération d’un rapport fiscal.</li>
+      <li>Saisie finale dans un logiciel autorisé.</li>
+    </ol>
+  </section>
+</main>
+
+<footer>
+  Prototype HTML — Préparation fiscale Canada et Québec — Auteur : Hocine Korichi, ing.
+</footer>
+
+<script>
+  function simulerAnalyse() {
+    document.getElementById('message').textContent = 'Analyse simulée terminée. Dans une vraie application, les données seraient extraites par OCR et validées.';
+
+    document.getElementById('resultats').innerHTML = `
+      <tr>
+        <td>T4</td>
+        <td>Revenu d’emploi détecté, impôt fédéral retenu détecté</td>
+        <td class="statut-ok">Détecté</td>
+      </tr>
+      <tr>
+        <td>RL-1</td>
+        <td>Revenu Québec et impôt provincial détectés</td>
+        <td class="statut-ok">Détecté</td>
+      </tr>
+      <tr>
+        <td>REER</td>
+        <td>Aucun reçu REER détecté dans cette simulation</td>
+        <td class="statut-attente">À vérifier</td>
+      </tr>
+    `;
+  }
+</script>
+
+</body>
+</html>

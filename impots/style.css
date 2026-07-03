@@ -1,0 +1,22 @@
+body{margin:0;font-family:Arial,sans-serif;background:#f4f7fb;color:#111827}
+header{background:#0d6efd;color:white;padding:16px 26px;display:flex;justify-content:space-between;align-items:center}
+header h1{margin:0} header p{margin:4px 0 0} header span{background:#ffc107;color:#111827;padding:7px 12px;border-radius:20px;font-weight:bold}
+.app{display:flex;min-height:calc(100vh - 78px)}
+aside{width:250px;background:white;border-right:1px solid #dbe3ef;padding:18px}
+aside button{display:block;width:100%;padding:13px;border:0;background:transparent;text-align:left;border-radius:9px;margin-bottom:8px;cursor:pointer}
+aside button.active{background:#0d6efd;color:white;font-weight:bold}
+main{flex:1;padding:28px}
+.page{display:none;background:white;padding:26px;border-radius:16px;box-shadow:0 8px 24px rgba(15,23,42,.08)}
+.page.active{display:block}
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin:18px 0}
+.cards div{background:#f8fbff;border:1px solid #dbe3ef;border-radius:14px;padding:20px}
+.cards strong{font-size:28px;color:#0d6efd}
+.notice,.box{background:#eef6ff;border-radius:10px;padding:16px;margin-top:18px}
+form{border:2px dashed #0d6efd;background:#f8fbff;border-radius:14px;padding:28px;text-align:center;margin-bottom:20px}
+input[type=file]{display:block;margin:0 auto 16px;padding:12px;background:white;border:1px solid #cfd8e3;border-radius:8px}
+button{background:#0d6efd;color:white;border:0;border-radius:8px;padding:11px 16px;cursor:pointer}
+table{width:100%;border-collapse:collapse;margin-top:16px}
+th,td{padding:10px;border-bottom:1px solid #e5e7eb;text-align:left} th{background:#f3f6fb}
+.badge{padding:5px 8px;border-radius:12px;font-size:13px}
+.ok{background:#198754;color:white}.warn{background:#ffc107;color:#111827}.empty{background:#e5e7eb;color:#111827}
+@media print{header,aside,form,button{display:none!important}.page{display:block!important;box-shadow:none;page-break-after:always}}
