@@ -1,0 +1,174 @@
+{
+  "arc_t1": [
+    [
+      "10100",
+      "Revenus d'emploi",
+      "T4 case 14",
+      "income"
+    ],
+    [
+      "11300",
+      "Prestations de sécurité de la vieillesse",
+      "T4A(OAS) case 18",
+      "income"
+    ],
+    [
+      "11500",
+      "Autres pensions et superannuation",
+      "T4A",
+      "income"
+    ],
+    [
+      "12100",
+      "Intérêts et autres revenus de placements",
+      "T5 case 13",
+      "income"
+    ],
+    [
+      "15000",
+      "Revenu total",
+      "Calcul",
+      "calculated"
+    ],
+    [
+      "20800",
+      "Déduction pour REER",
+      "Reçu REER",
+      "deduction"
+    ],
+    [
+      "21400",
+      "Frais de garde d'enfants",
+      "Formulaire T778 / reçus",
+      "deduction"
+    ],
+    [
+      "23600",
+      "Revenu net",
+      "Calcul",
+      "calculated"
+    ],
+    [
+      "26000",
+      "Revenu imposable",
+      "Calcul",
+      "calculated"
+    ],
+    [
+      "42000",
+      "Impôt fédéral de base",
+      "Annexe 1",
+      "tax"
+    ],
+    [
+      "43700",
+      "Total des impôts retenus",
+      "T4 case 22",
+      "credit"
+    ],
+    [
+      "48400",
+      "Remboursement",
+      "Calcul",
+      "result"
+    ],
+    [
+      "48500",
+      "Solde dû",
+      "Calcul",
+      "result"
+    ]
+  ],
+  "rq_tp1": [
+    [
+      "101",
+      "Revenus d'emploi",
+      "Relevé 1 case A",
+      "income"
+    ],
+    [
+      "122",
+      "Pensions de vieillesse et suppléments",
+      "T4A(OAS) / relevés",
+      "income"
+    ],
+    [
+      "130",
+      "Intérêts et autres revenus de placements",
+      "Relevé 3 case A",
+      "income"
+    ],
+    [
+      "142",
+      "Revenus de location",
+      "Formulaire TP-128",
+      "income"
+    ],
+    [
+      "199",
+      "Revenu total",
+      "Calcul",
+      "calculated"
+    ],
+    [
+      "201",
+      "Déduction pour REER",
+      "Reçu REER",
+      "deduction"
+    ],
+    [
+      "214",
+      "Déduction pour travailleurs",
+      "Grille de calcul provinciale",
+      "deduction"
+    ],
+    [
+      "275",
+      "Revenu net",
+      "Calcul",
+      "calculated"
+    ],
+    [
+      "299",
+      "Revenu imposable",
+      "Calcul",
+      "calculated"
+    ],
+    [
+      "401",
+      "Impôt sur le revenu imposable",
+      "Calcul",
+      "tax"
+    ],
+    [
+      "451",
+      "Impôt total",
+      "Annexe A",
+      "tax"
+    ],
+    [
+      "451.1",
+      "Cotisations aux régimes publics",
+      "RAMQ / RRQ / RQAP",
+      "tax"
+    ],
+    [
+      "455",
+      "Impôt total retenu à la source",
+      "Relevé 1 case E",
+      "credit"
+    ],
+    [
+      "474",
+      "Remboursement",
+      "Calcul",
+      "result"
+    ],
+    [
+      "479",
+      "Solde dû",
+      "Calcul",
+      "result"
+    ]
+  ]
+}

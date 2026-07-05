@@ -1,108 +1,67 @@
 <!doctype html>
 <html lang="fr">
 <head>
-  <meta charset="utf-8">
-  <title>Impôts IA - ARC et Revenu Québec</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link href="style.css" rel="stylesheet">
+<meta charset="utf-8">
+<title>Impôts IA - ARC et Revenu Québec</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/style.css">
 </head>
 <body>
 <header>
-  <div>
-    <h1>Impôts IA</h1>
-    <p>Préparation automatisée ARC et Revenu Québec</p>
-  </div>
-  <span>Prototype professionnel non homologué</span>
+  <div><h1>Impôts IA</h1><p>Déclarations ARC T1 et Revenu Québec TP-1 basées sur les guides ligne par ligne</p></div>
+  <span>Prototype local</span>
 </header>
-
 <div class="app">
   <aside>
     <button class="active" data-page="dashboard">Tableau de bord</button>
     <button data-page="upload">Téléversement</button>
-    <button data-page="analyse">Analyse OCR / IA</button>
-    <button data-page="arc">ARC - T1 fédérale</button>
+    <button data-page="review">Montants à valider</button>
+    <button data-page="arc">ARC - T1</button>
     <button data-page="rq">Revenu Québec - TP-1</button>
-    <button data-page="validation">Validation</button>
-    <button data-page="resume">Résumé</button>
-    <button data-page="historique">Historique</button>
+    <button data-page="rules">Guides / règles</button>
+    <button data-page="download">Téléchargement</button>
   </aside>
-
   <main>
     <section id="dashboard" class="page active">
       <h2>Tableau de bord</h2>
       <div class="cards">
-        <div><strong id="countDocs">0</strong><br>Documents</div>
-        <div><strong id="countArc">0</strong><br>Lignes ARC</div>
-        <div><strong id="countRq">0</strong><br>Lignes RQ</div>
-        <div><strong id="status">Brouillon</strong><br>État</div>
+        <div><strong id="statDocs">0</strong><br>Documents</div>
+        <div><strong id="statItems">0</strong><br>Éléments extraits</div>
+        <div><strong id="statArc">0</strong><br>Lignes ARC remplies</div>
+        <div><strong id="statRq">0</strong><br>Lignes RQ remplies</div>
       </div>
-      <p class="notice">L’utilisateur téléverse ses feuillets. L’application reconnaît les documents, extrait les données et prépare les déclarations.</p>
+      <p class="notice">L’utilisateur téléverse ses feuillets et justificatifs. L’application applique les règles des guides T1 et TP-1, ligne par ligne.</p>
     </section>
-
     <section id="upload" class="page">
-      <h2>Téléverser les documents fiscaux</h2>
-      <p>Feuillets acceptés : T4, T4A, T4A(OAS), T5, T3, T1, TP-1, RL-1, RL-2, reçus, factures, loyers, frais médicaux.</p>
-
-      <form id="uploadForm">
-        <input type="file" id="files" name="files" multiple accept=".pdf,.jpg,.jpeg,.png">
+      <h2>Téléversement des documents</h2>
+      <form id="uploadForm" class="upload">
+        <input id="files" name="files" type="file" multiple accept=".pdf,.jpg,.jpeg,.png">
         <button type="submit">Téléverser et analyser</button>
       </form>
-
-      <h3>Documents reçus</h3>
-      <table>
-        <thead><tr><th>Nom</th><th>Type détecté</th><th>État</th></tr></thead>
-        <tbody id="documentRows"></tbody>
-      </table>
+      <table><thead><tr><th>Document</th><th>Type détecté</th><th>État</th></tr></thead><tbody id="docRows"></tbody></table>
     </section>
-
-    <section id="analyse" class="page">
-      <h2>Analyse OCR / IA</h2>
-      <table>
-        <thead><tr><th>Document</th><th>Champ</th><th>Ligne ARC</th><th>Ligne RQ</th><th>État</th></tr></thead>
-        <tbody id="analysisRows"></tbody>
-      </table>
+    <section id="review" class="page">
+      <h2>Montants à valider</h2>
+      <p class="warning">L’OCR réel n’est pas encore activé. Saisissez les montants lus sur les feuillets scannés ou PDF, puis calculez les déclarations.</p>
+      <table><thead><tr><th>Document</th><th>Champ</th><th>Ligne ARC</th><th>Ligne RQ</th><th>Montant</th><th>Source</th></tr></thead><tbody id="reviewRows"></tbody></table>
+      <button id="calculateBtn">Calculer les déclarations</button>
     </section>
-
-    <section id="arc" class="page">
-      <h2>Déclaration fédérale ARC - T1</h2>
-      <table>
-        <thead><tr><th>Ligne</th><th>Description</th><th>Montant</th><th>Source</th></tr></thead>
-        <tbody id="arcRows"></tbody>
-      </table>
+    <section id="arc" class="page"><h2>Déclaration fédérale ARC - T1</h2><table><thead><tr><th>Ligne</th><th>Description</th><th>Montant</th><th>Source</th><th>Type</th></tr></thead><tbody id="arcRows"></tbody></table></section>
+    <section id="rq" class="page"><h2>Déclaration provinciale Revenu Québec - TP-1</h2><table><thead><tr><th>Ligne</th><th>Description</th><th>Montant</th><th>Source</th><th>Type</th></tr></thead><tbody id="rqRows"></tbody></table></section>
+    <section id="rules" class="page">
+      <h2>Guides et règles intégrés</h2>
+      <h3>ARC - T1</h3><table><thead><tr><th>Ligne</th><th>Description</th><th>Source</th><th>Type</th></tr></thead><tbody id="arcRuleRows"></tbody></table>
+      <h3>Revenu Québec - TP-1</h3><table><thead><tr><th>Ligne</th><th>Description</th><th>Source</th><th>Type</th></tr></thead><tbody id="rqRuleRows"></tbody></table>
     </section>
-
-    <section id="rq" class="page">
-      <h2>Déclaration provinciale Revenu Québec - TP-1</h2>
-      <table>
-        <thead><tr><th>Ligne</th><th>Description</th><th>Montant</th><th>Source</th></tr></thead>
-        <tbody id="rqRows"></tbody>
-      </table>
-    </section>
-
-    <section id="validation" class="page">
-      <h2>Validation</h2>
-      <button id="btnValidate">Lancer la validation</button>
-      <div id="validationBox" class="box"></div>
-    </section>
-
-    <section id="resume" class="page">
-      <h2>Résumé fiscal</h2>
-      <div id="summary" class="box"></div>
-      <button onclick="window.print()">Imprimer / PDF</button>
-    </section>
-
-    <section id="historique" class="page">
-      <h2>Historique</h2>
-      <table>
-        <thead><tr><th>Année</th><th>État</th><th>ARC</th><th>RQ</th></tr></thead>
-        <tbody>
-          <tr><td>2025</td><td>Brouillon</td><td>Non produit</td><td>Non produit</td></tr>
-        </tbody>
-      </table>
+    <section id="download" class="page">
+      <h2>Téléchargement</h2>
+      <button onclick="downloadDeclaration('arc')">Télécharger ARC - T1</button>
+      <button onclick="downloadDeclaration('rq')">Télécharger Revenu Québec - TP-1</button>
+      <button onclick="window.print()">Imprimer tout</button>
+      <p class="warning">Document de travail seulement. Aucune transmission officielle.</p>
     </section>
   </main>
 </div>
-
-<script src="app.js"></script>
+<script src="/app.js"></script>
 </body>
 </html>
