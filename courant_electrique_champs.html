@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Courant électrique, électrons et champs électromagnétiques</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: Verdana, Arial, sans-serif;
+      line-height: 1.6;
+      margin: 0;
+      background: #f4f7fb;
+      color: #1f2933;
+    }
+    header {
+      background: linear-gradient(135deg, #17324d, #255f85);
+      color: white;
+      padding: 36px 24px;
+      text-align: center;
+    }
+    header h1 {
+      margin: 0 0 12px;
+      font-size: 2rem;
+    }
+    header p {
+      max-width: 900px;
+      margin: auto;
+      font-size: 1.05rem;
+    }
+    main {
+      max-width: 1050px;
+      margin: 28px auto;
+      padding: 0 18px 40px;
+    }
+    section {
+      background: white;
+      border-radius: 14px;
+      padding: 24px;
+      margin-bottom: 22px;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+    }
+    h2 {
+      color: #17324d;
+      margin-top: 0;
+    }
+    h3 {
+      color: #255f85;
+    }
+    .intro {
+      font-size: 1.05rem;
+    }
+    .schema {
+      text-align: center;
+      overflow-x: auto;
+    }
+    svg {
+      max-width: 100%;
+      height: auto;
+    }
+    .note {
+      background: #eef6ff;
+      border-left: 6px solid #255f85;
+      padding: 14px 16px;
+      border-radius: 8px;
+      margin: 16px 0;
+    }
+    .warning {
+      background: #fff7e6;
+      border-left: 6px solid #d97706;
+      padding: 14px 16px;
+      border-radius: 8px;
+      margin: 16px 0;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 14px;
+    }
+    th, td {
+      border: 1px solid #d7dee8;
+      padding: 12px;
+      vertical-align: top;
+    }
+    th {
+      background: #eaf2f8;
+      color: #17324d;
+    }
+    .chain {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+      margin-top: 16px;
+    }
+    .box {
+      background: #eef6ff;
+      border: 1px solid #c8ddf2;
+      border-radius: 12px;
+      padding: 14px;
+      text-align: center;
+      font-weight: bold;
+    }
+    footer {
+      text-align: center;
+      color: #5f6c7b;
+      padding: 24px;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Vulfarisation :Courant électrique, électrons et champs électromagnétiques</h1>
+  <p>Un résumé pédagogique pour comprendre comment les électrons, le courant, la tension et les champs physiques sont liés.</p>
+</header>
+
+<main>
+
+<section>
+  <h2>Illustration générale</h2>
+  <div class="schema">
+    <svg width="920" height="420" viewBox="0 0 920 420" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Schéma du courant électrique et des champs">
+      <defs>
+        <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+          <path d="M0,0 L0,6 L9,3 z" fill="#17324d"/>
+        </marker>
+        <marker id="arrowRed" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+          <path d="M0,0 L0,6 L9,3 z" fill="#c2410c"/>
+        </marker>
+      </defs>
+
+      <rect x="20" y="30" width="880" height="350" rx="22" fill="#eef6ff" stroke="#bfd7ef"/>
+
+      <rect x="85" y="160" width="120" height="80" rx="10" fill="#fef3c7" stroke="#d97706" stroke-width="3"/>
+      <text x="145" y="195" text-anchor="middle" font-size="18" fill="#78350f">Pile</text>
+      <text x="145" y="220" text-anchor="middle" font-size="14" fill="#78350f">tension</text>
+      <text x="95" y="152" font-size="22" fill="#b91c1c">+</text>
+      <text x="193" y="152" font-size="22" fill="#1d4ed8">−</text>
+
+      <line x1="205" y1="200" x2="720" y2="200" stroke="#7c4a03" stroke-width="22" stroke-linecap="round"/>
+      <line x1="205" y1="200" x2="720" y2="200" stroke="#f59e0b" stroke-width="10" stroke-linecap="round"/>
+
+      <circle cx="300" cy="200" r="13" fill="#2563eb"/>
+      <circle cx="390" cy="200" r="13" fill="#2563eb"/>
+      <circle cx="480" cy="200" r="13" fill="#2563eb"/>
+      <circle cx="570" cy="200" r="13" fill="#2563eb"/>
+
+      <text x="300" y="205" text-anchor="middle" font-size="18" fill="white">−</text>
+      <text x="390" y="205" text-anchor="middle" font-size="18" fill="white">−</text>
+      <text x="480" y="205" text-anchor="middle" font-size="18" fill="white">−</text>
+      <text x="570" y="205" text-anchor="middle" font-size="18" fill="white">−</text>
+
+      <line x1="610" y1="155" x2="380" y2="155" stroke="#17324d" stroke-width="4" marker-end="url(#arrow)"/>
+      <text x="495" y="135" text-anchor="middle" font-size="17" fill="#17324d">déplacement des électrons</text>
+
+      <line x1="330" y1="250" x2="610" y2="250" stroke="#c2410c" stroke-width="4" marker-end="url(#arrowRed)"/>
+      <text x="470" y="282" text-anchor="middle" font-size="17" fill="#c2410c">sens conventionnel du courant</text>
+
+      <ellipse cx="465" cy="200" rx="250" ry="60" fill="none" stroke="#16a34a" stroke-width="3" stroke-dasharray="8 8"/>
+      <ellipse cx="465" cy="200" rx="210" ry="95" fill="none" stroke="#16a34a" stroke-width="2" stroke-dasharray="7 7"/>
+      <text x="465" y="92" text-anchor="middle" font-size="18" fill="#166534">champ magnétique autour du fil</text>
+
+      <circle cx="770" cy="200" r="48" fill="#fde68a" stroke="#d97706" stroke-width="4"/>
+      <path d="M750 270 L790 270 L780 310 L760 310 Z" fill="#94a3b8" stroke="#475569"/>
+      <text x="770" y="205" text-anchor="middle" font-size="18" fill="#78350f">lampe</text>
+
+      <line x1="720" y1="200" x2="722" y2="200" stroke="#f59e0b" stroke-width="10"/>
+      <line x1="770" y1="152" x2="770" y2="115" stroke="#facc15" stroke-width="4"/>
+      <line x1="818" y1="200" x2="850" y2="200" stroke="#facc15" stroke-width="4"/>
+      <line x1="722" y1="200" x2="690" y2="200" stroke="#facc15" stroke-width="4"/>
+
+      <text x="460" y="345" text-anchor="middle" font-size="18" fill="#17324d">
+        Tension → champ électrique → électrons en mouvement → courant → champ magnétique
+      </text>
+    </svg>
+  </div>
+</section>
+
+<section>
+  <h2>1. Le courant électrique</h2>
+  <p class="intro">
+    Le courant électrique est un déplacement organisé de charges électriques.
+    Dans un fil métallique, ces charges sont surtout des électrons libres.
+  </p>
+  <div class="note">
+    À retenir : sans mouvement de charges, il n'y a pas de courant électrique.
+  </div>
+</section>
+
+<section>
+  <h2>2. Les électrons</h2>
+  <p>
+    Les électrons sont de très petites particules qui portent une charge négative.
+    Ils existent autour des noyaux des atomes.
+  </p>
+  <p>
+    Dans un métal comme le cuivre, certains électrons peuvent se déplacer assez librement.
+    Lorsqu'une pile ou une prise impose une tension, ces électrons commencent à se déplacer.
+  </p>
+  <div class="warning">
+    Attention : les électrons avancent lentement dans le fil, mais l'effet électrique se propage très rapidement.
+    C'est pour cela qu'une lampe s'allume presque immédiatement.
+  </div>
+</section>
+
+<section>
+  <h2>3. La tension électrique</h2>
+  <p>
+    La tension est ce qui pousse les charges électriques à se déplacer.
+    Elle se mesure en volts.
+  </p>
+  <p>
+    Une comparaison simple : dans un tuyau, la pression pousse l'eau.
+    Dans un circuit, la tension pousse les électrons.
+  </p>
+</section>
+
+<section>
+  <h2>4. Le champ électrique</h2>
+  <p>
+    Un champ électrique est une zone dans laquelle une charge électrique subit une force.
+    Quand une tension existe entre deux points, un champ électrique apparaît.
+  </p>
+  <p>
+    Ce champ agit sur les électrons et les met en mouvement.
+    Le courant est donc une conséquence du champ électrique.
+  </p>
+</section>
+
+<section>
+  <h2>5. Le champ magnétique</h2>
+  <p>
+    Quand un courant circule dans un fil, il crée un champ magnétique autour du fil.
+    Ce champ forme des lignes circulaires autour du conducteur.
+  </p>
+  <p>
+    Plus le courant est fort, plus le champ magnétique est intense.
+    C'est le principe utilisé dans les électroaimants, les moteurs électriques et les transformateurs.
+  </p>
+</section>
+
+<section>
+  <h2>6. Le champ électromagnétique</h2>
+  <p>
+    Un champ électromagnétique associe un champ électrique et un champ magnétique.
+    Quand ces deux champs varient dans le temps, ils peuvent se propager sous forme d'ondes électromagnétiques.
+  </p>
+  <p>
+    Ces ondes permettent de transporter de l'énergie et de l'information.
+    Elles sont utilisées dans la radio, la télévision, le Wi-Fi, les téléphones mobiles, le radar et la lumière.
+  </p>
+</section>
+
+<section>
+  <h2>7. La chaîne logique</h2>
+  <div class="chain">
+    <div class="box">Tension</div>
+    <div class="box">Champ électrique</div>
+    <div class="box">Mouvement des électrons</div>
+    <div class="box">Courant électrique</div>
+    <div class="box">Champ magnétique</div>
+    <div class="box">Onde électromagnétique</div>
+  </div>
+</section>
+
+<section>
+  <h2>8. Tableau de synthèse</h2>
+  <table>
+    <tr>
+      <th>Notion</th>
+      <th>Explication simple</th>
+      <th>Exemple</th>
+    </tr>
+    <tr>
+      <td>Électron</td>
+      <td>Particule chargée négativement.</td>
+      <td>Présente dans les atomes.</td>
+    </tr>
+    <tr>
+      <td>Tension</td>
+      <td>Force qui pousse les charges à se déplacer.</td>
+      <td>Pile, batterie, prise électrique.</td>
+    </tr>
+    <tr>
+      <td>Courant</td>
+      <td>Déplacement organisé de charges électriques.</td>
+      <td>Courant dans un fil de cuivre.</td>
+    </tr>
+    <tr>
+      <td>Champ électrique</td>
+      <td>Zone où une charge subit une force électrique.</td>
+      <td>Entre les deux bornes d'une pile.</td>
+    </tr>
+    <tr>
+      <td>Champ magnétique</td>
+      <td>Champ créé par un courant électrique.</td>
+      <td>Autour d'un fil parcouru par un courant.</td>
+    </tr>
+    <tr>
+      <td>Champ électromagnétique</td>
+      <td>Association variable d'un champ électrique et d'un champ magnétique.</td>
+      <td>Wi-Fi, radio, lumière.</td>
+    </tr>
+  </table>
+</section>
+
+<section>
+  <h2>Résumé final</h2>
+  <p>
+    Une tension crée un champ électrique. Ce champ agit sur les électrons et les pousse à se déplacer.
+    Ce déplacement forme le courant électrique. Lorsqu'un courant circule, il produit un champ magnétique.
+    Si le champ électrique et le champ magnétique varient ensemble, ils forment un champ électromagnétique capable de transporter de l'énergie et de l'information.
+  </p>
+</section>
+
+</main>
+
+<footer>
+  Page pédagogique générée pour résumer les bases du courant électrique et des champs associés.
+</footer>
+
+</body>
+</html>
